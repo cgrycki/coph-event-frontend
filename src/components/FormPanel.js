@@ -74,8 +74,8 @@ export default class FormPanel extends Component {
             Chairs per Table
           </Col>
           <Col xs={10}>
-            <Radio name="ChairsPerTable" value={6} inline checked>6</Radio>{' chairs. '}
-            <Radio name="ChairsPerTable" value={8} inline>8</Radio>{' chairs. '}
+            <Radio name="ChairsPerTable" value={6} inline checked={this.props.ChairsPerTable === 6}>6</Radio>{' chairs. '}
+            <Radio name="ChairsPerTable" value={8} inline checked={this.props.ChairsPerTable === 8}>8</Radio>{' chairs. '}
           </Col>
         </FormGroup>
 

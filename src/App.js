@@ -17,12 +17,17 @@ class App extends Component {
       'EventComments':  '',
       'UserEmail': '',
 
-      // Editor Fields
-      'NumRoundTables': 0,
-      'NumCircleTables': 0,
+      // Drag 'n Drop editor Fields
+      'NumCircleTables': 1,
+      'NumRectTables': 0,
+      'NumBarTables': 0,
       'NumPosterBoards': 0,
       'NumTrashCans': 0,
-      'LayoutPNG': ''
+      'LayoutPNG': '',
+
+      // Calculated fields
+      'NumChairs': 0,
+      'NumChairCarts': 0
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -42,11 +47,26 @@ class App extends Component {
      * @returns none - State is updated by name of input group.
      */
     const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-    console.log(target, value, name);
-    
-    this.setState({ [name]: value });
+    const value  = target.value;
+    const name   = target.name;
+
+    // If the target type is a checkbox, then we know this event is coming
+    // from the 'NumChairsPerTable' field. We should do the following...
+    //    - parse radio value as integer
+    //    - Update the number of people we can seat
+    if (target.type === 'radio') {
+      const value_int = parseInt(value, 10);
+      const num_chairs = this.state.NumCircleTables * value_int;
+
+      this.setState({
+        [name]: value_int,
+        'NumChairs': num_chairs,
+        'NumChairCarts': Math.ceil(num_chairs / 48)
+      });
+
+    } else {
+      this.setState({ [name]: value });
+    }
   }
   
   render() {
