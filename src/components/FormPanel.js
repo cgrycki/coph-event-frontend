@@ -29,45 +29,9 @@ function FieldGroup({ id, label, help, ...props }) {
 }
 
 export default class FormPanel extends Component {
-  constructor() {
-    super();
-    this.state = {
-      'EventName':      '',
-      'EventDate':      '',
-      'EventTime':      '',
-      'ChairsPerTable':  6,
-      'EventComments':  '',
-      'UserEmail':      ''
-    };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    console.log(this.state);
-  }
-
-  handleChange (event) {
-    /*
-     * @method
-     * @description Function to update our form's state on input change.
-     * @param (event) event - Event triggered by input value change.
-     * @returns none - State is updated by name of input group.
-     */
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-    console.log(target, value, name);
-    
-    this.setState({ [name]: value });
-  }
-
-
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.props.handleSubmit}>
         <h3>Create an Event</h3>
 
         <FieldGroup
@@ -76,8 +40,8 @@ export default class FormPanel extends Component {
           type="text"
           label="Event Name"
           placeholder="Informatics Meeting"
-          onChange={this.handleChange}
-          value={this.state.EventName}
+          onChange={this.props.handleChange}
+          value={this.props.EventName}
           required
         />
         <FieldGroup
@@ -85,8 +49,8 @@ export default class FormPanel extends Component {
           name="EventDate"
           type="date"
           label="Event Date"
-          onChange={this.handleChange}
-          value={this.state.EventDate}
+          onChange={this.props.handleChange}
+          value={this.props.EventDate}
           required
         />
         <FieldGroup
@@ -95,15 +59,15 @@ export default class FormPanel extends Component {
           type="time"
           label="Event Time"
           placeholder="08:00 AM"
-          onChange={this.handleChange}
-          value={this.state.EventTime}
+          onChange={this.props.handleChange}
+          value={this.props.EventTime}
           required
         />
 
         <FormGroup 
           controlID="FormChairsPerTable"
           name="ChairsPerTable"
-          onChange={this.handleChange}
+          onChange={this.props.handleChange}
           required
         >
           <Col componentClass={ControlLabel} xs={2}>
@@ -117,7 +81,7 @@ export default class FormPanel extends Component {
 
         <FormGroup 
           controlId="FormEventComments"
-          onChange={this.handleChange}
+          onChange={this.props.handleChange}
         >
           <Col componentClass={ControlLabel} xs={2}>
             Event Comments
@@ -127,7 +91,7 @@ export default class FormPanel extends Component {
               name="EventComments"
               componentClass="textarea"
               placeholder="Enter details about your event here."
-              value={this.state.EventComments}
+              value={this.props.EventComments}
             />
           </Col>
         </FormGroup>
@@ -138,8 +102,8 @@ export default class FormPanel extends Component {
           type="text"
           label="Event Planner Email"
           placeholder="jane-doe@uiowa.edu"
-          onChange={this.handleChange}
-          value={this.state.UserEmail}
+          onChange={this.props.handleChange}
+          value={this.props.UserEmail}
           required
         />
 
