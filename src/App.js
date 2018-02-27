@@ -23,7 +23,7 @@ class App extends Component {
       'NumBarTables': 0,
       'NumPosterBoards': 0,
       'NumTrashCans': 0,
-      'LayoutPNG': '',
+      'LayoutBase64': '',
 
       // Calculated fields
       'NumChairs': 0,
@@ -32,6 +32,7 @@ class App extends Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleDragEnd = this.handleDragEnd.bind(this);
   }
 
   handleSubmit(event) {
@@ -39,7 +40,7 @@ class App extends Component {
     console.log(this.state);
   }
 
-  handleChange (event) {
+  handleChange(event) {
     /*
      * @method
      * @description Function to update our form's state on input change.
@@ -66,7 +67,20 @@ class App extends Component {
 
     } else {
       this.setState({ [name]: value });
-    }
+      }
+  }
+
+  handleDragEnd(event) {
+    /*
+     * @method
+     * @description Updates our layout state when a movement has been made.
+     * Attaches to the stage, and on drag end takes a snapshot.
+     */
+
+    
+    let stage = event.currentTarget;
+    let data_url = stage.toDataURL();
+    this.setState({ 'LayoutBase64': data_url });
   }
   
   render() {
@@ -88,7 +102,9 @@ class App extends Component {
             </Panel>
           </Col>
           <Col xs={12} sm={6} md={8}>
-            <DragDrop/>
+            <DragDrop
+              handleDragEnd={this.handleDragEnd}
+            />
           </Col>
         </Row>
       </Grid>

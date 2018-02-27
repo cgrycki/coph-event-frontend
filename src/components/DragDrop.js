@@ -17,8 +17,12 @@ export default class DragDrop extends Component {
 
   componentDidMount() {
     let stage = this.refs.stage.getStage();
-    let container = stage.container();
 
+    // Add event listener
+    stage.on('dragend', this.props.handleDragEnd);
+
+    // Get dimensions
+    let container = stage.container();
     this.setState({
       width: container.clientWidth,
       height: container.clientHeight
@@ -26,19 +30,10 @@ export default class DragDrop extends Component {
     stage.setHeight(this.state.height);
     stage.setWidth(this.state.width);
 
-    var bg = new Konva.Rect({
-      x: 5,
-      y: 5,
-      fill: '#ffffff',
-      stroke: 'black',
-      strokeWidth: 5,
-      width: container.clientWidth-100,
-      height: container.clientHeight-100
-    });
 
     var layer = new Konva.Layer();
-
     var colors = ["red", "orange", "yellow", "green", "blue", "purple"];
+
     for (var i = 0; i < 6; i++) {
         var box = new Konva.Rect({
             x: i * 30 + 50,
@@ -55,19 +50,17 @@ export default class DragDrop extends Component {
             this.moveToTop();
             layer.draw();
         });
-
         box.on("dragmove", function() {
             document.body.style.cursor = "pointer";
         });
         /*
-           * dblclick to remove box for desktop app
-           * and dbltap to remove box for mobile app
-           */
+          * dblclick to remove box for desktop app
+          * and dbltap to remove box for mobile app
+          */
         box.on("dblclick dbltap", function() {
             this.destroy();
             layer.draw();
         });
-
         box.on("mouseover", function() {
             document.body.style.cursor = "pointer";
         });
@@ -85,8 +78,11 @@ export default class DragDrop extends Component {
 
   render() {
     return (
-      <Stage width={700} height={700} ref="stage">
-      </Stage>
+      <Stage
+        width={700}
+        height={700}
+        ref="stage"
+      />
     );
   }
 }
