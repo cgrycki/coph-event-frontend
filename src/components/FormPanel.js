@@ -29,6 +29,26 @@ function FieldGroup({ id, label, help, ...props }) {
 }
 
 export default class FormPanel extends Component {
+  constructor() {
+    super();
+
+  }
+
+  validate_date(date_str) {
+    /*
+     * @method
+     * @description
+     * @param (string) date_str - Date in ISO format, YYYY-MM-DD.
+     * @returns (string) validation_state - String indicating acceptability of date.
+     */
+    return null;
+  }
+
+
+
+
+
+
   render() {
     return (
       <form onSubmit={this.props.handleSubmit}>
@@ -58,9 +78,10 @@ export default class FormPanel extends Component {
           name="EventTime"
           type="time"
           label="Event Time"
-          placeholder="08:00 AM"
           onChange={this.props.handleChange}
           value={this.props.EventTime}
+          min={"08:00:00.00"}   // Business openhh:mm:ss.ms
+          max={"18:30:00.00"}   // But come on...
           required
         />
 
@@ -113,7 +134,6 @@ export default class FormPanel extends Component {
           type="text"
           label="Event Planner Email"
           placeholder="jane-doe@uiowa.edu"
-          validationstate={this.props.UserEmail === '' ? 'warning': 'success'}
           onChange={this.props.handleChange}
           value={this.props.UserEmail}
           required

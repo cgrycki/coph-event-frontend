@@ -5,33 +5,39 @@ import { Grid, Row, Col, Panel } from 'react-bootstrap';
 import FormPanel from './components/FormPanel';
 import DragDrop from './components/DragDrop';
 
+// Compute today on application load, as we want the dates
+// to be at least a week from now.
+var today = new Date();
+var today_str = today.toISOString().substring(0, 10);
+
 class App extends Component {
   constructor() {
     super();
+
     this.state = {
       // Form fields
       'EventName':      '',
-      'EventDate':      '',
-      'EventTime':      '',
+      'EventDate':      today_str,
+      'EventTime':      '08:00',
       'ChairsPerTable':  6,
       'EventComments':  '',
-      'UserEmail': '',
+      'UserEmail':      '',
 
       // Drag 'n Drop editor Fields
-      'NumCircleTables': 1,
-      'NumRectTables': 0,
-      'NumBarTables': 0,
-      'NumPosterBoards': 0,
-      'NumTrashCans': 0,
-      'LayoutBase64': '',
+      'NumCircleTables':  1,
+      'NumRectTables':    0,
+      'NumBarTables':     0,
+      'NumPosterBoards':  0,
+      'NumTrashCans':     0,
+      'LayoutBase64':     '',
 
       // Calculated fields
-      'NumChairs': 0,
-      'NumChairCarts': 0
+      'NumChairs':        0,
+      'NumChairCarts':    0
     };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit  = this.handleSubmit.bind(this);
+    this.handleChange  = this.handleChange.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
   }
 
@@ -51,7 +57,7 @@ class App extends Component {
     const value  = target.value;
     const name   = target.name;
 
-    // If the target type is a checkbox, then we know this event is coming
+    // If the target type is a radio, then we know this event is coming
     // from the 'NumChairsPerTable' field. We should do the following...
     //    - parse radio value as integer
     //    - Update the number of people we can seat
