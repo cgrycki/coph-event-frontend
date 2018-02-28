@@ -33,7 +33,8 @@ class App extends Component {
 
       // Calculated fields
       'NumChairs':        0,
-      'NumChairCarts':    0
+      'NumChairCarts':    0,
+      'NumCircleCarts':   1
     };
 
     this.handleSubmit  = this.handleSubmit.bind(this);
@@ -44,6 +45,8 @@ class App extends Component {
   handleSubmit(event) {
     event.preventDefault();
     console.log(this.state);
+
+    if (this.state.LayoutBase64 === '') alert("You need to add tables to the editor.");
   }
 
   handleChange(event) {
@@ -60,7 +63,9 @@ class App extends Component {
     // If the target type is a radio, then we know this event is coming
     // from the 'NumChairsPerTable' field. We should do the following...
     //    - parse radio value as integer
-    //    - Update the number of people we can seat
+    //    - Update the number of people we can seat (sittable tables * chairs/table)
+    //    - Update the number of chair carts needed to accomodate ^ (Ceil(num_chairs / chairs/cart=48))
+    //    - Update number of carts needed for sittable tables (Ceil(sittable tables / tables/cart=6))
     if (target.type === 'radio') {
       const value_int = parseInt(value, 10);
       const num_chairs = this.state.NumCircleTables * value_int;
@@ -68,7 +73,8 @@ class App extends Component {
       this.setState({
         [name]: value_int,
         'NumChairs': num_chairs,
-        'NumChairCarts': Math.ceil(num_chairs / 48)
+        'NumChairCarts': Math.ceil(num_chairs / 48),
+        'NumCircleCarts': Math.ceil(this.state.NumCircleTables / 6)
       });
 
     } else {
