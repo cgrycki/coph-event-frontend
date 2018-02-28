@@ -10,25 +10,26 @@ export default class DragDrop extends Component {
   constructor() {
     super();
     this.state = {
-      width: null,
-      height: null
+      width: 500,
+      height: 500
     }
   }
 
   componentDidMount() {
     let stage = this.refs.stage.getStage();
 
-    // Add event listener
+    // Add event listeners
     stage.on('dragend', this.props.handleDragEnd);
-
+    
     // Get dimensions
     let container = stage.container();
     this.setState({
       width: container.clientWidth,
       height: container.clientHeight
     });
-    stage.setHeight(this.state.height);
-    stage.setWidth(this.state.width);
+    stage.setHeight(container.clientHeight);
+    stage.setWidth(container.clientWidth);
+    //console.log(this.state, container, container.clientHeight, container.clientWidth);
 
 
     var layer = new Konva.Layer();
@@ -58,7 +59,13 @@ export default class DragDrop extends Component {
           * and dbltap to remove box for mobile app
           */
         box.on("dblclick dbltap", function() {
-            this.destroy();
+            console.log(this);
+            let box_attrs = this.getAttrs();
+            let new_w = box_attrs.width * 2;
+            let new_h = box_attrs.height * 2;
+            this.setAttrs({'width': new_w, 'height': new_h});
+            
+            //this.destroy();
             layer.draw();
         });
         box.on("mouseover", function() {
@@ -71,6 +78,47 @@ export default class DragDrop extends Component {
         layer.add(box);
     }
 
+    // Temp table group
+    function make_table(x, y) {
+      let group = new Konva.Group({
+        x: x,
+        y:y,
+        draggable: true
+      });
+
+      let table = new Konva.Circle({
+        radius: 20,
+        fill: '#dddddd',
+        stroke: '#000000',
+        strokeWidth: 4
+      });
+      group.on("dragstart", function() { 
+        this.moveToTop();
+        layer.draw();
+        console.log(this);
+      });
+      group.on('contextmenu', function (event) {
+        event.preventDefault();
+        this.destroy();
+      })
+
+      group.add(table);
+
+      return group;
+    }
+    // Dont trigger empyy space
+    //stage.on('click', function() { console.log('usual click: ' + JSON.stringify(stage.getPointerPosition())); });
+    // Trigger all
+    stage.on('contentClick', function() {
+      let position = stage.getPointerPosition();
+      if (stage.getIntersection(position) !== null) return null;
+
+      let new_table = make_table(position.x, position.y);
+      layer.add(new_table);
+      stage.draw();
+    });
+    
+
     // add the layer to the stage
     stage.add(layer);
     stage.batchDraw();
@@ -79,8 +127,8 @@ export default class DragDrop extends Component {
   render() {
     return (
       <Stage
-        width={700}
-        height={700}
+        width={this.state.width}
+        height={this.state.height}
         ref="stage"
       />
     );
