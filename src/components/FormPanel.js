@@ -65,17 +65,28 @@ export default class FormPanel extends Component {
         />
 
         <FormGroup 
-          controlID="FormChairsPerTable"
+          controlId="FormChairsPerTable"
           name="ChairsPerTable"
-          onChange={this.props.handleChange}
           required
         >
           <Col componentClass={ControlLabel} xs={2}>
             Chairs per Table
           </Col>
           <Col xs={10}>
-            <Radio name="ChairsPerTable" value={6} inline checked={this.props.ChairsPerTable === 6}>6</Radio>{' chairs. '}
-            <Radio name="ChairsPerTable" value={8} inline checked={this.props.ChairsPerTable === 8}>8</Radio>{' chairs. '}
+            <Radio 
+              name="ChairsPerTable"
+              value={6}
+              inline
+              onChange={this.props.handleChange}
+              checked={this.props.ChairsPerTable === 6}
+            >6</Radio>{' chairs. '}
+            <Radio 
+              name="ChairsPerTable"
+              value={8}
+              inline
+              onChange={this.props.handleChange}
+              checked={this.props.ChairsPerTable === 8}
+            >8</Radio>{' chairs. '}
           </Col>
         </FormGroup>
 
@@ -102,6 +113,7 @@ export default class FormPanel extends Component {
           type="text"
           label="Event Planner Email"
           placeholder="jane-doe@uiowa.edu"
+          validationstate={this.props.UserEmail === '' ? 'warning': 'success'}
           onChange={this.props.handleChange}
           value={this.props.UserEmail}
           required
