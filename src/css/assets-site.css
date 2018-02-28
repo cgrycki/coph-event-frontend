@@ -1,0 +1,18 @@
+@import url('gotham.css');
+@import url('whitney.css');
+
+body{
+ font-family: "Whitney A", "Whitney B";
+ font-weight: 400;
+}
+
+h1, h2, h3, h4, h5{
+	font-family: 'Gotham A', 'Gotham B';
+	font-style: normal;
+	font-weight: 700;
+}
+
+#content{
+	max-width: 960px;
+	margin: 0 auto;
+}
