@@ -1,4 +1,27 @@
-/* * { outline: solid 1px red; } */
+/* Import U. Iowa fonts. */
+@font-face {
+    font-family: "Gotham";
+    src: url("gotham-pro-regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Whitney";
+    src: url("whitney-medium.otf") format("opentype");
+}
+
+body {
+    font-family: 'Whitney', 'Helvetica Neue', 'Arial', sans-serif !important;
+    font-weight: 400 !important;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Gotham', 'Helvetica Neue', 'Arial', sans-serif !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+}
+
+/* Easier outlines for development. */
+/* * { outline: solid 1px red; }    */
 
 canvas {
     width: 100%;
