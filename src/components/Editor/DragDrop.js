@@ -5,7 +5,7 @@
 import React, { Component } from 'react';
 import { Stage, Layer, Rect, Image, Group } from "react-konva";
 import Konva from 'konva';
-import { make_table, click_canvas, BaseTable, show_example } from './Tables';
+//import { make_table, click_canvas, BaseTable, show_example } from './Tables';
 
 export default class DragDrop extends Component {
   constructor() {
@@ -18,9 +18,6 @@ export default class DragDrop extends Component {
 
   componentDidMount() {
     let stage = this.refs.stage.getStage();
-
-    // Add event listeners
-    stage.on('dragend', this.props.handleDragEnd);
     
     // Get dimensions
     let container = stage.container();
@@ -37,7 +34,7 @@ export default class DragDrop extends Component {
     //console.log(this.state, container, container.clientHeight, container.clientWidth);
 
 
-    show_example(stage);
+    //show_example(stage);
 
 
     // Dont trigger empyy space
@@ -61,6 +58,7 @@ export default class DragDrop extends Component {
       <Stage
         width={this.state.width}
         height={this.state.height}
+        onDragEnd={this.props.handleDragEnd}
         ref="stage"
       />
     );

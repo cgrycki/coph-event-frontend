@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import './css/App.css';
 
 import { Grid, Row, Col, Panel } from 'react-bootstrap';
-import FormPanel from './components/FormPanel';
-import DragDrop from './components/DragDrop';
+
+import Toolbar from './components/Editor/Toolbar';
+import DragDrop from './components/Editor/DragDrop';
 
 // Compute today on application load, as we want the dates
 // to be at least a week from now.
@@ -89,31 +90,18 @@ class App extends Component {
      * Attaches to the stage, and on drag end takes a snapshot.
      */
 
-    
     let stage = event.currentTarget;
     let data_url = stage.toDataURL();
     this.setState({ 'LayoutBase64': data_url });
+    console.log(this.state);
   }
   
   render() {
     return (
       <Grid>
         <Row>
-          <Col xs={12} sm={6} md={4}>
-            <Panel>
-              <FormPanel
-                handleChange={this.handleChange}
-                handleSubmit={this.handleSubmit}
-                EventName={this.state.EventName}
-                EventDate={this.state.EventDate}
-                EventTime={this.state.EventTime}
-                ChairsPerTable={this.state.ChairsPerTable}
-                EventComments={this.state.EventComments}
-                UserEmail={this.state.UserEmail}
-              />
-            </Panel>
-          </Col>
-          <Col xs={12} sm={6} md={8}>
+          <Col xs={12} sm={10} md={8}>
+            <Toolbar/>
             <DragDrop
               handleDragEnd={this.handleDragEnd}
             />

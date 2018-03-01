@@ -9,6 +9,9 @@
     src: url("whitney-medium.otf") format("opentype");
 }
 
+/* Import Bootstrap Glyphs. */
+@import url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css');
+
 body {
     font-family: 'Whitney', 'Helvetica Neue', 'Arial', sans-serif !important;
     font-weight: 400 !important;
@@ -26,4 +29,5 @@ h1, h2, h3, h4, h5 {
 canvas {
     border: 2px solid black;
     background-color: #F0F0F0 !important;
+    height: inherit !important;
 }
