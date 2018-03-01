@@ -18,16 +18,6 @@ function validate_date(date_str) {
   return null;
 }
 
-function validate_time(time_str) {
-  /*
-  * @method
-  * @description
-  * @param (string) time_str - Time in 24 hour format, HH:MM.
-  * @returns (string) validation_state - String indicating acceptability of time.
-  */
-  return null;
-}
-
 function validate_email(email_str) {
   /*
   * @method
@@ -70,10 +60,3 @@ function diff_date_days(date_str) {
   return diff_dates;
 }
 
-function save_drag_n_drop() {
-  /*
-   * @method
-   * @description Attempt to save the canvas as an image.
-   */
-
-}
