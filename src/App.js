@@ -25,6 +25,7 @@ class App extends Component {
       'UserEmail':      '',
 
       // Drag 'n Drop editor Fields
+      'TableType':       'circle',
       'NumCircleTables':  1,
       'NumRectTables':    0,
       'NumBarTables':     0,
@@ -95,13 +96,16 @@ class App extends Component {
     this.setState({ 'LayoutBase64': data_url });
     console.log(this.state);
   }
-  
+
   render() {
     return (
       <Grid>
         <Row>
           <Col xs={12} sm={10} md={8}>
-            <Toolbar/>
+            <Toolbar
+              onClick={this.handleChange}
+              TableType={this.state.TableType}
+            />
             <DragDrop
               handleDragEnd={this.handleDragEnd}
             />
