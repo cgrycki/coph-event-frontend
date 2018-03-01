@@ -1,8 +1,11 @@
 # coph-event-app
 Simple form application for the College of Public Health
 
-#### Links
+#### To-Do + Ideas
+- Add email domain validation to form
 
+
+#### Links
 
 **Styling and Branding**
 - [U. Iowa Typography](https://brand.uiowa.edu/typography)
