@@ -4,7 +4,7 @@ import { Button, ButtonGroup, Glyphicon } from 'react-bootstrap';
 export default class Toolbar extends Component {
   constructor() {
     super();
-    this.state = {'icons': ['circle', 'rectangle', 'bar', 'poster', 'trash']};
+    this.state = {'icons': ['Circular', 'Rectangle', 'Bar', 'Poster', 'TrashCan']};
 
     this.renderButton = this.renderButton.bind(this);
   }
@@ -13,10 +13,10 @@ export default class Toolbar extends Component {
     return (
       <Button
         key={icon + '-btn'}
-        name={"TableType"}
+        name={"SelectedFurniture"}
         bsSize="small"
-        bsStyle={this.props.TableType === icon ? "warning" : null}
-        active={this.state.TableType  === icon}
+        bsStyle={this.props.SelectedFurniture === icon ? "warning" : null}
+        active={this.state.SelectedFurniture  === icon}
         onClick={this.props.onClick}
         value={icon}
       >

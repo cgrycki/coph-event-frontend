@@ -33,11 +33,16 @@ function validate_email(email_str) {
 // Formatting
 //-----------------------------------------------------------------------------
 
-
-
-
-
-
+const todays_date_str = () => {
+  /*
+   * @method
+   * @description Simple function to return current date in ISO format.
+   * @returns (string) today_str - ISO formatted date.
+   */
+  let today = new Date();
+  let today_str = today.toISOString.substring(0, 10);
+  return today_str;
+};
 
 
 //-----------------------------------------------------------------------------
@@ -60,3 +65,74 @@ function diff_date_days(date_str) {
   return diff_dates;
 }
 
+
+function handleFormChange(event) {
+  /*
+  * @method
+  * @description Function to update our form's state on input change.
+  * @param (event) event - Event triggered by input value change.
+  * @returns none - State is updated by name of input group.
+  */
+  const target = event.target;
+  const value  = target.value;
+  const name   = target.name;
+
+  let forms    = this.state.forms;
+  forms[name] = value; // Update the correct form value
+  this.setState({ forms });
+
+  console.log(forms, this.state);
+}
+
+function handleFormSubmit(event) {
+  /*
+   * @method
+   * @description 
+   * @param (event) event - 
+   * @returns (null) - 
+   */
+  event.preventDefault();
+
+  // Validation at the point in time
+    // - Date(>= 7 days in the future)
+    // - Email validation
+    // - Any(Furniture.items) !== 0
+  
+
+  // Set the appropriate warnings on the fields
+
+  // If everything is good, then send off an AJAX POST.
+
+  console.log(this.state);
+}
+
+function handleDragEnd(event) {
+  /*
+   * @method
+   * @description Updates our layout state when a movement has been made.
+   * Attaches to the stage, and on drag end takes a snapshot.
+   */
+  let editorStage = event.currentTarget;
+  let editorURL = editorStage.toDataURL();
+  this.setState({ editorURL });
+
+  console.log(this.state);
+}
+
+function canvasContentClick() {
+  /*
+   * @method
+   * @description Handles content being clicked in our editor.
+   * @
+   */
+  let mouse_pos = this.getPointerPosition();
+  if (this.getIntersection(mouse_pos) !== null) return null;
+
+
+}
+
+function canvasEmptyClick() {
+  return 0;
+}
+
+export { handleFormChange, handleFormSubmit, handleDragEnd };
