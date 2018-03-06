@@ -66,9 +66,17 @@ function diff_date_days(date_str) {
 }
 
 function calculateFurniture() {
+  /*
+   * @method
+   * @description Function that does the dirty work for updating chairs/carts.
+   */
+  let state = this.state,
+      forms = state.forms,
+      calcd = state.
+      ChairsPerTable = forms.ChairsPerTable;
+
 
 }
-
 
 function handleFormChange(event) {
   /*
@@ -82,7 +90,7 @@ function handleFormChange(event) {
   const name   = target.name;
 
   let forms    = this.state.forms;
-  forms[name] = value; // Update the correct form value
+  forms[name]  = value; // Update the correct form value
   this.setState({ forms });
 
   console.log(forms, this.state);
@@ -169,7 +177,7 @@ function canvasEmptyClick(event) {
   this.setState({ furniture });
 
 
-  function make_table(x, y) {
+  function make_table(x, y, table_type) {
     let group = new Konva.Group({
       x: x,
       y: y,
@@ -181,7 +189,7 @@ function canvasEmptyClick(event) {
       fill: '#dddddd',
       stroke: '#000000',
       strokeWidth: 4,
-      name: 'Circular'
+      name: table_type
     });
   
     group.on("dragstart", function () {
@@ -192,7 +200,8 @@ function canvasEmptyClick(event) {
     group.add(table);
     return group;
   };
-  let newTable = make_table(mouse_pos.x, mouse_pos.y);
+
+  let newTable = make_table(mouse_pos.x, mouse_pos.y, sel_furniture);
   canvas.children[0].add(newTable);
   canvas.draw();
 

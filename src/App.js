@@ -5,7 +5,6 @@ import { Grid, Row, Col, Panel } from 'react-bootstrap';
 
 import Toolbar from './components/Editor/Toolbar';
 import Editor from './components/Editor/Editor';
-
 import { 
   handleFormChange, handleFormSubmit, handleDragEnd, 
   canvasContentClick, canvasEmptyClick,
@@ -30,7 +29,7 @@ class App extends Component {
         'Rectangular':    0,
         'Bar':            0,
         'Poster':         0,
-        'TrashCan':      0
+        'TrashCan':       0
       },
       calculated: {
         'Chairs':         0,
