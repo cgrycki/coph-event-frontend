@@ -2,7 +2,7 @@
  * UTILS.js
  * Collection of utility functions to assist in our scheduling app.
  */
-
+import Konva from 'konva';
 
 //-----------------------------------------------------------------------------
 // Validation
@@ -39,8 +39,8 @@ const todays_date_str = () => {
    * @description Simple function to return current date in ISO format.
    * @returns (string) today_str - ISO formatted date.
    */
-  let today = new Date();
-  let today_str = today.toISOString.substring(0, 10);
+  const today = new Date();
+  const today_str = today.toISOString().substring(0, 10);
   return today_str;
 };
 
@@ -63,6 +63,10 @@ function diff_date_days(date_str) {
   var diff_dates = Math.floor((proposed_date - today) / MS_PER_DAY);
 
   return diff_dates;
+}
+
+function calculateFurniture() {
+
 }
 
 
@@ -119,20 +123,79 @@ function handleDragEnd(event) {
   console.log(this.state);
 }
 
-function canvasContentClick() {
+function canvasContentClick(event) {
   /*
    * @method
    * @description Handles content being clicked in our editor.
    * @
    */
-  let mouse_pos = this.getPointerPosition();
-  if (this.getIntersection(mouse_pos) !== null) return null;
+  let canvas = event.currentTarget,
+      mouse_pos = canvas.getPointerPosition(),
+      is_intersect = canvas.getIntersection(mouse_pos);
 
+  let sel_furniture = is_intersect.getAttr('name'),
+      parent = is_intersect.parent;
+
+  parent.destroy();
+  canvas.draw();
+
+  let furniture = this.state.furniture;
+  furniture[sel_furniture] -= 1;
+  this.setState({ furniture });
+
+  console.log('content click', is_intersect);
+}
+
+function canvasEmptyClick(event) {
+  /*
+   * @method
+   * @description Handles content being clicked in our editor.
+   * @
+   */
+  console.log('empty click');
+
+  // Gather variables to add an item to our inventory
+  let canvas = event.currentTarget;
+  let mouse_pos = canvas.getPointerPosition();
+  let is_intersect = canvas.getIntersection(mouse_pos);
+  if (is_intersect) return null;
+
+  let sel_furniture = this.state.forms.SelectedFurniture;
+
+  // Update the count and calculate new variables
+  let furniture = this.state.furniture;
+  furniture[sel_furniture] += 1;
+
+  this.setState({ furniture });
+
+
+  function make_table(x, y) {
+    let group = new Konva.Group({
+      x: x,
+      y: y,
+      draggable: true
+    });
+  
+    let table = new Konva.Circle({
+      radius: 20,
+      fill: '#dddddd',
+      stroke: '#000000',
+      strokeWidth: 4,
+      name: 'Circular'
+    });
+  
+    group.on("dragstart", function () {
+      this.moveToTop();
+      this.draw();
+    });
+  
+    group.add(table);
+    return group;
+  };
+  let newTable = make_table(mouse_pos.x, mouse_pos.y);
+  canvas.children[0].add(newTable);
+  canvas.draw();
 
 }
 
-function canvasEmptyClick() {
-  return 0;
-}
-
-export { handleFormChange, handleFormSubmit, handleDragEnd };
+export { todays_date_str, handleFormChange, handleFormSubmit, handleDragEnd, canvasContentClick, canvasEmptyClick };

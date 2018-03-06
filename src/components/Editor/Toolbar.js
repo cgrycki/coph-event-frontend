@@ -4,7 +4,7 @@ import { Button, ButtonGroup, Glyphicon } from 'react-bootstrap';
 export default class Toolbar extends Component {
   constructor() {
     super();
-    this.state = {'icons': ['Circular', 'Rectangle', 'Bar', 'Poster', 'TrashCan']};
+    this.state = {'icons': ['Circular', 'Rectangular', 'Bar', 'Poster', 'TrashCan']};
 
     this.renderButton = this.renderButton.bind(this);
   }
