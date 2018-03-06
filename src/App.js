@@ -8,7 +8,7 @@ import Editor from './components/Editor/Editor';
 import { 
   handleFormChange, handleFormSubmit, handleDragEnd, 
   canvasContentClick, canvasEmptyClick,
-  todays_date_str 
+  todays_date_str, calculateFurniture
 } from './utils';
 
 class App extends Component {
@@ -35,7 +35,8 @@ class App extends Component {
         'Chairs':         0,
         'ChairCarts':     0,
         'CircleCarts':    0,
-        'RectangleCarts': 0
+        'RectangleCarts': 0,
+        'BarCarts':       0
       },
       editorURL: null
     };
@@ -43,9 +44,14 @@ class App extends Component {
     this.handleFormChange   = handleFormChange.bind(this);
     this.handleFormSubmit   = handleFormSubmit.bind(this);
     this.handleDragEnd      = handleDragEnd.bind(this);
+    this.calculateFurniture = calculateFurniture.bind(this);
     this.canvasContentClick = canvasContentClick.bind(this);
     this.canvasEmptyClick   = canvasEmptyClick.bind(this);
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    this.calculateFurniture();
+  }
 
   render() {
     return (

@@ -70,10 +70,21 @@ function calculateFurniture() {
    * @method
    * @description Function that does the dirty work for updating chairs/carts.
    */
+  // Gather variables from our state
   let state = this.state,
       forms = state.forms,
-      calcd = state.
+      calcd = state.calculated,
+      furns = state.furniture,
       ChairsPerTable = forms.ChairsPerTable;
+
+  // Calculate the chairs and number of carts we'll need.
+  calcd['Chairs']         = furns.Circular * ChairsPerTable;
+  calcd['ChairCarts']     = Math.ceil(calcd.Chairs/ 48);
+  calcd['CircleCarts']    = Math.ceil(furns.Circular / 6);
+  calcd['RectangleCarts'] = Math.ceil(furns.Rectangular / 6),
+  calcd['BarCarts']       = Math.ceil(furns.Bar / 6);
+
+  console.log(calcd);
 
 
 }
@@ -87,7 +98,7 @@ function handleFormChange(event) {
   */
   const target = event.target;
   const value  = target.value;
-  const name   = target.name;
+  const name = target.name;
 
   let forms    = this.state.forms;
   forms[name]  = value; // Update the correct form value
@@ -207,4 +218,4 @@ function canvasEmptyClick(event) {
 
 }
 
-export { todays_date_str, handleFormChange, handleFormSubmit, handleDragEnd, canvasContentClick, canvasEmptyClick };
+export { todays_date_str, calculateFurniture, handleFormChange, handleFormSubmit, handleDragEnd, canvasContentClick, canvasEmptyClick };
