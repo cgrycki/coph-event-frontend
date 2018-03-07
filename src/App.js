@@ -3,12 +3,13 @@ import './css/App.css';
 
 import { Grid, Row, Col, Panel } from 'react-bootstrap';
 
+import FormPanel from './components/FormPanel';
 import Toolbar from './components/Editor/Toolbar';
 import Editor from './components/Editor/Editor';
+import { canvasContentClick, canvasEmptyClick } from './Furniture';
 import { 
   handleFormChange, handleFormSubmit, handleDragEnd, 
-  canvasContentClick, canvasEmptyClick,
-  todays_date_str, calculateFurniture
+  todays_date_str
 } from './utils';
 
 class App extends Component {
@@ -44,19 +45,26 @@ class App extends Component {
     this.handleFormChange   = handleFormChange.bind(this);
     this.handleFormSubmit   = handleFormSubmit.bind(this);
     this.handleDragEnd      = handleDragEnd.bind(this);
-    this.calculateFurniture = calculateFurniture.bind(this);
     this.canvasContentClick = canvasContentClick.bind(this);
     this.canvasEmptyClick   = canvasEmptyClick.bind(this);
   };
-
-  componentDidUpdate(prevProps, prevState) {
-    this.calculateFurniture();
-  }
 
   render() {
     return (
       <Grid>
         <Row>
+          <Col xs={12} sm={6} md={4}>
+            <FormPanel
+              handleChange={this.handleFormChange}
+              handleSubmit={this.handleFormSubmit}
+              EventName={this.state.forms.EventName}
+              EventDate={this.state.forms.EventDate}
+              EventTime={this.state.forms.EventTime}
+              ChairsPerTable={this.state.forms.ChairsPerTable}
+              EventComments={this.state.forms.EventComments}
+              UserEmail={this.state.forms.UserEmail}
+            />
+          </Col>
           <Col xs={12} sm={10} md={8}>
             <Toolbar
               onClick={this.handleFormChange}

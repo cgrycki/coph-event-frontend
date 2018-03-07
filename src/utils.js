@@ -2,7 +2,6 @@
  * UTILS.js
  * Collection of utility functions to assist in our scheduling app.
  */
-import Konva from 'konva';
 
 //-----------------------------------------------------------------------------
 // Validation
@@ -65,14 +64,16 @@ function diff_date_days(date_str) {
   return diff_dates;
 }
 
-function calculateFurniture() {
+function calculateFurniture(state) {
   /*
    * @method
-   * @description Function that does the dirty work for updating chairs/carts.
+   * @description Function that does the dirty work for updating chairs/carts. 
+   * @description Does not set state but instead returns a dict so the 
+   * @description function can be used in multiple places.
+   * @param {dict} state - Our applications state. 
    */
   // Gather variables from our state
-  let state = this.state,
-      forms = state.forms,
+  let forms = state.forms,
       calcd = state.calculated,
       furns = state.furniture,
       ChairsPerTable = forms.ChairsPerTable;
@@ -84,10 +85,34 @@ function calculateFurniture() {
   calcd['RectangleCarts'] = Math.ceil(furns.Rectangular / 6),
   calcd['BarCarts']       = Math.ceil(furns.Bar / 6);
 
-  console.log(calcd);
-
-
+  return calcd;
 }
+
+
+function saveCanvasObj(obj) {
+  /*
+   * @method
+   * @description Function to save the Base64 encoded canvas.
+   * @param {Object} obj - Konva canvas object.
+   * @returns {string} editorURL - Base64 encoded PNG.
+   */
+  let editorURL = obj.toDataURL();
+  return editorURL;
+}
+
+function saveCanvasEvent(event) {
+  /*
+   * @method
+   * @description Function to save the Base64 encoded canvas.
+   * @param {event} event - Event from the browser
+   * @returns {string} editorURL - Base64 encoded PNG.
+   */
+  let editorStage = event.currentTarget;
+  let editorURL = editorStage.toDataURL();
+  return editorURL;
+}
+
+
 
 function handleFormChange(event) {
   /*
@@ -100,11 +125,20 @@ function handleFormChange(event) {
   const value  = target.value;
   const name = target.name;
 
+  // Update the correct form value
   let forms    = this.state.forms;
-  forms[name]  = value; // Update the correct form value
-  this.setState({ forms });
+  forms[name]  = value;
 
-  console.log(forms, this.state);
+  // If the input was 'radio', update our calculations
+  if (target.type === 'radio') {
+    let int_value = parseInt(value, 10);
+    forms[name] = int_value;
+
+    let calculated = calculateFurniture(this.state);
+    this.setState({ calculated });
+  }
+
+  this.setState({ forms });
 }
 
 function handleFormSubmit(event) {
@@ -114,6 +148,7 @@ function handleFormSubmit(event) {
    * @param (event) event - 
    * @returns (null) - 
    */
+  console.log(event);
   event.preventDefault();
 
   // Validation at the point in time
@@ -142,80 +177,4 @@ function handleDragEnd(event) {
   console.log(this.state);
 }
 
-function canvasContentClick(event) {
-  /*
-   * @method
-   * @description Handles content being clicked in our editor.
-   * @
-   */
-  let canvas = event.currentTarget,
-      mouse_pos = canvas.getPointerPosition(),
-      is_intersect = canvas.getIntersection(mouse_pos);
-
-  let sel_furniture = is_intersect.getAttr('name'),
-      parent = is_intersect.parent;
-
-  parent.destroy();
-  canvas.draw();
-
-  let furniture = this.state.furniture;
-  furniture[sel_furniture] -= 1;
-  this.setState({ furniture });
-
-  console.log('content click', is_intersect);
-}
-
-function canvasEmptyClick(event) {
-  /*
-   * @method
-   * @description Handles content being clicked in our editor.
-   * @
-   */
-  console.log('empty click');
-
-  // Gather variables to add an item to our inventory
-  let canvas = event.currentTarget;
-  let mouse_pos = canvas.getPointerPosition();
-  let is_intersect = canvas.getIntersection(mouse_pos);
-  if (is_intersect) return null;
-
-  let sel_furniture = this.state.forms.SelectedFurniture;
-
-  // Update the count and calculate new variables
-  let furniture = this.state.furniture;
-  furniture[sel_furniture] += 1;
-
-  this.setState({ furniture });
-
-
-  function make_table(x, y, table_type) {
-    let group = new Konva.Group({
-      x: x,
-      y: y,
-      draggable: true
-    });
-  
-    let table = new Konva.Circle({
-      radius: 20,
-      fill: '#dddddd',
-      stroke: '#000000',
-      strokeWidth: 4,
-      name: table_type
-    });
-  
-    group.on("dragstart", function () {
-      this.moveToTop();
-      this.draw();
-    });
-  
-    group.add(table);
-    return group;
-  };
-
-  let newTable = make_table(mouse_pos.x, mouse_pos.y, sel_furniture);
-  canvas.children[0].add(newTable);
-  canvas.draw();
-
-}
-
-export { todays_date_str, calculateFurniture, handleFormChange, handleFormSubmit, handleDragEnd, canvasContentClick, canvasEmptyClick };
+export { todays_date_str, calculateFurniture, handleFormChange, handleFormSubmit, handleDragEnd };

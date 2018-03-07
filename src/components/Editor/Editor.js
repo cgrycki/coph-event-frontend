@@ -54,8 +54,8 @@ export default class Editor extends Component {
         onDragEnd={this.props.handleDragEnd}
         ref="stage"
       >
-        <Layer>
-        </Layer>
+        <Layer name={"background"}/>
+        <Layer name={"items"}/>
       </Stage>
     );
   }
