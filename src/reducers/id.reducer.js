@@ -5,7 +5,7 @@ export default function(state=initialState, action) {
   /*
    *
    */
-  const {type, value } = action;
+  const { value } = action;
 
   switch (action.type) {
     case idActions.INC_FURN_ID:
