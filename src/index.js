@@ -19,6 +19,7 @@ const store = createStore(
 );
 
 store.dispatch({type: 'UPD_FORM', name: 'eventName', value: 'test name'});
+store.dispatch({type: 'INC_FURN_ID', value: 'circle'});
 
 //ReactDOM.render(<App />, document.getElementById('root'));
 ReactDOM.render(

@@ -5,7 +5,9 @@
 
 import { combineReducers } from 'redux';
 import formReducer from './form.reducer';
+import idReducer from './id.reducer';
 
 export default combineReducers({
-  formReducer
+  formReducer,
+  idReducer
 })
