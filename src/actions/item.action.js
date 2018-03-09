@@ -5,7 +5,7 @@ export const addFurnItem = (furn_type, x, y) => ({
   type: itemActions.ADD_FURN_ITEM,
   furn_type: furn_type,
   x: x,
-  y: x
+  y: y
 });
 
 export const updateFurnItem = (furn_type, item_id, x, y) => ({
@@ -14,7 +14,6 @@ export const updateFurnItem = (furn_type, item_id, x, y) => ({
   item_id: item_id,
   x: x,
   y: y
-  //focused: focused
 });
 
 export const removeFurnItem = (furn_type, item_id) => ({

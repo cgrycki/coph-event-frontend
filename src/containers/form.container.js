@@ -11,7 +11,6 @@ import formReducer from '../reducers/form.reducer';
 
 class FormPanel extends Component {
   render() {
-    console.log(this.props);
     let { forms } = this.props;
     return (
       <div><b>Event Name</b> {forms.eventName}</div>
