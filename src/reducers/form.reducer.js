@@ -7,8 +7,8 @@ export default function(state=initialState, action) {
    * @documentation...
    * @description Updates a form field.
    */
-  const { type, name, value } = action;
-  console.log(action);
+  let { type, name, value } = action;
+  value = (name == 'chairsPerTable') ? parseInt(value, 10) : value;
 
   switch (action.type) {
     case formActions.UPD_FORM:
