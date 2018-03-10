@@ -7,5 +7,7 @@ import { incrementId } from './id.action';
 import { addFurnItem,  updateFurnItem, removeFurnItem } from './item.action';
 import { updatedCalculated } from './calc.action';
 
-export const testUpdateAction = 'TEST_UPDATE_ACTION';
-export const testUpdate = () => ({type: testUpdateAction});
+const testUpdateAction = 'TEST_UPDATE_ACTION';
+const testUpdate = () => ({type: testUpdateAction});
+
+export { updateForm, incrementId, addFurnItem, updateFurnItem, removeFurnItem }
