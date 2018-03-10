@@ -1,5 +1,6 @@
 import React from 'react';
-import { FormGroup, FormControl, ControlLabel, HelpBlock, Col, Radio, Button } from 'react-bootstrap';
+//import { FormGroup, FormControl, ControlLabel, HelpBlock, Col, Radio, Button } from 'react-bootstrap';
+import { Form, FormFeedback, FormGroup, FormText, Input, Col, Label } from 'reactstrap';
 
 const FormComponent = ({ id, label, help, ...props }) => {
   /*
