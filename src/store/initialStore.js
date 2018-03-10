@@ -22,11 +22,11 @@ export const initialState = {
   },
   // Hold the furniture items in a quick lookup
   furn_items: {
-    circle: {},
-    rect: {},
-    bar: {},
-    poster: {},
-    trash: {}
+    circle: [],
+    rect: [],
+    bar: [],
+    poster: [],
+    trash: []
   },
   // Keep track of our drag and drop editor.
   editor: {
