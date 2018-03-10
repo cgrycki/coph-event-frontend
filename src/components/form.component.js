@@ -2,7 +2,7 @@ import React from 'react';
 //import { FormGroup, FormControl, ControlLabel, HelpBlock, Col, Radio, Button } from 'react-bootstrap';
 import { Form, FormFeedback, FormGroup, FormText, Input, Col, Label } from 'reactstrap';
 
-const FormComponent = ({ id, label, help, ...props }) => {
+const FormComponent = (props) => {
   /*
    * @method
    * @description Helper function to create a Field group
@@ -11,23 +11,24 @@ const FormComponent = ({ id, label, help, ...props }) => {
    * @param {string} help - Optional. Help text to be displayed below input.
    * @returns {FormGroup} - Form Grouping
    */
-  console.log(this, this.props, props);
+
+
   return (
-    <FormGroup controlId={id}>
-      <Col componentClass={ControlLabel} xs={6}>
-        {label}
-      </Col>
-      <Col xs={6}>
-        <FormControl
-          onChange={(event) => props.onChange(event.target.name, event.target.value)}
-          {...props} 
+    <FormGroup row>
+      <Label for={props.id} sm={4}>{props.label}</Label>
+      <Col sm={8}>
+        <Input 
+          type={props.type}
+          name={props.name}
+          id={props.id}
+          placeholder={props.id !== '' && props.id}
         />
-        {help && <HelpBlock>{help}</HelpBlock>}
       </Col>
     </FormGroup>
   );
 }
 
+/*
 export const FormTest = props => {
   return (
     <FormGroup horizontal>
@@ -45,5 +46,6 @@ export const FormTest = props => {
     </FormGroup>
   );
 }
+*/
 
 export default FormComponent
