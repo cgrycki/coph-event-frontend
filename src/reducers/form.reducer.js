@@ -1,7 +1,7 @@
 import { initialState } from '../store/initialStore';
 import { formActions } from '../constants/actionTypes';
 
-export default function(state=initialState, action) {
+export default function(state=initialState.forms, action) {
   /*
    * @documentation...
    * @description Updates a form field.
@@ -13,10 +13,7 @@ export default function(state=initialState, action) {
     case formActions.UPD_FORM:
       return {
         ...state,
-        forms: {
-          ...state.forms,
-          [name]: value
-        }
+        [name]: value
       };
     default:
       return state
