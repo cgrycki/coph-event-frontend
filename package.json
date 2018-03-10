@@ -1,6 +1,6 @@
 {
-  "name": "coph-redux",
-  "version": "0.1.0",
+  "name": "coph-app",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "bootstrap": "^4.0.0",
