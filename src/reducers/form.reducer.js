@@ -1,9 +1,9 @@
-import { optimizedState } from '../store/initialStore';
+import { initialState } from '../store/initialStore';
 import { formActions } from '../constants/actionTypes';
 import { combineReducers } from 'redux';
 
 // Update form field
-function updateFormReducer(state=optimizedState.forms.fields, action) {
+function updateFormReducer(state=initialState.forms.fields, action) {
   /*
    *
    */
@@ -20,7 +20,7 @@ function updateFormReducer(state=optimizedState.forms.fields, action) {
   }
 }
 
-function updateValidationReducer(state=optimizedState.forms.validations, action) {
+function updateValidationReducer(state=initialState.forms.validations, action) {
   /*
    *
    */

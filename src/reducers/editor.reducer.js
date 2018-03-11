@@ -1,4 +1,4 @@
-import { optimizedState } from '../store/initialStore';
+import { initialState } from '../store/initialStore';
 import { itemActions } from '../constants/actionTypes';
 
 
@@ -26,11 +26,11 @@ const unfocusItems= (furn_items) => {
 
 /* Reducers */
 const initialFormState = {
-  furn_ids: optimizedState.editor.furn_ids,
-  furn_items: optimizedState.editor.furn_items,
-  canvas_props: optimizedState.editor.canvas_props,
-  circlesPerChair: optimizedState.editor.circlesPerChair,
-  selectedFurn: optimizedState.editor.selectedFurn
+  furn_ids: initialState.editor.furn_ids,
+  furn_items: initialState.editor.furn_items,
+  canvas_props: initialState.editor.canvas_props,
+  circlesPerChair: initialState.editor.circlesPerChair,
+  selectedFurn: initialState.editor.selectedFurn
 }
 
 export default function(state=initialFormState, action) {

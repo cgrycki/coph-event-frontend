@@ -2,7 +2,7 @@
  * Initial State
  */
 
-export const optimizedState = {
+export const initialState = {
   // Holds our FormPanel data.
   forms: {
     // Used to store user inputs.
