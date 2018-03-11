@@ -6,8 +6,6 @@ import { Provider } from 'react-redux';
 import './index.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
-// Inital state
-import { initialState } from './store/initialStore';
 // reducer
 import reducers from './reducers';
 // actions
@@ -22,8 +20,8 @@ const store = createStore(
 );
 
 store.dispatch({type: 'UPD_FORM', name: 'eventName', value: 'test name'});
-store.dispatch({type: 'UPD_FORM', name: 'chairsPerTable', value: '8'});
-//store.dispatch({type: 'INC_FURN_ID', value: 'circle'});
+//store.dispatch({type: 'UPD_FORM', name: 'chairsPerTable', value: '8'});
+
 store.dispatch({
   type: 'ADD_FURN_ITEM', 
   furn_type: 'circle',
