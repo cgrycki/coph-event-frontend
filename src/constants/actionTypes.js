@@ -10,37 +10,35 @@
 
 /* Forms */
 export const formActions= {
-  UPD_FORM          : 'UPD_FORM'
-}
-
-/* Furniture Items */
-export const itemActions= {
-  ADD_FURN_ITEM     : 'ADD_FURN_ITEM',
-  RM_FURN_ITEM      : 'RM_FURN_ITEM',
-  UPD_FURN_ITEM     : 'UPD_FURN_ITEM'
+  UPD_FORM   : 'UPD_FORM',
+  SUBMIT_FORM: 'SUBMIT_FORM'
 }
 
 /* Editor */
 export const editorActions= {
   // Props
-  UPD_EDITOR_DIM    : 'UPD_EDITOR_DIM',
-  UPD_EDITOR_XY     : 'UPD_EDITOR_XY',
-  UPD_EDITOR_SCALE  : 'UPD_EDITOR_SCALE',
-  UPD_EDITOR_OFFSET : 'UPD_EDITOR_OFFSET',
-  UPD_EDITOR_REF    : 'UPD_EDITOR_REF',
-  UPD_EDITOR_URI    : 'UPD_EDITOR_URI',
+  UPD_EDITOR_PROP: 'UPD_EDITOR_PROP',
+  UPD_EDITOR_REF : 'UPD_EDITOR_REF',
+  UPD_EDITOR_URI : 'UPD_EDITOR_URI',
   // Interactions
-  UPD_EDITOR_SEL    : 'UPD_EDITOR_SEL',
-  UPD_EDITOR_FOCUS  : 'UPD_EDITOR_FOCUS',
+  UPD_EDITOR_FOCUS: 'UPD_EDITOR_FOCUS',
+}
+
+/* Furniture Items */
+export const itemActions= {
+  ADD_FURN_ITEM: 'ADD_FURN_ITEM',
+  RM_FURN_ITEM : 'RM_FURN_ITEM',
+  UPD_FURN_ITEM: 'UPD_FURN_ITEM'
+}
+
+/* Toolbar */
+export const toolbarActions = {
+  SET_NUM_CHAIRS  = 'SET_NUM_CHAIRS',
+  SET_SELECT_FURN = 'SET_SELECT_FURN'
 }
 
 
 /* Calculated variables */
 export const calcActions= {
-  UPD_CALC          : 'UPD_CALC'
-}
-
-/* Application events */
-export const appActions= {
-  SUBMIT_FORM       : 'SUBMIT_FORM'
+  UPD_CALC: 'UPD_CALC'
 }
