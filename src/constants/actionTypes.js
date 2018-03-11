@@ -38,6 +38,6 @@ export const toolbarActions = {
 }
 
 /* Calculated variables */
-export const calcActions= {
-  UPD_CALC: 'UPD_CALC'
+export const hudActions= {
+  UPD_HUD: 'UPD_HUD'
 }
