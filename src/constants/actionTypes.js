@@ -33,10 +33,9 @@ export const itemActions= {
 
 /* Toolbar */
 export const toolbarActions = {
-  SET_NUM_CHAIRS  = 'SET_NUM_CHAIRS',
-  SET_SELECT_FURN = 'SET_SELECT_FURN'
+  SET_NUM_CHAIRS: 'SET_NUM_CHAIRS',
+  SET_SELECT_FURN: 'SET_SELECT_FURN'
 }
-
 
 /* Calculated variables */
 export const calcActions= {
