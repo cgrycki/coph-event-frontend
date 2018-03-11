@@ -13,12 +13,6 @@ export const formActions= {
   UPD_FORM          : 'UPD_FORM'
 }
 
-/* Furniture IDs */
-export const idActions= {
-  // Only increment to preserve unique IDs after furniture deletion
-  INC_FURN_ID       : 'INC_FURN_ID'
-}
-
 /* Furniture Items */
 export const itemActions= {
   ADD_FURN_ITEM     : 'ADD_FURN_ITEM',
