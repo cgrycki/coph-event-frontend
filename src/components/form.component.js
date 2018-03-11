@@ -1,6 +1,5 @@
 import React from 'react';
-//import { FormGroup, FormControl, ControlLabel, HelpBlock, Col, Radio, Button } from 'react-bootstrap';
-import { Form, FormFeedback, FormGroup, FormText, Input, Col, Label } from 'reactstrap';
+import { FormFeedback, FormGroup, FormText, Input, Col, Label } from 'reactstrap';
 
 const FormComponent = (props) => {
   /*
@@ -15,37 +14,26 @@ const FormComponent = (props) => {
 
   return (
     <FormGroup row>
-      <Label for={props.id} sm={4}>{props.label}</Label>
+      <Label 
+        for={props.id}
+        sm={4}
+        size={"sm"}
+        className="text-right"
+      >
+        {props.label}
+      </Label>
       <Col sm={8}>
         <Input 
           type={props.type}
           name={props.name}
           id={props.id}
-          placeholder={props.id !== '' && props.id}
+          placeholder={props.placeholder !== '' && props.placeholder}
+          bsSize={"sm"}
+          onBlur={props.onBlur}
         />
       </Col>
     </FormGroup>
   );
 }
-
-/*
-export const FormTest = props => {
-  return (
-    <FormGroup horizontal>
-      <Col componentClass={ControlLabel} xs={6}>
-        {props.label}
-      </Col>
-      <Col xs={6}>
-        <FormControl 
-          name={props.name}
-          value={props.value}
-          onChange={props.handleChange}
-          {...props}
-        />
-      </Col>
-    </FormGroup>
-  );
-}
-*/
 
 export default FormComponent
