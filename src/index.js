@@ -10,7 +10,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import reducers from './reducers';
 // actions
 
-import App from './containers/App';
+import App from './containers/app.container';
 import registerServiceWorker from './registerServiceWorker';
 
 // create store
