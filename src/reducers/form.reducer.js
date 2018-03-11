@@ -1,21 +1,42 @@
-import { initialState } from '../store/initialStore';
+import { optimizedState } from '../store/initialStore';
 import { formActions } from '../constants/actionTypes';
+import { combineReducers } from 'redux';
 
-export default function(state=initialState.forms, action) {
+// Update form field
+function updateFormReducer(state=optimizedState.forms.fields, action) {
   /*
-   * @documentation...
-   * @description Updates a form field.
+   *
    */
-  let { name, value } = action;
-  value = (name === 'chairsPerTable') ? parseInt(value, 10) : value;
-
-  switch (action.type) {
+  let { type, name, value } = action;
+  switch (type) {
     case formActions.UPD_FORM:
+      console.log(state, action);
       return {
         ...state,
         [name]: value
       };
     default:
-      return state
+      return state;
   }
 }
+
+function updateValidationReducer(state=optimizedState.forms.validations, action) {
+  /*
+   *
+   */
+  let { actionType, name } = action;
+  switch (actionType) {
+    case 'UPD_VALID_STATE':
+      return {
+        ...state,
+        [name]: true
+      };
+    default:
+      return state;
+  }
+}
+
+export default combineReducers({
+  updateFormReducer,
+  updateValidationReducer
+})
