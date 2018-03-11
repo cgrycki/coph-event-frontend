@@ -11,25 +11,25 @@ const FormComponent = (props) => {
    * @returns {FormGroup} - Form Grouping
    */
 
-
   return (
     <FormGroup row>
       <Label 
         for={props.id}
-        sm={4}
+        sm={5}
         size={"sm"}
         className="text-right"
       >
         {props.label}
       </Label>
-      <Col sm={8}>
-        <Input 
+      <Col sm={5}>
+        <Input
           type={props.type}
           name={props.name}
           id={props.id}
-          placeholder={props.placeholder !== '' && props.placeholder}
+          placeholder={(props.placeholder !== '') ? props.placeholder : undefined}
           bsSize={"sm"}
           onBlur={props.onBlur}
+          {...props}
         />
       </Col>
     </FormGroup>
