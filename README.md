@@ -2,6 +2,10 @@
 
 #### Application Behavior
 
+- Forms
+  1. Forms should show no validation state until input/submission
+  2. Submit button should be disabled until all of the required fields are validated
+
 - Editor
   1. GUI
     - Mouseing over an item should change it's appearance 
@@ -32,3 +36,56 @@
     * chairs per table selector
       * clicking should set state
       * trigger appearance and calculate new variables
+
+
+#### Next Steps
+
+1. Ideate on editor actions
+2. Create actions and creators
+3. Commit
+4. Create proper editor reducer
+  * Create itemReducer and import it into ^^^
+  * Create canvasPropReducer and do the same
+5. Commit
+6. Ideate on editor functions
+  - items
+    * onClick => add item
+    * onDragEnd => update item
+    * onDblClick => remove item
+    * onContentClick => focus item
+  - toolbar
+    * Toolbar component
+    * action creators for the two toolbar events
+  - calculated
+    * HUD component
+    * actions, creators for toggle
+    * reducers for calculation event
+  - Layer
+    * onDragMove => highlight item
+  - ?onScroll? Low hanging
+
+
+#### Future Work
+
+- items
+  * components
+
+- First Floor plan
+  * slimming down to svg/img
+  * point/area identification
+  * inclusion functions
+  * scaling to different sizes
+  * serialize predefined layouts
+
+- Form Submission
+  * gathering variables
+  * validating all fields
+
+- Nice
+  * help button in `<FormPanel />` => modal gifs
+
+- API
+  * Get middleware/`redux-thunk` up and running
+  * Intergrate express
+  * Create and connect to a database
+  * Create actions, functions, and intergrate Microsoft Graph API
