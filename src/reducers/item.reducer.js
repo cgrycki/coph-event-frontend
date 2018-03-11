@@ -1,35 +1,34 @@
+import { combineReducers } from 'redux';
 import { initialState } from '../store/initialStore';
 import { itemActions } from '../constants/actionTypes';
 
 /* Helpers */
+
+const initialFormState = {
+  furn_ids: initialState.editor.furn_ids,
+  furn_items: initialState.editor.furn_items,
+  canvas_props: initialState.editor.canvas_props,
+  chairsPerTable: initialState.editor.chairsPerTable,
+  selectedFurnType: initialState.editor.selectedFurnType,
+  focusedFurnId: initialState.editor.focusedFurnId
+}
+
 function filterAndUnfocus(furn_items, furn_type, item_id) {
-  // Grab the array from the furn_items object
-  let furn_type_items = [...furn_items[furn_type]];
-  // Filter the items
-  let filtered = filterItemsById(furn_type_items, item_id);
-  // Set the focused property to false
-  let unfocused = unfocusItems(filtered);
-  
+  let furn_type_items = [...furn_items[furn_type]];         // Grab the array from the furn_items object
+  let filtered = filterItemsById(furn_type_items, item_id); // Filter the items
+  let unfocused = unfocusItems(filtered);                   // Set the focused property to false
   return unfocused;
 }
 
 const filterItemsById = (furn_items, item_id) => {
-  // Filters object in array by item_id
-  return furn_items.filter(d => d.item_id !== item_id);
+  return furn_items.filter(d => d.item_id !== item_id);     // Filters object in array by item_id
 } 
 
 const unfocusItems= (furn_items) => {
-  // Sets the focused property on nested array to be false
-  return furn_items.map(d => ({ ...d, focused: false}));
+  return furn_items.map(d => ({ ...d, focused: false}));    // Sets the focused property on nested array to be false
 }
 
-/* Reducer */
-const initialFormState = {
-  furn_ids: initialState.furn_ids,
-  furn_items: initialState.furn_items
-}
-
-export default function(state=initialFormState, action) {
+const itemReducer = (state=initialFormState, action) => {
   switch (action.type) {
 
     case (itemActions.ADD_FURN_ITEM):
@@ -106,3 +105,5 @@ export default function(state=initialFormState, action) {
       return state
   }
 }
+
+export default itemReducer
