@@ -10,7 +10,6 @@ function updateFormReducer(state=initialState.forms.fields, action) {
   let { type, name, value } = action;
   switch (type) {
     case formActions.UPD_FORM:
-      console.log(state, action);
       return {
         ...state,
         [name]: value
@@ -20,23 +19,25 @@ function updateFormReducer(state=initialState.forms.fields, action) {
   }
 }
 
-function updateValidationReducer(state=initialState.forms.validations, action) {
+function submitFormReducer(state=initialState.forms.validations, action) {
   /*
    *
    */
-  let { actionType, name } = action;
-  switch (actionType) {
-    case 'UPD_VALID_STATE':
+  let { type, name } = action;
+  switch (type) {
+    case formActions.SUBMIT_FORM:
+      console.log('button clicked!');
       return {
         ...state,
-        [name]: true
+        complete: true
       };
     default:
       return state;
   }
 }
 
-export default combineReducers({
+const formReducer = combineReducers({
   updateFormReducer,
-  updateValidationReducer
+  submitFormReducer
 })
+export default formReducer

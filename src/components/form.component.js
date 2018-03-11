@@ -15,13 +15,13 @@ const FormComponent = (props) => {
     <FormGroup row>
       <Label 
         for={props.id}
-        sm={5}
+        sm={4}
         size={"sm"}
         className="text-right"
       >
         {props.label}
       </Label>
-      <Col sm={5}>
+      <Col sm={8}>
         <Input
           type={props.type}
           name={props.name}

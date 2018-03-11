@@ -7,15 +7,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Card, CardHeader, CardBody, Button } from 'reactstrap';
 import FormComponent from '../components/form.component';
-import { updateForm } from '../actions';
+import { updateForm, submitForm } from '../actions';
 import fieldTypes from '../constants/fieldTypes';
 
 class FormPanel extends Component {
   render() {
+    console.log(this.props);
     // Compute the fields
     let { fields, onFieldBlur } = this.props;
     let fieldsMapped = fieldTypes.map(field => {
-
       return (
         <FormComponent
           id={field.id}
@@ -26,7 +26,7 @@ class FormPanel extends Component {
           onBlur={onFieldBlur}
         />
       );
-    })
+    });
 
     return (
       <Card>
@@ -37,8 +37,8 @@ class FormPanel extends Component {
           </Form>
           <Button
             block={true}
-            /*disabled => validation state
-            onClick={this.*/
+            /*disabled => validation state */
+            onClick={this.props.onFormSubmit}
           >Submit Event for Review</Button>
         </CardBody>
       </Card>
@@ -51,7 +51,8 @@ let mapStateToProps = (state) => ({
 });
 let mapDispatchToProps = (dispatch) => {
   return {
-    onFieldBlur: (event) => dispatch(updateForm(event.target.id, event.target.value))
+    onFieldBlur: (event) => dispatch(updateForm(event.target.id, event.target.value)),
+    onFormSubmit: (event) => dispatch(submitForm(event))
   };
 }
 
