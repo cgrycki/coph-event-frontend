@@ -20,7 +20,7 @@ export const initialState = {
   // Holds our Drag and Drop editor, stores virtual and computed data
   editor: {
     // Crucial, triggers computing calculated<{}> and items size
-    circlesPerChair: 6,
+    chairsPerTable: 6,
     // Furniture type to be added
     selectedFurnType: '',
     // *SPECIFIC* item_id of furniture 

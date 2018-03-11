@@ -29,8 +29,9 @@ const initialFormState = {
   furn_ids: initialState.editor.furn_ids,
   furn_items: initialState.editor.furn_items,
   canvas_props: initialState.editor.canvas_props,
-  circlesPerChair: initialState.editor.circlesPerChair,
-  selectedFurn: initialState.editor.selectedFurn
+  chairsPerTable: initialState.editor.chairsPerTable,
+  selectedFurnType: initialState.editor.selectedFurnType,
+  focusedFurnId: initialState.editor.focusedFurnId
 }
 
 export default function(state=initialFormState, action) {
