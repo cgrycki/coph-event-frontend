@@ -32,6 +32,7 @@ export const calculateBusinessLogic = (furn_items, chairs) => {
     numCircleCarts,
     numRects,
     numRectCarts,
+    numBars,
     numBarCarts,
     numPosters,
     numTrashs

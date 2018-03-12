@@ -30,7 +30,7 @@ class Editor extends React.Component {
           updateChairsPerTable={this.props.updateChairsPerTable}
           selectedFurnType={this.props.selectedFurnType}
         />
-        <HUD/>
+        <HUD calculated={this.props.calculated}/>
         <GUI/>
       </div>
     );
