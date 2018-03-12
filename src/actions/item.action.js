@@ -21,3 +21,8 @@ export const removeFurnItem = (furn_type, item_id) => ({
   furn_type: furn_type,
   item_id: item_id
 });
+
+export const updateFurnFocus = (item_id) => ({
+  type: itemActions.UPD_FURN_FOCUS,
+  item_id: item_id
+})

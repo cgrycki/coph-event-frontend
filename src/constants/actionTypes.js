@@ -16,28 +16,21 @@ export const formActions= {
 
 /* Editor */
 export const editorActions= {
-  // Props
   UPD_EDITOR_PROP: 'UPD_EDITOR_PROP',
   UPD_EDITOR_REF : 'UPD_EDITOR_REF',
-  UPD_EDITOR_URI : 'UPD_EDITOR_URI',
-  // Interactions
-  UPD_EDITOR_FOCUS: 'UPD_EDITOR_FOCUS',
+  UPD_EDITOR_URI : 'UPD_EDITOR_URI'
 }
 
 /* Furniture Items */
 export const itemActions= {
   ADD_FURN_ITEM: 'ADD_FURN_ITEM',
   RM_FURN_ITEM : 'RM_FURN_ITEM',
-  UPD_FURN_ITEM: 'UPD_FURN_ITEM'
+  UPD_FURN_ITEM: 'UPD_FURN_ITEM',
+  UPD_FURN_FOCUS: 'UPD_FURN_FOCUS'
 }
 
 /* Toolbar */
 export const toolbarActions = {
   SET_NUM_CHAIRS: 'SET_NUM_CHAIRS',
   SET_SELECT_FURN: 'SET_SELECT_FURN'
-}
-
-/* Calculated variables */
-export const hudActions= {
-  UPD_HUD: 'UPD_HUD'
 }
