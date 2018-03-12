@@ -2,7 +2,6 @@ export const calculateBusinessLogic = (furn_items, chairs) => {
   /*
    *
    */
-  console.log(furn_items, chairs);
   // Furniture counts
   const numCircles = furn_items.circle.length;
   const numRects = furn_items.rect.length;
