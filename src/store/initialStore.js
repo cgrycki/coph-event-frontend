@@ -22,7 +22,7 @@ export const initialState = {
     // Crucial, triggers computing calculated<{}> and items size
     chairsPerTable: 6,
     // Furniture type to be added
-    selectedFurnType: '',
+    selectedFurnType: 'circle',
     // *SPECIFIC* item_id of furniture 
     focusedFurnId: '',
     // Canvas dataURI
