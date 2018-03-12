@@ -6,7 +6,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Card, CardHeader, CardBody, Button } from 'reactstrap';
-import FormComponent from '../components/form.component';
+import FieldComponent from '../components/form/field.component';
 import { updateForm, submitForm } from '../actions';
 import fieldTypes from '../constants/fieldTypes';
 
@@ -16,7 +16,7 @@ class FormPanel extends Component {
     let { fields, onFieldBlur } = this.props;
     let fieldsMapped = fieldTypes.map(field => {
       return (
-        <FormComponent
+        <FieldComponent
           id={field.id}
           key={field.id + 'Form'} 
           label={field.label}
