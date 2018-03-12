@@ -28,7 +28,7 @@ const FormComponent = (props) => {
           id={props.id}
           placeholder={(props.placeholder !== '') ? props.placeholder : undefined}
           bsSize={"sm"}
-          onBlur={props.onBlur}
+          onChange={props.onBlur}
           {...props}
         />
       </Col>

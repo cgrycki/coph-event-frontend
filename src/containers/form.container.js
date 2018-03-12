@@ -12,7 +12,6 @@ import fieldTypes from '../constants/fieldTypes';
 
 class FormPanel extends Component {
   render() {
-    console.log(this.props);
     // Compute the fields
     let { fields, onFieldBlur } = this.props;
     let fieldsMapped = fieldTypes.map(field => {
@@ -46,9 +45,11 @@ class FormPanel extends Component {
   }
 }
 
-let mapStateToProps = (state) => ({
-  fields: state.formReducer
-});
+let mapStateToProps = (state) => {
+  return {
+    ...state.formReducer.updateFormReducer
+  }
+};
 let mapDispatchToProps = (dispatch) => {
   return {
     onFieldBlur: (event) => dispatch(updateForm(event.target.id, event.target.value)),
