@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { initialState } from '../store/initialStore';
 import { itemActions } from '../constants/actionTypes';
+import { calculateBusinessLogic } from '../utils'
 
 /* Helpers */
 
@@ -57,7 +58,8 @@ const itemReducer = (state=initialFormState, action) => {
         furn_items: {
           ...state.furn_items,
           [furn_type]: furnAdded
-        }
+        },
+        calculated: calculateBusinessLogic(state.furn_items, state.chairsPerTable)
       }
 
     case (itemActions.UPD_FURN_ITEM):
@@ -98,7 +100,8 @@ const itemReducer = (state=initialFormState, action) => {
         furn_items: {
           ...state.furn_items,
           [furn_type]: furnItemsRemoved
-        }
+        },
+        calculated: calculateBusinessLogic(state.furn_items, state.chairsPerTable)
       };
 
     default:

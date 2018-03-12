@@ -55,8 +55,11 @@ export const initialState = {
     calculated: {
       numChairs     : 0,
       numChairCarts : 0,
+      numCircles    : 0,
       numCircleCarts: 0,
+      numRects      : 0,
       numRectCarts  : 0,
+      numBars       : 0,
       numBarCarts   : 0,
       numPosters    : 0,
       numTrashs     : 0

@@ -1,14 +1,6 @@
-import { initialState } from '../store/initialStore';
-import { itemActions } from '../constants/actionTypes';
-
-import itemReducer from './item.reducer';
 import { combineReducers } from 'redux';
-
-
-/* Helpers */
-// 
-
-/* Reducers */
+import { initialState } from '../store/initialStore';
+import itemReducer from './item.reducer';
 
 const initialFormState = {
   furn_ids: initialState.editor.furn_ids,
@@ -17,11 +9,11 @@ const initialFormState = {
   chairsPerTable: initialState.editor.chairsPerTable,
   selectedFurnType: initialState.editor.selectedFurnType,
   focusedFurnId: initialState.editor.focusedFurnId
-}
+};
 
 const editorReducer = combineReducers({
   initialFormState,
   itemReducer
-})
+});
 
 export default editorReducer
