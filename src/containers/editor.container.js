@@ -26,9 +26,10 @@ class Editor extends React.Component {
     return (
       <div>
         <Toolbar
-          updateSelectedFurnType={this.props.updateSelectedFurnType}
-          updateChairsPerTable={this.props.updateChairsPerTable}
           selectedFurnType={this.props.selectedFurnType}
+          updateSelectedFurnType={this.props.updateSelectedFurnType}
+          chairsPerTable={this.props.chairsPerTable}
+          updateChairsPerTable={this.props.updateChairsPerTable}
         />
 
         <HUD calculated={this.props.calculated}/>
@@ -47,8 +48,9 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateSelectedFurnType: (event) => dispatch(updateSelectedFurnType(event.target.value)),
-    updateChairsPerTable: (event) => dispatch(updateChairsPerTable(event.target.value))
+    //updateSelectedFurnType: (event) => dispatch(updateSelectedFurnType(event.target.value)),
+    updateSelectedFurnType: (value) => dispatch(updateSelectedFurnType(value)),
+    updateChairsPerTable: (value) => dispatch(updateChairsPerTable(value))
   };
 }
 
