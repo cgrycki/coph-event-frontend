@@ -38,7 +38,8 @@ const editorReducer = (state=initialFormState, action) => {
         - add new furn_item object to furn_items
         - increment the furn_type ID
       */
-      var { furn_type, x, y } = action;
+      var { x, y } = action;
+      var furn_type = state.selectedFurnType;
       const item_id = furn_type + state.furn_ids[furn_type];  // circle0
       const incFurnID = state.furn_ids[furn_type] + 1;        // 0 + 1 => 1
       const furnToAdd = { item_id, furn_type, x, y, focused: false };
