@@ -83,24 +83,27 @@ const editorReducer = (state=initialFormState, action) => {
       */
       var { furn_type, item_id } = action;
       const furnItemsRemoved = filterAndUnfocus(state.furn_items, furn_type, item_id);
+      const newFurnItems = { ...state.furn_items, [furn_type]: furnItemsRemoved };
 
       return {
         ...state,
-        furn_items: {
-          ...state.furn_items,
-          [furn_type]: furnItemsRemoved
-        },
-        calculated: calculateBusinessLogic(state.furn_items, state.chairsPerTable)
+        furn_items: newFurnItems,
+        calculated: calculateBusinessLogic(newFurnItems, state.chairsPerTable)
       };
     
     case (itemActions.UPD_FURN_FOCUS):
       return {...state, focusedFurnId: action.item_id}
     
     case (toolbarActions.SET_SELECT_FURN):
-      return { ...state, selectedFurnType: action.selectedFurnType };
+      return { 
+        ...state, 
+        selectedFurnType: action.selectedFurnType
+      };
 
     case (toolbarActions.SET_NUM_CHAIRS):
-      const { furn_items, chairsPerTable } = action;
+      const { furn_items } = state;
+      const { chairsPerTable } = action;
+      
       return {
         ...state,
         chairsPerTable: chairsPerTable,

@@ -1,6 +1,8 @@
 export const calculateBusinessLogic = (furn_items, chairs) => {
   /*
-   *
+   * @method
+   * @description Function that returns the counts of the furniture items.
+   * @returns Computes number of people that can be seated, item counts, + carts.
    */
   // Furniture counts
   const numCircles = furn_items.circle.length;
@@ -44,4 +46,20 @@ export const getHUDCalc = (calculatedBusinessLogic) => {
   const { numChairs, numCircles, numRects, 
         numBars, numPosters, numTrashs } = calculatedBusinessLogic;
   return { numChairs, numCircles, numRects, numBars, numPosters, numTrashs };
+}
+
+export const editorClickEvent = (event) => {
+  /*
+   * @method
+   * @description Handles content being clicked in our editor.
+   * @param {event} - HTML event fired from a click on our canvas.
+   * @returns False if no intersection, otherwise an object {x, y}.
+   */
+
+  // Grab the Konva canvas from event.
+  let konvaCanvas = event.currentTarget;
+  let mousePos = konvaCanvas.getPointerPosition();
+  let isIntersecting = konvaCanvas.getIntersection(mousePos);
+
+  return (isIntersecting === null) ? mousePos : isIntersecting;
 }
