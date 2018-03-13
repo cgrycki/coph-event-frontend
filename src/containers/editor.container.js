@@ -13,16 +13,13 @@ import {
   updateSelectedFurnType, updateChairsPerTable,
   addFurnItem, updateFurnItem, removeFurnItem
 } from '../actions';
-import { editorClickEvent } from '../utils';
+import { canvasClickEvent, getClickedShapeAttrs } from '../utils';
 
 class Editor extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  
   //componentWillReceiveProps(nextProps) {}
 
   render() {
-    console.log(this);
     return (
       <div>
         <Toolbar
@@ -34,9 +31,12 @@ class Editor extends React.Component {
 
         <HUD calculated={this.props.calculated}/>
 
-        <GUI 
+        <GUI
           {...this.props.furn_items}
           selectedFurnType={this.props.selectedFurnType}
+          addFurnItem={this.props.addFurnItem}
+          updateFurnItem={this.props.updateFurnItem}
+          removeFurnItem={this.props.removeFurnItem}
         />
       </div>
     );
@@ -48,9 +48,14 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    //updateSelectedFurnType: (event) => dispatch(updateSelectedFurnType(event.target.value)),
+    // Toolbar actions
     updateSelectedFurnType: (value) => dispatch(updateSelectedFurnType(value)),
-    updateChairsPerTable: (value) => dispatch(updateChairsPerTable(value))
+    updateChairsPerTable:   (value) => dispatch(updateChairsPerTable(value)),
+    
+    // GUI actions
+    addFurnItem:    (event) => dispatch(addFurnItem(canvasClickEvent(event))),
+    updateFurnItem: (event) => dispatch(updateFurnItem(getClickedShapeAttrs(event))),
+    removeFurnItem: (event) => dispatch(removeFurnItem(getClickedShapeAttrs(event)))
   };
 }
 

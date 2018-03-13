@@ -41,25 +41,38 @@ export const calculateBusinessLogic = (furn_items, chairs) => {
   };
 };
 
-export const getHUDCalc = (calculatedBusinessLogic) => {
-  /* Extracts relevent numbers for users to view. */
-  const { numChairs, numCircles, numRects, 
-        numBars, numPosters, numTrashs } = calculatedBusinessLogic;
-  return { numChairs, numCircles, numRects, numBars, numPosters, numTrashs };
-}
-
-export const editorClickEvent = (event) => {
+export const canvasClickEvent = (event) => {
   /*
    * @method
-   * @description Handles content being clicked in our editor.
-   * @param {event} - HTML event fired from a click on our canvas.
-   * @returns False if no intersection, otherwise an object {x, y}.
+   * @description Method that ~only~ returns (x, y) mouse pos. Cancels event bubbling.
+   * @param {event} - Fired by clicking on Konva Stage.
+   * @returns {x: xMousePos, y: yMousePose}
    */
+  event.evt.preventDefault();
+  event.cancelBubble = true;
 
-  // Grab the Konva canvas from event.
-  let konvaCanvas = event.currentTarget;
-  let mousePos = konvaCanvas.getPointerPosition();
-  let isIntersecting = konvaCanvas.getIntersection(mousePos);
+  let canvas = event.currentTarget;
+  let mousePos = canvas.getPointerPosition();
+  return mousePos;
+}
 
-  return (isIntersecting === null) ? mousePos : isIntersecting;
+export const getClickedShapeAttrs = (event) => {
+  /*
+   * @method
+   * @description Get the X, Y, and furniture type of a clicked Konva shape.
+   * @param {event} - Event fired from an onClick() event.
+   * @returns {x, y, furn_type} of clicked shape.
+   */
+  event.evt.preventDefault();
+  event.cancelBubble = true;
+
+  let shape = event.currentTarget;
+  let shapeAttrs = shape.getAttrs();
+
+  return {
+    x: shapeAttrs.x,
+    y: shapeAttrs.y,
+    furn_type: shapeAttrs.name,
+    item_id: shapeAttrs.id
+  }; 
 }
