@@ -1,47 +1,68 @@
 import React from 'react';
 import {Button, ButtonGroup, ButtonToolbar} from 'reactstrap';
 
-const Toolbar = (props) => {
-  console.log(props);
+const GuiButton = (props) => {
+  /* Creates a button that triggers editor state changes via onClick(). */
+  // value
+  // label
+  // icon
+  // selectedFurnType
+  
+  let btnActive = props.selectedVal === props.value;
   return (
-    <ButtonToolbar>
-      <ButtonGroup className="float-left">
-        <Button 
-          active={props.selectedFurnType === 'circle'}
-          color={props.selectedFurnType === 'circle' ? 'dark' : 'light'}
-          size="sm"
-        >
-          Circle
-        </Button>
-        <Button
-          active={props.selectedFurnType === 'rect'}
-          size="sm"
-        >
-          Rect
-        </Button>
-        <Button
-          active={props.selectedFurnType === 'rect'}
-          size="sm"
-        >
-          Bar
-        </Button>
-        <Button
-          active={props.selectedFurnType === 'rect'}
-          size="sm"
-        >Poster</Button>
-        <Button
-          active={props.selectedFurnType === 'rect'}
-          size="sm"
-        >Trash</Button>
-      </ButtonGroup>
+    <Button
+      outline
+      size="sm"
+      active={btnActive}
+      color={btnActive ? 'primary' : 'link'}
+      outline={btnActive}
+      onClick={() => props.onClick(props.value)}
+      id={props.value + '-toolbar-radio'}
+    >
+      {props.label}
+    </Button>
+  );
+}
 
-      <ButtonGroup className="float-right">
-        <Button 
-          size="sm"
-        >6</Button>
-        <Button size="sm">8</Button>
-      </ButtonGroup>
+const Toolbar = (props) => {
 
+  let furnitureBtns = [
+    { value: 'circle', label: 'Circle', icon: '' },
+    { value: 'rect', label: 'Rectangle', icon: '' },
+    { value: 'bar', label: 'Bar', icon: '' },
+    { value: 'poster', label: 'Posters', icon: '' },
+    { value: 'trash', label: 'Trash Can', icon: '' }
+  ].map((btn, i) => (
+    <GuiButton
+      key={"toolbar-radio-" + i}
+      selectedVal={props.selectedFurnType}
+      onClick={props.updateSelectedFurnType}
+      value={btn.value}
+      label={btn.label}
+    />)
+  );
+
+  let chairBtns = [
+    { value: 6, label: 6, icon: ''}, { value: 8, label: 8, icon: ''}
+  ].map((btn, i) => (
+    <GuiButton
+      key={"toolbar-radio-" + i}
+      selectedVal={props.chairsPerTable}
+      onClick={props.updateChairsPerTable}
+      value={btn.value}
+      label={btn.label}
+    />)
+  );
+
+  return (
+    <ButtonToolbar className="clearfix">
+      <div className="pull-left float-left">
+        <ButtonGroup>{furnitureBtns}</ButtonGroup>
+      </div>
+      
+      <div className="pull-right float-right">
+        <ButtonGroup>{chairBtns}</ButtonGroup>
+      </div>
     </ButtonToolbar>
   );
 }
