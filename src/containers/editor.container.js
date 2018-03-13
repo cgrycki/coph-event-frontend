@@ -50,10 +50,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     // Toolbar actions
     updateSelectedFurnType: (value) => dispatch(updateSelectedFurnType(value)),
-    updateChairsPerTable: (value) => dispatch(updateChairsPerTable(value)),
+    updateChairsPerTable:   (value) => dispatch(updateChairsPerTable(value)),
     
     // GUI actions
-    addFurnItem: (event) => dispatch(addFurnItem(canvasClickEvent(event))),
+    addFurnItem:    (event) => dispatch(addFurnItem(canvasClickEvent(event))),
     updateFurnItem: (event) => dispatch(updateFurnItem(getClickedShapeAttrs(event))),
     removeFurnItem: (event) => dispatch(removeFurnItem(getClickedShapeAttrs(event)))
   };

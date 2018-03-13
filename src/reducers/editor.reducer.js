@@ -32,57 +32,46 @@ const unfocusItems= (furn_items) => {
 const editorReducer = (state=initialFormState, action) => {
   switch (action.type) {
     case (itemActions.ADD_FURN_ITEM):
-      /* STEPS:
-        - get currentID of furn_type
-        - Set the existing items as unfocused.
-        - add new furn_item object to furn_items
-        - increment the furn_type ID
-      */
+      // Gather position from action, and the current furniture type from state
       var { x, y } = action;
       var furn_type = state.selectedFurnType;
+      
+      // Create the new ID and increment for next item
       const item_id = furn_type + state.furn_ids[furn_type];  // circle0
       const incFurnID = state.furn_ids[furn_type] + 1;        // 0 + 1 => 1
+
+      // Create and add the item to existing furniture array
       const furnToAdd = { item_id, furn_type, x, y, focused: false };
       const furnAdded = [...state.furn_items[furn_type], furnToAdd];
+      const itemsAfterAdd = {
+        ...state.furn_items, [furn_type]: furnAdded
+      };
 
       return {
         ...state,
-        furn_ids: {
-          ...state.furn_ids,
-          [furn_type]: incFurnID
-        },
-        furn_items: {
-          ...state.furn_items,
-          [furn_type]: furnAdded
-        },
-        calculated: calculateBusinessLogic(state.furn_items, state.chairsPerTable)
+        furn_ids: { ...state.furn_ids, [furn_type]: incFurnID },
+        furn_items: itemsAfterAdd,
+        calculated: calculateBusinessLogic(itemsAfterAdd, state.chairsPerTable)
       }
 
     case (itemActions.UPD_FURN_ITEM):
-      /** STEPS:
-          - get the furniture item by filtering appropriate array using ID
-          - Update item in array
-      */
       var { furn_type, item_id, x, y } = action;
+      
+      // Create updated item using old item's attributes.
       const updatedItem = { item_id, furn_type, x, y, focused: true };
+      
+      // Filter items, set them all to unfocused, and add updated items.
       const filteredAndUnfocused = filterAndUnfocus(state.furn_items, furn_type, item_id);
       const furnUpdated = [...filteredAndUnfocused, updatedItem]
       
       return {
         ...state,
-        furn_items: {
-          ...state.furn_items,
-          [furn_type]: furnUpdated
-        }
+        furn_items: { ...state.furn_items, [furn_type]: furnUpdated }
       }
 
     case (itemActions.RM_FURN_ITEM):
-      /* Steps:
-            - filter out offending item
-            - unfocus items, because this is triggered by a double click
-            - update calculated variables
-      */
       var { furn_type, item_id } = action;
+      // Filter out item and unfocus remaining.
       const furnItemsRemoved = filterAndUnfocus(state.furn_items, furn_type, item_id);
       const newFurnItems = { ...state.furn_items, [furn_type]: furnItemsRemoved };
 
