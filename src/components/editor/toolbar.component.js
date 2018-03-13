@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, ButtonGroup, ButtonToolbar} from 'reactstrap';
+import {Button, ButtonGroup} from 'reactstrap';
 
 const GuiButton = (props) => {
   /* Creates a button that triggers editor state changes via onClick(). */
@@ -13,6 +13,7 @@ const GuiButton = (props) => {
     <Button
       outline
       size="sm"
+      className="guiBtn"
       active={btnActive}
       color={btnActive ? 'primary' : 'link'}
       outline={btnActive}
@@ -55,15 +56,17 @@ const Toolbar = (props) => {
   );
 
   return (
-    <ButtonToolbar className="clearfix">
-      <div className="pull-left float-left">
-        <ButtonGroup>{furnitureBtns}</ButtonGroup>
-      </div>
-      
-      <div className="pull-right float-right">
-        <ButtonGroup>{chairBtns}</ButtonGroup>
-      </div>
-    </ButtonToolbar>
+    <div className="clearfix">
+        <div className="float-left">
+          <span>Add Furniture:&nbsp;</span>
+          <ButtonGroup>{furnitureBtns}</ButtonGroup>
+        </div>
+
+        <div className="float-right">
+          <span>Chairs Per Table:&nbsp;</span>
+          <ButtonGroup>{chairBtns}</ButtonGroup>
+        </div>
+    </div>
   );
 }
 export default Toolbar
