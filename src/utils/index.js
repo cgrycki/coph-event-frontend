@@ -48,7 +48,9 @@ export const canvasClickEvent = (event) => {
    * @param {event} - Fired by clicking on Konva Stage.
    * @returns {x: xMousePos, y: yMousePose}
    */
+  event.evt.preventDefault();
   event.cancelBubble = true;
+
   let canvas = event.currentTarget;
   let mousePos = canvas.getPointerPosition();
   return mousePos;
@@ -61,7 +63,9 @@ export const getClickedShapeAttrs = (event) => {
    * @param {event} - Event fired from an onClick() event.
    * @returns {x, y, furn_type} of clicked shape.
    */
+  event.evt.preventDefault();
   event.cancelBubble = true;
+
   let shape = event.currentTarget;
   let shapeAttrs = shape.getAttrs();
 
