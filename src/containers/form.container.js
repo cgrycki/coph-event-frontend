@@ -29,16 +29,18 @@ class FormPanel extends Component {
 
     return (
       <Card>
-        <CardHeader tag="h3">Create an Event</CardHeader>
+        <CardHeader tag="h5">Create an Event</CardHeader>
         <CardBody>
           <Form>
             {fieldsMapped}
+            <Button
+              block={true}
+              /*disabled => validation state */
+              onClick={this.props.onFormSubmit}
+            >
+              Submit Event for Review
+            </Button>
           </Form>
-          <Button
-            block={true}
-            /*disabled => validation state */
-            onClick={this.props.onFormSubmit}
-          >Submit Event for Review</Button>
         </CardBody>
       </Card>
     );
