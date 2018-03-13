@@ -95,19 +95,13 @@ const editorReducer = (state=initialFormState, action) => {
       return {...state, focusedFurnId: action.item_id}
     
     case (toolbarActions.SET_SELECT_FURN):
-      return { 
-        ...state, 
-        selectedFurnType: action.selectedFurnType
-      };
+      return { ...state, selectedFurnType: action.selectedFurnType };
 
     case (toolbarActions.SET_NUM_CHAIRS):
-      const { furn_items } = state;
-      const { chairsPerTable } = action;
-      
       return {
         ...state,
-        chairsPerTable: chairsPerTable,
-        calculated: calculateBusinessLogic(furn_items, chairsPerTable)
+        chairsPerTable: action.chairsPerTable,
+        calculated: calculateBusinessLogic(state.furn_items, action.chairsPerTable)
       };
     
     default:

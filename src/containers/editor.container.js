@@ -13,12 +13,12 @@ import {
   updateSelectedFurnType, updateChairsPerTable,
   addFurnItem, updateFurnItem, removeFurnItem
 } from '../actions';
+import { editorClickEvent } from '../utils';
 
 class Editor extends React.Component {
   constructor(props) {
     super(props);
   }
-
   //componentWillReceiveProps(nextProps) {}
 
   render() {
@@ -30,8 +30,13 @@ class Editor extends React.Component {
           updateChairsPerTable={this.props.updateChairsPerTable}
           selectedFurnType={this.props.selectedFurnType}
         />
+
         <HUD calculated={this.props.calculated}/>
-        <GUI/>
+
+        <GUI 
+          {...this.props.furn_items}
+          selectedFurnType={this.props.selectedFurnType}
+        />
       </div>
     );
   }
