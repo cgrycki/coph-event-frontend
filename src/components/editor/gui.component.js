@@ -1,13 +1,13 @@
 import React from 'react';
 import { Stage, Layer, Circle } from 'react-konva';
-import { editorClickEvent } from '../../utils';
 
 export default class GUI extends React.Component {
-  
+
   render() {
     const circles = this.props.circle.map((d, i) => {
       return (<Circle
         key={'circle' + i}
+        id={d.item_id}
         name={'circle'}
         x={d.x}
         y={d.y} 
@@ -15,13 +15,17 @@ export default class GUI extends React.Component {
         stroke={'#000000'}
         strokeWidth={3}
         draggable={true}
+        onDragEnd={this.props.updateFurnItem}
+        onClick={this.props.removeFurnItem}
       />);
     });
     
     return (
       <Stage
+        ref={"konvaCanvas"}
         width={500}
         height={500}
+        onContentClick={this.props.addFurnItem}
       >
         <Layer></Layer>
         <Layer>{circles}</Layer>
