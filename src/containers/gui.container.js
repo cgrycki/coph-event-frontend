@@ -10,7 +10,7 @@ export const mapStateToProps = (state) => {
     selectedFurnType: state.editorReducer.selectedFurnType,
     chairsPerTable: state.editorReducer.chairsPerTable,
     focusedFurnId: state.editorReducer.focusedFurnId,
-    ...state.editorReducer.furn_ids,
+    furn_ids: state.editorReducer.furn_ids,
     ...state.editorReducer.furn_items
   };
 }
