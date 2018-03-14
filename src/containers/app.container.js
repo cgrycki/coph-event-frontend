@@ -4,7 +4,6 @@ import { Container, Row, Col, Navbar, NavbarBrand } from 'reactstrap';
 import FormContainer from './form.container';
 import EditorContainer from './editor.container';
 
-
 const App = () => {
   return (
     <Container>
