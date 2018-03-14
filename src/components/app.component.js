@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Navbar, NavbarBrand } from 'reactstrap';
-import { FormContainer, ToolbarContainer, HudContainer, GuiContainer } from './index.js';
+import { FormContainer, ToolbarContainer, HudContainer, GuiContainer } from '../containers';
 
 const App = () => {
   return (
