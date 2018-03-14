@@ -3,7 +3,7 @@ import { Card, CardTitle, CardBody, Table } from 'reactstrap';
 
 export default class HUD extends React.Component {
   render() {
-    const { numChairs, numCircles, numRects, numBars, numPosters, numTrashs } = this.props.calculated;
+    const { numChairs, numCircles, numRects, numBars, numPosters, numTrashs } = this.props;
 
     return (
       <Card>

@@ -7,12 +7,9 @@ import { connect } from 'react-redux';
 
 import GUI from '../components/editor/gui.component';
 import Toolbar from '../components/editor/toolbar.component';
-import HUD from '../components/editor/hud.component';
+import HudContainer from '../containers/hud.container';
 
-import { 
-  updateSelectedFurnType, updateChairsPerTable,
-  addFurnItem, updateFurnItem, removeFurnItem
-} from '../actions';
+import { addFurnItem, updateFurnItem, removeFurnItem } from '../actions';
 import { canvasClickEvent, getClickedShapeAttrs } from '../utils';
 
 class Editor extends React.Component {
@@ -22,14 +19,15 @@ class Editor extends React.Component {
   render() {
     return (
       <div>
+
         <Toolbar
           selectedFurnType={this.props.selectedFurnType}
           updateSelectedFurnType={this.props.updateSelectedFurnType}
           chairsPerTable={this.props.chairsPerTable}
           updateChairsPerTable={this.props.updateChairsPerTable}
         />
-
-        <HUD calculated={this.props.calculated}/>
+        {/*<HUD calculated={this.props.calculated}/>*/}
+        <HudContainer/>
 
         <GUI
           {...this.props.furn_items}
@@ -48,10 +46,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    // Toolbar actions
-    updateSelectedFurnType: (value) => dispatch(updateSelectedFurnType(value)),
-    updateChairsPerTable:   (value) => dispatch(updateChairsPerTable(value)),
-    
+ 
     // GUI actions
     addFurnItem:    (event) => dispatch(addFurnItem(canvasClickEvent(event))),
     updateFurnItem: (event) => dispatch(updateFurnItem(getClickedShapeAttrs(event))),
