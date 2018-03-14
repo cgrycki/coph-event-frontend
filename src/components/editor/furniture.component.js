@@ -1,27 +1,8 @@
 import React from 'react';
 import { Group, Circle, Rect, Line, Text } from 'react-konva';
 
-const itemStyles = {
-    unfocused: {
-        fill: '#d9d9d9',
-        stroke: '#252525',
-        strokeWidth: 2
-    },
-    normal: {
-        fill: '#969696',
-        stroke: '#252525',
-        strokeWidth: 2
-    },
-    focused: {
-        fill: '#c6dbef',
-        stroke: '#252525',
-        strokeWidth: '3',
-        shadowColor: 'black',
-        shadowBlur: 5,
-        shadowOpacity: 0.5,
-        shadowOffset: {x: 0, y: 10}
-    }
-};
+import { changePointer } from '../../utils';
+import styleTypes from '../../constants/styleTypes';
 
 class FurnitureComponent extends React.Component {
     constructor(props) {
@@ -38,20 +19,26 @@ class FurnitureComponent extends React.Component {
     }
 
     /* Lifecycle methods */
-    // componentDidMount() called once
-    // shouldComponentUpdate()
-    // componentWillUpdate()
-    // componentDidUpdate()
-    /* componetWillReceiveProps(nextProps) {
-        // Sync furniture item to props handed from Redux
-        this.setState({
-            x: nextProps.x,
-            y: nextProps.y
-        });
-    }*/
+        // componentDidMount() called once
+        // shouldComponentUpdate()
+        // componentWillUpdate()
+        // componentDidUpdate()
+        /* componetWillReceiveProps(nextProps) {
+            // Sync furniture item to props handed from Redux
+            this.setState({
+                x: nextProps.x,
+                y: nextProps.y
+            });
+        }*/
 
     /* Interaction methods */
-    //onHover() {}
+    setFocus() {
+        changePointer('move');
+    }
+
+    setDefault() {
+        changePointer('default');
+    }
 
 
     /* Furniture items */
@@ -59,10 +46,11 @@ class FurnitureComponent extends React.Component {
         return (
             <Circle
                 radius={20}
-                fill={this.state.focused ? itemStyles.focused.fill : itemStyles.normal.fill }
-                stroke={this.state.focused ? itemStyles.focused.stroke : itemStyles.normal.stroke }
-                strokeWidth={this.state.focused ? itemStyles.focused.strokeWidth : itemStyles.normal.strokeWidth }
+                fill={this.state.focused ? styleTypes.focused.fill : styleTypes.normal.fill }
+                stroke={this.state.focused ? styleTypes.focused.stroke : styleTypes.normal.stroke }
+                strokeWidth={this.state.focused ? styleTypes.focused.strokeWidth : styleTypes.normal.strokeWidth }
                 draggable={true}
+                name={'furnItem'}
             />
         );
     }
@@ -72,10 +60,11 @@ class FurnitureComponent extends React.Component {
             <Rect
                 width={50}
                 height={30}
-                fill={this.state.focused ? itemStyles.focused.fill : itemStyles.normal.fill }
-                stroke={this.state.focused ? itemStyles.focused.stroke : itemStyles.normal.stroke }
-                strokeWidth={this.state.focused ? itemStyles.focused.strokeWidth : itemStyles.normal.strokeWidth }
+                fill={this.state.focused ? styleTypes.focused.fill : styleTypes.normal.fill }
+                stroke={this.state.focused ? styleTypes.focused.stroke : styleTypes.normal.stroke }
+                strokeWidth={this.state.focused ? styleTypes.focused.strokeWidth : styleTypes.normal.strokeWidth }
                 draggable={true}
+                name={'furnItem'}
             />
         );
     }
@@ -84,10 +73,11 @@ class FurnitureComponent extends React.Component {
         return (
             <Circle
                 radius={12}
-                fill={this.state.focused ? itemStyles.focused.fill : itemStyles.unfocused.fill }
-                stroke={this.state.focused ? itemStyles.focused.stroke : itemStyles.unfocused.stroke }
-                strokeWidth={this.state.focused ? itemStyles.focused.strokeWidth : itemStyles.unfocused.strokeWidth }
+                fill={this.state.focused ? styleTypes.focused.fill : styleTypes.unfocused.fill }
+                stroke={this.state.focused ? styleTypes.focused.stroke : styleTypes.unfocused.stroke }
+                strokeWidth={this.state.focused ? styleTypes.focused.strokeWidth : styleTypes.unfocused.strokeWidth }
                 draggable={true}
+                name={'furnItem'}
             />
         );
     }
@@ -97,10 +87,11 @@ class FurnitureComponent extends React.Component {
             <Rect
                 width={40}
                 height={8}
-                fill={this.state.focused ? itemStyles.focused.stroke : itemStyles.normal.stroke }
-                stroke={this.state.focused ? itemStyles.focused.stroke : itemStyles.normal.stroke }
-                strokeWidth={this.state.focused ? itemStyles.focused.strokeWidth : itemStyles.normal.strokeWidth }
+                fill={this.state.focused ? styleTypes.focused.stroke : styleTypes.normal.stroke }
+                stroke={this.state.focused ? styleTypes.focused.stroke : styleTypes.normal.stroke }
+                strokeWidth={this.state.focused ? styleTypes.focused.strokeWidth : styleTypes.normal.strokeWidth }
                 draggable={true}
+                name={'furnItem'}
             />
         );
     }
@@ -109,9 +100,10 @@ class FurnitureComponent extends React.Component {
         return (
             <Text
                 text={"🗑️"}
-                //stroke={this.state.focused ? itemStyles.focused.stroke : itemStyles.normal.stroke }
+                //stroke={this.state.focused ? styleTypes.focused.stroke : styleTypes.normal.stroke }
                 fontSize={32}
                 draggable={true}
+                name={'furnItem'}
             />
         );
     }
@@ -145,6 +137,8 @@ class FurnitureComponent extends React.Component {
                 onDragEnd={this.state.updateFurnItem}
                 onDblClick={this.state.removeFurnItem}
                 draggable={true}
+                onMouseOver={() => this.setFocus()}
+                onMouseOut={() => this.setDefault()}
             >
                 {furn_item}
             </Group>
