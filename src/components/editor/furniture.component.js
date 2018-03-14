@@ -13,6 +13,7 @@ class FurnitureComponent extends React.Component {
             y: props.y,
             item_id: props.item_id,
             furn_type: props.furn_type,
+            focused: true,
             updateFurnItem: props.updateFurnItem,
             removeFurnItem: props.removeFurnItem
         };
@@ -34,10 +35,12 @@ class FurnitureComponent extends React.Component {
     /* Interaction methods */
     setFocus() {
         changePointer('move');
+        this.setState({focused: true});
     }
 
     setDefault() {
         changePointer('default');
+        this.setState({focused: false});
     }
 
 
@@ -49,6 +52,10 @@ class FurnitureComponent extends React.Component {
                 fill={this.state.focused ? styleTypes.focused.fill : styleTypes.normal.fill }
                 stroke={this.state.focused ? styleTypes.focused.stroke : styleTypes.normal.stroke }
                 strokeWidth={this.state.focused ? styleTypes.focused.strokeWidth : styleTypes.normal.strokeWidth }
+                shadowColor={this.state.focused ? styleTypes.focused.shadowColor : styleTypes.normal.shadowColor}
+                shadowBlur={this.state.focused ? styleTypes.focused.shadowBlur : styleTypes.normal.shadowBlur}
+                shadowOpacity={this.state.focused ? styleTypes.focused.shadowOpacity : styleTypes.normal.shadowOpacity}
+                shadowOffset={this.state.focused ? styleTypes.focused.shadowOffset : styleTypes.normal.shadowOffset}
                 draggable={true}
                 name={'furnItem'}
             />
@@ -58,7 +65,7 @@ class FurnitureComponent extends React.Component {
     renderRect() {
         return(
             <Rect
-                width={50}
+                width={60}
                 height={30}
                 fill={this.state.focused ? styleTypes.focused.fill : styleTypes.normal.fill }
                 stroke={this.state.focused ? styleTypes.focused.stroke : styleTypes.normal.stroke }
@@ -85,8 +92,8 @@ class FurnitureComponent extends React.Component {
     renderPoster() {
         return(
             <Rect
-                width={40}
-                height={8}
+                width={60}
+                height={10}
                 fill={this.state.focused ? styleTypes.focused.stroke : styleTypes.normal.stroke }
                 stroke={this.state.focused ? styleTypes.focused.stroke : styleTypes.normal.stroke }
                 strokeWidth={this.state.focused ? styleTypes.focused.strokeWidth : styleTypes.normal.strokeWidth }
@@ -126,17 +133,20 @@ class FurnitureComponent extends React.Component {
             case 'trash':
                 furn_item = this.renderTrash();
                 break;
+            default:
+                furn_item = this.renderCircle();
+                break;
         }
 
         return(
             <Group
+                draggable={true}
                 x={this.state.x}
                 y={this.state.y}
                 id={this.state.item_id}
                 name={this.state.furn_type}
                 onDragEnd={this.state.updateFurnItem}
                 onDblClick={this.state.removeFurnItem}
-                draggable={true}
                 onMouseOver={() => this.setFocus()}
                 onMouseOut={() => this.setDefault()}
             >

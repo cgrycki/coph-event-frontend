@@ -1,6 +1,9 @@
 import React from 'react';
-import { Stage, Layer, Circle } from 'react-konva';
-import FurnitureComponent from './furniture/furniture.component';
+import { Stage, Layer } from 'react-konva';
+
+import FurnitureComponent from './furniture.component';
+import { haveIntersection } from '../../utils/';
+import styleTypes from '../../constants/styleTypes';
 
 export default class GUI extends React.Component {
 
@@ -19,7 +22,7 @@ export default class GUI extends React.Component {
     return (intersecting === null) ? callback(event) : null;
   }
 
-  handleInteraction(event, callback) {
+  handleInteraction(event, trueVal, falseVal) {
     /*
      * @method
      * @description Method to ~conditionally~ render a new item; if pos empty.
@@ -31,11 +34,47 @@ export default class GUI extends React.Component {
     let mousePos = canvas.getPointerPosition();
     let intersecting = canvas.getIntersection(mousePos);
 
-    return (intersecting === null) ? callback(event) : null;
+    return (intersecting === null) ? trueVal : falseVal;
+  }
+
+  handleDragMove(event) {
+    // Gather variables
+    let furnitureLayer = this.refs.furnitureLayer;
+    let target = event.target.getParent();
+    let targetRect = event.target.getClientRect();
+
+    // Move item to top so it's not occluded
+    target.moveToTop();
+
+    // Find intersecting shapes
+    furnitureLayer.children.each((group) => {        
+        if (group.getAttr('id') === target.getAttr('id')) {
+          // Skip self
+          return;
+        } else if (haveIntersection(group.getClientRect(), targetRect)) {
+          // Color 
+          group.findOne('.furnItem').setAttrs({
+            stroke: styleTypes.error.stroke,
+            fill: styleTypes.error.fill
+          });
+          target.findOne('.furnItem').setAttrs({
+            stroke: styleTypes.error.stroke,
+            fill: styleTypes.error.fill
+          });
+        } else { 
+          group.findOne('.furnItem').setAttrs({
+            stroke: styleTypes.normal.stroke,
+            fill: styleTypes.normal.fill
+          });
+          target.findOne('.furnItem').setAttrs({
+            stroke: styleTypes.focused.stroke,
+            fill: styleTypes.focused.fill
+          });
+        }
+    });
   }
 
   render() {
-    console.log(this);
     const furn_items = [
       ...this.props.circle,
       ...this.props.rect,
@@ -64,11 +103,15 @@ export default class GUI extends React.Component {
         ref={"konvaCanvas"}
         width={500}
         height={500}
-        //onContentClick={(event) => this.clickIntersects(event, this.props.addFurnItem)}
         onContentClick={(event) => this.clickIntersects(event, this.props.addFurnItem)}
       >
-        <Layer></Layer>
-        <Layer>{konva_items}</Layer>
+        <Layer ref={"floorplanLayer"} />
+        <Layer 
+          ref={"furnitureLayer"}
+          onDragMove={this.handleDragMove.bind(this)}
+        >
+          {konva_items}
+        </Layer>
       </Stage>
     );
   }

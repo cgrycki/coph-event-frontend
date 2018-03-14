@@ -1,6 +1,4 @@
-import React from 'react';
 import { connect } from 'react-redux';
-
 import GUI from '../components/editor/gui.component';
 import { addFurnItem, updateFurnItem, removeFurnItem, updateFurnFocus } from '../actions';
 import { canvasClickEvent, getClickedShapeAttrs } from '../utils';
