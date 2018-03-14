@@ -35,8 +35,15 @@ export default class GUI extends React.Component {
         onDblClick={this.props.removeFurnItem}
         // onMouseEnter style.cursor = 'crosshair'
       />);
+      /*return (<CircleFurn
+          id={d.item_id}
+          x={d.x}
+          y={d.y} 
+          updateFurnItem={this.props.updateFurnItem}
+          removeFurnItem={this.props.removeFurnItem}
+      />);*/
     });
-    
+
     return (
       <Stage
         ref={"konvaCanvas"}
