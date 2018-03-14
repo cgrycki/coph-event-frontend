@@ -13,7 +13,7 @@ import fieldTypes from '../constants/fieldTypes';
 class FormPanel extends Component {
   render() {
     // Compute the fields
-    let { fields, onFieldBlur } = this.props;
+    let { onFieldBlur } = this.props;
     let fieldsMapped = fieldTypes.map(field => {
       return (
         <FieldComponent

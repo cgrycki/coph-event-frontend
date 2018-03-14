@@ -11,12 +11,11 @@ const GuiButton = (props) => {
   let btnActive = props.selectedVal === props.value;
   return (
     <Button
-      outline
+      outline={btnActive}
       size="sm"
       className="guiBtn"
       active={btnActive}
       color={btnActive ? 'primary' : 'link'}
-      outline={btnActive}
       onClick={() => props.onClick(props.value)}
       id={props.value + '-toolbar-radio'}
     >
