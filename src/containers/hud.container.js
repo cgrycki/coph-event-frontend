@@ -1,6 +1,4 @@
-import React from 'react';
 import { connect } from 'react-redux';
-
 import { initialState } from '../store/initialStore';
 import HUD from '../components/editor/hud.component';
 
