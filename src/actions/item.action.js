@@ -1,14 +1,13 @@
 /* Actions to update our input form. */
 import { itemActions } from '../constants/actionTypes';
 
-export const addFurnItem = (furn_type, x, y) => ({
+export const addFurnItem = ({x, y}) => ({
   type: itemActions.ADD_FURN_ITEM,
-  furn_type: furn_type,
   x: x,
   y: y
 });
 
-export const updateFurnItem = (furn_type, item_id, x, y) => ({
+export const updateFurnItem = ({furn_type, item_id, x, y}) => ({
   type: itemActions.UPD_FURN_ITEM,
   furn_type: furn_type,
   item_id: item_id,
@@ -16,13 +15,13 @@ export const updateFurnItem = (furn_type, item_id, x, y) => ({
   y: y
 });
 
-export const removeFurnItem = (furn_type, item_id) => ({
+export const removeFurnItem = ({furn_type, item_id}) => ({
   type: itemActions.RM_FURN_ITEM,
   furn_type: furn_type,
   item_id: item_id
 });
 
-export const updateFurnFocus = (item_id) => ({
+export const updateFurnFocus = ({item_id}) => ({
   type: itemActions.UPD_FURN_FOCUS,
   item_id: item_id
-})
+});

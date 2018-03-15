@@ -10,7 +10,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import reducers from './reducers';
 // actions
 
-import App from './containers/app.container';
+import App from './components/app.component';
 import registerServiceWorker from './registerServiceWorker';
 
 // create store
@@ -19,42 +19,6 @@ const store = createStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
-store.dispatch({type: 'UPD_FORM', name: 'eventName', value: 'test name'});
-//store.dispatch({type: 'UPD_FORM', name: 'chairsPerTable', value: '8'});
-
-store.dispatch({
-  type: 'ADD_FURN_ITEM', 
-  furn_type: 'circle',
-  x: 50,
-  y: 50
-});
-store.dispatch({
-  type: 'UPD_FURN_ITEM',
-  item_id: 'circle0',
-  furn_type: 'circle',
-  x: 150,
-  y: 150
-});
-
-store.dispatch({
-  type: 'ADD_FURN_ITEM', 
-  furn_type: 'circle',
-  x: 0,
-  y: 0
-});
-
-store.dispatch({
-  type: 'ADD_FURN_ITEM', 
-  furn_type: 'circle',
-  x: Math.random() * 100,
-  y: Math.random() * 100
-});
-
-store.dispatch({
-  type: 'RM_FURN_ITEM',
-  furn_type: 'circle',
-  item_id: 'circle1'
-});
 
 ReactDOM.render(
   <Provider store={store}>
