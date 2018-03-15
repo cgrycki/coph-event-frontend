@@ -60,7 +60,7 @@ const editorReducer = (state=initialFormState, action) => {
       }
 
     case (itemActions.RM_FURN_ITEM):
-      var { furn_type, item_id } = action;
+      var { item_id } = action;
       // Filter out item and unfocus remaining.
       const furnItemsRemoved = filterById(state.furn_items, item_id);
 
