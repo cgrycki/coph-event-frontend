@@ -42,17 +42,15 @@ const editorReducer = (state=initialFormState, action) => {
       const incFurnID = state.furn_ids[furn_type] + 1;        // 0 + 1 => 1
 
       // Create and add the item to existing furniture array
-      const furnToAdd = { item_id, furn_type, x, y, focused: false };
-      const furnAdded = [...state.furn_items[furn_type], furnToAdd];
-      const itemsAfterAdd = {
-        ...state.furn_items, [furn_type]: furnAdded
-      };
+      const furnToAdd = { item_id, furn_type, x, y, focused: true };
+      const furnAdded = [...state.furn_items, furnToAdd];
 
       return {
         ...state,
-        furn_ids: { ...state.furn_ids, [furn_type]: incFurnID },
-        furn_items: itemsAfterAdd,
-        calculated: calculateBusinessLogic(itemsAfterAdd, state.chairsPerTable)
+        furn_ids      : { ...state.furn_ids, [furn_type]: incFurnID },
+        furn_items    : furnAdded,
+        focusedFurnId : item_id,
+        calculated    : calculateBusinessLogic(furnAdded, state.chairsPerTable)
       }
 
     case (itemActions.UPD_FURN_ITEM):
@@ -83,6 +81,10 @@ const editorReducer = (state=initialFormState, action) => {
       };
     
     case (itemActions.UPD_FURN_FOCUS):
+
+
+
+
       return {...state, focusedFurnId: action.item_id}
     
     case (toolbarActions.SET_SELECT_FURN):

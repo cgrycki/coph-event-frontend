@@ -13,7 +13,7 @@ class FurnitureComponent extends React.Component {
             y: props.y,
             item_id: props.item_id,
             furn_type: props.furn_type,
-            focused: true,
+            focused: props.focusedFurnId === props.item_id,
             updateFurnItem: props.updateFurnItem,
             removeFurnItem: props.removeFurnItem
         };
@@ -145,10 +145,10 @@ class FurnitureComponent extends React.Component {
                 y={this.state.y}
                 id={this.state.item_id}
                 name={this.state.furn_type}
-                onDragEnd={this.state.updateFurnItem}
-                onDblClick={this.state.removeFurnItem}
-                onMouseOver={() => this.setFocus()}
-                onMouseOut={() => this.setDefault()}
+                //onDragEnd={this.state.updateFurnItem}
+                //onDblClick={this.state.removeFurnItem}
+                //onMouseOver={() => this.setFocus()}
+                //onMouseOut={() => this.setDefault()}
             >
                 {furn_item}
             </Group>
