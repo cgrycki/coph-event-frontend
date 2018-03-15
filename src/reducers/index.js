@@ -4,8 +4,6 @@
  */
 
 import { combineReducers } from 'redux';
-
-import { initialState } from '../store/initialStore';
 import editorReducer from './editor.reducer';
 import formReducer from './form.reducer';
 

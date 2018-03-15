@@ -1,5 +1,4 @@
-import React from 'react';
-import { connect, Dispatch } from 'react-redux';
+import { connect } from 'react-redux';
 
 import { initialState } from '../store/initialStore';
 import Toolbar from '../components/editor/toolbar.component';

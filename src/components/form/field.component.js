@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormFeedback, FormGroup, FormText, Input, Col, Label } from 'reactstrap';
+import { FormFeedback, FormGroup, Input, Col, Label } from 'reactstrap';
 
 const FieldComponent = (props) => {
   /*
