@@ -3,7 +3,7 @@ import { Stage, Layer } from 'react-konva';
 
 import FurnitureComponent from './furniture.component';
 import { haveIntersection } from '../../utils/';
-import styleTypes from '../../constants/styleTypes';
+import { styleTypes } from '../../constants';
 
 export default class GUI extends React.Component {
 

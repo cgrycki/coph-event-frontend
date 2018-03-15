@@ -2,7 +2,7 @@ import React from 'react';
 import { Group, Circle, Rect, Line, Text } from 'react-konva';
 
 import { changePointer } from '../../utils';
-import styleTypes from '../../constants/styleTypes';
+import { styleTypes } from '../../constants';
 
 class FurnitureComponent extends React.Component {
     constructor(props) {

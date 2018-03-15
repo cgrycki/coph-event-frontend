@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button, ButtonGroup} from 'reactstrap';
+import { funitureTypes, furnitureTypes } from '../../constants';
 
 const GuiButton = (props) => {
   /* Creates a button that triggers editor state changes via onClick(). */
@@ -26,13 +27,7 @@ const GuiButton = (props) => {
 
 const Toolbar = (props) => {
 
-  let furnitureBtns = [
-    { value: 'circle', label: 'Circle', icon: '' },
-    { value: 'rect', label: 'Rectangle', icon: '' },
-    { value: 'bar', label: 'Bar', icon: '' },
-    { value: 'poster', label: 'Posters', icon: '' },
-    { value: 'trash', label: 'Trash Can', icon: '' }
-  ].map((btn, i) => (
+  let furnitureBtns = furnitureTypes.map((btn, i) => (
     <GuiButton
       key={"toolbar-radio-" + i}
       selectedVal={props.selectedFurnType}

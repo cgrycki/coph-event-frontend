@@ -6,9 +6,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Card, CardBody, Button } from 'reactstrap';
+
 import FieldComponent from '../components/form/field.component';
 import { updateForm, submitForm } from '../actions';
-import fieldTypes from '../constants/fieldTypes';
+import { fieldTypes } from '../constants';
 
 class FormPanel extends Component {
   render() {
