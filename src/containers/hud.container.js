@@ -1,10 +1,8 @@
-import React from 'react';
 import { connect } from 'react-redux';
-
 import { initialState } from '../store/initialStore';
 import HUD from '../components/editor/hud.component';
 
-export function mapStateToProps(state=initialState) {
+export function mapStateToProps(state=initialState.calculated) {
   return {...state.editorReducer.calculated};
 }
 

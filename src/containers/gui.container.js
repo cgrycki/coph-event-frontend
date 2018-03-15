@@ -1,6 +1,4 @@
-import React from 'react';
 import { connect } from 'react-redux';
-
 import GUI from '../components/editor/gui.component';
 import { addFurnItem, updateFurnItem, removeFurnItem, updateFurnFocus } from '../actions';
 import { canvasClickEvent, getClickedShapeAttrs } from '../utils';
@@ -10,7 +8,7 @@ export const mapStateToProps = (state) => {
     selectedFurnType: state.editorReducer.selectedFurnType,
     chairsPerTable: state.editorReducer.chairsPerTable,
     focusedFurnId: state.editorReducer.focusedFurnId,
-    ...state.editorReducer.furn_ids,
+    furn_ids: state.editorReducer.furn_ids,
     ...state.editorReducer.furn_items
   };
 }

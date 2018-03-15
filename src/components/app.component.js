@@ -1,8 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Navbar, NavbarBrand } from 'reactstrap';
-
-import FormContainer from './form.container';
-import Editor from '../components/editor/editor.component';
+import { FormContainer, ToolbarContainer, HudContainer, GuiContainer } from '../containers';
 
 const App = () => {
   return (
@@ -20,7 +18,9 @@ const App = () => {
           <FormContainer />
         </Col>
         <Col xs={12} sm={6} lg={8}>
-          <Editor />
+          <ToolbarContainer/>
+          <HudContainer/>
+          <GuiContainer/>
         </Col>
       </Row>
     </Container>

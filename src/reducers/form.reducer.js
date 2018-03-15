@@ -23,8 +23,7 @@ function submitFormReducer(state=initialState.forms.validations, action) {
   /*
    *
    */
-  let { type, name } = action;
-  switch (type) {
+  switch (action.type) {
     case formActions.SUBMIT_FORM:
       console.log('button clicked!');
       return {

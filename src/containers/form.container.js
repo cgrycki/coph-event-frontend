@@ -5,7 +5,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Form, Card, CardHeader, CardBody, Button } from 'reactstrap';
+import { Form, Card, CardBody, Button } from 'reactstrap';
 import FieldComponent from '../components/form/field.component';
 import { updateForm, submitForm } from '../actions';
 import fieldTypes from '../constants/fieldTypes';
@@ -13,7 +13,7 @@ import fieldTypes from '../constants/fieldTypes';
 class FormPanel extends Component {
   render() {
     // Compute the fields
-    let { fields, onFieldBlur } = this.props;
+    let { onFieldBlur } = this.props;
     let fieldsMapped = fieldTypes.map(field => {
       return (
         <FieldComponent
@@ -29,10 +29,11 @@ class FormPanel extends Component {
 
     return (
       <Card>
-        <CardHeader tag="h5">Create an Event</CardHeader>
         <CardBody>
+          <br/>
           <Form>
             {fieldsMapped}
+            <br/>
             <Button
               block={true}
               /*disabled => validation state */
