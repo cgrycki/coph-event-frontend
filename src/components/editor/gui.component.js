@@ -7,34 +7,25 @@ import { styleTypes } from '../../constants';
 
 export default class GUI extends React.Component {
 
-  clickIntersects(event, callback) {
-    /*
-     * @method
-     * @description Method to ~conditionally~ render a new item; if pos empty.
-     * @param {event} - HTML click event triggered by Konva Stage (canvas click).
-     * @param {callback} - Function to call if the pointer position is empty.
-     * @returns Calls function if there is no intersection.
-     */
-    let canvas = this.refs.konvaCanvas.getStage();
-    let mousePos = canvas.getPointerPosition();
-    let intersecting = canvas.getIntersection(mousePos);
-
-    return (intersecting === null) ? callback(event) : null;
-  }
-
   handleClick(event) {
     /* Delegates a click action to Redux actions */
     let canvas = this.refs.konvaCanvas.getStage();
+    let focusedFurnId = this.props.focusedFurnId;
     let mousePos = canvas.getPointerPosition();
     let intersecting = canvas.getIntersection(mousePos);
 
-    if (intersecting) {
-      this.props.updateFurnFocus(getClickedShapeAttrs(event));
-    } else {
+    // Empty position -> add item
+    if (!intersecting) {
       this.props.addFurnItem(mousePos);
     }
-    
-    return null;
+    // If click intersects a shape, either change focus or delete focused.
+    else {
+      let intersectionId = intersecting.parent.getAttr('id');
+      
+      return (focusedFurnId === intersectionId) ?
+        this.props.removeFurnItem(getClickedShapeAttrs(event)) :
+        this.props.updateFurnFocus(getClickedShapeAttrs(event));
+    }
   }
 
   handleDragMove(event) {
@@ -93,7 +84,6 @@ export default class GUI extends React.Component {
         ref={"konvaCanvas"}
         width={500}
         height={500}
-        //onContentClick={(event) => this.clickIntersects(event, this.props.addFurnItem)}
         onContentClick={(event) => this.handleClick(event)}
       >
         <Layer ref={"floorplanLayer"} />
