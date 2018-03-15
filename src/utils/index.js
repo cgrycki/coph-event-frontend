@@ -79,6 +79,27 @@ export const getClickedShapeAttrs = (event) => {
   }; 
 }
 
+export const getDragShapeAttrs = (event) => {
+  /*
+   * @method
+   * @description Get the X, Y, and furniture type of a dragged Konva shape.
+   * @param {event} - Event fired from an onDrag() event.
+   * @returns {x, y, furn_type} of dragged shape.
+   */
+  event.evt.preventDefault();
+  event.cancelBubble = true;
+
+  let shape = event.currentTarget;
+  let shapeAttrs = shape.getAttrs();
+
+  return {
+    x: shapeAttrs.x,
+    y: shapeAttrs.y,
+    furn_type: shapeAttrs.name,
+    item_id: shapeAttrs.id
+  }; 
+}
+
 export const haveIntersection = (r1, r2) => {
   /*
    * 

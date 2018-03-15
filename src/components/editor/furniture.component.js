@@ -1,7 +1,7 @@
 import React from 'react';
 import { Group, Circle, Rect, Line, Text } from 'react-konva';
 
-import { changePointer } from '../../utils';
+import { changePointer, getDragShapeAttrs } from '../../utils';
 import { styleTypes } from '../../constants';
 
 class Furniture extends React.Component {
@@ -13,9 +13,7 @@ class Furniture extends React.Component {
       y: props.y,
       item_id: props.item_id,
       furn_type: props.furn_type,
-      focused: props.focusedFurnId === props.item_id,
-      updateFurnItem: props.updateFurnItem,
-      removeFurnItem: props.removeFurnItem
+      focused: props.focusedFurnId === props.item_id
     };
   }
 
@@ -29,7 +27,6 @@ class Furniture extends React.Component {
       focused: nextProps.focusedFurnId === this.state.item_id
     });
   }
-
   //componentWillUpdate(nextProps, nextState) {}
 
 
@@ -146,7 +143,7 @@ class Furniture extends React.Component {
         y={this.state.y}
         id={this.state.item_id}
         name={this.state.furn_type}
-        //onDragEnd={this.state.updateFurnItem}
+        onDragEnd={(event) => this.props.updateFurnItem(getDragShapeAttrs(event))}
         //onDblClick={this.state.removeFurnItem}
         //onMouseOver={() => this.setFocus()}
         //onMouseOut={() => this.setDefault()}
