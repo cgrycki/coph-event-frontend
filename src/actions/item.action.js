@@ -15,9 +15,8 @@ export const updateFurnItem = ({furn_type, item_id, x, y}) => ({
   y: y
 });
 
-export const removeFurnItem = ({furn_type, item_id}) => ({
+export const removeFurnItem = ({item_id}) => ({
   type: itemActions.RM_FURN_ITEM,
-  furn_type: furn_type,
   item_id: item_id
 });
 

@@ -1,40 +1,31 @@
 import React from 'react';
 import { Stage, Layer } from 'react-konva';
 
-import FurnitureComponent from './furniture.component';
-import { haveIntersection } from '../../utils/';
+import FurnitureContainer from '../../containers/furniture.container';
+import { canvasClickPos, haveIntersection, getClickedShapeAttrs } from '../../utils/';
 import { styleTypes } from '../../constants';
 
 export default class GUI extends React.Component {
 
-  clickIntersects(event, callback) {
-    /*
-     * @method
-     * @description Method to ~conditionally~ render a new item; if pos empty.
-     * @param {event} - HTML click event triggered by Konva Stage (canvas click).
-     * @param {callback} - Function to call if the pointer position is empty.
-     * @returns Calls function if there is no intersection.
-     */
+  handleClick(event) {
+    /* Delegates a click action to Redux actions */
     let canvas = this.refs.konvaCanvas.getStage();
+    let focusedFurnId = this.props.focusedFurnId;
     let mousePos = canvas.getPointerPosition();
     let intersecting = canvas.getIntersection(mousePos);
 
-    return (intersecting === null) ? callback(event) : null;
-  }
-
-  handleInteraction(event, trueVal, falseVal) {
-    /*
-     * @method
-     * @description Method to ~conditionally~ render a new item; if pos empty.
-     * @param {event} - HTML click event triggered by Konva Stage (canvas click).
-     * @param {callback} - Function to call if the pointer position is empty.
-     * @returns Calls function if there is no intersection.
-     */
-    let canvas = this.refs.konvaCanvas.getStage();
-    let mousePos = canvas.getPointerPosition();
-    let intersecting = canvas.getIntersection(mousePos);
-
-    return (intersecting === null) ? trueVal : falseVal;
+    // Empty position -> add item
+    if (!intersecting) {
+      this.props.addFurnItem(mousePos);
+    }
+    // If click intersects a shape, either change focus or delete focused.
+    else {
+      let intersectionId = intersecting.parent.getAttr('id');
+      
+      return (focusedFurnId === intersectionId) ?
+        this.props.removeFurnItem(getClickedShapeAttrs(event)) :
+        this.props.updateFurnFocus(getClickedShapeAttrs(event));
+    }
   }
 
   handleDragMove(event) {
@@ -75,25 +66,15 @@ export default class GUI extends React.Component {
   }
 
   render() {
-    const furn_items = [
-      ...this.props.circle,
-      ...this.props.rect,
-      ...this.props.bar,
-      ...this.props.poster,
-      ...this.props.trash
-    ];
-
-    const konva_items = furn_items.map((d, i) => {
+    const konva_items = this.props.furn_items.map((d, i) => {
       return (
-        <FurnitureComponent 
+        <FurnitureContainer 
           key={d.item_id + '-Component'}
           item_id={d.item_id}
           furn_type={d.furn_type}
-          focused={d.focused}
+          focusedFurnId={this.props.focusedFurnId}
           x={d.x}
           y={d.y}
-          updateFurnItem={this.props.updateFurnItem}
-          removeFurnItem={this.props.removeFurnItem}
         />
       );
     });
@@ -103,11 +84,10 @@ export default class GUI extends React.Component {
         ref={"konvaCanvas"}
         width={500}
         height={500}
-        onContentClick={(event) => this.clickIntersects(event, this.props.addFurnItem)}
+        onContentClick={(event) => this.handleClick(event)}
       >
         <Layer ref={"floorplanLayer"} />
-        <Layer 
-          ref={"furnitureLayer"}
+        <Layer ref={"furnitureLayer"}
           onDragMove={this.handleDragMove.bind(this)}
         >
           {konva_items}
