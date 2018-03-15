@@ -13,7 +13,8 @@ class Furniture extends React.Component {
       y: props.y,
       item_id: props.item_id,
       furn_type: props.furn_type,
-      focused: props.focusedFurnId === props.item_id
+      focused: props.focusedFurnId === props.item_id,
+      chairsPerTable: props.chairsPerTable
     };
   }
 
@@ -22,13 +23,14 @@ class Furniture extends React.Component {
     // shouldComponentUpdate()
     // componentWillUpdate()
     // componentDidUpdate()
+    // componentWillUpdate()
+
   componentWillReceiveProps(nextProps) {
     this.setState({
-      focused: nextProps.focusedFurnId === this.state.item_id
+      focused: nextProps.focusedFurnId === this.state.item_id,
+      chairsPerTable: nextProps.chairsPerTable
     });
   }
-  //componentWillUpdate(nextProps, nextState) {}
-
 
   /* Interaction methods */
   setFocus() {
@@ -40,7 +42,6 @@ class Furniture extends React.Component {
     changePointer('default');
     this.setState({focused: false});
   }
-
 
   /* Furniture items */
   renderCircle() {
@@ -105,10 +106,24 @@ class Furniture extends React.Component {
     return (
       <Text
         text={"🗑️"}
-        //stroke={this.state.focused ? styleTypes.focused.stroke : styleTypes.normal.stroke }
         fontSize={32}
         draggable={true}
         name={'furnItem'}
+      />
+    );
+  }
+
+  renderCloseBtn() {
+    return (
+      <Text
+        text={"✖"}
+        fill={styleTypes.error.stroke}
+        stroke={styleTypes.error.stroke}
+        fontSize={18}
+        offsetX={-20}
+        offsetY={25}
+        draggable={true}
+        name={'closeBtn'}
       />
     );
   }
@@ -144,7 +159,6 @@ class Furniture extends React.Component {
         id={this.state.item_id}
         name={this.state.furn_type}
         onDragEnd={(event) => this.props.updateFurnItem(getDragShapeAttrs(event))}
-        //onDblClick={this.state.removeFurnItem}
         //onMouseOver={() => this.setFocus()}
         //onMouseOut={() => this.setDefault()}
       >
