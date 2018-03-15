@@ -11,7 +11,8 @@ const initialFormState = {
   canvas_props: initialState.editor.canvas_props,
   chairsPerTable: initialState.editor.chairsPerTable,
   selectedFurnType: initialState.editor.selectedFurnType,
-  focusedFurnId: initialState.editor.focusedFurnId
+  focusedFurnId: initialState.editor.focusedFurnId,
+  calculated: initialState.editor.calculated
 }
 
 function filterAndUnfocus(furn_items, furn_type, item_id) {
