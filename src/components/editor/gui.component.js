@@ -1,7 +1,7 @@
 import React from 'react';
 import { Stage, Layer } from 'react-konva';
 
-import FurnitureComponent from './furniture.component';
+import FurnitureContainer from '../../containers/furniture.container';
 import { canvasClickPos, haveIntersection, getClickedShapeAttrs } from '../../utils/';
 import { styleTypes } from '../../constants';
 
@@ -29,8 +29,6 @@ export default class GUI extends React.Component {
     let intersecting = canvas.getIntersection(mousePos);
 
     if (intersecting) {
-      console.log(event);
-      console.log(getClickedShapeAttrs(event));
       this.props.updateFurnFocus(getClickedShapeAttrs(event));
     } else {
       this.props.addFurnItem(mousePos);
@@ -79,15 +77,13 @@ export default class GUI extends React.Component {
   render() {
     const konva_items = this.props.furn_items.map((d, i) => {
       return (
-        <FurnitureComponent 
+        <FurnitureContainer 
           key={d.item_id + '-Component'}
           item_id={d.item_id}
           furn_type={d.furn_type}
           focusedFurnId={this.props.focusedFurnId}
           x={d.x}
           y={d.y}
-          updateFurnItem={this.props.updateFurnItem}
-          removeFurnItem={this.props.removeFurnItem}
         />
       );
     });
@@ -101,8 +97,7 @@ export default class GUI extends React.Component {
         onContentClick={(event) => this.handleClick(event)}
       >
         <Layer ref={"floorplanLayer"} />
-        <Layer 
-          ref={"furnitureLayer"}
+        <Layer ref={"furnitureLayer"}
           onDragMove={this.handleDragMove.bind(this)}
         >
           {konva_items}

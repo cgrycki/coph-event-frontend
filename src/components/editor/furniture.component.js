@@ -4,7 +4,7 @@ import { Group, Circle, Rect, Line, Text } from 'react-konva';
 import { changePointer } from '../../utils';
 import { styleTypes } from '../../constants';
 
-class FurnitureComponent extends React.Component {
+class Furniture extends React.Component {
     constructor(props) {
         super(props);
 
@@ -24,13 +24,14 @@ class FurnitureComponent extends React.Component {
         // shouldComponentUpdate()
         // componentWillUpdate()
         // componentDidUpdate()
-        /* componetWillReceiveProps(nextProps) {
-            // Sync furniture item to props handed from Redux
-            this.setState({
-                x: nextProps.x,
-                y: nextProps.y
-            });
-        }*/
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            focused: nextProps.focusedFurnId === this.state.item_id
+        });
+    }
+
+    //componentWillUpdate(nextProps, nextState) {}
+
 
     /* Interaction methods */
     setFocus() {
@@ -156,4 +157,4 @@ class FurnitureComponent extends React.Component {
     }
 }
 
-export default FurnitureComponent;
+export default Furniture;

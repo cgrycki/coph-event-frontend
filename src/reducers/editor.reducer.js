@@ -15,20 +15,10 @@ const initialFormState = {
   calculated: initialState.editor.calculated
 }
 
-function filterAndUnfocus(furn_items, furn_type, item_id) {
-  let furn_type_items = [...furn_items[furn_type]];         // Grab the array from the furn_items object
-  let filtered = filterItemsById(furn_type_items, item_id); // Filter the items
-  let unfocused = unfocusItems(filtered);                   // Set the focused property to false
-  return unfocused;
-}
-
-const filterItemsById = (furn_items, item_id) => {
-  return furn_items.filter(d => d.item_id !== item_id);     // Filters object in array by item_id
-} 
-
-const unfocusItems= (furn_items) => {
-  return furn_items.map(d => ({ ...d, focused: false}));    // Sets the focused property on nested array to be false
-}
+const filterById = (furn_items, item_id) => {
+  // Filters object in array by item_id
+  return furn_items.filter(d => d.item_id !== item_id);
+};
 
 const editorReducer = (state=initialFormState, action) => {
   switch (action.type) {
@@ -57,35 +47,34 @@ const editorReducer = (state=initialFormState, action) => {
       var { furn_type, item_id, x, y } = action;
       
       // Create updated item using old item's attributes.
-      const updatedItem = { item_id, furn_type, x, y, focused: true };
+      const updatedItem = { item_id, furn_type, x, y };
       
       // Filter items, set them all to unfocused, and add updated items.
-      const filteredAndUnfocused = filterAndUnfocus(state.furn_items, furn_type, item_id);
-      const furnUpdated = [...filteredAndUnfocused, updatedItem]
+      const filtered = filterById(state.furn_items, item_id);
+      const furnUpdated = [...filtered, updatedItem];
       
       return {
         ...state,
-        furn_items: { ...state.furn_items, [furn_type]: furnUpdated }
+        furn_items: furnUpdated,
+        focusedFurnId: item_id
       }
 
     case (itemActions.RM_FURN_ITEM):
       var { furn_type, item_id } = action;
       // Filter out item and unfocus remaining.
-      const furnItemsRemoved = filterAndUnfocus(state.furn_items, furn_type, item_id);
-      const newFurnItems = { ...state.furn_items, [furn_type]: furnItemsRemoved };
+      const furnItemsRemoved = filterById(state.furn_items, item_id);
 
       return {
         ...state,
-        furn_items: newFurnItems,
-        calculated: calculateBusinessLogic(newFurnItems, state.chairsPerTable)
+        furn_items: furnItemsRemoved,
+        focusedFurnId: '',
+        calculated: calculateBusinessLogic(furnItemsRemoved, state.chairsPerTable)
       };
     
     case (itemActions.UPD_FURN_FOCUS):
-
-
-
-
-      return {...state, focusedFurnId: action.item_id}
+      // If the currently selected item is focused, unselect it.
+      const toggleFocus = (state.focusedFurnId === action.item_id) ? '' : action.item_id;
+      return {...state, focusedFurnId: toggleFocus}
     
     case (toolbarActions.SET_SELECT_FURN):
       return { ...state, selectedFurnType: action.selectedFurnType };

@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import GUI from '../components/editor/gui.component';
 import { addFurnItem, updateFurnItem, removeFurnItem, updateFurnFocus } from '../actions';
-import { canvasClickPos, getClickedShapeAttrs } from '../utils';
 
 export const mapStateToProps = (state) => {
   return {
@@ -12,16 +11,7 @@ export const mapStateToProps = (state) => {
     furn_items: state.editorReducer.furn_items
   };
 }
-/*
-export const mapDispatchToProps = (dispatch) => {
-  return {
-    addFurnItem:    (event) => dispatch(addFurnItem(canvasClickPos(event))),
-    updateFurnItem: (event) => dispatch(updateFurnItem(getClickedShapeAttrs(event))),
-    removeFurnItem: (event) => dispatch(removeFurnItem(getClickedShapeAttrs(event))),
-    updateFurnFocus:(event) => dispatch(updateFurnFocus(getClickedShapeAttrs(event)))
-  };
-}
-*/
+
 export const mapDispatchToProps = (dispatch) => {
   return {
     addFurnItem:    (value) => dispatch(addFurnItem(value)),
