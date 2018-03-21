@@ -5,6 +5,8 @@ import FurnitureContainer from '../../containers/furniture.container';
 import { canvasClickPos, haveIntersection, getClickedShapeAttrs } from '../../utils/';
 import { styleTypes } from '../../constants';
 
+import FloorplanFunctions from '../../utils/point.utils';
+
 export default class GUI extends React.Component {
   constructor(props) {
     super(props);
@@ -16,6 +18,22 @@ export default class GUI extends React.Component {
       offsetX: 0,
       offsetY: 0
     };
+  }
+
+  componentDidMount() {
+    console.log('mounted!');
+    const canvas = this.refs.konvaCanvas.getStage();
+    const container = canvas.getAttr('container');
+    const containerWidth = container.clientWidth;
+
+    const floorplanFX = new FloorplanFunctions(containerWidth);
+
+    console.log(canvas);
+    // Set updated dimensions
+    this.setState({
+      width: floorplanFX.canvasWidth,
+      height: floorplanFX.canvasHeight
+    });
   }
 
   handleClick(event) {
