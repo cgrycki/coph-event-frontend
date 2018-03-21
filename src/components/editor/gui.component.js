@@ -6,6 +6,17 @@ import { canvasClickPos, haveIntersection, getClickedShapeAttrs } from '../../ut
 import { styleTypes } from '../../constants';
 
 export default class GUI extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      width: 500,
+      height: 500,
+      scaleX: 1,
+      scaleY: 1,
+      offsetX: 0,
+      offsetY: 0
+    };
+  }
 
   handleClick(event) {
     /* Delegates a click action to Redux actions */
@@ -82,8 +93,8 @@ export default class GUI extends React.Component {
     return (
       <Stage
         ref={"konvaCanvas"}
-        width={500}
-        height={500}
+        width={this.state.width}
+        height={this.state.height}
         onContentClick={(event) => this.handleClick(event)}
       >
         <Layer ref={"floorplanLayer"} />
