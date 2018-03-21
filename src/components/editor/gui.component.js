@@ -6,6 +6,7 @@ import { canvasClickPos, haveIntersection, getClickedShapeAttrs } from '../../ut
 import { styleTypes } from '../../constants';
 
 import FloorplanFunctions from '../../utils/point.utils';
+import Floorplan from './floorplan.component';
 
 export default class GUI extends React.Component {
   constructor(props) {
@@ -21,14 +22,12 @@ export default class GUI extends React.Component {
   }
 
   componentDidMount() {
-    console.log('mounted!');
     const canvas = this.refs.konvaCanvas.getStage();
     const container = canvas.getAttr('container');
     const containerWidth = container.clientWidth;
 
     const floorplanFX = new FloorplanFunctions(containerWidth);
 
-    console.log(canvas);
     // Set updated dimensions
     this.setState({
       width: floorplanFX.canvasWidth,
@@ -114,8 +113,11 @@ export default class GUI extends React.Component {
         width={this.state.width}
         height={this.state.height}
         onContentClick={(event) => this.handleClick(event)}
-      >
-        <Layer ref={"floorplanLayer"} />
+      > 
+        <Floorplan 
+          width={this.state.width}
+          height={this.state.height}
+        />
         <Layer ref={"furnitureLayer"}
           onDragMove={this.handleDragMove.bind(this)}
         >
