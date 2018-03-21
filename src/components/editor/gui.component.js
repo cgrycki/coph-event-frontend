@@ -2,7 +2,7 @@ import React from 'react';
 import { Stage, Layer } from 'react-konva';
 
 import FurnitureContainer from '../../containers/furniture.container';
-import { haveIntersection, getClickedShapeAttrs } from '../../utils/';
+import { changePointer, haveIntersection, getClickedShapeAttrs } from '../../utils/';
 import { styleTypes } from '../../constants';
 
 import FloorplanFunctions from '../../utils/point.utils';
@@ -16,14 +16,14 @@ export default class GUI extends React.Component {
       height: 500,
       scaleX: 1,
       scaleY: 1,
-      offsetX: 0,
-      offsetY: 0,
       x: 0,
-      y: 0
+      y: 0,
+      floorplanFX: null
     };
   }
 
   componentDidMount() {
+    /* Resizes Konva canvas to div size, retaining floorplan aspect ratio. */
     const canvas = this.refs.konvaCanvas.getStage();
     const container = canvas.getAttr('container');
     const containerWidth = container.clientWidth;
@@ -33,7 +33,8 @@ export default class GUI extends React.Component {
     // Set updated dimensions
     this.setState({
       width: floorplanFX.canvasWidth,
-      height: floorplanFX.canvasHeight
+      height: floorplanFX.canvasHeight,
+      floorplanFX
     });
   }
 
@@ -47,21 +48,36 @@ export default class GUI extends React.Component {
     return {x: x, y: y};
   }
 
+  handleMouseAppearance() {
+    /* Changes mouse pointer to give user affordances. */
+    let canvas = this.refs.konvaCanvas.getStage();
+    let mousePos = this.getScaledPos();
+
+    // Our conditionals
+    let validPosition = this.state.floorplanFX.ptInPolygon(mousePos);
+    let intersecting = canvas.getIntersection(mousePos);
+    
+    // Pointer to select if intersecting shape is not focused
+    let focusedFurnId = this.props.focusedFurnId;
+    
+    if (intersecting) changePointer('move');
+    else if (validPosition) changePointer('pointer')
+    else if (!validPosition) changePointer('not-allowed');
+  }
+
   handleClick(event) {
     /* Delegates a click action to Redux actions */
     let canvas = this.refs.konvaCanvas.getStage();
-    let focusedFurnId = this.props.focusedFurnId;
     let mousePos = this.getScaledPos();
+
+    let validPosition = this.state.floorplanFX.ptInPolygon(mousePos);
     let intersecting = canvas.getIntersection(mousePos);
 
-    // Empty position -> add item
-    if (!intersecting) {
-      this.props.addFurnItem(mousePos);
-    }
-    // If click intersects a shape, either change focus or delete focused.
-    else {
+    if (validPosition && !intersecting) this.props.addFurnItem(mousePos);
+    else if (validPosition && intersecting) {
       let intersectionId = intersecting.parent.getAttr('id');
-      
+      let focusedFurnId = this.props.focusedFurnId;
+
       return (focusedFurnId === intersectionId) ?
         this.props.removeFurnItem(getClickedShapeAttrs(event)) :
         this.props.updateFurnFocus(getClickedShapeAttrs(event));
@@ -158,12 +174,17 @@ export default class GUI extends React.Component {
     return (
       <Stage
         ref={"konvaCanvas"}
+        // Dimensions
         width={this.state.width}
         height={this.state.height}
         x={this.state.x}
         y={this.state.y}
         scaleX={this.state.scaleX}
         scaleY={this.state.scaleY}
+        // Change mouse on move, revert on leave
+        onContentMouseMove={() => this.handleMouseAppearance()}
+        onContentMouseOut={() => changePointer('default')}
+        // Handle clicks and zooms
         onContentClick={(event) => this.handleClick(event)}
         onContentWheel={(event) => this.handleZoom(event)}
       > 
@@ -171,7 +192,8 @@ export default class GUI extends React.Component {
           width={this.state.width}
           height={this.state.height}
         />
-        <Layer ref={"furnitureLayer"}
+        <Layer 
+          ref={"furnitureLayer"}
           onDragMove={this.handleDragMove.bind(this)}
         >
           {konva_items}
