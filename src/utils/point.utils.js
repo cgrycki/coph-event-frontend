@@ -4,15 +4,11 @@
  * the screen size. Relies on D3 for most of the scaling and mathemagic.
  */
 
-//import { polygonContains } from 'd3-polygon';
-//import { scaleLinear } from 'd3-scale';
-var d3Polygon = require('d3-polygon'),
-    polygonContains = d3Polygon.polygonContains;
-var d3Scale = require('d3-scale'),
-    scaleLinear = d3Scale.scaleLinear;
+import { polygonContains } from 'd3-polygon';
+import { scaleLinear } from 'd3-scale';
 
 // Hand traced polygon in Illustrator
-const goodPoly = [
+export const goodPoly = [
   [1227, 265],
   [1699, 367],
   [1740, 705],
@@ -38,7 +34,7 @@ const goodPoly = [
 const floorWidth = 2269,
       floorHeight = 1225;
 
-class FloorplanFunctions {
+export default class FloorplanFunctions {
   constructor(canvasWidth) {
     // OG dimensions
     this.floorWidth = 2269;
@@ -78,8 +74,15 @@ class FloorplanFunctions {
     return resizedPts;
   }
 
-  ptInPolygon(pt) {
-    return polygonContains(this.resizedPoly, pt);
+  ptInPolygon(pos) {
+    const ptFromPos = [pos.x, pos.y];
+    const inBounds = polygonContains(this.resizedPoly, ptFromPos);
+    console.log('called!');
+    if (inBounds) {
+      return pos;
+    } else {
+      return {x: 0, y: 0};
+    }
   }
 }
 
