@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux';
 import { initialState } from '../store/initialStore';
 import { itemActions, toolbarActions } from '../constants/actionTypes';
 import { calculateBusinessLogic } from '../utils'
