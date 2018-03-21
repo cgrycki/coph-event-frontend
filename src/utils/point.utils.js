@@ -38,61 +38,48 @@ const goodPoly = [
 const floorWidth = 2269,
       floorHeight = 1225;
 
-// Functions to create scales accoring to original floorplan size.      
-const makeXScale = (width) => {
-  return scaleLinear().domain([0, floorWidth]).range([0, width]);
+class FloorplanFunctions {
+  constructor(canvasWidth) {
+    // OG dimensions
+    this.floorWidth = 2269;
+    this.floorHeight = 1225;
+
+    // Scaled dimensions
+    this.canvasWidth = canvasWidth
+    this.canvasHeight = this.resizeFloorplanHeight(canvasWidth);
+
+    // Scales
+    this.xScale = this.makeXScale(this.canvasWidth);
+    this.yScale = this.makeYScale(this.canvasHeight);
+
+    // Scaled Polygon
+    this.resizedPoly = this.resizePolyPts(goodPoly);
+  }
+
+  resizeFloorplanHeight(width) {
+    const newHeight = (this.floorHeight * width) / this.floorWidth;
+    return newHeight;
+  }
+
+  makeXScale(width) {
+    return scaleLinear().domain([0, this.floorWidth]).range([0, width]);
+  }
+
+  makeYScale(height) {
+    return scaleLinear().domain([0, this.floorHeight]).range([0, height]);
+  }
+
+  resizePolyPts(pts) {
+    const resizedPts = pts.map(d => {
+      const resizeX = this.xScale(d[0]);
+      const resizeY = this.yScale(d[1]);
+      return [resizeX, resizeY];
+    });
+    return resizedPts;
+  }
+
+  ptInPolygon(pt) {
+    return polygonContains(this.resizedPoly, pt);
+  }
 }
-const makeYScale = (height) => {
-  return scaleLinear().domain([0, floorHeight]).range([0, height]);
-}
-
-// Real functions 
-const resizeFloorplanHeight = (width) => {
-  /* Resizes our floorplan, keeping the aspect ratio the same. */
-  //  (floor height/floor width) = (canvas height/canvas width)
-  // =(floor height * canvas width) / floor width
-  const newheight = (floorHeight * width) / floorWidth;
-  return newheight;
-}
-
-const resizePolyPts = (canvasWidth, canvasHeight) => {
-  /* 
-   * Funtion to map our traced good points and scale them down to 
-   * our clients canvas size. This will enable accurate drag and drop boundairies.
-   */
-  const xScale = makeXScale(canvasWidth);
-  const yScale = makeYScale(canvasWidth);
-
-  const resizedPoly = goodPoly.map(d => {
-    return [xScale(d[0]), yScale(d[1])];
-  });
-
-  return resizedPoly;
-};
-
-
-
-const testContains = (polygon) => {
-  const resizedContainFx = (pt) => {
-    return polygonContains(polygon, pt);
-  };
-
-  return resizedContainFx;
-}
-
-
-
-
-
-// Typical bootstrap breakpoint
-const testWidth = 760;
-const testHeight = resizeFloorplanHeight(760);
-
-const resizedGoodPts = resizePolyPts(760, testHeight);
-const testFx = testContains(resizedGoodPts);
-
-
-console.log('new height: ', testHeight);
-console.log(testFx([300, 300]));
-
 
