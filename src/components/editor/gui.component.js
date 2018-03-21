@@ -2,7 +2,7 @@ import React from 'react';
 import { Stage, Layer } from 'react-konva';
 
 import FurnitureContainer from '../../containers/furniture.container';
-import { canvasClickPos, haveIntersection, getClickedShapeAttrs } from '../../utils/';
+import { haveIntersection, getClickedShapeAttrs } from '../../utils/';
 import { styleTypes } from '../../constants';
 
 import FloorplanFunctions from '../../utils/point.utils';
@@ -17,7 +17,9 @@ export default class GUI extends React.Component {
       scaleX: 1,
       scaleY: 1,
       offsetX: 0,
-      offsetY: 0
+      offsetY: 0,
+      x: 0,
+      y: 0
     };
   }
 
@@ -35,11 +37,21 @@ export default class GUI extends React.Component {
     });
   }
 
+  getScaledPos() {
+    let canvas = this.refs.konvaCanvas.getStage(),
+        canvasAttrs = canvas.attrs,
+        pointerPos = canvas.getPointerPosition();
+    
+    const x = (pointerPos.x - canvasAttrs.x) / canvasAttrs.scaleX;
+    const y = (pointerPos.y - canvasAttrs.y) / canvasAttrs.scaleY;
+    return {x: x, y: y};
+  }
+
   handleClick(event) {
     /* Delegates a click action to Redux actions */
     let canvas = this.refs.konvaCanvas.getStage();
     let focusedFurnId = this.props.focusedFurnId;
-    let mousePos = canvas.getPointerPosition();
+    let mousePos = this.getScaledPos();
     let intersecting = canvas.getIntersection(mousePos);
 
     // Empty position -> add item
@@ -93,6 +105,42 @@ export default class GUI extends React.Component {
     });
   }
 
+  handleZoom(event) {
+    // Prevent default
+    event.evt.preventDefault();
+
+    // Gather variables
+    const canvas = this.refs.konvaCanvas.getStage(),
+          canvasAttrs = canvas.attrs,
+          pointerPos = canvas.getPointerPosition();
+    const xScaleOld = canvas.getScaleX(),
+          yScaleOld = canvas.getScaleY();
+
+    // Compute the new mouse position 
+    const mousePointTo = {
+      x: (pointerPos.x - canvasAttrs.x) / canvasAttrs.scaleX,
+      y: (pointerPos.y - canvasAttrs.y) / canvasAttrs.scaleY
+    };
+
+    // Compute new scale, adjusting for (over) zooming out.
+    var newScale = (event.evt.deltaY < 0) ? xScaleOld * 1.1 : xScaleOld / 1.1;
+    newScale = (newScale < 1) ? 1 : newScale;
+
+    // Compute the new (x, y) center from the translated zoom
+    const newPosition = {
+      x: -(mousePointTo.x - this.getScaledPos().x / newScale) * newScale,
+      y: -(mousePointTo.y - this.getScaledPos().y / newScale) * newScale
+    };
+
+    // Set all of the attributes.
+    this.setState({
+      scaleX: newScale,
+      scaleY: newScale,
+      x: newPosition.x,
+      y: newPosition.y
+    });
+  }
+
   render() {
     const konva_items = this.props.furn_items.map((d, i) => {
       return (
@@ -112,7 +160,12 @@ export default class GUI extends React.Component {
         ref={"konvaCanvas"}
         width={this.state.width}
         height={this.state.height}
+        x={this.state.x}
+        y={this.state.y}
+        scaleX={this.state.scaleX}
+        scaleY={this.state.scaleY}
         onContentClick={(event) => this.handleClick(event)}
+        onContentWheel={(event) => this.handleZoom(event)}
       > 
         <Floorplan 
           width={this.state.width}
