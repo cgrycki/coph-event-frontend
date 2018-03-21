@@ -47,7 +47,7 @@ class Furniture extends React.Component {
   renderCircle() {
     return (
       <Circle
-        radius={20}
+        radius={9}
         fill={this.state.focused ? styleTypes.focused.fill : styleTypes.normal.fill }
         stroke={this.state.focused ? styleTypes.focused.stroke : styleTypes.normal.stroke }
         strokeWidth={this.state.focused ? styleTypes.focused.strokeWidth : styleTypes.normal.strokeWidth }
@@ -64,8 +64,8 @@ class Furniture extends React.Component {
   renderRect() {
     return(
       <Rect
-        width={60}
-        height={30}
+        width={27}
+        height={12}
         fill={this.state.focused ? styleTypes.focused.fill : styleTypes.normal.fill }
         stroke={this.state.focused ? styleTypes.focused.stroke : styleTypes.normal.stroke }
         strokeWidth={this.state.focused ? styleTypes.focused.strokeWidth : styleTypes.normal.strokeWidth }
@@ -78,7 +78,7 @@ class Furniture extends React.Component {
   renderBar() {
     return (
       <Circle
-        radius={12}
+        radius={7}
         fill={this.state.focused ? styleTypes.focused.fill : styleTypes.unfocused.fill }
         stroke={this.state.focused ? styleTypes.focused.stroke : styleTypes.unfocused.stroke }
         strokeWidth={this.state.focused ? styleTypes.focused.strokeWidth : styleTypes.unfocused.strokeWidth }
@@ -91,8 +91,8 @@ class Furniture extends React.Component {
   renderPoster() {
     return(
       <Rect
-        width={60}
-        height={10}
+        width={30}
+        height={5}
         fill={this.state.focused ? styleTypes.focused.stroke : styleTypes.normal.stroke }
         stroke={this.state.focused ? styleTypes.focused.stroke : styleTypes.normal.stroke }
         strokeWidth={this.state.focused ? styleTypes.focused.strokeWidth : styleTypes.normal.strokeWidth }
@@ -106,7 +106,7 @@ class Furniture extends React.Component {
     return (
       <Text
         text={"🗑️"}
-        fontSize={32}
+        fontSize={18}
         draggable={true}
         name={'furnItem'}
       />

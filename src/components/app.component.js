@@ -4,7 +4,7 @@ import { FormContainer, ToolbarContainer, HudContainer, GuiContainer } from '../
 
 const App = () => {
   return (
-    <Container>
+    <Container fluid>
       <Row>
         <Navbar color="black" dark>
           <NavbarBrand>
