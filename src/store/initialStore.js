@@ -13,8 +13,7 @@ export const initialState = {
       eventComments: '',
       userEmail    : ''
     },
-    // Used to store errors
-    validations: {},
+    saveStatus: 'SAVE_READY'
   },
 
   // Holds our Drag and Drop editor, stores virtual and computed data
