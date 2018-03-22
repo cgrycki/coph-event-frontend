@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.0.0-alpha.6",
+    "d3-array": "^1.2.1",
+    "d3-polygon": "^1.0.3",
+    "d3-scale": "^2.0.0",
     "konva": "^1.7.6",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",

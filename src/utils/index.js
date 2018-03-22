@@ -4,12 +4,14 @@ export const calculateBusinessLogic = (furn_items, chairs) => {
    * @description Function that returns the counts of the furniture items.
    * @returns Computes number of people that can be seated, item counts, + carts.
    */
+  const countTypes = (furn_items, furn_type) => furn_items.filter(d => d.furn_type === furn_type).length;
+
   // Furniture counts
-  const numCircles = furn_items.circle.length;
-  const numRects = furn_items.rect.length;
-  const numBars = furn_items.bar.length;
-  const numPosters = furn_items.poster.length;
-  const numTrashs = furn_items.trash.length;
+  const numCircles = countTypes(furn_items, 'circle');
+  const numRects = countTypes(furn_items, 'rect');
+  const numBars = countTypes(furn_items, 'bar');
+  const numPosters = countTypes(furn_items, 'poster');
+  const numTrashs = countTypes(furn_items, 'trash');
 
   // Each circle cart holds 6 circlular tables.
   const numCircleCarts = Math.ceil(numCircles / 6);
@@ -41,7 +43,7 @@ export const calculateBusinessLogic = (furn_items, chairs) => {
   };
 };
 
-export const canvasClickEvent = (event) => {
+export const canvasClickPos = (event) => {
   /*
    * @method
    * @description Method that ~only~ returns (x, y) mouse pos. Cancels event bubbling.
@@ -62,6 +64,27 @@ export const getClickedShapeAttrs = (event) => {
    * @description Get the X, Y, and furniture type of a clicked Konva shape.
    * @param {event} - Event fired from an onClick() event.
    * @returns {x, y, furn_type} of clicked shape.
+   */
+  event.evt.preventDefault();
+  event.cancelBubble = true;
+
+  let shape = event.currentTarget.clickEndShape.parent;
+  let shapeAttrs = shape.getAttrs();
+
+  return {
+    x: shapeAttrs.x,
+    y: shapeAttrs.y,
+    furn_type: shapeAttrs.name,
+    item_id: shapeAttrs.id
+  }; 
+}
+
+export const getDragShapeAttrs = (event) => {
+  /*
+   * @method
+   * @description Get the X, Y, and furniture type of a dragged Konva shape.
+   * @param {event} - Event fired from an onDrag() event.
+   * @returns {x, y, furn_type} of dragged shape.
    */
   event.evt.preventDefault();
   event.cancelBubble = true;

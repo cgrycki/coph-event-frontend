@@ -44,13 +44,8 @@ export const initialState = {
       trash : 0
     },
     // Objects to be mapped as canvas elements
-    furn_items: {
-      circle: [],
-      rect  : [],
-      bar   : [],
-      poster: [],
-      trash : []
-    },
+    furn_items: [],
+    
     // Computed variables for heads up display
     calculated: {
       numChairs     : 0,

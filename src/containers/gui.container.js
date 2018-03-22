@@ -1,24 +1,21 @@
 import { connect } from 'react-redux';
 import GUI from '../components/editor/gui.component';
-import { addFurnItem, updateFurnItem, removeFurnItem, updateFurnFocus } from '../actions';
-import { canvasClickEvent, getClickedShapeAttrs } from '../utils';
+import { addFurnItem, removeFurnItem, updateFurnFocus } from '../actions';
 
 export const mapStateToProps = (state) => {
   return {
     selectedFurnType: state.editorReducer.selectedFurnType,
     chairsPerTable: state.editorReducer.chairsPerTable,
     focusedFurnId: state.editorReducer.focusedFurnId,
-    furn_ids: state.editorReducer.furn_ids,
-    ...state.editorReducer.furn_items
+    furn_items: state.editorReducer.furn_items
   };
 }
 
 export const mapDispatchToProps = (dispatch) => {
   return {
-    addFurnItem:    (event) => dispatch(addFurnItem(canvasClickEvent(event))),
-    updateFurnItem: (event) => dispatch(updateFurnItem(getClickedShapeAttrs(event))),
-    removeFurnItem: (event) => dispatch(removeFurnItem(getClickedShapeAttrs(event))),
-    updateFurnFocus:(event) => dispatch(updateFurnFocus(getClickedShapeAttrs(event)))
+    addFurnItem:    (value) => dispatch(addFurnItem(value)),
+    removeFurnItem: (value) => dispatch(removeFurnItem(value)),
+    updateFurnFocus:(value) => dispatch(updateFurnFocus(value))
   };
 }
 

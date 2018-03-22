@@ -1,40 +1,84 @@
 import React from 'react';
 import { Stage, Layer } from 'react-konva';
 
-import FurnitureComponent from './furniture.component';
-import { haveIntersection } from '../../utils/';
+import FurnitureContainer from '../../containers/furniture.container';
+import { changePointer, haveIntersection, getClickedShapeAttrs } from '../../utils/';
 import { styleTypes } from '../../constants';
 
+import FloorplanFunctions from '../../utils/point.utils';
+import Floorplan from './floorplan.component';
+
 export default class GUI extends React.Component {
-
-  clickIntersects(event, callback) {
-    /*
-     * @method
-     * @description Method to ~conditionally~ render a new item; if pos empty.
-     * @param {event} - HTML click event triggered by Konva Stage (canvas click).
-     * @param {callback} - Function to call if the pointer position is empty.
-     * @returns Calls function if there is no intersection.
-     */
-    let canvas = this.refs.konvaCanvas.getStage();
-    let mousePos = canvas.getPointerPosition();
-    let intersecting = canvas.getIntersection(mousePos);
-
-    return (intersecting === null) ? callback(event) : null;
+  constructor(props) {
+    super(props);
+    this.state = {
+      width: 500,
+      height: 500,
+      scaleX: 1,
+      scaleY: 1,
+      x: 0,
+      y: 0,
+      floorplanFX: null
+    };
   }
 
-  handleInteraction(event, trueVal, falseVal) {
-    /*
-     * @method
-     * @description Method to ~conditionally~ render a new item; if pos empty.
-     * @param {event} - HTML click event triggered by Konva Stage (canvas click).
-     * @param {callback} - Function to call if the pointer position is empty.
-     * @returns Calls function if there is no intersection.
-     */
+  componentDidMount() {
+    /* Resizes Konva canvas to div size, retaining floorplan aspect ratio. */
+    const canvas = this.refs.konvaCanvas.getStage();
+    const container = canvas.getAttr('container');
+    const containerWidth = container.clientWidth;
+
+    const floorplanFX = new FloorplanFunctions(containerWidth);
+
+    // Set updated dimensions
+    this.setState({
+      width: floorplanFX.canvasWidth,
+      height: floorplanFX.canvasHeight,
+      floorplanFX
+    });
+  }
+
+  getScaledPos() {
+    let canvas = this.refs.konvaCanvas.getStage(),
+        canvasAttrs = canvas.attrs,
+        pointerPos = canvas.getPointerPosition();
+    
+    const x = (pointerPos.x - canvasAttrs.x) / canvasAttrs.scaleX;
+    const y = (pointerPos.y - canvasAttrs.y) / canvasAttrs.scaleY;
+    return {x: x, y: y};
+  }
+
+  handleMouseAppearance() {
+    /* Changes mouse pointer to give user affordances. */
     let canvas = this.refs.konvaCanvas.getStage();
-    let mousePos = canvas.getPointerPosition();
+    let mousePos = this.getScaledPos();
+
+    // Our conditionals
+    let validPosition = this.state.floorplanFX.ptInPolygon(mousePos);
     let intersecting = canvas.getIntersection(mousePos);
 
-    return (intersecting === null) ? trueVal : falseVal;
+    if (intersecting) changePointer('move')
+    else if (validPosition) changePointer('pointer')
+    else changePointer('not-allowed');
+  }
+
+  handleClick(event) {
+    /* Delegates a click action to Redux actions */
+    let canvas = this.refs.konvaCanvas.getStage();
+    let mousePos = this.getScaledPos();
+
+    let validPosition = this.state.floorplanFX.ptInPolygon(mousePos);
+    let intersecting = canvas.getIntersection(mousePos);
+
+    if (validPosition && !intersecting) this.props.addFurnItem(mousePos);
+    else if (validPosition && intersecting) {
+      let intersectionId = intersecting.parent.getAttr('id');
+      let focusedFurnId = this.props.focusedFurnId;
+
+      return (focusedFurnId === intersectionId) ?
+        this.props.removeFurnItem(getClickedShapeAttrs(event)) :
+        this.props.updateFurnFocus(getClickedShapeAttrs(event));
+    }
   }
 
   handleDragMove(event) {
@@ -74,26 +118,53 @@ export default class GUI extends React.Component {
     });
   }
 
-  render() {
-    const furn_items = [
-      ...this.props.circle,
-      ...this.props.rect,
-      ...this.props.bar,
-      ...this.props.poster,
-      ...this.props.trash
-    ];
+  handleZoom(event) {
+    // Prevent default
+    event.evt.preventDefault();
 
-    const konva_items = furn_items.map((d, i) => {
+    // Gather variables
+    const canvas = this.refs.konvaCanvas.getStage(),
+          canvasAttrs = canvas.attrs,
+          pointerPos = canvas.getPointerPosition();
+    const xScaleOld = canvas.getScaleX(),
+          yScaleOld = canvas.getScaleY();
+
+    // Compute the new mouse position 
+    const mousePointTo = {
+      x: (pointerPos.x - canvasAttrs.x) / canvasAttrs.scaleX,
+      y: (pointerPos.y - canvasAttrs.y) / canvasAttrs.scaleY
+    };
+
+    // Compute new scale, adjusting for (over) zooming out.
+    var newScale = (event.evt.deltaY < 0) ? xScaleOld * 1.1 : xScaleOld / 1.1;
+    newScale = (newScale < 1) ? 1 : newScale;
+
+    // Compute the new (x, y) center from the translated zoom
+    const newPosition = {
+      x: -(mousePointTo.x - this.getScaledPos().x / newScale) * newScale,
+      y: -(mousePointTo.y - this.getScaledPos().y / newScale) * newScale
+    };
+
+    // Set all of the attributes.
+    this.setState({
+      scaleX: newScale,
+      scaleY: newScale,
+      x: newPosition.x,
+      y: newPosition.y
+    });
+  }
+
+  render() {
+    const konva_items = this.props.furn_items.map((d, i) => {
       return (
-        <FurnitureComponent 
+        <FurnitureContainer 
           key={d.item_id + '-Component'}
           item_id={d.item_id}
           furn_type={d.furn_type}
-          focused={d.focused}
+          focusedFurnId={this.props.focusedFurnId}
           x={d.x}
           y={d.y}
-          updateFurnItem={this.props.updateFurnItem}
-          removeFurnItem={this.props.removeFurnItem}
+          floorplanFX={this.state.floorplanFX}
         />
       );
     });
@@ -101,11 +172,24 @@ export default class GUI extends React.Component {
     return (
       <Stage
         ref={"konvaCanvas"}
-        width={500}
-        height={500}
-        onContentClick={(event) => this.clickIntersects(event, this.props.addFurnItem)}
-      >
-        <Layer ref={"floorplanLayer"} />
+        // Dimensions
+        width={this.state.width}
+        height={this.state.height}
+        x={this.state.x}
+        y={this.state.y}
+        scaleX={this.state.scaleX}
+        scaleY={this.state.scaleY}
+        // Change mouse on move, revert on leave
+        onContentMouseMove={() => this.handleMouseAppearance()}
+        onContentMouseOut={() => changePointer('default')}
+        // Handle clicks and zooms
+        onContentClick={(event) => this.handleClick(event)}
+        onContentWheel={(event) => this.handleZoom(event)}
+      > 
+        <Floorplan
+          width={this.state.width}
+          height={this.state.height}
+        />
         <Layer 
           ref={"furnitureLayer"}
           onDragMove={this.handleDragMove.bind(this)}
