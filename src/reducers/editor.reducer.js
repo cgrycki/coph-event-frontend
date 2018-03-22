@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux';
 import { initialState } from '../store/initialStore';
 import { itemActions, toolbarActions } from '../constants/actionTypes';
 import { calculateBusinessLogic } from '../utils'
@@ -15,20 +14,10 @@ const initialFormState = {
   calculated: initialState.editor.calculated
 }
 
-function filterAndUnfocus(furn_items, furn_type, item_id) {
-  let furn_type_items = [...furn_items[furn_type]];         // Grab the array from the furn_items object
-  let filtered = filterItemsById(furn_type_items, item_id); // Filter the items
-  let unfocused = unfocusItems(filtered);                   // Set the focused property to false
-  return unfocused;
-}
-
-const filterItemsById = (furn_items, item_id) => {
-  return furn_items.filter(d => d.item_id !== item_id);     // Filters object in array by item_id
-} 
-
-const unfocusItems= (furn_items) => {
-  return furn_items.map(d => ({ ...d, focused: false}));    // Sets the focused property on nested array to be false
-}
+const filterById = (furn_items, item_id) => {
+  // Filters object in array by item_id
+  return furn_items.filter(d => d.item_id !== item_id);
+};
 
 const editorReducer = (state=initialFormState, action) => {
   switch (action.type) {
@@ -42,48 +31,49 @@ const editorReducer = (state=initialFormState, action) => {
       const incFurnID = state.furn_ids[furn_type] + 1;        // 0 + 1 => 1
 
       // Create and add the item to existing furniture array
-      const furnToAdd = { item_id, furn_type, x, y, focused: false };
-      const furnAdded = [...state.furn_items[furn_type], furnToAdd];
-      const itemsAfterAdd = {
-        ...state.furn_items, [furn_type]: furnAdded
-      };
+      const furnToAdd = { item_id, furn_type, x, y, focused: true };
+      const furnAdded = [...state.furn_items, furnToAdd];
 
       return {
         ...state,
-        furn_ids: { ...state.furn_ids, [furn_type]: incFurnID },
-        furn_items: itemsAfterAdd,
-        calculated: calculateBusinessLogic(itemsAfterAdd, state.chairsPerTable)
+        furn_ids      : { ...state.furn_ids, [furn_type]: incFurnID },
+        furn_items    : furnAdded,
+        focusedFurnId : item_id,
+        calculated    : calculateBusinessLogic(furnAdded, state.chairsPerTable)
       }
 
     case (itemActions.UPD_FURN_ITEM):
       var { furn_type, item_id, x, y } = action;
       
       // Create updated item using old item's attributes.
-      const updatedItem = { item_id, furn_type, x, y, focused: true };
+      const updatedItem = { item_id, furn_type, x, y };
       
       // Filter items, set them all to unfocused, and add updated items.
-      const filteredAndUnfocused = filterAndUnfocus(state.furn_items, furn_type, item_id);
-      const furnUpdated = [...filteredAndUnfocused, updatedItem]
+      const filtered = filterById(state.furn_items, item_id);
+      const furnUpdated = [...filtered, updatedItem];
       
       return {
         ...state,
-        furn_items: { ...state.furn_items, [furn_type]: furnUpdated }
+        furn_items: furnUpdated,
+        focusedFurnId: item_id
       }
 
     case (itemActions.RM_FURN_ITEM):
-      var { furn_type, item_id } = action;
+      var { item_id } = action;
       // Filter out item and unfocus remaining.
-      const furnItemsRemoved = filterAndUnfocus(state.furn_items, furn_type, item_id);
-      const newFurnItems = { ...state.furn_items, [furn_type]: furnItemsRemoved };
+      const furnItemsRemoved = filterById(state.furn_items, item_id);
 
       return {
         ...state,
-        furn_items: newFurnItems,
-        calculated: calculateBusinessLogic(newFurnItems, state.chairsPerTable)
+        furn_items: furnItemsRemoved,
+        focusedFurnId: '',
+        calculated: calculateBusinessLogic(furnItemsRemoved, state.chairsPerTable)
       };
     
     case (itemActions.UPD_FURN_FOCUS):
-      return {...state, focusedFurnId: action.item_id}
+      // If the currently selected item is focused, unselect it.
+      const toggleFocus = (state.focusedFurnId === action.item_id) ? '' : action.item_id;
+      return {...state, focusedFurnId: toggleFocus}
     
     case (toolbarActions.SET_SELECT_FURN):
       return { ...state, selectedFurnType: action.selectedFurnType };
