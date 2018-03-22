@@ -18,6 +18,9 @@
 			// Hide NPM install files
 			"package*.json": true,
 
+			// Hide environment files
+			".env": true,
+
 			// Hide Git
 			".gitignore": true,
 
