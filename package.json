@@ -8,6 +8,8 @@
     "d3-polygon": "^1.0.3",
     "d3-scale": "^2.0.0",
     "konva": "^1.7.6",
+    "office-ui-fabric-core": "^9.6.0",
+    "office-ui-fabric-react": "^5.68.0",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
