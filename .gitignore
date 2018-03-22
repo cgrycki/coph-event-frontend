@@ -82,4 +82,4 @@ yarn-error.log*
 
 # Visual Studio
 .code-workspace
-.vs/
+.vscode/
