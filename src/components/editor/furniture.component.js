@@ -1,7 +1,7 @@
 import React from 'react';
 import { Group, Circle, Rect, Line, Text } from 'react-konva';
 
-import { changePointer, getDragShapeAttrs } from '../../utils';
+import { getDragShapeAttrs } from '../../utils';
 import { styleTypes } from '../../constants';
 
 class Furniture extends React.Component {
@@ -14,7 +14,8 @@ class Furniture extends React.Component {
       item_id: props.item_id,
       furn_type: props.furn_type,
       focused: props.focusedFurnId === props.item_id,
-      chairsPerTable: props.chairsPerTable
+      chairsPerTable: props.chairsPerTable,
+      floorplanFX: props.floorplanFX
     };
   }
 
@@ -27,20 +28,19 @@ class Furniture extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
+      x: nextProps.x,
+      y: nextProps.y,
       focused: nextProps.focusedFurnId === this.state.item_id,
       chairsPerTable: nextProps.chairsPerTable
     });
   }
 
   /* Interaction methods */
-  setFocus() {
-    changePointer('move');
-    this.setState({focused: true});
-  }
-
-  setDefault() {
-    changePointer('default');
-    this.setState({focused: false});
+  handleDragEnd(event) {
+    let dragAttrs = getDragShapeAttrs(event);
+    let validPosition = this.state.floorplanFX.ptInPolygon(dragAttrs);
+    
+    if (validPosition !== false) this.props.updateFurnItem(dragAttrs); 
   }
 
   /* Furniture items */
@@ -55,7 +55,6 @@ class Furniture extends React.Component {
         shadowBlur={this.state.focused ? styleTypes.focused.shadowBlur : styleTypes.normal.shadowBlur}
         shadowOpacity={this.state.focused ? styleTypes.focused.shadowOpacity : styleTypes.normal.shadowOpacity}
         shadowOffset={this.state.focused ? styleTypes.focused.shadowOffset : styleTypes.normal.shadowOffset}
-        draggable={true}
         name={'furnItem'}
       />
     );
@@ -158,9 +157,7 @@ class Furniture extends React.Component {
         y={this.state.y}
         id={this.state.item_id}
         name={this.state.furn_type}
-        onDragEnd={(event) => this.props.updateFurnItem(getDragShapeAttrs(event))}
-        //onMouseOver={() => this.setFocus()}
-        //onMouseOut={() => this.setDefault()}
+        onDragEnd={(event) => this.handleDragEnd(event)}
       >
         {furn_item}
       </Group>

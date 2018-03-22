@@ -77,12 +77,7 @@ export default class FloorplanFunctions {
   ptInPolygon(pos) {
     const ptFromPos = [pos.x, pos.y];
     const inBounds = polygonContains(this.resizedPoly, ptFromPos);
-    console.log('called!');
-    if (inBounds) {
-      return pos;
-    } else {
-      return {x: 0, y: 0};
-    }
+    return inBounds;
   }
 }
 

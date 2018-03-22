@@ -56,13 +56,10 @@ export default class GUI extends React.Component {
     // Our conditionals
     let validPosition = this.state.floorplanFX.ptInPolygon(mousePos);
     let intersecting = canvas.getIntersection(mousePos);
-    
-    // Pointer to select if intersecting shape is not focused
-    let focusedFurnId = this.props.focusedFurnId;
-    
-    if (intersecting) changePointer('move');
+
+    if (intersecting) changePointer('move')
     else if (validPosition) changePointer('pointer')
-    else if (!validPosition) changePointer('not-allowed');
+    else changePointer('not-allowed');
   }
 
   handleClick(event) {
@@ -167,6 +164,7 @@ export default class GUI extends React.Component {
           focusedFurnId={this.props.focusedFurnId}
           x={d.x}
           y={d.y}
+          floorplanFX={this.state.floorplanFX}
         />
       );
     });
@@ -188,7 +186,7 @@ export default class GUI extends React.Component {
         onContentClick={(event) => this.handleClick(event)}
         onContentWheel={(event) => this.handleZoom(event)}
       > 
-        <Floorplan 
+        <Floorplan
           width={this.state.width}
           height={this.state.height}
         />
