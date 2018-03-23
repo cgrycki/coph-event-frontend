@@ -7,20 +7,21 @@ import registerServiceWorker from './registerServiceWorker';
 import { initializeIcons } from 'office-ui-fabric-react/lib/Icons';
 
 // Styles
-import './assets/index.css';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/office-ui-fabric-core/dist/css/fabric.min.css';
 import '../node_modules/office-ui-fabric-react/dist/css/fabric.min.css';
+import './assets/index.css';
 
 // Self made
 import reducers from './reducers';
 import App from './components/app.component';
 
+/* Create Redux store to initialize application. */
 const store = createStore(
   reducers,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
+/* Initialize icons for Microsoft Fabric UI. */
 initializeIcons();
 
 ReactDOM.render(
