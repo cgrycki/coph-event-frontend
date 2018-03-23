@@ -1,24 +1,28 @@
+// Libraries
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-
-import './assets/index.css';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-
-// reducer
-import reducers from './reducers';
-// actions
-
-import App from './components/app.component';
 import registerServiceWorker from './registerServiceWorker';
+import { initializeIcons } from 'office-ui-fabric-react/lib/Icons';
 
-// create store
+// Styles
+import '../node_modules/office-ui-fabric-core/dist/css/fabric.min.css';
+import '../node_modules/office-ui-fabric-react/dist/css/fabric.min.css';
+import './assets/index.css';
+
+// Self made
+import reducers from './reducers';
+import App from './components/app.component';
+
+/* Create Redux store to initialize application. */
 const store = createStore(
   reducers,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
+/* Initialize icons for Microsoft Fabric UI. */
+initializeIcons();
 
 ReactDOM.render(
   <Provider store={store}>

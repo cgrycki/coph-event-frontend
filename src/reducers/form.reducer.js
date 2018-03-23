@@ -2,8 +2,13 @@ import { initialState } from '../store/initialStore';
 import { formActions } from '../constants/actionTypes';
 import { combineReducers } from 'redux';
 
+const initialFormState = {
+  fields: initialState.forms.fields,
+  saveStatus: initialState.forms.saveStatus
+};
+
 // Update form field
-function updateFormReducer(state=initialState.forms.fields, action) {
+function updateFormReducer(state=initialFormState, action) {
   /*
    *
    */
@@ -12,7 +17,10 @@ function updateFormReducer(state=initialState.forms.fields, action) {
     case formActions.UPD_FORM:
       return {
         ...state,
-        [name]: value
+        fields: {
+          ...state.fields,
+          [name]: value
+        }
       };
     default:
       return state;
@@ -36,7 +44,6 @@ function submitFormReducer(state=initialState.forms.validations, action) {
 }
 
 const formReducer = combineReducers({
-  updateFormReducer,
-  submitFormReducer
+  updateFormReducer
 })
 export default formReducer

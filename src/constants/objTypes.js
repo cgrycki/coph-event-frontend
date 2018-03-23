@@ -60,31 +60,31 @@ export const fieldTypes = [
 export const styleTypes = {
   // Under cursor sprite
   unfocused: {
-      fill       : '#d9d9d9',
-      stroke     : '#252525',
+      fill       : '#c8c8c8',
+      stroke     : '#666666',
       strokeWidth: 1,
       opacity    : 0.25
   },
   // Item placed in bounds, and not focused
   normal: {
-      fill         : '#969696',
-      stroke       : '#252525',
-      strokeWidth  : 1,
+      fill         : '#a6a6a6',
+      stroke       : '#333333',
+      strokeWidth  : 0.25,
       shadowColor  : 'black',
-      shadowBlur   : 1,
+      shadowBlur   : 2,
       shadowOpacity: 0.1,
-      shadowOffset : {x: 0, y: 0},
+      shadowOffset : {x: 1, y: 1},
       opacity      : 1
   },
   // Item currently under user's selection
   focused: {
-      fill         : '#c6dbef',
-      stroke       : '#252525',
-      strokeWidth  : 1,
+      fill         : '#0078d7',
+      stroke       : '#333333',
+      strokeWidth  : 0.5,
       shadowColor  : 'black',
-      shadowBlur   : 2,
+      shadowBlur   : 3,
       shadowOpacity: 0.25,
-      shadowOffset : {x: 1, y: 1},
+      shadowOffset : {x: 2, y: 2},
       opacity      : 1
   },
   // Table is intersecting another table OR out of bounds.
