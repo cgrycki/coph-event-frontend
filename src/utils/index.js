@@ -1,3 +1,6 @@
+import { validateDate, validateEmail, nextWeek, datePickerStrings } from './form.utils';
+
+
 export const calculateBusinessLogic = (furn_items, chairs) => {
   /*
    * @method
@@ -113,3 +116,5 @@ export const haveIntersection = (r1, r2) => {
 }
 
 export const changePointer = (pointerType) => document.body.style.cursor = pointerType;
+
+export { validateDate, validateEmail, nextWeek, datePickerStrings };
