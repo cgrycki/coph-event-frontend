@@ -1,51 +1,13 @@
 import React from 'react';
-import { FormFeedback, FormGroup, Input, Col, Label } from 'reactstrap';
+import { TextField, DatePicker } from 'office-ui-fabric-react';
 
-const FieldComponent = (props) => {
-  /*
-   * @method
-   * @description Helper function to create a Field group
-   * @param {string} id - Unique identifier for this Form.
-   * @param {string} label - Label for form entry.
-   * @param {string} help - Optional. Help text to be displayed below input.
-   * @returns {FormGroup} - Form Grouping
-   */
-
-  return (
-    <FormGroup row>
-      <Label 
-        for={props.id}
-        sm={4}
-        size={"sm"}
-        className="text-right"
-      >
-        {props.label}
-      </Label>
-      <Col sm={8}>
-        <Input
-          type={props.type}
-          name={props.name}
-          id={props.id}
-          placeholder={(props.placeholder !== '') ? props.placeholder : undefined}
-          bsSize={"sm"}
-          onChange={props.onBlur}
-          {...props}
-        />
-      </Col>
-    </FormGroup>
-  );
-}
-
-export class ReactField extends React.Component {
+export default class Field extends React.Component {
   constructor(props) {
     super(props);
-    
     this.state = {
       value: props.value,
-      error: props.error
+      error: false
     };
-
-    this.onChange = this.onChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -54,22 +16,54 @@ export class ReactField extends React.Component {
 
   onChange(evt) {
     const name = this.props.name;
-    const value = evt.target.value;
+    const value = evt;
     const error = this.props.validate ? this.props.validate(value) : false;
 
     this.setState({ value, error });
-
     this.props.onChange({ name, value, error });
+  }
+
+  renderText() {
+    let commentText = this.props.name === 'eventComments';
+
+    return (
+      <TextField
+        label={this.props.label}
+        placeholder={this.props.placeholder}
+        value={this.state.value}
+        errorMessage={this.state.error}
+        onChanged={(evt) => this.onChange(evt)}
+        
+        /* Only the comments aren't required, which makes some 
+          conditional logic convenient. */
+        required={!commentText}
+        multiline={commentText}
+        rows={ commentText ? 4 : 1}
+      />
+    );
+  }
+
+  renderDate() {
+    return (
+      <DatePicker
+        label={this.props.label}
+        value={this.state.value}
+        placeholder={this.props.placeholder}
+        errorMessage={this.state.error}
+        isRequired={true}
+        onSelectDate={(evt) => this.onChange(evt)}
+      />
+    );
   }
 
   render() {
     return (
-      <div>Test</div>
+      <div className="">
+        {this.props.name === 'eventDate' ?
+          this.renderDate() :
+          this.renderText()
+        }
+      </div>
     );
   }
 }
-
-
-
-
-export default FieldComponent
