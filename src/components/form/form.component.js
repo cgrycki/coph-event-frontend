@@ -1,8 +1,8 @@
 import React from 'react';
-import { Form, Card, CardBody, Button } from 'reactstrap';
+import { PrimaryButton } from 'office-ui-fabric-react';
 
-import FieldComponent from './field.component';
-import { fieldTypes } from '../../constants';
+import { validateDate, validateEmail } from '../../utils';
+import Field from './field.component';
 
 export default class FormComponent extends React.Component {
   constructor(props) {
@@ -16,8 +16,8 @@ export default class FormComponent extends React.Component {
     this.onInputChange = this.onInputChange.bind(this);
   }
 
-  componentWillReceiveProps(update) {
-    this.setState({fields: update.fields});
+  componentWillReceiveProps(nextProps) {
+    this.setState({ fields: nextProps.fields });
   }
 
   onInputChange({name, value, error}) {
@@ -25,52 +25,85 @@ export default class FormComponent extends React.Component {
     const fieldErrors = this.state.fieldErrors;
 
     fields[name] = value;
-    fieldErrors[name] = value;
+    fieldErrors[name] = error;
 
     this.setState({ fields, fieldErrors });
   }
 
-  onFormSubmit(evt) {
+  validate() {
     const fields = this.state.fields;
-    
-    evt.preventDefault();
-    //this.props.onSubmit({fields});
+    const fieldErrors = this.state.fieldErrors;
+    const errMessages = Object.keys(fieldErrors).filter((k) => fieldErrors[k]);
+
+    if (!fields.eventName) return true;
+    if (!fields.eventDate) return true;
+    if (!fields.userEmail) return true;
+    if (errMessages.length) return true;
+
+    return false;
   }
 
   render() {
-    // Compute the fields
-    let { onFieldBlur } = this.props;
-    let fieldsMapped = fieldTypes.map(field => {
-      return (
-        <FieldComponent
-          id={field.id}
-          key={field.id + 'Form'} 
-          label={field.label}
-          type={field.type}
-          placeholder={field.placeholder}
-          //onBlur={onFieldBlur}
-          onChange={this.onInputChange}
-        />
-      );
-    });
+    let fields = this.state.fields;
 
     return (
-      <Card>
-        <CardBody>
-          <br/>
-          <Form>
-            {fieldsMapped}
-            <br/>
-            <Button
-              block={true}
-              /*disabled => validation state */
-              onClick={this.props.onFormSubmit}
-            >
-              Submit Event for Review
-            </Button>
-          </Form>
-        </CardBody>
-      </Card>
+      <div className="Form ms-normalize">
+        <h4>Event Details</h4>
+        <form>
+          <Field
+            name='eventName'
+            label='Name'
+            placeholder='Curing Cancer'
+            value={fields.eventName}
+            onChange={this.onInputChange}
+            validate={(val) => (val ? false : 'Name Required')}
+          />
+
+          <Field
+            name='eventDate'
+            label='Date'
+            placeholder='When are you thinking?'
+            value={fields.eventDate}
+            onChange={this.onInputChange}
+            validate={(val) => (validateDate(val)) ? false : 'Date Invalid'}
+          />
+
+          {/*<Field
+            name='eventTime'
+            label='Event Time'
+            placeholder={fields.eventTime}
+            value={fields.eventTime}
+            onChange={this.onInputChange}
+            //validate
+          />*/}
+
+          <Field
+            name='eventComments'
+            label='Comments'
+            placeholder=''
+            value={fields.eventComments}
+            onChange={this.onInputChange}
+          />
+
+          <Field
+            name='userEmail'
+            label='Your Email'
+            placeholder='herke-dehawke@uiowa.edu'
+            value={fields.userEmail}
+            onChange={this.onInputChange}
+            validate={(val) => (validateEmail(val)) ? false : 'Invalid Email'}
+          />
+
+        </form>
+
+        <br/>
+        
+        <br/>
+
+        <PrimaryButton
+          disabled={this.validate()}
+        >Submit Event for Approval</PrimaryButton>
+      </div>
     );
   }
 }
