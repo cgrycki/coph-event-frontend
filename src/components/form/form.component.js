@@ -1,5 +1,7 @@
 import React from 'react';
-import { Button } from 'office-ui-fabric-react';
+import { PrimaryButton } from 'office-ui-fabric-react';
+
+import { validateDate, validateEmail } from '../../utils';
 import Field from './field.component';
 
 export default class FormComponent extends React.Component {
@@ -28,50 +30,79 @@ export default class FormComponent extends React.Component {
     this.setState({ fields, fieldErrors });
   }
 
+  validate() {
+    const fields = this.state.fields;
+    const fieldErrors = this.state.fieldErrors;
+    const errMessages = Object.keys(fieldErrors).filter((k) => fieldErrors[k]);
+
+    if (!fields.eventName) return true;
+    if (!fields.eventDate) return true;
+    if (!fields.userEmail) return true;
+    if (errMessages.length) return true;
+
+    return false;
+  }
+
   render() {
     let fields = this.state.fields;
 
     return (
       <div className="Form ms-normalize">
-        <h3>Details</h3>
+        <h4>Event Details</h4>
         <form>
           <Field
-            name={'eventName'}
-            label={'Event Name'}
-            placeholder={'Curing Cancer'}
+            name='eventName'
+            label='Name'
+            placeholder='Curing Cancer'
             value={fields.eventName}
             onChange={this.onInputChange}
+            validate={(val) => (val ? false : 'Name Required')}
           />
 
           <Field
-            name={'eventDate'}
-            label={'Event Date'}
-            placeholder={'When are you thinking?'}
+            name='eventDate'
+            label='Date'
+            placeholder='When are you thinking?'
             value={fields.eventDate}
             onChange={this.onInputChange}
+            validate={(val) => (validateDate(val)) ? false : 'Date Invalid'}
           />
 
+          {/*<Field
+            name='eventTime'
+            label='Event Time'
+            placeholder={fields.eventTime}
+            value={fields.eventTime}
+            onChange={this.onInputChange}
+            //validate
+          />*/}
+
           <Field
-            name={'eventComments'}
-            label={'Comments'}
-            placeholder={''}
+            name='eventComments'
+            label='Comments'
+            placeholder=''
             value={fields.eventComments}
             onChange={this.onInputChange}
           />
 
           <Field
-            name={'userEmail'}
-            label={'Your Email'}
-            placeholder={'herke-dehawke@uiowa.edu'}
+            name='userEmail'
+            label='Your Email'
+            placeholder='herke-dehawke@uiowa.edu'
             value={fields.userEmail}
             onChange={this.onInputChange}
+            validate={(val) => (validateEmail(val)) ? false : 'Invalid Email'}
           />
 
         </form>
+
+        <br/>
         
         <br/>
 
-        <Button>Submit Event for Approval</Button>
+        <PrimaryButton
+          disabled={this.validate()}
+        >Submit Event for Approval</PrimaryButton>
       </div>
     );
   }
