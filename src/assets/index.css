@@ -12,3 +12,8 @@ canvas {
   display: inline-block;
   padding-right: 1rem;
 }
+
+.Form button {
+  display: inline-block;
+  width: 100%;
+}
