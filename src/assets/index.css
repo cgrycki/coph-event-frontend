@@ -4,6 +4,9 @@ body {
   font-family: sans-serif;
 }
 
+.Toolbar {
+  background-color: #f4f4f4;
+}
 .Toolbar .ms-ChoiceField {
   display: inline-block;
   padding-right: 1rem;

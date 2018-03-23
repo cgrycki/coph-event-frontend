@@ -27,7 +27,10 @@ const App = () => {
 
           <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg8">
             <ToolbarContainer />
-            <div className="ms-borderBase"><GuiContainer /></div>
+
+            <br/>
+            
+            <GuiContainer />
           </div>
         </div>
       </div>
