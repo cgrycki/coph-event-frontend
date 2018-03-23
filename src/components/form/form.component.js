@@ -48,7 +48,7 @@ export default class FormComponent extends React.Component {
 
     return (
       <div className="Form ms-normalize">
-        <h4>Event Details</h4>
+        <h3 className="ms-font-l">Event Details</h3>
         <form>
           <Field
             name='eventName'
@@ -96,9 +96,7 @@ export default class FormComponent extends React.Component {
 
         </form>
 
-        <br/>
-        
-        <br/>
+        <br />
 
         <PrimaryButton
           disabled={this.validate()}
