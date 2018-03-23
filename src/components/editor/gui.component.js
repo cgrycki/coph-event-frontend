@@ -170,33 +170,35 @@ export default class GUI extends React.Component {
     });
 
     return (
-      <Stage
-        ref={"konvaCanvas"}
-        // Dimensions
-        width={this.state.width}
-        height={this.state.height}
-        x={this.state.x}
-        y={this.state.y}
-        scaleX={this.state.scaleX}
-        scaleY={this.state.scaleY}
-        // Change mouse on move, revert on leave
-        onContentMouseMove={() => this.handleMouseAppearance()}
-        onContentMouseOut={() => changePointer('default')}
-        // Handle clicks and zooms
-        onContentClick={(event) => this.handleClick(event)}
-        onContentWheel={(event) => this.handleZoom(event)}
-      > 
-        <Floorplan
+      <div className="ms-Grid-row ms-borderBase">
+        <Stage
+          ref={"konvaCanvas"}
+          // Dimensions
           width={this.state.width}
           height={this.state.height}
-        />
-        <Layer 
-          ref={"furnitureLayer"}
-          onDragMove={this.handleDragMove.bind(this)}
-        >
-          {konva_items}
-        </Layer>
-      </Stage>
+          x={this.state.x}
+          y={this.state.y}
+          scaleX={this.state.scaleX}
+          scaleY={this.state.scaleY}
+          // Change mouse on move, revert on leave
+          onContentMouseMove={() => this.handleMouseAppearance()}
+          onContentMouseOut={() => changePointer('default')}
+          // Handle clicks and zooms
+          onContentClick={(event) => this.handleClick(event)}
+          onContentWheel={(event) => this.handleZoom(event)}
+        > 
+          <Floorplan
+            width={this.state.width}
+            height={this.state.height}
+          />
+          <Layer 
+            ref={"furnitureLayer"}
+            onDragMove={this.handleDragMove.bind(this)}
+          >
+            {konva_items}
+          </Layer>
+        </Stage>
+      </div>
     );
   }
 }

@@ -4,6 +4,15 @@ body {
   font-family: sans-serif;
 }
 
-canvas {
-  outline: 1px solid grey;
+.Toolbar {
+  background-color: #f4f4f4;
+}
+.Toolbar .ms-ChoiceField {
+  display: inline-block;
+  padding-right: 1rem;
+}
+
+.Form button {
+  display: inline-block;
+  width: 100%;
 }

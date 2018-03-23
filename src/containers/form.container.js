@@ -11,13 +11,13 @@ import { updateForm, submitForm } from '../actions';
 
 let mapStateToProps = (state) => {
   return {
-    fields: state.formReducer.updateFormReducer,
-    saveStatus: state.formReducer.updateFormReducer
+    fields: state.formReducer.updateFormReducer.fields,
+    saveStatus: state.formReducer.updateFormReducer.saveStatus
   }
 };
 let mapDispatchToProps = (dispatch) => {
   return {
-    onFieldBlur: (event) => dispatch(updateForm(event.target.id, event.target.value)),
+    onFieldChange: (event) => dispatch(updateForm(event.target.id, event.target.value)),
     onFormSubmit: (event) => dispatch(submitForm(event))
   };
 }

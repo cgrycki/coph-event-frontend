@@ -1,29 +1,40 @@
 import React from 'react';
-import { Container, Row, Col, Navbar, NavbarBrand } from 'reactstrap';
+import { Fabric, CommandBar } from 'office-ui-fabric-react';
 import { FormContainer, ToolbarContainer, HudContainer, GuiContainer } from '../containers';
 
 const App = () => {
   return (
-    <Container fluid>
-      <Row>
-        <Navbar color="black" dark>
-          <NavbarBrand>
-            <strong>Create an Event &nbsp; &nbsp;</strong>
-            College of Public Health
-          </NavbarBrand>
-        </Navbar>
-      </Row>
-      <Row>
-        <Col xs={12} sm={6} lg={4}>
-          <FormContainer />
-        </Col>
-        <Col xs={12} sm={6} lg={8}>
-          <ToolbarContainer/>
-          <HudContainer/>
-          <GuiContainer/>
-        </Col>
-      </Row>
-    </Container>
+    <Fabric className="App ms-normalize">
+      <div className="ms-Grid">
+
+        {/* Navigation bar + header */}
+        <header id="page-header" className="ms-Grid-row ms-Grid-col ms-sm12">
+          <div id="brand-name" className="ms-font-xxl ms-fontColor-neutralPrimary">
+            Create an Event &nbsp;
+            <small className="ms-font-l ms-fontColor-neutralTertiary">College of Public Health</small>
+          </div>
+        </header>
+
+        {/* Application */}
+        <div className="ms-Grid-row">
+          <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg4">
+            <FormContainer />
+
+            <br/>
+
+            <HudContainer />
+          </div>
+
+          <div className="ms-Grid-col ms-sm12 ms-md6 ms-lg8">
+            <ToolbarContainer />
+
+            <br/>
+            
+            <GuiContainer />
+          </div>
+        </div>
+      </div>
+    </Fabric>
   );
 }
 
