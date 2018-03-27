@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, DatePicker } from 'office-ui-fabric-react';
+import { TextField, DatePicker, Label } from 'office-ui-fabric-react';
 import { nextWeek, datePickerStrings } from '../../utils';
 
 export default class Field extends React.Component {
@@ -66,14 +66,18 @@ export default class Field extends React.Component {
 
   renderTime() {
     return (
-      <input
-        name={this.props.name}
-        type={'time'}
-        min={'08:30'}
-        max={'18:00'}
-        required={true}
-        onChange={(evt) => this.onChange(evt.target.value)}
-      />
+      <div className="FormTime">
+        <Label required={true}>Time</Label>
+        <input
+          name={this.props.name}
+          className="FormTime"
+          type={'time'}
+          min={'08:30'}
+          max={'18:00'}
+          required={true}
+          onChange={(evt) => this.onChange(evt.target.value)}
+        />
+      </div>
     );
   }
 
