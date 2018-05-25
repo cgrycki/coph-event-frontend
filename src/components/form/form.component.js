@@ -68,14 +68,14 @@ export default class FormComponent extends React.Component {
             validate={(val) => (validateDate(val)) ? false : 'Date Invalid'}
           />
 
-          {/*<Field
+          <Field
             name='eventTime'
             label='Event Time'
             placeholder={fields.eventTime}
             value={fields.eventTime}
             onChange={this.onInputChange}
             //validate
-          />*/}
+          />
 
           <Field
             name='eventComments'
