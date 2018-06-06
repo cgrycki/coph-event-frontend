@@ -3,7 +3,6 @@
   "version": "0.2.0",
   "private": true,
   "dependencies": {
-    "bootstrap": "^4.0.0-alpha.6",
     "d3-array": "^1.2.1",
     "d3-polygon": "^1.0.3",
     "d3-scale": "^2.0.0",
@@ -16,6 +15,7 @@
     "react-konva": "^1.6.6",
     "react-redux": "^5.0.7",
     "react-scripts": "1.1.1",
+    "react-stepzilla": "^4.7.2",
     "react-transition-group": "^2.2.1",
     "redux": "^3.7.2",
     "validator": "^9.4.1"
