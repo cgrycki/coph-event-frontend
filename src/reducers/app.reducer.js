@@ -6,7 +6,8 @@ import { initialStore } from '../store/initialStore';
 
 
 export const appReducer = (state=initialStore, action) => {
-  let { type } = action;
+  let type = action.type;
+  
   switch (type) {
     case (appActions.UPDATE_LOGIN):
       return {...state, app: {...state.app, loggedIn: action.value }};

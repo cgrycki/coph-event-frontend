@@ -67,7 +67,7 @@ export const editorReducer = (state=initialStore, action) => {
       return {
         ...state,
         furniture: {...state.furniture, items: items_removed },
-        editor: {...state.editor, selected_item: ''}
+        editor: {...state.editor, selected_item: null}
         // Business calc
       };
 

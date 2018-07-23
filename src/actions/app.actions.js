@@ -2,6 +2,8 @@
  * Application actions
  */
 import { appActions } from '../constants/actionTypes';
+import * as rp from 'request-promise';
+
 
 /**
  * Updates our application's user login status
