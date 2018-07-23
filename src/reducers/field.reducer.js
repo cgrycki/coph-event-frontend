@@ -2,7 +2,7 @@
  * Field Reducers 
  */
 import { initialStore } from '../store/initialStore';
-import { fieldActions } from '../actions/field.actions';
+import { fieldActions } from '../constants/actionTypes';
 
 
 /**
