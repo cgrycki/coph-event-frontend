@@ -20,6 +20,15 @@ export const editorActions = {
 }
 
 
+// Rooms
+export const roomActions = {
+  FETCH_ROOMS        : 'FETCH_ROOMS',
+  FETCH_ROOMS_SUCCESS: 'FETCH_ROOMS_SUCCESS',
+  FETCH_ROOMS_FAILURE: 'FETCH_ROOMS_FAILURE',
+  FETCH_ROOMS_RESET  : 'FETCH_ROOMS_RESET'
+}
+
+
 // Application
 export const appActions = {
   UPDATE_LOGIN: 'UPDATE_LOGIN',

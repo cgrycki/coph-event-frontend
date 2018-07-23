@@ -55,7 +55,7 @@ const ids = {
 // Editor: Stores editor UI configuration data
 const editor = {
   furn_type    : 'circle',
-  selected_item: '',
+  selected_item: null,
   wh           : [500, 500],
   xy           : [0, 0],
   scaleXY      : [1, 1],
@@ -65,18 +65,28 @@ const editor = {
 
 // Application: Stores application data about our user's session
 const app = {
-  loggedIn: false,
-  step: 0,
-  save_status: 'NOT_READY'
+  loggedIn    : false,
+  step        : 0,
+  save_status : 'NOT_READY',
+  save_error  : null
+}
+
+
+// Rooms: Stores our API room data
+const rooms = {
+  rooms       : [],
+  room_loading: false,
+  room_error  : null
 }
 
 
 // Initial Store: Stores our application
 export const initialStore = {
-  fields,
-  errors,
-  furniture,
-  ids,
+  app,
   editor,
-  app
+  errors,
+  ids,
+  fields,
+  furniture,
+  rooms
 };

@@ -19,6 +19,7 @@
     "react-stepzilla": "^4.7.2",
     "react-transition-group": "^2.4.0",
     "redux": "^3.7.2",
+    "request-promise": "^4.2.2",
     "validator": "^9.4.1"
   },
   "scripts": {
