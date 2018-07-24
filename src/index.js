@@ -10,7 +10,7 @@ import { initializeIcons } from 'office-ui-fabric-react/lib/Icons';
 // Styles
 import '../node_modules/office-ui-fabric-core/dist/css/fabric.min.css';
 import '../node_modules/office-ui-fabric-react/dist/css/fabric.min.css';
-// IMPLEMENT OWN CSS
+import './assets/index.css';
 
 
 // Reducers and Components

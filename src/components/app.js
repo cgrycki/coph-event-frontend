@@ -21,7 +21,7 @@ class AppComponent extends React.Component {
   }
 
   componentDidMount() {
-    this.propsfetchRooms();
+    this.props.fetchRooms();
     console.log(this.props);
   }
 
