@@ -81,7 +81,7 @@ const rooms = {
 
 
 // Initial Store: Stores our application
-export const initialStore = {
+const initialStore = {
   app,
   editor,
   errors,
@@ -89,4 +89,5 @@ export const initialStore = {
   fields,
   furniture,
   rooms
-};
+}
+export default initialStore;
