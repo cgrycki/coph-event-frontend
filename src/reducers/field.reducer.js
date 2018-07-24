@@ -4,9 +4,10 @@
 import initialStore from '../store/initialStore';
 import { fieldActions } from '../constants/actionTypes';
 
+
 // Create the shape of our store to match reducers
 const initialFieldStore = {
-  fields: initialStore.fields.fields,
+  info  : initialStore.fields.info,
   errors: initialStore.fields.errors
 };
 
@@ -22,9 +23,18 @@ export const fieldReducer = (state=initialFieldStore, action) => {
 
   switch (type) {
     case fieldActions.UPDATE_FIELD:
-      return { ...state, [field]: value };
+      return { 
+        ...state, 
+        info: {...state.info, [field]: value }
+      };
+
     case fieldActions.RESET_FIELD:
-      return { ...state, [field]: initialStore.fields[field] };
+      return { 
+        ...state, 
+        info: {...state.info, [field]: initialFieldStore.info[field] },
+        errors: {...state.errors, [field]: undefined }
+      };
+
     default:
       return state;
   }

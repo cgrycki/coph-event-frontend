@@ -5,7 +5,7 @@
 
 
 // Fields: Object holding our user data entered into HTML fields
-const fields = {
+const info = {
   user_email       : '',
   contact_email    : '',
   comments         : '',
@@ -92,7 +92,7 @@ const initialStore = {
     ids
   },
   fields: {
-    fields,
+    info,
     errors
   },
   rooms
