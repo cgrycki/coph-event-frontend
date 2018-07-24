@@ -1,13 +1,14 @@
+// For React
 import React from 'react';
 import { Fabric } from 'office-ui-fabric-react';
 
-// For redux
+// For Redux
 import { connect } from 'react-redux';
 import { fetchRooms } from '../actions/room.actions';
 import { initialStore } from '../store/initialStore';
 
 
-// Presentational
+// Dumb component
 class AppComponent extends React.Component {
   constructor(props) {
     super();
@@ -20,7 +21,7 @@ class AppComponent extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchRooms());
+    this.propsfetchRooms();
     console.log(this.props);
   }
 
@@ -50,5 +51,4 @@ const mapDispatchToProps = dispatch => ({
   fetchRooms: () => dispatch(fetchRooms())
 })
 
-const App = connect(mapStateToProps)(AppComponent)
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(AppComponent);
