@@ -2,39 +2,51 @@
  * Room actions
  */
 import { roomActions } from '../constants/actionTypes';
-//import * as rp from 'request-promise';
-
+import * as rp from 'request-promise';
 
 /**
- * Makes a HTTP request to our API server to retrieve rooms via GET
+ * Notifies our application that we're loading an API
  */
-export const fetchRooms = () => {
-  let uri     = process.env.REACT_APP_REDIRECT_URI + 'rooms';
-  let options = { mode: 'no-cors', method: 'GET' };
-  let request = fetch(uri, options);
-  
-  return {
-    type   : roomActions.FETCH_ROOMS,
-    payload: request
-  };
-}
+const fetchRoomsLoading = () => ({
+  type: roomActions.FETCH_ROOMS_LOADING
+})
 
 
 /**
  * Tells application that we have successfully recieved our rooms data
- * @param {list} rooms List of objects from our API
+ * @param {*} response HTTP response containing List of objects from our API
  */
-export const fetchRoomsSuccess = (rooms) => ({
+const fetchRoomsSuccess = (response) => ({
   type: roomActions.FETCH_ROOMS_SUCCESS,
-  payload: rooms
+  payload: response,
 })
 
 
 /**
  * Notifies application of unsuccessful room call.
- * @param {error} error Error returned from our API
+ * @param {error} error Error returned from our API call
  */
-export const fetchRoomsFailure = (error) => ({
+const fetchRoomsFailure = (error) => ({
   type: roomActions.FETCH_ROOMS_FAILURE,
-  error: error
+  payload: error
 })
+
+
+/**
+ * Wraps all of our actions in a function so that we may execute an async action
+ */
+export default function fetchRooms() {
+  return (dispatch) => {
+    // Notify the store that we're initiating a API request
+    dispatch(fetchRoomsLoading());
+
+    // Set up options for API call
+    let uri     = process.env.REACT_APP_REDIRECT_URI + 'rooms';
+    let options = { method: 'GET' };
+
+    rp(uri, options)
+      .then(res => res.json())
+      .then(data => dispatch(fetchRoomsSuccess(data)))
+      .catch(err => dispatch(fetchRoomsFailure(err)));
+  };
+};
