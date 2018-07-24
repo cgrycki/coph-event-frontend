@@ -17,7 +17,7 @@ const fetchRoomsLoading = () => ({
  * @param {*} response HTTP response containing List of objects from our API
  */
 const fetchRoomsSuccess = (response) => ({
-  type: roomActions.FETCH_ROOMS_SUCCESS,
+  type   : roomActions.FETCH_ROOMS_SUCCESS,
   payload: response,
 })
 
@@ -27,7 +27,7 @@ const fetchRoomsSuccess = (response) => ({
  * @param {error} error Error returned from our API call
  */
 const fetchRoomsFailure = (error) => ({
-  type: roomActions.FETCH_ROOMS_FAILURE,
+  type   : roomActions.FETCH_ROOMS_FAILURE,
   payload: error
 })
 
@@ -42,7 +42,8 @@ export default function fetchRooms() {
 
     // Set up options for API call
     let uri     = process.env.REACT_APP_REDIRECT_URI + 'rooms';
-    let options = { method: 'GET' };
+    console.log(uri);
+    let options = { method: 'GET', withCredentials: true };
 
     rp(uri, options)
       .then(res => res.json())
