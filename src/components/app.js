@@ -1,8 +1,29 @@
 import React from 'react';
 import { Fabric } from 'office-ui-fabric-react';
 
+// For redux
+import { connect } from 'react-redux';
+import { fetchRooms } from '../actions/room.actions';
+import { initialStore } from '../store/initialStore';
 
-export default class App extends React.Component {
+
+// Presentational
+class AppComponent extends React.Component {
+  constructor(props) {
+    super();
+    this.state = {
+      loggedIn: props.loggedIn,
+      rooms: props.rooms,
+      room_error: props.room_error,
+      step: props.step
+    }
+  }
+
+  componentDidMount() {
+    this.props.dispatch(fetchRooms());
+    console.log(this.props);
+  }
+
   render() {
     return (
       <Fabric className="App ms-normalize">
@@ -17,3 +38,17 @@ export default class App extends React.Component {
     );
   }
 }
+
+
+// Smart
+const mapStateToProps = state => ({ 
+  ...state.appReducer,
+  ...state.roomReducer
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchRooms: () => dispatch(fetchRooms())
+})
+
+const App = connect(mapStateToProps)(AppComponent)
+export default App;

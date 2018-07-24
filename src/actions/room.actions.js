@@ -2,16 +2,17 @@
  * Room actions
  */
 import { roomActions } from '../constants/actionTypes';
-import * as rp from 'request-promise';
+//import * as rp from 'request-promise';
 
 
 /**
  * Makes a HTTP request to our API server to retrieve rooms via GET
  */
 export const fetchRooms = () => {
-  const url = process.env.REACT_APP_REDIRECT_URI;
-  const request = rp.get(url);
-
+  let uri     = process.env.REACT_APP_REDIRECT_URI + 'rooms';
+  let options = { mode: 'no-cors', method: 'GET' };
+  let request = fetch(uri, options);
+  
   return {
     type   : roomActions.FETCH_ROOMS,
     payload: request
@@ -37,6 +38,3 @@ export const fetchRoomsFailure = (error) => ({
   type: roomActions.FETCH_ROOMS_FAILURE,
   error: error
 })
-
-
-
