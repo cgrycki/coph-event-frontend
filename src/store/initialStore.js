@@ -67,7 +67,7 @@ const editor = {
 const app = {
   loggedIn    : false,
   step        : 0,
-  save_status : 'NOT_READY',
+  loading     : false,
   save_error  : null
 }
 
@@ -75,7 +75,7 @@ const app = {
 // Rooms: Stores our API room data
 const rooms = {
   rooms       : [],
-  room_loading: false,
+  loading     : false,
   room_error  : null
 }
 

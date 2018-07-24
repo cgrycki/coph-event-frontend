@@ -16,8 +16,13 @@ const filterItem = (arr, item_id) => {
   return arr.slice().filter(d => d.item_id !== item_id);
 }
 
+const initialEditorStore = {
+  editor: initialStore.editor,
+  ids: initialStore.ids
+}
 
-export const editorReducer = (state=initialStore, action) => {
+
+export const editorReducer = (state=initialEditorStore, action) => {
   let { type } = action;
   
   switch (type) {

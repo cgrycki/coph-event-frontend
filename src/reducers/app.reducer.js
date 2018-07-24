@@ -5,7 +5,7 @@ import { appActions } from '../constants/actionTypes';
 import { initialStore } from '../store/initialStore';
 
 
-export const appReducer = (state=initialStore, action) => {
+export const appReducer = (state=initialStore.app, action) => {
   let type = action.type;
   
   switch (type) {

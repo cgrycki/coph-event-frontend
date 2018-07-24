@@ -10,10 +10,10 @@ export const roomReducer = (state=initialStore.rooms, action) => {
 
   switch (type) {
     case (roomActions.FETCH_ROOMS):
-      return {...state, loading: true };
+      return { ...state, loading: true };
 
     case (roomActions.FETCH_ROOMS_SUCCESS):
-      return {rooms: action.payload, loading: false, error: null };
+      return { rooms: action.payload, loading: false, error: null };
 
     case (roomActions.FETCH_ROOMS_FAILURE):
       error = action.error || action.error.message;
