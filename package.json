@@ -19,6 +19,8 @@
     "react-stepzilla": "^4.7.2",
     "react-transition-group": "^2.4.0",
     "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
     "request-promise": "^4.2.2",
     "validator": "^9.4.1"
   },
