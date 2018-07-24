@@ -2,7 +2,7 @@
  * Room reducer
  */
 import { roomActions } from '../constants/actionTypes';
-import { initialStore } from '../store/initialStore';
+import initialStore from '../store/initialStore';
 
 export const roomReducer = (state=initialStore.rooms, action) => {
   let error;

@@ -1,8 +1,14 @@
 /**
  * Field Reducers 
  */
-import { initialStore } from '../store/initialStore';
+import initialStore from '../store/initialStore';
 import { fieldActions } from '../constants/actionTypes';
+
+// Create the shape of our store to match reducers
+const initialFieldStore = {
+  fields: initialStore.fields.fields,
+  errors: initialStore.fields.errors
+};
 
 
 /**
@@ -10,7 +16,7 @@ import { fieldActions } from '../constants/actionTypes';
  * @param {object} state Our applications field state
  * @param {object} action Object, dispatched from field.actions.js
  */
-export const fieldReducer = (state=initialStore.fields, action) => {
+export const fieldReducer = (state=initialFieldStore, action) => {
   // Gather variables from our action
   let { type, field, value } = action;
 

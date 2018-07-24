@@ -1,7 +1,7 @@
 /**
  * Editor Reducer
  */
-import { initialStore } from '../store/initialStore';
+import initialStore from '../store/initialStore';
 import { editorActions } from '../constants/actionTypes';
 // Business logic
 
@@ -16,10 +16,7 @@ const filterItem = (arr, item_id) => {
   return arr.slice().filter(d => d.item_id !== item_id);
 }
 
-const initialEditorStore = {
-  editor: initialStore.editor,
-  ids: initialStore.ids
-}
+const initialEditorStore = { ...initialStore.editor };
 
 
 export const editorReducer = (state=initialEditorStore, action) => {
@@ -31,7 +28,7 @@ export const editorReducer = (state=initialEditorStore, action) => {
       var { x, y } = action;
 
       // Infer furniture type from our state, inc ID, and create item
-      var furn_type   = state.editor.furn_type;
+      var furn_type   = state.layout.furn_type;
       var item_id     = furn_type + state.ids[furn_type];
       var item_to_add = { item_id, furn_type, x, y };
 
@@ -72,7 +69,7 @@ export const editorReducer = (state=initialEditorStore, action) => {
       return {
         ...state,
         furniture: {...state.furniture, items: items_removed },
-        editor: {...state.editor, selected_item: null}
+        layout: {...state.layout, selected_item: null}
         // Business calc
       };
 
@@ -82,7 +79,7 @@ export const editorReducer = (state=initialEditorStore, action) => {
 
       return {
         ...state,
-        editor: {...state.editor, selected_item: item_id }
+        layout: {...state.layout, selected_item: item_id }
       };
 
     case (editorActions.UPDATE_EDITOR):
@@ -91,7 +88,7 @@ export const editorReducer = (state=initialEditorStore, action) => {
 
       return {
         ...state,
-        editor: {...state.editor, [field]: value }
+        layout: {...state.layout, [field]: value }
       };
     
     default:

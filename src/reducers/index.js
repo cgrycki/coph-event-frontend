@@ -8,8 +8,8 @@ import { roomReducer } from './room.reducer';
 import { combineReducers } from 'redux';
 
 export default combineReducers({
-  appReducer,
-  editorReducer,
-  fieldReducer,
-  roomReducer
+  app   : appReducer,
+  editor: editorReducer,
+  fields: fieldReducer,
+  rooms : roomReducer
 });

@@ -2,7 +2,7 @@
  * Application Reducer
  */
 import { appActions } from '../constants/actionTypes';
-import { initialStore } from '../store/initialStore';
+import initialStore from '../store/initialStore';
 
 
 export const appReducer = (state=initialStore.app, action) => {
