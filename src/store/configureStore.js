@@ -1,7 +1,7 @@
 /**
  * Application Store configuration
  */
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import initialStore from './initialStore';
@@ -14,14 +14,13 @@ const loggerMiddleware = createLogger()
 
 // Function to create a store with async + logging
 export function configureStore(preloadedState) {
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   return createStore(
     rootReducer,
     preloadedState,
-    applyMiddleware(
-      thunkMiddleware,
-      loggerMiddleware
-    ),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    composeEnhancers(
+      applyMiddleware(thunkMiddleware, loggerMiddleware)
+    )
   )
 }
 
