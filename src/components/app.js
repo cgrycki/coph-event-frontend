@@ -2,6 +2,8 @@
 import React from 'react';
 import { Fabric } from 'office-ui-fabric-react';
 
+import StepOne from './steps/one/StepOne';
+
 
 // Dumb component
 export default class App extends React.Component {
@@ -24,6 +26,10 @@ export default class App extends React.Component {
             <div className="ms-Grid-col ms-sm6">
               <h2>TESTING</h2>
             </div>
+          </div>
+
+          <div className="ms-Grid-row">
+            <StepOne/>
           </div>
         </div>
       </Fabric>
