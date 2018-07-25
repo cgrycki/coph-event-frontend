@@ -1,38 +1,22 @@
-// For React
 import React from 'react';
-import { Fabric } from 'office-ui-fabric-react';
+import { Provider } from 'react-redux'
+import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
 
-import StepOne from './steps/one/StepOne';
+// Site components
+import Form from './Form';
+import Event from './Event';
+import Admin from './Admin';
 
+const App = ({ store }) => (
+  <Provider store={store}>
+    <Router path="/">
+      <Switch>
+        <Route path="/"       component={Form} />
+        <Route path="/event"  component={Event} />
+        <Route path="/admin"  component={Admin} />
+      </Switch>
+    </Router>
+  </Provider>
+)
 
-// Dumb component
-export default class App extends React.Component {
-  render() {
-    return (
-      <Fabric className="App ms-normalize">
-        <div className="ms-Grid">
-
-          <div className="ms-Grid-row">
-            <div className="ms-Grid-col ms-sm12">
-              <h1>TESTING</h1>
-            </div>
-          </div>
-
-          <div className="ms-Grid-row">
-            <div className="ms-Grid-col ms-sm6">
-              <h2>TESTING</h2>
-            </div>
-
-            <div className="ms-Grid-col ms-sm6">
-              <h2>TESTING</h2>
-            </div>
-          </div>
-
-          <div className="ms-Grid-row">
-            <StepOne/>
-          </div>
-        </div>
-      </Fabric>
-    );
-  }
-}
+export default App;

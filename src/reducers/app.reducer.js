@@ -19,13 +19,11 @@ export const appReducer = (state=initialStore.app, action) => {
       return {...state, login_loading: true};
 
     case (appActions.LOGIN_SUCESS):
-      var response = action.payload;
-      console.log(response);
-      return {...state, loggedIn: response.loggedIn, login_loading: false };
+      var response = action.payload.loggedIn;
+      return {...state, loggedIn: response, login_loading: false };
 
     case (appActions.LOGIN_FAILURE):
       var err = action.payload;
-      console.log(err);
       return {...state, login_loading: false, login_error: err };
 
     default:
