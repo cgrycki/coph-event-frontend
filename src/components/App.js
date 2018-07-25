@@ -15,6 +15,8 @@ import Admin from './Admin';
 import StepOne    from './steps/01/StepOne';
 import StepTwo    from './steps/02/StepTwo';
 import StepThree  from './steps/03/StepThree';
+import StepFour   from './steps/04/StepFour';
+import StepFive   from './steps/05/StepFive';
 
 // Holds our application data store and sets routes up
 const App = ({ store }) => (
@@ -34,9 +36,11 @@ const App = ({ store }) => (
                 <Route path="/admin"  component={Admin} />
                 <Redirect from="/" exact to="/form/basic" />
                 <Form>
-                  <Route path="/form/basic" component={StepOne} />
-                  <Route path="/form/user"  component={StepTwo} />
-                  <Route path="/form/event" component={StepThree} />
+                  <Route path="/form/basic"  component={StepOne} />
+                  <Route path="/form/user"   component={StepTwo} />
+                  <Route path="/form/event"  component={StepThree} />
+                  <Route path="/form/layout" component={StepFour} />
+                  <Route path="/form/review" component={StepFive} />
                 </Form>
               </Switch>
             </Router>
