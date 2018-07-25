@@ -42,7 +42,6 @@ export default function fetchRooms() {
 
     // Set up options for API call
     let uri     = process.env.REACT_APP_REDIRECT_URI + 'rooms';
-    console.log(uri);
     let options = { method: 'GET', withCredentials: true };
 
     rp(uri, options)
