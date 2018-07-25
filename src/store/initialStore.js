@@ -83,6 +83,16 @@ const rooms = {
 }
 
 
+// Events: Stores event(s) data. Singular for users and list for admins
+const events = {
+  event: {},
+  events: [],
+  event_loading: false,
+  event_error: null
+}
+
+
+
 // Initial Store: Stores our application
 const initialStore = {
   app,
@@ -95,6 +105,7 @@ const initialStore = {
     info,
     errors
   },
-  rooms
+  rooms,
+  events
 }
 export default initialStore;
