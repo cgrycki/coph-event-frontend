@@ -48,6 +48,6 @@ export const appActions = {
   USER_ERROR   : 'USER_ERROR',
   USER_SUCCESS : 'USER_SUCCESS',
   
-  UPDATE_STEP  : 'UPDATE_STEP',
+  UPDATE_PATH  : 'UPDATE_PATH',
   SUBMIT_FORM  : 'SUBMIT_FORM'
 };
