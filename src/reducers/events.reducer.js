@@ -5,7 +5,6 @@ import initialStore from '../store/initialStore';
 import { eventActions } from '../constants/actionTypes';
 
 export const eventReducer = (state=initialStore.events, action) => {
-  let event_error;
   let type = action.type;
 
   switch (type) {
