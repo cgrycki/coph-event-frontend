@@ -34,9 +34,9 @@ const App = ({ store }) => (
               <Switch>
                 <Route path="/event"  component={Event} />
                 <Route path="/admin"  component={Admin} />
-                <Redirect from="/" exact to="/form/basic" />
+                <Redirect from="/" exact to="/form/" />
                 <Form>
-                  <Route path="/form/basic"  component={StepOne} />
+                  <Route path="/form/"  component={StepOne} />
                   <Route path="/form/user"   component={StepTwo} />
                   <Route path="/form/event"  component={StepThree} />
                   <Route path="/form/layout" component={StepFour} />
