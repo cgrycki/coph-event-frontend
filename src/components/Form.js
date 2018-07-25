@@ -1,16 +1,10 @@
 // For React
 import React from 'react';
-import { Switch, Redirect, BrowserRouter as Router, Route } from 'react-router-dom';
 import { Fabric } from 'office-ui-fabric-react';
-
-
-import StepOne from './steps/one/StepOne';
-import StepTwo from './steps/two/StepTwo';
 
 // Dumb component
 export default class Form extends React.Component {
   render() {
-    console.log(this.props);
     return (
       <Fabric className="Form ms-normalize">
         <div className="ms-Grid">
@@ -32,12 +26,7 @@ export default class Form extends React.Component {
           </div>
 
           <div className="ms-Grid-row">
-            <Switch>
-              <Redirect from="/" to="/form/basic" />
-              <Route path="/form/basic" exact component={StepOne} />
-              <Route path="/form/user" exact component={StepTwo} />
-            </Switch>
-            <StepOne/>
+            {this.props.children}
           </div>
         </div>
       </Fabric>
