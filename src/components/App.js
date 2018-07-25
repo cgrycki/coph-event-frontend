@@ -5,6 +5,7 @@ import { Fabric } from 'office-ui-fabric-react';
 
 
 // Site components
+import Navbar from './common/NavBar';
 import Form  from './Form';
 import Event from './Event';
 import Admin from './Admin';
@@ -20,8 +21,8 @@ const App = ({ store }) => (
   <Provider store={store}>
     <Fabric>
       <div className="ms-Grid App">
-
         <div className="ms-Grid-row">
+          <Navbar/>
         </div>
 
         <div className="ms-Grid-row">
