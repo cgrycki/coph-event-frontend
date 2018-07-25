@@ -1,6 +1,7 @@
 // Libraries
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Switch, BrowserRouter as Router, Route } from 'react-router-dom'
 import { Provider } from 'react-redux';
 import registerServiceWorker from './registerServiceWorker';
 import { initializeIcons } from 'office-ui-fabric-react/lib/Icons';
@@ -12,9 +13,9 @@ import '../node_modules/office-ui-fabric-react/dist/css/fabric.min.css';
 import './assets/index.css';
 
 
-// Reducers and Components
-import App from './components/app';
+// Store and entry point
 import configuredStore from './store/configureStore';
+import App from './components/App';
 
 
 /* Initialize icons for Microsoft Fabric UI. */
@@ -22,9 +23,7 @@ initializeIcons();
 
 
 ReactDOM.render(
-  <Provider store={configuredStore}>
-    <App />
-  </Provider>,
+  <App store={configuredStore} />,
   document.getElementById('root')
 );
 registerServiceWorker();
