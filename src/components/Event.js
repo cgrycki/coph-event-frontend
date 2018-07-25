@@ -9,17 +9,16 @@ export default class EventComponent extends React.Component {
   }
 
   render() {
-    console.log(this.props, this.state);
     return (
       <div>
-       <p>Singular event page!</p>
-       <NavLink
-        to={'/'}
-        activeStyle={{
-          textDecoration: 'none',
-          color: 'black'
-        }}
-        >Create an event</NavLink>
+        <h3>Singular event page!</h3>
+        <button>
+          <NavLink
+            to={'/'}
+            activeStyle={{ textDecoration: 'none', color: 'black' }}>
+              Create an event
+          </NavLink>
+        </button>
       </div>
     );
   }
