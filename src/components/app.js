@@ -7,8 +7,8 @@ import Form from './Form';
 import Event from './Event';
 import Admin from './Admin';
 
-import StepOne from './steps/one/StepOne';
-import StepTwo from './steps/two/StepTwo';
+import StepOne from './steps/01/StepOne';
+import StepTwo from './steps/02/StepTwo';
 
 const App = ({ store }) => (
   <Provider store={store}>
