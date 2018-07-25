@@ -4,7 +4,9 @@
 import { appActions } from '../constants/actionTypes';
 import * as rp from 'request-promise';
 
+const URI = process.env.REACT_APP_REDIRECT_URI;
 
+ 
 /**
  * Notifies our application we're attempting to validate logged-in status
  */
@@ -43,7 +45,7 @@ export function fetchLogin() {
     dispatch(fetchLoginLoading());
 
     // Set up options
-    let uri = process.env.REACT_APP_REDIRECT_URI + 'auth/validate';
+    let uri = `${URI}auth/validate`;
     let options = {
       withCredentials: true,
       method: 'GET'
