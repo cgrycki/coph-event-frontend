@@ -1,38 +1,29 @@
-// For React
 import React from 'react';
-import { Fabric } from 'office-ui-fabric-react';
+import { Provider } from 'react-redux'
+import { Switch, Redirect, BrowserRouter as Router, Route } from 'react-router-dom';
 
-import StepOne from './steps/one/StepOne';
+// Site components
+import Form from './Form';
+import Event from './Event';
+import Admin from './Admin';
 
+import StepOne from './steps/01/StepOne';
+import StepTwo from './steps/02/StepTwo';
 
-// Dumb component
-export default class App extends React.Component {
-  render() {
-    return (
-      <Fabric className="App ms-normalize">
-        <div className="ms-Grid">
+const App = ({ store }) => (
+  <Provider store={store}>
+    <Router>
+      <Switch>
+        <Route path="/event"  component={Event} />
+        <Route path="/admin"  component={Admin} />
+        <Redirect from="/" exact to="/form/basic" />
+        <Form>
+          <Route path="/form/basic" component={StepOne} />
+          <Route path="/form/user" component={StepTwo} />
+        </Form>
+      </Switch>
+    </Router>
+  </Provider>
+)
 
-          <div className="ms-Grid-row">
-            <div className="ms-Grid-col ms-sm12">
-              <h1>TESTING</h1>
-            </div>
-          </div>
-
-          <div className="ms-Grid-row">
-            <div className="ms-Grid-col ms-sm6">
-              <h2>TESTING</h2>
-            </div>
-
-            <div className="ms-Grid-col ms-sm6">
-              <h2>TESTING</h2>
-            </div>
-          </div>
-
-          <div className="ms-Grid-row">
-            <StepOne/>
-          </div>
-        </div>
-      </Fabric>
-    );
-  }
-}
+export default App;

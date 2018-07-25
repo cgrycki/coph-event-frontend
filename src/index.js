@@ -12,9 +12,9 @@ import '../node_modules/office-ui-fabric-react/dist/css/fabric.min.css';
 import './assets/index.css';
 
 
-// Reducers and Components
-import App from './components/app';
+// Application data store and entry point
 import configuredStore from './store/configureStore';
+import App from './components/App';
 
 
 /* Initialize icons for Microsoft Fabric UI. */
@@ -22,9 +22,7 @@ initializeIcons();
 
 
 ReactDOM.render(
-  <Provider store={configuredStore}>
-    <App />
-  </Provider>,
+  <App store={configuredStore} />,
   document.getElementById('root')
 );
 registerServiceWorker();
