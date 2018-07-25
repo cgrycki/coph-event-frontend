@@ -10,8 +10,8 @@ export const appReducer = (state=initialStore.app, action) => {
   
   switch (type) {
     // Unsure about these two
-    case (appActions.UPDATE_STEP):
-      return {...state, step: action.step };
+    case (appActions.UPDATE_PATH):
+      return {...state, path: action.path };
     case (appActions.SUBMIT_FORM):
       return {...state.app, save_status: 'SAVING' };
 
