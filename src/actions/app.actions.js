@@ -63,9 +63,9 @@ export function fetchLogin() {
  * Updates our application's progress
  * @param {int} step Interger updating which wizard step to render
  */
-export const updateStep = (step) => ({
-  type: appActions.UPDATE_STEP,
-  step: step
+export const updatePath = (path) => ({
+  type: appActions.UPDATE_PATH,
+  path
 })
 
 
