@@ -13,15 +13,19 @@ class StepOneComponent extends React.Component {
     this.props.dispatch(fetchLogin());
   }
 
+  componentWillReceiveProps(nextProps) {
+    let { loggedIn } = nextProps;
+    if (loggedIn) this.props.history
+    this.setState({ ...nextProps });
+  }
+
   render() {
+    console.log(this.props, this.state);
     return (
       <div>
         <div>Step One</div>
         <div>
-          <button 
-            disabled={!this.state.loggedIn}
-            onClick={() => this.props.dispatch(updateStep(1))}
-          >Next</button>
+          <button disabled={!this.state.loggedIn}>Next</button>
         </div>
       </div>
     );
