@@ -2,14 +2,19 @@ import React from 'react';
 import { Provider } from 'react-redux'
 import { Switch, Redirect, BrowserRouter as Router, Route } from 'react-router-dom';
 
+
 // Site components
 import Form from './Form';
 import Event from './Event';
 import Admin from './Admin';
 
+
+// Steps for our form
 import StepOne from './steps/01/StepOne';
 import StepTwo from './steps/02/StepTwo';
 
+
+// Holds our application data store and sets routes up
 const App = ({ store }) => (
   <Provider store={store}>
     <Router>
@@ -24,6 +29,5 @@ const App = ({ store }) => (
       </Switch>
     </Router>
   </Provider>
-)
-
+);
 export default App;
