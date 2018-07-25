@@ -65,7 +65,6 @@ const layout = {
 
 // Application: Stores application data about our user's session
 const app = {
-  step         : 0,
   path         : '/',
 
   loggedIn     : false,
