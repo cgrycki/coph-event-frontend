@@ -10,25 +10,23 @@ import Form  from './Form';
 import Event from './Event';
 import Admin from './Admin';
 
-
-// Steps for our form
+// Form Steps
 import StepOne    from './steps/01/StepOne';
 import StepTwo    from './steps/02/StepTwo';
 import StepThree  from './steps/03/StepThree';
 import StepFour   from './steps/04/StepFour';
 import StepFive   from './steps/05/StepFive';
+import NavBar from './common/NavBar';
+
 
 // Holds our application data store and sets routes up
 const App = ({ store }) => (
   <Provider store={store}>
     <Fabric>
+
       <div className="ms-Grid App">
         <div className="ms-Grid-row">
-          <Navbar/>
-        </div>
-
-        <div className="ms-Grid-row">
-          <div className="ms-Grid-col">
+          <div className="Page ms-borderBase ms-Grid-col ms-sm12 ms-lg8 ms-lgPush2">
 
             <Router>
               <Switch>

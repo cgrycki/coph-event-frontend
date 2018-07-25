@@ -18,7 +18,9 @@ class NavBarComponent extends React.Component {
 
   render() {
     return (
-      <CommandBar />
+      <div className="ms-Grid-row">
+        <CommandBar />
+      </div>
     );
   }
 }
