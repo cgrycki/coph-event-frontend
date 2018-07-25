@@ -15,12 +15,11 @@ class StepOneComponent extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     let { loggedIn } = nextProps;
-    if (loggedIn) this.props.history
-    this.setState({ ...nextProps });
+    if (loggedIn) this.props.history.push('/form/user');
+    else this.setState({ ...nextProps });
   }
 
   render() {
-    console.log(this.props, this.state);
     return (
       <div>
         <div>Step One</div>
