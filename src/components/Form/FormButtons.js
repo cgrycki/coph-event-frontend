@@ -13,7 +13,7 @@ export default class FormButtons extends React.PureComponent {
   render() {
     return (
       <div className="ms-Grid-row">
-        <div className="ms-Grid-col ms-sm12">
+        <div className="ms-Grid-col ms-sm12 FormButtons">
           <div style={flex_styles}>
             <DefaultButton
               primary={false}

@@ -36,7 +36,7 @@ class StepOneComponent extends React.Component {
           </div>
         </div>
 
-        <div className="FormButtons ms-Grid-row">
+        <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm3 ms-smPush1">
             <CompoundButton
               primary={true}
