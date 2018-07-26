@@ -85,7 +85,7 @@ class StepThreeComponent extends React.Component {
               <DateField
                 label={'Date'}
                 value={this.props.info['date']}
-                placeholder={'Add an date'}
+                placeholder={'Add a date for the event'}
                 onChange={this.onInputChange}
               />
 
