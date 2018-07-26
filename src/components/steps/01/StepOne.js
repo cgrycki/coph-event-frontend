@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { CompoundButton } from 'office-ui-fabric-react';
-import { fetchLogin, updateStep } from '../../../actions/app.actions';
+import { fetchLogin } from '../../../actions/app.actions';
 
 // Component
 class StepOneComponent extends React.Component {

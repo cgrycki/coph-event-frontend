@@ -39,7 +39,7 @@ class StepTwoComponent extends React.Component {
           <div className="ms-Grid-col ms-sm12">
             <TextField
               label={"User Email"}
-              placeholder={"herke-de-hawk@uiowa.edu"}
+              placeholder={"Enter your U. Iowa email"}
               value={this.props.info['user_email']}
               onChange={this.onInputChange}
               error={this.props.errors['user_email']}
