@@ -74,6 +74,18 @@ class StepThreeComponent extends React.Component {
               onChange={this.onInputChange}
             />
 
+            <TextField
+              label="Comments"
+              placeholder="Enter any additional notes."
+              value={this.props.info["comments"]}
+              onChange={this.onInputChange}
+              error={this.props.errors["comments"]}
+              field={"comments"}
+              required={false}
+              multiline={true}
+              rows={4}
+            />
+
           </div>
         </div>
 
