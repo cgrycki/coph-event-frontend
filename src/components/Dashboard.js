@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 
 // Component
-class AdminComponent extends React.Component {
+class DashboardComponent extends React.Component {
   constructor(props) {
     super();
     this.state = { ...props };
@@ -24,6 +24,7 @@ class AdminComponent extends React.Component {
 
 // Container
 const mapStateToProps = state => ({
-  loggedIn: state.app.loggedIn
+  loggedIn: state.app.loggedIn,
+  isAdmin: state.app.isAdmin
 })
-export default connect(mapStateToProps)(AdminComponent);
+export default connect(mapStateToProps)(DashboardComponent);

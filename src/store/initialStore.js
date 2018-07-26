@@ -8,11 +8,13 @@
 const info = {
   user_email       : '',
   contact_email    : '',
+  event_name       : '',
   comments         : '',
   date             : '',
   start_time       : '',
   end_time         : '',
   room_number      : '',
+  references_course: false,
   referenced_course: '',
   setup_required   : false,
   setup_mfk        : '',
@@ -65,13 +67,16 @@ const layout = {
 
 // Application: Stores application data about our user's session
 const app = {
-  step         : 0,
+  path         : '/',
+
   loggedIn     : false,
   login_loading: false,
   login_error  : null,
-  saved        : false,
-  save_loading : false,
-  save_error   : null
+
+  user_email   : '',
+  isAdmin      : false,
+  user_loading : false,
+  user_error   : null
 }
 
 
@@ -81,6 +86,16 @@ const rooms = {
   rooms_loading: false,
   room_error   : null
 }
+
+
+// Events: Stores event(s) data. Singular for users and list for admins
+const events = {
+  event: {},
+  events: [],
+  event_loading: false,
+  event_error: null
+}
+
 
 
 // Initial Store: Stores our application
@@ -95,6 +110,7 @@ const initialStore = {
     info,
     errors
   },
-  rooms
+  rooms,
+  events
 }
 export default initialStore;

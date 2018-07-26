@@ -1,7 +1,6 @@
 // Libraries
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 import registerServiceWorker from './registerServiceWorker';
 import { initializeIcons } from 'office-ui-fabric-react/lib/Icons';
 

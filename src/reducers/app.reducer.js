@@ -9,12 +9,13 @@ export const appReducer = (state=initialStore.app, action) => {
   let type = action.type;
   
   switch (type) {
-    case (appActions.UPDATE_STEP):
-      return {...state, step: action.step };
-
+    // Unsure about these two
+    case (appActions.UPDATE_PATH):
+      return {...state, path: action.path };
     case (appActions.SUBMIT_FORM):
       return {...state.app, save_status: 'SAVING' };
 
+    // Login validation cases
     case (appActions.LOGIN_LOADING):
       return {...state, login_loading: true};
 
@@ -26,6 +27,17 @@ export const appReducer = (state=initialStore.app, action) => {
       var err = action.payload;
       return {...state, login_loading: false, login_error: err };
 
+    // User information cases
+    case (appActions.USER_LOADING):
+      return { ...state, user_loading: true };
+
+    case (appActions.USER_ERROR):
+      return { ...state, user_loading: false, user_error: action.payload };
+
+    case (appActions.USER_SUCCESS):
+      let { isAdmin, user_email } = action.payload;
+      return { ...state, user_loading: false, user_email, isAdmin };
+       
     default:
       return state;
   }
