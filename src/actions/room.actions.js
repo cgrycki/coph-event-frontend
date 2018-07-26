@@ -4,6 +4,8 @@
 import { roomActions } from '../constants/actionTypes';
 import * as rp from 'request-promise';
 
+const URI = process.env.REACT_APP_REDIRECT_URI;
+
 /**
  * Notifies our application that we're loading an API
  */
@@ -41,11 +43,11 @@ export default function fetchRooms() {
     dispatch(fetchRoomsLoading());
 
     // Set up options for API call
-    let uri     = process.env.REACT_APP_REDIRECT_URI + 'rooms';
+    let uri     = `${URI}rooms`;
     let options = { method: 'GET', withCredentials: true };
 
     rp(uri, options)
-      .then(res => res.json())
+      .then(res => JSON.parse(res))
       .then(data => dispatch(fetchRoomsSuccess(data)))
       .catch(err => dispatch(fetchRoomsFailure(err)));
   };
