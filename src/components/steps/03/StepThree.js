@@ -5,6 +5,8 @@ import { DefaultButton } from 'office-ui-fabric-react';
 
 // Components
 import TextField from '../../common/TextField';
+import DateField from '../../common/DateField';
+import TimeField from '../../common/TimeField';
 import RoomsList from './RoomList';
 
 // Actions
@@ -41,6 +43,7 @@ class StepThreeComponent extends React.Component {
   nextPage() {
     // Get room number and create a set of rooms that are valid for the editor
     let { room_number } = this.props.info;
+    console.log(room_number);
     let layout_rooms = new Set(['XC100']);
 
     // Conditionally change route based on the above condition
@@ -72,6 +75,20 @@ class StepThreeComponent extends React.Component {
               rooms={this.props.rooms}
               value={this.props.info['room_number']}
               onChange={this.onInputChange}
+            />
+
+            <DateField
+              label={'Date'}
+              value={this.props.info['date']}
+              placeholder={'PLACEHOLDER'}
+              onChange={this.onInputChange}
+            />
+
+            <TimeField
+              label={'Start Time'}
+              value={this.props.info['start_time']}
+              onChange={this.onInputChange}
+              field={'start_time'}
             />
 
             <TextField

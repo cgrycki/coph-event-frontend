@@ -24,16 +24,18 @@ const render2 = (room) => ({
 export default class RoomsList extends React.PureComponent {
   render() {
     //const room_options = this.props.rooms.map((d, i) => renderRoomOption(d, i));
-    const room_options = this.props.rooms.map(d => render2(d));
+    const room_options = this.props.rooms
+      .sort((a, b) => +a.floor - +b.floor)
+      .map(d => render2(d));
 
     return (
       <Dropdown
         placeholder={"Add a room"}
         label={"Room Number"}
-        selectedKeys={[this.props.value]}
-        onChanged={(evt) => this.props.onChange('room_number', evt)}
-        options={room_options}
-        //onRenderOption={renderRoomOption}
+        selectedKey={this.props.value}
+        onChanged={(evt) => this.props.onChange('room_number', evt.roomNumber)}
+        options={this.props.rooms}
+        onRenderOption={renderRoomOption}
         required={true} 
       />
     );
