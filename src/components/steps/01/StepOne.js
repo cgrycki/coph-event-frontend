@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { CompoundButton } from 'office-ui-fabric-react';
 import { fetchLogin } from '../../../actions/app.actions';
 
+import Hero from './hero';
+
 // Component
 class StepOneComponent extends React.Component {
   constructor(props) {
@@ -29,7 +31,7 @@ class StepOneComponent extends React.Component {
         
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12">
-            <p className="ms-fontSize-xl">Login</p>
+            <p className="ms-fontSize-xl">Login <Hero/></p>
             <p>This is an example text....</p>
           </div>
         </div>
