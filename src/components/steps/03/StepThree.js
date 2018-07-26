@@ -52,6 +52,8 @@ class StepThreeComponent extends React.Component {
   }
 
   render() {
+    console.log(this.props);
+
     return (
       <div>
         <div className="ms-Grid-row">
@@ -73,6 +75,8 @@ class StepThreeComponent extends React.Component {
 
             <RoomsList 
               rooms={this.props.rooms}
+              rooms_loading={this.props.rooms_loading}
+              rooms_error={this.props.rooms_error}
               value={this.props.info['room_number']}
               onChange={this.onInputChange}
             />
@@ -135,7 +139,7 @@ class StepThreeComponent extends React.Component {
 const mapStateToProps = state => ({
   info  : state.fields.info,
   errors: state.fields.errors,
-  rooms : state.rooms.rooms
+  ...state.rooms
 });
 
 export default connect(mapStateToProps)(StepThreeComponent);

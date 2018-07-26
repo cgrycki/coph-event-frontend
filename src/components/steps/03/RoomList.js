@@ -1,43 +1,60 @@
 import React from 'react';
-import { Dropdown } from 'office-ui-fabric-react';
+import { Dropdown, Spinner, SpinnerSize } from 'office-ui-fabric-react';
 
 
 // Option renderer
 const renderRoomOption = (room) => {
-  const float_right = { "float": "right" };
+  // Inline dropdown list option styling
+  const span_style = { 
+    "width"       : "100px",
+    "height"      : "100px",
+    "borderRadius": "50px",
+    "background"  : "#333333ee",
+    "color"       : "#fff",
+    "fontFamily"  : "sans-serif",
+    "fontWeight"  : "bold",
+    "fontSize"    : "14px"
+  };
   return (
-    <div className="dropdownOption" key={`room-$room.roomNumber`}>
-      Number: {room.roomNumber} 
-      <span style={float_right}>
-        <strong>Floor: {room.floor}</strong>
-      </span>
+    <div className="dropdownOption" key={`${room.roomNumber}`}>
+      <span style={span_style}>
+        <strong>&nbsp;{room.floor}&nbsp;</strong>
+      </span>&nbsp;&nbsp;&nbsp;
+      Room: {room.roomNumber} 
     </div>
   );
 }
-// Another one
-const render2 = (room) => ({
-  key: `room-${room.roomNumber}`,
-  text: `${room.floor}:  ${room.roomNumber}`
-});
 
 
 export default class RoomsList extends React.PureComponent {
   render() {
-    //const room_options = this.props.rooms.map((d, i) => renderRoomOption(d, i));
+    // Create a copy and transform rooms into consumable options
     const room_options = this.props.rooms
+      .slice()
       .sort((a, b) => +a.floor - +b.floor)
-      .map(d => render2(d));
+      .map(d => { 
+        d.key = d.roomNumber;
+        d.text = `${d.floor} - ${d.roomNumber}`;
+        return d;
+      });
 
     return (
       <Dropdown
         placeholder={"Add a room"}
         label={"Room Number"}
-        selectedKey={this.props.value}
+        selectedKeys={(this.props.value !== '') ? [this.props.value] : []}
         onChanged={(evt) => this.props.onChange('room_number', evt.roomNumber)}
-        options={this.props.rooms}
+        options={room_options}
         onRenderOption={renderRoomOption}
         required={true} 
       />
     );
   }
 }
+
+/*
+        onChanged={(evt) => this.props.onChange('room_number', evt.roomNumber)}
+        //onChanged={(evt) => console.log(evt)}
+        options={room_options}
+        //onRenderOption={renderRoomOption}
+        */
