@@ -26,17 +26,13 @@ class StepOneComponent extends React.Component {
   render() {
     return (
       <div>
+        
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12">
             <p className="ms-fontSize-xl">Login</p>
-          </div>
-        </div>
-
-        <div className="ms-Grid-row">
-          <div className="ms-Grid-col ms-sm12">
             <p>This is an example text....</p>
           </div>
-        </div> 
+        </div>
 
         <div className="FormButtons ms-Grid-row">
           <div className="ms-Grid-col ms-sm3 ms-smPush1">
