@@ -43,7 +43,7 @@ export default function fetchRooms() {
     dispatch(fetchRoomsLoading());
 
     // Set up options for API call
-    let uri     = `${URI}rooms`;
+    let uri     = `${URI}/rooms`;
     let options = { method: 'GET', withCredentials: true };
 
     rp(uri, options)

@@ -45,7 +45,7 @@ export function fetchLogin() {
     dispatch(fetchLoginLoading());
 
     // Set up options
-    let uri = `${URI}auth/validate`;
+    let uri = `${URI}/auth/validate`;
     let options = {
       withCredentials: true,
       method: 'GET'
@@ -114,7 +114,7 @@ export function getUser() {
     dispatch(fetchUserLoading());
 
     // URI + options for API call
-    let uri = `${URI}users/`;
+    let uri = `${URI}/users/`;
     let options = {
       method: 'GET',
       withCredentials: true

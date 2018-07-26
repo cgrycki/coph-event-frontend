@@ -37,7 +37,7 @@ export function getEvent(eventID) {
     dispatch(fetchEventLoading());
 
     // Set up options for the API request
-    let uri = `${URI}events/${eventID}`;
+    let uri = `${URI}/events/${eventID}`;
     let options = {
       method: 'GET',
       withCredentials: true
@@ -64,7 +64,7 @@ export function getEvents(n=10, start=0, end=0) {
     dispatch(fetchEventLoading());
 
     // URI + options for API call
-    let uri = `${URI}events`;
+    let uri = `${URI}/events`;
     let options = {
       method: 'GET',
       withCredentials: true
@@ -93,7 +93,7 @@ export function postEvents(eventInfo) {
     dispatch(fetchEventLoading());
 
     // URI + options for API call
-    let uri = `${URI}events`;
+    let uri = `${URI}/events`;
     let options = {
       method: 'POST',
       withCredentials: true,
@@ -129,7 +129,7 @@ export function deleteEvent(eventID) {
   return (dispatch) => {
     dispatch(fetchEventLoading());
 
-    let uri = `${URI}events/${eventID}`;
+    let uri = `${URI}/events/${eventID}`;
     let options = {
       method: 'DELETE',
       withCredentials: true
