@@ -8,6 +8,7 @@
 const info = {
   user_email       : '',
   contact_email    : '',
+  event_name       : '',
   comments         : '',
   date             : '',
   start_time       : '',
