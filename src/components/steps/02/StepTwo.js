@@ -53,6 +53,7 @@ class StepTwoComponent extends React.Component {
               onChange={this.onInputChange}
               error={this.props.errors['contact_email']}
               field={'contact_email'}
+              required={false}
             />
           </div>
         </div>
