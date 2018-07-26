@@ -5,7 +5,7 @@ import React from 'react';
 const centered_form_style = "ms-Grid-col ms-sm12 ms-lg8 ms-xxl6 ms-lgPush2 ms-xxlPush3";
 
 // Dumb component
-export default class Form extends React.Component {
+export default class Form extends React.PureComponent {
   render() {
     return (
       <div className="Form ms-Grid-row">

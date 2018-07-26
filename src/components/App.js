@@ -5,10 +5,10 @@ import { Fabric } from 'office-ui-fabric-react';
 
 
 // Site components
-import Navbar from './common/NavBar';
-import Form  from './Form/';
-import Event from './Event';
-import Admin from './Admin';
+import Navbar     from './common/NavBar';
+import Form       from './Form/';
+import Event      from './Event';
+import Dashboard  from './Dashboard';
 
 // Form Steps
 import StepOne    from './Form/01/StepOne';
@@ -16,7 +16,7 @@ import StepTwo    from './Form/02/StepTwo';
 import StepThree  from './Form/03/StepThree';
 import StepFour   from './Form/04/StepFour';
 import StepFive   from './Form/05/StepFive';
-import NavBar from './common/NavBar';
+import NavBar     from './common/NavBar';
 
 
 // Holds our application data store and sets routes up
@@ -31,11 +31,11 @@ const App = ({ store }) => (
 
             <Router>
               <Switch>
-                <Route path="/event"  component={Event} />
-                <Route path="/admin"  component={Admin} />
-                <Redirect from="/" exact to="/form/" />
+                <Route path="/event"      component={Event} />
+                <Route path="/dashboard"  component={Dashboard} />
+                <Redirect from="/"        to="/form/" exact />
                 <Form>
-                  <Route path="/form/" exact component={StepOne} />
+                  <Route path="/form/"       component={StepOne} exact />
                   <Route path="/form/user"   component={StepTwo} />
                   <Route path="/form/event"  component={StepThree} />
                   <Route path="/form/layout" component={StepFour} />
