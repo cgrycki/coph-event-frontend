@@ -19,10 +19,6 @@ class StepOneComponent extends React.Component {
     else this.setState({ ...nextProps });
   }
 
-  redirectLogin() {
-    alert('Should be redirecting once we have our backend up!');
-  }
-
   nextPage() {
     this.props.history.push('/form/user');
   }
@@ -32,7 +28,7 @@ class StepOneComponent extends React.Component {
       <div>
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12">
-            <p className="ms-fontSize-xl"></p>
+            <p className="ms-fontSize-xl">Login</p>
           </div>
         </div>
 
@@ -42,13 +38,15 @@ class StepOneComponent extends React.Component {
           </div>
         </div> 
 
-        <div className="ms-Grid-row">
+        <div className="FormButtons ms-Grid-row">
           <div className="ms-Grid-col ms-sm3 ms-smPush1">
             <CompoundButton
               primary={true}
               secondaryText="with your Iowa account."
               disabled={this.props.loggedIn}
-              onClick={() => this.redirectLogin()}
+              title="Login to your University of Iowa account."
+              href="www.google.com"
+              target="_blank"
             >Login</CompoundButton>
           </div>
 
