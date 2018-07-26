@@ -27,9 +27,9 @@ export default class TextInput extends React.PureComponent {
         validateOnFocusOut={true}
 
         /* Default field behavior */
-        required={this.props.required || true}
-        multiline={this.props.multiline || false}
-        rows={this.props.rows || 1}
+        required={(required !== undefined) ? required : true}
+        multiline={(multiline !== undefined) ? multiline : false}
+        rows={(rows !== undefined) ? rows : 1}
       />
     );
   }
