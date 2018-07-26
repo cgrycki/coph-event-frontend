@@ -34,7 +34,7 @@ const App = ({ store }) => (
                 <Route path="/admin"  component={Admin} />
                 <Redirect from="/" exact to="/form/" />
                 <Form>
-                  <Route path="/form/"  component={StepOne} />
+                  <Route path="/form/" exact component={StepOne} />
                   <Route path="/form/user"   component={StepTwo} />
                   <Route path="/form/event"  component={StepThree} />
                   <Route path="/form/layout" component={StepFour} />
