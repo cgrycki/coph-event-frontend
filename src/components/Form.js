@@ -8,23 +8,17 @@ export default class Form extends React.Component {
       <div>
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12">
-            <h1><strong>FORM ROUTER</strong></h1>
+            <h5><strong>Create an Event</strong></h5>
           </div>
         </div>
 
         <div className="ms-Grid-row">
-          <div className="ms-Grid-col ms-sm6">
-            <h2>TESTING</h2>
-          </div>
-
-          <div className="ms-Grid-col ms-sm6">
-            <h2>TESTING</h2>
+          <div className="ms-Grid-col ms-sm12">
+            <h5 className="ms-textAlignCenter">~~~~~~~~~~~~~~~~~~ Progress Bar ~~~~~~~~~~~~~~~~~~~~~~~</h5>
           </div>
         </div>
 
-        <div className="ms-Grid-row">
-          {this.props.children}
-        </div>
+        {this.props.children}
       </div>
     );
   }
