@@ -30,6 +30,9 @@ export default class TextInput extends React.PureComponent {
         required={(required !== undefined) ? required : true}
         multiline={(multiline !== undefined) ? multiline : false}
         rows={(rows !== undefined) ? rows : 1}
+
+        /* Hints */
+        suffix={(field === 'user_email') ? '@uiowa.edu' : undefined}
       />
     );
   }

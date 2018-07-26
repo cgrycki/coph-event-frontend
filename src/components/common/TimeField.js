@@ -6,10 +6,10 @@ export default class TimeField extends React.PureComponent {
     let { field, label, value, onChange } = this.props;
 
     return (
-      <div className="FormTime">
+      <div>
         <Label required={true}>{label}</Label>
         <input
-          className="ms-normalize"
+          className="ms-normalize FormTime"
           value={value}
           type={'time'}
           min={'08:30'}
