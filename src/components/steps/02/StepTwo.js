@@ -99,8 +99,9 @@ class StepTwoComponent extends React.Component {
 
 // Container
 const mapStateToProps = state => ({
-  info: state.fields.info,
-  errors: state.fields.errors
+  info      : state.fields.info,
+  errors    : state.fields.errors,
+  user_email: state.app.user_email
 })
 
 export default connect(mapStateToProps)(StepTwoComponent);

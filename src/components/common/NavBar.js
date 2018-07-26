@@ -21,8 +21,6 @@ class NavBarComponent extends React.Component {
   }
 
   render() {
-
-    console.log(this.props);
     return (
       <div className="NavBar ms-Grid-row">
         <CommandBar className="NavBar"/>

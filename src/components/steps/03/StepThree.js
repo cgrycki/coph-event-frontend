@@ -43,7 +43,6 @@ class StepThreeComponent extends React.Component {
   nextPage() {
     // Get room number and create a set of rooms that are valid for the editor
     let { room_number } = this.props.info;
-    console.log(room_number);
     let layout_rooms = new Set(['XC100']);
 
     // Conditionally change route based on the above condition
@@ -52,8 +51,6 @@ class StepThreeComponent extends React.Component {
   }
 
   render() {
-    console.log(this.props);
-
     return (
       <div>
         <div className="ms-Grid-row">
