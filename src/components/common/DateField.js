@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, DatePicker, Label } from 'office-ui-fabric-react';
+import { DatePicker } from 'office-ui-fabric-react';
 import { nextWeek, datePickerStrings } from '../../utils/date.utils';
 
 export default class DateField extends React.PureComponent {

@@ -15,14 +15,14 @@ export default class TextInput extends React.PureComponent {
     return (
       <TextField
         // Info and behavior
-        label={this.props.label}
-        placeholder={this.props.placeholder}
-        value={this.props.value}
-        onChange={(evt) => this.props.onChange(evt)}
+        label={label}
+        placeholder={placeholder}
+        value={value}
+        onChange={(evt) => onChange(evt)}
 
         /* Error messages and validation. */
-        errorMessage={this.props.error}
-        onGetErrorMessage={(evt) => this.props.onChange(field, evt)}
+        errorMessage={error}
+        onGetErrorMessage={(evt) => onChange(field, evt)}
         validateOnLoad={false}
         validateOnFocusOut={true}
 

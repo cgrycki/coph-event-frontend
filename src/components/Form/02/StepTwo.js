@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { DefaultButton } from 'office-ui-fabric-react';
 
 import TextField from '../../common/TextField';
 import FormButtons from '../FormButtons';
