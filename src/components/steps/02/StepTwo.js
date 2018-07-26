@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { DefaultButton } from 'office-ui-fabric-react';
+
+import TextField from '../../common/TextField';
 import { updateField, resetField } from '../../../actions/field.actions';
 
 
@@ -9,10 +11,20 @@ class StepTwoComponent extends React.Component {
   constructor(props) {
     super();
     this.state = { ...props };
+    this.onInputChange = this.onInputChange.bind(this);
   }
 
-  prevPage() { this.props.history.push("/form/"); }
-  nextPage() { this.props.history.push("/form/event"); }
+  onInputChange(field, value) {
+    this.props.dispatch(updateField(field, value));
+  }
+
+  prevPage() { 
+    this.props.history.push("/form/"); 
+  }
+
+  nextPage() { 
+    this.props.history.push("/form/event");
+  }
 
   render() {
     return (
@@ -25,8 +37,23 @@ class StepTwoComponent extends React.Component {
 
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12">
-            <p>User Email</p>
-            <p>Contact Name</p>
+            <TextField
+              label={"User Email"}
+              placeholder={"herke-de-hawk@uiowa.edu"}
+              value={this.props.info['user_email']}
+              onChange={this.onInputChange}
+              error={this.props.errors['user_email']}
+              field={'user_email'}
+            />
+
+            <TextField
+              label={"Contact Email"}
+              placeholder={"event-planner@another.company.com"}
+              value={this.props.info['contact_email']}
+              onChange={this.onInputChange}
+              error={this.props.errors['contact_email']}
+              field={'contact_email'}
+            />
           </div>
         </div>
 
