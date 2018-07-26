@@ -81,19 +81,34 @@ class StepThreeComponent extends React.Component {
               onChange={this.onInputChange}
             />
 
-            <DateField
-              label={'Date'}
-              value={this.props.info['date']}
-              placeholder={'PLACEHOLDER'}
-              onChange={this.onInputChange}
-            />
+            <div style={{'display': 'flex', 'justifyContent': 'space-between'}}>
+              <DateField
+                label={'Date'}
+                value={this.props.info['date']}
+                placeholder={'Add an date'}
+                onChange={this.onInputChange}
+              />
 
-            <TimeField
-              label={'Start Time'}
-              value={this.props.info['start_time']}
-              onChange={this.onInputChange}
-              field={'start_time'}
-            />
+              <div>
+                <TimeField
+                  label={'Start Time'}
+                  value={this.props.info['start_time']}
+                  onChange={this.onInputChange}
+                  field={'start_time'}
+                />
+              </div>
+
+              <div>
+                <TimeField
+                  label={'End Time'}
+                  value={this.props.info['end_time']}
+                  onChange={this.onInputChange}
+                  field={'end_time'}
+                />
+              </div>
+            </div>
+
+
 
             <TextField
               label="Comments"
