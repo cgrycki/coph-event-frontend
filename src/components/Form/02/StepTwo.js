@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { DefaultButton } from 'office-ui-fabric-react';
 
 import TextField from '../../common/TextField';
+import FormButtons from '../FormButtons';
 import Setup from './Setup';
 import Course from './Course';
 import { updateField, resetField } from '../../../actions/field.actions';
@@ -14,6 +15,8 @@ class StepTwoComponent extends React.Component {
     super();
     this.state = { ...props };
     this.onInputChange = this.onInputChange.bind(this);
+    this.prevPage = this.prevPage.bind(this);
+    this.nextPage = this.nextPage.bind(this);
   }
 
   onInputChange(field, value) {
@@ -72,25 +75,11 @@ class StepTwoComponent extends React.Component {
           </div>
         </div>
 
-        <div className="FormButtons ms-Grid-row">
-          <div className="ms-Grid-col ms-sm3 ms-smPush1">
-            <DefaultButton
-              primary={false}
-              secondaryText="with your Iowa account."
-              disabled={this.props.loggedIn}
-              onClick={() => this.prevPage()}
-            >Back</DefaultButton>
-          </div>
-
-          <div className="ms-Grid-col ms-sm3 ms-smPush5">
-            <DefaultButton
-              primary={true}
-              secondaryText="Login to create event."
-              disabled={this.props.loggedIn}
-              onClick={() => this.nextPage()}
-            >Next</DefaultButton>
-          </div>
-        </div>
+        <FormButtons
+          prevPage={this.prevPage}
+          nextPage={this.nextPage}
+          disabled={false}
+        />
       </div>
     );
   }
