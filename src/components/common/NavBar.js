@@ -16,10 +16,16 @@ class NavBarComponent extends React.Component {
     this.state = { ...props };
   }
 
+  componentDidUpdate(nextProps) {
+    this.setState({ ...nextProps });
+  }
+
   render() {
+
+    console.log(this.props);
     return (
-      <div className="ms-Grid-row">
-        <CommandBar />
+      <div className="NavBar ms-Grid-row">
+        <CommandBar className="NavBar"/>
       </div>
     );
   }
