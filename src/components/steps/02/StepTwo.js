@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { DefaultButton } from 'office-ui-fabric-react';
 
 import TextField from '../../common/TextField';
+import Setup from './Setup';
+import Course from './Course';
 import { updateField, resetField } from '../../../actions/field.actions';
 
 
@@ -54,6 +56,18 @@ class StepTwoComponent extends React.Component {
               error={this.props.errors['contact_email']}
               field={'contact_email'}
               required={false}
+            />
+
+            <Setup
+              setup_required={this.props.info['setup_required']}
+              setup_mfk={this.props.info['setup_mfk']}
+              onChange={this.onInputChange}
+            />
+
+            <Course
+              references_course={this.props.info['references_course']}
+              referenced_course={this.props.info['referenced_course']}
+              onChange={this.onInputChange}
             />
           </div>
         </div>

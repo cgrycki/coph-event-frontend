@@ -14,6 +14,7 @@ const info = {
   start_time       : '',
   end_time         : '',
   room_number      : '',
+  references_course: false,
   referenced_course: '',
   setup_required   : false,
   setup_mfk        : '',
