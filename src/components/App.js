@@ -6,16 +6,16 @@ import { Fabric } from 'office-ui-fabric-react';
 
 // Site components
 import Navbar from './common/NavBar';
-import Form  from './Form';
+import Form  from './Form/';
 import Event from './Event';
 import Admin from './Admin';
 
 // Form Steps
-import StepOne    from './steps/01/StepOne';
-import StepTwo    from './steps/02/StepTwo';
-import StepThree  from './steps/03/StepThree';
-import StepFour   from './steps/04/StepFour';
-import StepFive   from './steps/05/StepFive';
+import StepOne    from './Form/01/StepOne';
+import StepTwo    from './Form/02/StepTwo';
+import StepThree  from './Form/03/StepThree';
+import StepFour   from './Form/04/StepFour';
+import StepFive   from './Form/05/StepFive';
 import NavBar from './common/NavBar';
 
 
