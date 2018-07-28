@@ -6,12 +6,23 @@
 }
 
 /* Navigation bar @ top of screen */
-.NavBar {
-  position: absolute;
+.NavBarWrapper {
+  position: fixed;
   top: 0px;
   left: 0px;
   width: 100vw;
-  margin: 0px 0px 10px 0px;
+  margin-right: -8px;
+}
+.NavBar {
+  width: 100vw;
+  margin: 0px -8px 10px 0px;
+}
+.NavBar a {
+  color: #999999;
+  font-size: 1.2em;
+  vertical-align: middle;
+  font-weight: 400;
+  font-family: sans-serif;
 }
 
 .App {

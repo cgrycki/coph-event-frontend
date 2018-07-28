@@ -24,23 +24,25 @@ const App = ({ store }) => (
     <Fabric>
 
       <div className="ms-Grid App">
-        <Navbar/>
         <div className="ms-Grid-row">
           <div className="Page ms-borderBase ms-Grid-col ms-sm12 ms-lg10 ms-xxl8 ms-lgPush1 ms-xxlPush2">
 
             <Router>
-              <Switch>
-                <Route path="/event"      component={Event} />
-                <Route path="/dashboard"  component={Dashboard} />
-                <Redirect from="/"        to="/form/" exact />
-                <Form>
-                  <Route path="/form/"       component={StepOne} exact />
-                  <Route path="/form/user"   component={StepTwo} />
-                  <Route path="/form/event"  component={StepThree} />
-                  <Route path="/form/layout" component={StepFour} />
-                  <Route path="/form/review" component={StepFive} />
-                </Form>
-              </Switch>
+              <div>
+                <Navbar />
+                <Switch>
+                  <Route path="/event"      component={Event} />
+                  <Route path="/dashboard"  component={Dashboard} />
+                  <Redirect from="/"        to="/form/" exact />
+                  <Form>
+                    <Route path="/form/"       component={StepOne} exact />
+                    <Route path="/form/user"   component={StepTwo} />
+                    <Route path="/form/event"  component={StepThree} />
+                    <Route path="/form/layout" component={StepFour} />
+                    <Route path="/form/review" component={StepFive} />
+                  </Form>
+                </Switch>
+              </div>
             </Router>
 
           </div>
