@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Center the form page within the page container
-const centered_form_style = "ms-Grid-col ms-sm12 ms-lg8 ms-xxl6 ms-lgPush2 ms-xxlPush3";
+const centered_form_style = "ms-Grid-col ms-sm12 ms-lg10 ms-xxl8 ms-lgPush1 ms-xxlPush2";
 
 // Dumb component
 export default class Form extends React.PureComponent {

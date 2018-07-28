@@ -26,7 +26,7 @@ const App = ({ store }) => (
       <div className="ms-Grid App">
         <Navbar/>
         <div className="ms-Grid-row">
-          <div className="Page ms-borderBase ms-Grid-col ms-sm12 ms-lg8 ms-xxl6 ms-lgPush2 ms-xxlPush3">
+          <div className="Page ms-borderBase ms-Grid-col ms-sm12 ms-lg10 ms-xxl8 ms-lgPush1 ms-xxlPush2">
 
             <Router>
               <Switch>
