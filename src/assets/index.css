@@ -27,7 +27,7 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.12), 0 2px 3px rgba(0,0,0,0.24);
 }
 
-/* Previous / Next Form buttons */
+/* Form buttons: Previous / Next */
 .FormButtons {
   position: relative;
   bottom: 0;
@@ -35,6 +35,16 @@
   margin-bottom: 10px;
 }
 
+/* Form field: start_time, end_time */
 .FormTime {
   height: 32px;
+}
+
+/* Form field: Setup required? */
+.FormSetup {
+  max-width: 25px;
+}
+.FormSetupInput {
+  margin-left: 10px;
+  max-width: 80px;
 }

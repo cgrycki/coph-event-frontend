@@ -1,12 +1,12 @@
 import React from 'react';
-import { Toggle } from 'office-ui-fabric-react';
+import { Toggle, Label, TextField } from 'office-ui-fabric-react';
 import { isNumeric, isLength } from 'validator';
 
 
 /**
- * 
+ * Renders the HTML field to input U. Iowa MFK number if setup is required
  */
-class MFK extends React.PureComponent {
+export default class Setup extends React.PureComponent {
   /* Fields 
     FUND
     ORG
@@ -18,32 +18,66 @@ class MFK extends React.PureComponent {
     DEPT ACCT 
     FUNC COST CNTR
   */
-  render() {
-    return (<p>MFK</p>)
+  renderField(label, field_length) {
+    // Renders a controlled length text field
+    return (
+      <div className={"FormSetupInput"}>
+        <TextField
+          label={label}
+          maxLength={field_length}
+          inputClassName={"FormSetup"}
+        />
+      </div>
+    );
   }
-}
 
-export default class Setup extends React.PureComponent {
+  renderFieldRow() {
+    // Renders the fields within a row
+
+    // Styles the 'hidden' span that holds our MFK inputs
+    const flex_styles = {
+      "marginLeft"    : "auto",
+      "display"       : "flex",
+      "justifyContent": "space-between"
+    };
+
+    return (
+      <div style={flex_styles}>
+        {this.renderField('FUND    ', 3)}
+        {this.renderField('ORG      ', 3)}
+        {this.renderField('DEPT     ', 3)}
+        {this.renderField('SUB DEPT ', 3)}
+        {this.renderField('GRANT    ', 3)}
+        {this.renderField('INST ACCT', 3)}
+        {this.renderField('ORG ACCT ', 3)}
+        {this.renderField('DEPT ACCT', 3)}
+        {this.renderField('COST CNTR', 3)}
+      </div>
+    );
+  }
+
   render() {
+    // Renders the setup required row
+
+    // Styles the row 
     const setup_styles = {
-      "paddingLeft": "8px",
-      "paddingRight": "8px"
+      "padding"       : "0px 8px",
+      "boxSizing"     : "border-box",
+      "display"       : "flex",
+      "justifyContent": "flex-start",
+      "flexDirection" : "row"
     }
+
     return (
       <div className="ms-Grid-row" style={setup_styles}>
         <Toggle
           defaultChecked={false}
-          label={"Event furniture and setup required"}
+          label={"Furniture and setup required?"}
           onText="True"
           offText="False"
           onChanged={(evt) => this.props.onChange('setup_required', evt)}
         />
-        {this.props.setup_required && 
-          <MFK
-            onChanged={this.props.onChange}
-            setup_mfk={this.props.setup_mfk}
-          />
-        }
+        {this.props.setup_required && this.renderFieldRow()}
       </div>
     );
   }
