@@ -1,7 +1,6 @@
 // Libraries
 import React from 'react';
 import { connect } from 'react-redux';
-import { DefaultButton } from 'office-ui-fabric-react';
 
 // Components
 import TextField from '../../common/TextField';
@@ -89,26 +88,20 @@ class StepThreeComponent extends React.Component {
                 onChange={this.onInputChange}
               />
 
-              <div>
-                <TimeField
-                  label={'Start Time'}
-                  value={this.props.info['start_time']}
-                  onChange={this.onInputChange}
-                  field={'start_time'}
-                />
-              </div>
+              <TimeField
+                label={'Start Time'}
+                value={this.props.info['start_time']}
+                onChange={this.onInputChange}
+                field={'start_time'}
+              />
 
-              <div>
-                <TimeField
-                  label={'End Time'}
-                  value={this.props.info['end_time']}
-                  onChange={this.onInputChange}
-                  field={'end_time'}
-                />
-              </div>
+              <TimeField
+                label={'End Time'}
+                value={this.props.info['end_time']}
+                onChange={this.onInputChange}
+                field={'end_time'}
+              />
             </div>
-
-
 
             <TextField
               label="Comments"
