@@ -18,7 +18,6 @@ export default class TextInput extends React.PureComponent {
         label={label}
         placeholder={placeholder}
         value={value}
-        onChange={(evt) => onChange(evt)}
 
         /* Error messages and validation. */
         errorMessage={error}
