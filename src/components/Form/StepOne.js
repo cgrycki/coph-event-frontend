@@ -11,6 +11,7 @@ import FormButtons      from './shared/FormButtons';
 // Form fields
 import Setup            from './fields/Setup';
 import Course           from './fields/Course';
+import Attendance       from './fields/Attendence';
 import UserEmail        from './fields/UserEmail';
 import ContactEmail     from './fields/ContactEmail';
 
@@ -25,7 +26,7 @@ class StepOne extends React.Component {
   }
 
   prevPage() {
-    this.props.history.push("/");
+    this.props.history.goBack(-1);
   }
 
   nextPage() {
@@ -41,7 +42,7 @@ class StepOne extends React.Component {
 
     return (
       <div>
-        <FormTitle page={"User"} />
+        <FormTitle page={"User Information"} />
 
         <FormStep>
           <UserEmail
@@ -53,6 +54,12 @@ class StepOne extends React.Component {
           <ContactEmail
             value={info['contact_email']}
             error={errors['contact_email']}
+            onChange={this.onChange}
+          />
+
+          <Attendance
+            value={info['num_people']}
+            error={errors['num_people']}
             onChange={this.onChange}
           />
 

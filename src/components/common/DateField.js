@@ -9,9 +9,9 @@ export default class DateField extends React.PureComponent {
     return (
       <div>
         <TextField
-          label={'CoPH Employee Email'}
+          label={"CoPH Employee Email"}
           placeholder={"Enter on-premises CoPH employee's email"}
-          field_name={'coph_email'}
+          field={"coph_email"}
           value={value}
           error={error}
           onChange={onChange}

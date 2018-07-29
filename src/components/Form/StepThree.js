@@ -7,7 +7,7 @@ import FormStep       from './shared/FormStep';
 import FormButtons    from './shared/FormButtons';
 
 // Editor
-import Editor from './editor/index';
+import Editor         from './editor/index';
 
 
 
@@ -20,7 +20,7 @@ export default class StepThree extends React.Component {
   }
 
   prevPage() {
-    this.props.history.push("/form/event");
+    this.props.history.goBack(-1);
   }
 
   nextPage() {
@@ -28,8 +28,6 @@ export default class StepThree extends React.Component {
   }
 
   render() {
-    let { info, errors } = this.props;
-
     return (
       <div>
         <FormTitle page={"Layout"} />
@@ -48,5 +46,3 @@ export default class StepThree extends React.Component {
     );
   }
 }
-
-// Container

@@ -17,12 +17,12 @@ class StepFour extends React.Component {
   }
 
   prevPage() {
-    if (this.props.info['room_number'] === 'XC100') this.props.history.push("/form/layout");
-    else this.props.history.push("/form/event");
+    this.props.history.goBack(-1);
   }
 
   nextPage() {
     console.log('Submission!');
+    console.log(this.props.info);
   }
 
   render() {
