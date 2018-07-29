@@ -85,7 +85,7 @@ export default class RoomsList extends React.PureComponent {
         <Dropdown
           placeholder={"Add a room"}
           label={"Room Number"}
-          selectedKeys={(value !== '') ? [value] : []}
+          selectedKey={value}
           errorMessage={rooms_error}
           onChanged={(evt) => onChange('room_number', evt.roomNumber)}
           options={room_options}
