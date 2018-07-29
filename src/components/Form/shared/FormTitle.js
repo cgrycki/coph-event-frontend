@@ -12,9 +12,13 @@ export default class FormTitle extends React.PureComponent {
 
   render() {
     let { page } = this.props;
+    const title_style = {
+      "top": 0,
+      "position": "absolute"
+    };
 
     return (
-      <div className="ms-Grid-row">
+      <div className="ms-Grid-row" style={title_style}>
         <div className="ms-Grid-col ms-sm12">
           <h2>Create an Event{(page !== undefined) && this.renderPage(page)}</h2>
         </div>
