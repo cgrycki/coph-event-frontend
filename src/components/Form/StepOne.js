@@ -25,7 +25,7 @@ class StepOne extends React.Component {
   }
 
   prevPage() {
-    this.props.history.push("/");
+    this.props.history.goBack(-1);
   }
 
   nextPage() {
@@ -41,7 +41,7 @@ class StepOne extends React.Component {
 
     return (
       <div>
-        <FormTitle page={"User"} />
+        <FormTitle page={"User Information"} />
 
         <FormStep>
           <UserEmail

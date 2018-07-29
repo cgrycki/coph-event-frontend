@@ -28,11 +28,12 @@ class StepTwo extends React.Component {
   }
 
   componentDidMount() {
+    // Only load the rooms from our API if we haven't yet before
     if (this.props.rooms.length === 0) this.props.dispatch(fetchRooms());
   }
 
   prevPage() {
-    this.props.history.push("/form/user");
+    this.props.history.goBack(-1);
   }
 
   nextPage() {
@@ -52,7 +53,7 @@ class StepTwo extends React.Component {
 
     return (
       <div>
-        <FormTitle page={"Event"} />
+        <FormTitle page={"Event Information"} />
 
         <FormStep>
           <EventName
