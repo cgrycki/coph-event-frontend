@@ -11,11 +11,11 @@ import Event      from './Event';
 import Dashboard  from './Dashboard';
 
 // Form + Steps
-import Form       from './Form2/';
-import StepOne    from './Form2/StepOne';
-import StepTwo    from './Form2/StepTwo';
-import StepThree  from './Form2/StepThree';
-import StepFour   from './Form2/StepFour';
+import Form       from './Form/';
+import StepOne    from './Form/StepOne';
+import StepTwo    from './Form/StepTwo';
+import StepThree  from './Form/StepThree';
+import StepFour   from './Form/StepFour';
 
 
 // Holds our application data store and sets routes up
