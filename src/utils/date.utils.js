@@ -1,4 +1,12 @@
+export const isWeekend = date => {
+  // Create a JS date
+  let dateObj = new Date(date);
 
+  // Get the day of the week from the JavaScript date object
+  let day_of_week = dateObj.getDay();
+  
+  return (day_of_week === 6) || (day_of_week === 0);
+}
 
 export const nextWeek = () => {
   /* Returns the date string of one week from function evaluation. */
