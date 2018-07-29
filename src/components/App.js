@@ -1,21 +1,21 @@
-import React from 'react';
+// Dependencies
+import React        from 'react';
 import { Provider } from 'react-redux'
+import { Fabric }   from 'office-ui-fabric-react';
 import { Switch, Redirect, BrowserRouter as Router, Route } from 'react-router-dom';
-import { Fabric } from 'office-ui-fabric-react';
-
 
 // Site components
 import Navbar     from './common/NavBar';
+import Home       from './Home';
 import Event      from './Event';
 import Dashboard  from './Dashboard';
 
 // Form + Steps
-import Form       from './Form/';
-import StepOne    from './Form/01/StepOne';
-import StepTwo    from './Form/02/StepTwo';
-import StepThree  from './Form/03/StepThree';
-import StepFour   from './Form/04/StepFour';
-import StepFive   from './Form/05/StepFive';
+import Form       from './Form2/';
+import StepOne    from './Form2/StepOne';
+import StepTwo    from './Form2/StepTwo';
+import StepThree  from './Form2/StepThree';
+import StepFour   from './Form2/StepFour';
 
 
 // Holds our application data store and sets routes up
@@ -33,13 +33,12 @@ const App = ({ store }) => (
                 <Switch>
                   <Route path="/event"      component={Event} />
                   <Route path="/dashboard"  component={Dashboard} />
-                  <Redirect from="/"        to="/form/" exact />
+                  <Route path="/" exact     component={Home} />
                   <Form>
-                    <Route path="/form/"       component={StepOne} exact />
-                    <Route path="/form/user"   component={StepTwo} />
-                    <Route path="/form/event"  component={StepThree} />
-                    <Route path="/form/layout" component={StepFour} />
-                    <Route path="/form/review" component={StepFive} />
+                    <Route path="/form/user"   component={StepOne} />
+                    <Route path="/form/event"  component={StepTwo} />
+                    <Route path="/form/layout" component={StepThree} />
+                    <Route path="/form/review" component={StepFour} />
                   </Form>
                 </Switch>
               </div>
