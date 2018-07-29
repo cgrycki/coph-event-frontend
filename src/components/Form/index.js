@@ -1,17 +1,13 @@
+// Dependencies
 import React from 'react';
 
-import FormTitle from './shared/FormTitle';
-import FormButtons from './shared/FormButtons';
-
-
+// Component
 export default class Form extends React.PureComponent {
   render() {
     return (
-      <div className="ms-Grid-row">
-        <div className="ms-Grid-col ms-sm12">
-          {this.props.children}
-        </div>
+      <div className="ms-Grid-row" style={{width: '100%'}}>
+        {this.props.children}
       </div>
     );
   }
-}
+};
