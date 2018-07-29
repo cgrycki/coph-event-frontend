@@ -6,6 +6,7 @@ import initialStore from '../store/initialStore';
 
 
 export const appReducer = (state=initialStore.app, action) => {
+  let error, login_error;
   let type = action.type;
   
   switch (type) {
@@ -24,8 +25,9 @@ export const appReducer = (state=initialStore.app, action) => {
       return {...state, loggedIn: response, login_loading: false };
 
     case (appActions.LOGIN_FAILURE):
-      var err = action.payload;
-      return {...state, login_loading: false, login_error: err };
+      error = action.payload;
+      login_error = error.message;
+      return {...state, login_loading: false, login_error };
 
     // User information cases
     case (appActions.USER_LOADING):
