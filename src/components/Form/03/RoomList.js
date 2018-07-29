@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown, Spinner, SpinnerSize, Icon } from 'office-ui-fabric-react';
+import { Dropdown, Spinner, SpinnerSize, Icon, Label } from 'office-ui-fabric-react';
 
 
 export default class RoomsList extends React.PureComponent {
@@ -10,10 +10,8 @@ export default class RoomsList extends React.PureComponent {
   renderLoadingSpinner() {
     return (
       <div className="dropdownOption" key={'loadingSpinner'}>
-        <Spinner
-          label={'Loading rooms...'}
-          size={SpinnerSize.medium}
-        />
+        <Label required={true}>Room Number</Label>
+        <Spinner size={SpinnerSize.small}/>
       </div>
     );
   }
@@ -27,49 +25,69 @@ export default class RoomsList extends React.PureComponent {
   }
 
   renderOption(room) {
-    // Renders an dropdown menu option
+    /* Renders an dropdown menu option */
+
+    // Option div styling
+    const option_style = {
+      "minHeight"     : "24px",
+      "padding"       : "5px 0px",
+      "display"       : "flex",
+      "justifyContent": "space-between",
+      "alignItems"    : "baseline",
+      "width"         : "100%"
+    };
 
     // Inline dropdown list option styling
-    const span_style = { 
-      "width"       : "100px",
-      "height"      : "100px",
-      "borderRadius": "50px",
+    const floor_style = {
+      "lineHeight"  : "24px",
+      "width"       : "24px",
+      "height"      : "24px",
+      "borderRadius": "12px",
       "background"  : "#333333ee",
       "color"       : "#fff",
       "fontFamily"  : "sans-serif",
       "fontWeight"  : "bold",
-      "fontSize"    : "14px"
+      "fontSize"    : "1.5em",
+      "textAlign"   : "center",
+      "marginRight" : "15px",
+      "display"     : "inline-block",
+      "boxSizing"   : "border-box"
     };
 
     return (
-      <div className="dropdownOption" key={`${room.roomNumber}`}>
-        <span style={span_style}>
-          <strong>&nbsp;{room.floor}&nbsp;</strong>
-        </span>
-        Room: {room.roomNumber}
+      <div key={`${room.roomNumber}`} style={option_style}>
+        <div>
+          <span style={floor_style}><strong>{room.floor}</strong></span>
+          {room.roomName}
+        </div>
+        <div>
+          <i>{room.rmType}</i>
+        </div>
       </div>
     );
   }
 
   render() {
+    let { rooms, rooms_loading, rooms_error, value, onChange } = this.props;
+
     // Create a copy and transform rooms into consumable options
-    const room_options = this.props.rooms
-      .slice()
+    const room_options = rooms.slice()
       .sort((a, b) => +a.floor - +b.floor)
-      .map(d => { 
+      .map(d => {
         d.key = d.roomNumber;
-        d.text = `${d.floor} - ${d.roomName}`;
+        d.text = `${d.roomName}`;
         return d;
       });
 
     return (
-      (this.props.rooms_loading === true) ?
+      (rooms_loading) ? 
         this.renderLoadingSpinner() :
         <Dropdown
           placeholder={"Add a room"}
           label={"Room Number"}
-          selectedKeys={(this.props.value !== '') ? [this.props.value] : []}
-          onChanged={(evt) => this.props.onChange('room_number', evt.roomNumber)}
+          selectedKeys={(value !== '') ? [value] : []}
+          errorMessage={rooms_error}
+          onChanged={(evt) => onChange('room_number', evt.roomNumber)}
           options={room_options}
           onRenderOption={this.renderOption}
           onRenderCaretDown={this.renderCarat}
