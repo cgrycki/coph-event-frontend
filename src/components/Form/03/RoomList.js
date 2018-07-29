@@ -43,13 +43,13 @@ export default class RoomsList extends React.PureComponent {
       "width"       : "24px",
       "height"      : "24px",
       "borderRadius": "12px",
-      "background"  : "#333333ee",
+      "background"  : "#555555",
       "color"       : "#fff",
       "fontFamily"  : "sans-serif",
       "fontWeight"  : "bold",
-      "fontSize"    : "1.5em",
+      "fontSize"    : "1.4em",
       "textAlign"   : "center",
-      "marginRight" : "15px",
+      "marginRight" : "16px",
       "display"     : "inline-block",
       "boxSizing"   : "border-box"
     };
