@@ -33,6 +33,7 @@ class Home extends React.Component {
       <Spinner
         size={SpinnerSize.large}
         label={"Checking login status..."}
+        className={"ms-textAlignCenter"}
       />
     );
   }
@@ -47,7 +48,6 @@ class Home extends React.Component {
       <MessageBar
         messageBarType={MessageBarType.error}
         isMultiline={false}
-        onDismiss={console.log('test')}
         dismissButtonAriaLabel="Close"
       >
         <p className="ms-textAlignCenter">Warning! There was an error while authenticating your login.</p>
@@ -57,7 +57,7 @@ class Home extends React.Component {
 
   }
 
-  renderLoginLoadError() {
+  renderStatus() {
     let { login_loading, login_error } = this.props;
 
     const status_style = {
@@ -69,10 +69,12 @@ class Home extends React.Component {
     return (
       <div className="ms-Grid-row">
         <div 
-          className="ms-Grid-col ms-sm6 ms-smPush3 ms-textAlignCenter ms-slideDownIn200"
+          className="ms-Grid-col ms-sm8 ms-smPush2 ms-textAlignCenter ms-slideDownIn200"
           style={status_style}
         >
-          {(login_loading) ? this.renderLoad() : this.renderError(login_error)}
+          <div style={{"margin": "auto"}}>
+            {(login_loading) ? this.renderLoad() : this.renderError(login_error)}
+          </div>
         </div>
       </div>
     );
@@ -80,45 +82,43 @@ class Home extends React.Component {
 
   render() {
     let { loggedIn, login_error, login_loading } = this.state;
-    //, 'marginLeft': 'auto', 'float': 'right'
+
     return (
-    <div>
+      <div>
 
-      <div className="ms-Grid-row">
-        <div className="ms-Grid-col ms-sm12">
-          <h1 className="ms-fontSize-su">Events @ College of Public Health</h1>
-        </div>
-      </div>
-
-      {this.renderLoginLoadError()}
-
-      <div className="ms-Grid-row">
-        <div className="ms-Grid-col ms-sm10 ms-smPush1">
-
-          <div style={{"display": "flex", "justifyContent": "space-around", "marginTop": "15px"}} />
-            <div style={{'display': 'inline'}}>
-              <CompoundButton
-                primary={true}
-                secondaryText="with your Iowa account."
-                disabled={loggedIn}
-                text={"Login"}
-                title="Login to your University of Iowa account."
-                href={`${process.env.REACT_APP_REDIRECT_URI}`}
-                target="_blank"
-              />
-            </div>
-            <div style={{'display': 'inline', 'float': 'right'}}>
-              <CompoundButton
-                primary={true}
-                text={"Create an Event"}
-                secondaryText="Login to create event."
-                disabled={loggedIn}
-                onClick={() => this.nextPage()}
-              />
-            </div>
+        <div className="ms-Grid-row">
+          <div className="ms-Grid-col ms-sm12">
+            <h1 className="ms-fontSize-su">Events @ College of Public Health</h1>
           </div>
         </div>
-    </div>
+
+        {this.renderStatus()}
+
+        <div className="ms-Grid-row">
+          <div className="ms-Grid-col ms-sm10 ms-smPush1">
+
+            <div style={{"display": "flex", "justifyContent": "space-around", "marginTop": "15px"}} />
+              <div style={{'display': 'inline'}}>
+                <CompoundButton
+                  primary={true}
+                  secondaryText="with your Iowa account."
+                  disabled={loggedIn}
+                  text={"Login"}
+                  title="Login to your University of Iowa account."
+                  href={`${process.env.REACT_APP_REDIRECT_URI}`}
+                />
+              </div>
+              <div style={{'display': 'inline', 'float': 'right'}}>
+                <CompoundButton
+                  primary={true}
+                  text={"Create an Event"}
+                  disabled={loggedIn}
+                  onClick={() => this.nextPage()}
+                />
+              </div>
+            </div>
+          </div>
+      </div>
     );
   }
 };
