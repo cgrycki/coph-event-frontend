@@ -40,11 +40,11 @@ export default class TimeField extends React.PureComponent {
     let { field, label, value, onChange } = this.props;
 
     return (
-      <div style={{'maxWidth': '100px'}}>
+      <div style={{'maxWidth': '110px'}}>
         <ComboBox
           label={label}
           options={options_time}
-          value={value}
+          value={(value !== '') ? value : undefined}
           required={true}
           autoComplete="on"
           useComboBoxAsMenuWidth={true}
