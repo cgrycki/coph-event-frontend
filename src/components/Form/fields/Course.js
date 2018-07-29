@@ -25,6 +25,7 @@ export default class Course extends React.PureComponent {
           label={'Course Name'}
           allowFreeform={true}
           autoComplete="off"
+          selectedKey={this.props.referenced_course}
           defaultSelectedKey={this.renderSearchPlaceholder().key}
           options={[this.renderSearchPlaceholder()]}
           dropdownWidth={350}
@@ -37,6 +38,8 @@ export default class Course extends React.PureComponent {
 
 
   render() {
+    let { references_course, onChange } = this.props;
+
     // Styles the row 
     const setup_styles = {
       "padding"       : "0px 8px",
@@ -50,12 +53,12 @@ export default class Course extends React.PureComponent {
       <div className="ms-Grid-row" style={setup_styles}>
         <Toggle
           defaultChecked={false}
-          label={"Event is for university course?"}
-          onText="True"
-          offText="False"
-          onChanged={(evt) => this.props.onChange('references_course', evt)}
+          label={"Is this for an university course?"}
+          onText="Yes"
+          offText="No"
+          onChanged={(evt) => onChange('references_course', evt)}
         />
-        {this.props.references_course && this.renderSearch()}
+        {references_course && this.renderSearch()}
       </div>
     );
   }

@@ -37,14 +37,15 @@ const options_time = [
 // Renders a dropdown
 export default class TimeField extends React.PureComponent {
   render() {
-    let { field, label, value, onChange } = this.props;
+    let { field, label, value, onChange, error } = this.props;
 
     return (
-      <div style={{'maxWidth': '100px'}}>
+      <div style={{'maxWidth': '110px'}}>
         <ComboBox
           label={label}
           options={options_time}
-          value={value}
+          text={(value !== '') ? value : undefined}
+          errorMessage={error}
           required={true}
           autoComplete="on"
           useComboBoxAsMenuWidth={true}
