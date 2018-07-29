@@ -50,9 +50,9 @@ export default class Course extends React.PureComponent {
       <div className="ms-Grid-row" style={setup_styles}>
         <Toggle
           defaultChecked={false}
-          label={"Event is for university course?"}
-          onText="True"
-          offText="False"
+          label={"Is this for an university course?"}
+          onText="Yes"
+          offText="No"
           onChanged={(evt) => this.props.onChange('references_course', evt)}
         />
         {this.props.references_course && this.renderSearch()}

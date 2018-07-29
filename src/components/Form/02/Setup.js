@@ -73,8 +73,8 @@ export default class Setup extends React.PureComponent {
         <Toggle
           defaultChecked={false}
           label={"Furniture and setup required?"}
-          onText="True"
-          offText="False"
+          onText="Yes"
+          offText="No"
           onChanged={(evt) => this.props.onChange('setup_required', evt)}
         />
         {this.props.setup_required && this.renderFieldRow()}
