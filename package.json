@@ -13,6 +13,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-input-auto-tab": "0.0.5",
     "react-konva": "^1.7.12",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",

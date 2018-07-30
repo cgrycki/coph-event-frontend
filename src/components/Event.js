@@ -11,14 +11,12 @@ export default class EventComponent extends React.Component {
   render() {
     return (
       <div>
-        <h3>Singular event page!</h3>
-        <button>
-          <NavLink
-            to={'/'}
-            activeStyle={{ textDecoration: 'none', color: 'black' }}>
-              Create an event
-          </NavLink>
-        </button>
+        <h2>Event: <span className="ms-font-xl">Details</span></h2>
+        <NavLink
+          to={'/form/user'}
+          activeStyle={{ textDecoration: 'none', color: 'black' }}>
+            Create an event
+        </NavLink>
       </div>
     );
   }

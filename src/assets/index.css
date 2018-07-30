@@ -6,35 +6,61 @@
 }
 
 /* Navigation bar @ top of screen */
-.NavBar {
-  position: absolute;
+.NavBarWrapper {
+  position: fixed;
   top: 0px;
   left: 0px;
   width: 100vw;
-  margin: 0px 0px 10px 0px;
+  margin-right: -8px;
+}
+.NavBar {
+  width: 100vw;
+  height: 35px;
+  background-color:rgb(244, 244, 244);
+  margin: 0px -8px 10px 0px;
+}
+.NavBar a {
+  color: #999999;
+  font-size: 1.2em;
+  vertical-align: middle;
+  font-weight: 400;
+  font-family: sans-serif;
+  padding: 0px 10px;
 }
 
 .App {
   /* 40px for NavBar height + 30px margin */
-  margin-top: 70px;
+  margin-top: 50px;
 }
 
 /* Form Wizard Page */
 .Page {
-  padding: 15px !important;
-  border-radius: 2px;
-  display: inline-block;
+  padding: 5px 25px 20px 25px !important;
+  border-radius: 3px;
+  display: block;
   box-shadow: 0 2px 4px rgba(0,0,0,0.12), 0 2px 3px rgba(0,0,0,0.24);
+  transition: 750ms;
+  -webkit-transition: 750ms;
+  -moz-transition: 750ms;
+  position: fixed;
 }
 
-/* Previous / Next Form buttons */
+/* Form buttons: Previous / Next */
 .FormButtons {
   position: relative;
   bottom: 0;
-  margin-top: 25px;
-  margin-bottom: 10px;
 }
 
+/* Form field: start_time, end_time */
 .FormTime {
   height: 32px;
+}
+
+/* Form field: Setup required? */
+.FormSetup {
+  max-width: 25px;
+}
+.FormSetupInput {
+  margin-left: 10px;
+  max-width: 80px;
 }

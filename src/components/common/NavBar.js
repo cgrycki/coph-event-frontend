@@ -5,9 +5,12 @@ import {
   CommandBar,
   CommandBarButton
 } from 'office-ui-fabric-react';
+import { NavLink, Link } from 'react-router-dom';
 
 
 // Actions - LOGOUT
+
+
 
 // Component
 class NavBarComponent extends React.Component {
@@ -21,9 +24,33 @@ class NavBarComponent extends React.Component {
   }
 
   render() {
+    const far_items = [
+      {
+        key: 'createEvent',
+        name: 'Create Event',
+        icon: 'Create Event',
+        onClick: () => { return <Link to="/form"/>; }
+      },
+      {
+        key: 'myEvents',
+        name: 'My Events',
+        icon: 'My Events'
+      },
+      {
+        key: 'logout',
+        name: 'Logout',
+        icon: 'Logout'
+      }
+    ]
+
+
+
+
     return (
-      <div className="NavBar ms-Grid-row">
-        <CommandBar className="NavBar"/>
+      <div className="NavBarWrapper ms-Grid-row">
+        <CommandBar className="NavBar"
+          farItems={far_items}
+        />
       </div>
     );
   }

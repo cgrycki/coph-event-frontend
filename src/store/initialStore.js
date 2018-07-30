@@ -8,6 +8,7 @@
 const info = {
   user_email       : '',
   contact_email    : '',
+  coph_email       : '',
   event_name       : '',
   comments         : '',
   date             : '',
@@ -82,9 +83,12 @@ const app = {
 
 // Rooms: Stores our API room data
 const rooms = {
-  rooms        : [],
-  rooms_loading: false,
-  room_error   : null
+  rooms           : [],
+  room_schedule   : [],
+  rooms_loading   : false,
+  schedule_loading: false,
+  room_error      : null,
+  schedule_error  : null
 }
 
 
