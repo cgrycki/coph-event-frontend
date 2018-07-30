@@ -10,11 +10,9 @@ export const appReducer = (state=initialStore.app, action) => {
   let type = action.type;
   
   switch (type) {
-    // Unsure about these two
+    // TO FINISH
     case (appActions.UPDATE_PATH):
       return {...state, path: action.path };
-    case (appActions.SUBMIT_FORM):
-      return {...state.app, save_status: 'SAVING' };
 
     // Login validation cases
     case (appActions.LOGIN_LOADING):
