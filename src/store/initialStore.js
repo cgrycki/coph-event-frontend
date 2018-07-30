@@ -6,22 +6,23 @@
 
 // Fields: Object holding our user data entered into HTML fields
 const info = {
-  user_email       : '',
-  contact_email    : '',
-  coph_email       : '',
-  event_name       : '',
-  comments         : '',
-  date             : '',
-  start_time       : '',
-  end_time         : '',
-  room_number      : '',
-  references_course: false,
-  referenced_course: '',
-  setup_required   : false,
-  setup_mfk        : '',
-  food_provider    : '',
-  alcohol_provider : '',
-  num_people       : 0
+  user_email         : '',
+  contact_email      : '',
+  coph_email         : '',
+  event_name         : '',
+  comments           : '',
+  date               : '',
+  start_time         : '',
+  end_time           : '',
+  room_number        : '',
+  references_course  : false,
+  referenced_course  : '',
+  setup_required     : false,
+  setup_mfk          : '',
+  food_drink_required: false,
+  food_provider      : '',
+  alcohol_provider   : '',
+  num_people         : 0
 }
 
 
@@ -84,10 +85,10 @@ const app = {
 // Rooms: Stores our API room data
 const rooms = {
   rooms           : [],
-  room_schedule   : [],
   rooms_loading   : false,
-  schedule_loading: false,
   room_error      : null,
+  room_schedule   : [],
+  schedule_loading: false,
   schedule_error  : null
 }
 
@@ -112,7 +113,10 @@ const initialStore = {
   },
   fields: {
     info,
-    errors
+    errors,
+    form_loading: false,
+    form_error  : null,
+    form_success: false
   },
   rooms,
   events

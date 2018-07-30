@@ -2,6 +2,8 @@
  * Action creators for our fields
  */
 import { fieldActions } from '../constants/actionTypes';
+import FormData from 'form-data';
+const URI = process.env.REACT_APP_REDIRECT_URI;
 
 
 /**
@@ -24,3 +26,61 @@ export const resetField = (field) => ({
   type: fieldActions.RESET_FIELD,
   field: field
 })
+
+
+/**
+ * Notifies store that we've initiated a POST request. Blocks other POSTs
+ */
+export const submitFormLoading = () => ({
+  type: fieldActions.SUBMIT_FORM_LOADING
+})
+
+
+/**
+ * Notifies store our POST has been successful, and returns a message.
+ * @param {*} payload HTTP Response from our server
+ */
+export const submitFormSuccess = (payload) => ({
+  type: fieldActions.SUBMIT_FORM_SUCCESS,
+  payload
+})
+
+
+/**
+ * Notifies our application that we've had an error when POSTing their form info.
+ * @param {*} payload HTTP response with error from our server.
+ */
+export const submitFormFailure = (payload) => ({
+  type: fieldActions.SUBMIT_FORM_ERROR,
+  payload
+})
+
+
+/**
+ * Wraps our submission actions so that we can execute from our components.
+ */
+export function submitForm(info) {
+  return (dispatch) => {
+    
+    // Notify store we're submitting
+    dispatch(submitFormLoading());
+
+    // Create a new form to submit, and add each field key/value to it.
+    let form = new FormData();
+    Object.keys(info).forEach(key => { form.append(key, info[key]); });
+
+    // Set up URI and options for POST API call.
+    let uri = `${URI}/events`;
+    let options = {
+      method     : 'POST',
+      credentials: 'include',
+      body       : form
+    };
+
+    // Make the POST call
+    fetch(uri, options)
+      .then(res => res.json())
+      .then(res => dispatch(submitFormSuccess(res)))
+      .catch(err => dispatch(submitFormFailure(err)));
+  }
+}
