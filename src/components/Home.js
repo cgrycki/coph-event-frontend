@@ -32,6 +32,7 @@ class Home extends React.Component {
     let { loggedIn, login_loading, login_error, dispatch } = props;
 
     // If we aren't logged in, and haven't yet recieved a response, dispatch
+    // Also, don't make an API call if we have an error
     if (loggedIn === false && 
         login_loading === false && 
         login_error === null) dispatch(fetchLogin());
@@ -56,7 +57,7 @@ class Home extends React.Component {
 
   renderError(error) {
     const error_style = {
-      "color": "#a80000",
+      "color"     : "#a80000",
       "fontFamily": "Segoe UI"
     };
 
@@ -94,9 +95,6 @@ class Home extends React.Component {
                 login_error && this.renderError(login_error) :
                 login_loading && this.renderLoad()
             }
-
-
-
           </div>
         </div>
       </div>
