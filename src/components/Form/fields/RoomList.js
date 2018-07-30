@@ -80,7 +80,7 @@ export default class RoomsList extends React.PureComponent {
       });
 
     return (
-      (rooms_loading) ? 
+      (rooms_loading && rooms.length === 0) ? 
         this.renderLoadingSpinner() :
         <Dropdown
           placeholder={"Add a room"}
