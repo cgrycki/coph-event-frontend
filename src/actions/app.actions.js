@@ -70,14 +70,6 @@ export const updatePath = (path) => ({
 
 
 /**
- * Initiates submitting our form data to the server.
- */
-export const submitForm = () => ({
-  type: appActions.SUBMIT_FORM
-})
-
-
-/**
  * Notifies application we're initiating a user information API call
  */
 const fetchUserLoading = () => ({

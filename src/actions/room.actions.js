@@ -3,9 +3,8 @@
  */
 import { roomActions } from '../constants/actionTypes';
 import * as rp from 'request-promise';
-import { join } from 'url';
-
 const URI = process.env.REACT_APP_REDIRECT_URI;
+
 
 /**
  * Notifies our application that we're loading an API
