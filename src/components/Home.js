@@ -10,30 +10,35 @@ import { fetchLogin } from '../actions/app.actions';
 // Component
 class Home extends React.Component {
   constructor(props) {
-    super(props);
+    super();
     this.state = { ...props };
     this.nextPage = this.nextPage.bind(this);
     this.checkLogin = this.checkLogin.bind(this);
   }
 
   componentDidMount() {
-    this.checkLogin();
+    // Kick off login check when the component mounts
+    this.checkLogin(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
     // Each time we recieve props, check if we're logged in or not.
-    if (nextProps.loggedIn === false) this.checkLogin();
-    else this.setState({ ...nextProps });
+    this.checkLogin(nextProps);
   }
 
-  checkLogin() {
-    let { loggedIn, login_loading, dispatch } = this.props;
+  checkLogin(props) {
+    // Make an API call to our server to check if we are 
+    // in an authenticated session.
+    let { loggedIn, login_loading, login_error, dispatch } = props;
 
-    // If we're logged in then advance to the next page
-    if (loggedIn === true) this.nextPage();
+    // If we aren't logged in, and haven't yet recieved a response, dispatch
+    // Also, don't make an API call if we have an error
+    if (loggedIn === false && 
+        login_loading === false && 
+        login_error === null) dispatch(fetchLogin());
 
-    // If we're in an API call, 
-    if (loggedIn === false && login_loading === false) dispatch(fetchLogin());
+    // Otherwise, if we're logged in then advance to the next page
+    else if (loggedIn === true) this.nextPage();
   }
 
   nextPage() {
@@ -52,7 +57,7 @@ class Home extends React.Component {
 
   renderError(error) {
     const error_style = {
-      "color": "#a80000",
+      "color"     : "#a80000",
       "fontFamily": "Segoe UI"
     };
 
@@ -73,8 +78,8 @@ class Home extends React.Component {
     let { login_loading, login_error } = this.props;
 
     const status_style = {
-      "minHeight": "250px",
-      "display": "flex",
+      "minHeight" : "250px",
+      "display"   : "flex",
       "alignItems": "center"
     };
 
@@ -85,7 +90,11 @@ class Home extends React.Component {
           style={status_style}
         >
           <div style={{"margin": "auto"}}>
-            {(login_loading) ? this.renderLoad() : this.renderError(login_error)}
+            { // If we have an error, on render the error. Otherwise render loading
+              (login_error) ? 
+                login_error && this.renderError(login_error) :
+                login_loading && this.renderLoad()
+            }
           </div>
         </div>
       </div>
@@ -93,7 +102,7 @@ class Home extends React.Component {
   }
 
   render() {
-    let { loggedIn, login_error, login_loading } = this.state;
+    let { loggedIn } = this.state;
 
     return (
       <div>
@@ -117,14 +126,14 @@ class Home extends React.Component {
                   disabled={loggedIn}
                   text={"Login"}
                   title="Login to your University of Iowa account."
-                  href={`${process.env.REACT_APP_REDIRECT_URI}`}
+                  href={`${process.env.REACT_APP_REDIRECT_URI}/auth`}
                 />
               </div>
               <div style={{'display': 'inline', 'float': 'right'}}>
                 <CompoundButton
                   primary={true}
                   text={"Create an Event"}
-                  disabled={loggedIn}
+                  disabled={!loggedIn}
                   onClick={() => this.nextPage()}
                 />
               </div>
