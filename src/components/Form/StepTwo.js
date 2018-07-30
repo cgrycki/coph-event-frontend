@@ -4,7 +4,10 @@ import { connect }    from 'react-redux';
 
 // Form actions
 import {updateField}  from '../../actions/field.actions';
-import fetchRooms     from '../../actions/room.actions';
+import { 
+  fetchRooms,
+  fetchRoomSchedule 
+}                     from '../../actions/room.actions';
 
 // Form components
 import FormTitle      from './shared/FormTitle';
@@ -32,6 +35,11 @@ class StepTwo extends React.Component {
     if (this.props.rooms.length === 0) this.props.dispatch(fetchRooms());
   }
 
+  componentDidUpdate() {
+    let { schedule_loading } = this.props;
+    if (!schedule_loading) this.fetchSchedule();
+  }
+
   prevPage() {
     this.props.history.goBack(-1);
   }
@@ -43,6 +51,22 @@ class StepTwo extends React.Component {
 
   onChange(field, value, error=undefined) {
     this.props.dispatch(updateField(field, value));
+  }
+
+  fetchSchedule() {
+    // Checks for, and downloads a room schedule
+    let { info, dispatch } = this.props;
+    let { room_number, date } = info;
+
+    // Only make the API call if we have both a time and space selected.
+    if ((room_number !== '') && (date !== '')) {
+      // Format the date
+      let parsed_date = new Date(date);
+      let format_date = parsed_date.toISOString().split('T')[0];
+
+      // Initiate the fetch request!
+      dispatch(fetchRoomSchedule(room_number, format_date));
+    };
   }
 
   render() {
