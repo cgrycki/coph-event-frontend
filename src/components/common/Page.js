@@ -10,11 +10,10 @@ class Page extends React.PureComponent {
     const isLayout = location.pathname === "/form/layout";
 
     // Inline page styling
-    // Original styling below
-    // "ms-sm12 ms-lg10 ms-xxl8 ms-lgPush1 ms-xxlPush2";
-    const page_width  = (isLayout) ? "90%"                : "66%";
+    // Original styling: "ms-sm12 ms-lg10 ms-xxl8 ms-lgPush1 ms-xxlPush2";
+    const page_width  = (isLayout) ? "96%"                : "66%";
     const page_height = (isLayout) ? "calc(100% - 60px)"  : "76%";
-    const page_margin = (isLayout) ? "0% 5%"              : "6% 17%";
+    const page_margin = (isLayout) ? "0px calc(4% / 2)"   : "6% 17%";
     const page_style  = {
       width           : page_width,
       height          : page_height,
