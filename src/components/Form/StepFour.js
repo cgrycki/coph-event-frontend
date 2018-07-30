@@ -1,11 +1,19 @@
 // Dependecies
-import React           from 'react';
-import { connect }     from 'react-redux';
+import React          from 'react';
+import { connect }    from 'react-redux';
+import { 
+  MessageBar, 
+  MessageBarType,
+  Link 
+}                     from 'office-ui-fabric-react';
 
 // Form components
-import FormTitle    from './shared/FormTitle';
-import FormStep     from './shared/FormStep';
-import FormButtons  from './shared/FormButtons';
+import FormTitle      from './shared/FormTitle';
+import FormStep       from './shared/FormStep';
+import FormButtons    from './shared/FormButtons';
+
+// Actions
+import { submitForm } from '../../actions/field.actions';
 
 
 // Component
@@ -21,27 +29,71 @@ class StepFour extends React.Component {
   }
 
   nextPage() {
-    console.log('Submission!');
-    console.log(this.props.info);
+    // Submission handler
+    let { dispatch, info } = this.props;
+    dispatch(submitForm(info));
+  }
+
+  renderError() {
+    // Renders an submission error
+    let { form_error } = this.props;
+
+    // Inline styling for error notification
+    const error_style = {
+      "color"     : "#a80000",
+      "fontFamily": "Segoe UI"
+    };
+
+    return (
+      <MessageBar
+        messageBarType={MessageBarType.error}
+        isMultiline={false}
+        dismissButtonAriaLabel="Close"
+      >
+        <p style={error_style}>{form_error}</p>
+      </MessageBar>
+    );
+  }
+
+  renderSuccess() {
+    // Renders a notification success bar
+    let { form_success, info } = this.props;
+    
+    return (
+      <MessageBar
+        /*actions={
+          <div>
+            <MessageBarButton>Yes</MessageBarButton>
+            <MessageBarButton>No</MessageBarButton>
+          </div>
+        }*/
+        messageBarType={MessageBarType.success}
+        isMultiline={false}
+      >
+        {form_success}{'! '}{info['event_name']}{' created!'}
+        <Link href="/">Back to homepage.</Link>
+      </MessageBar>
+    );
   }
 
   render() {
-    let { info, errors } = this.props;
+    let { form_loading, form_success, form_error } = this.props;
 
     return (
       <div>
-        <FormTitle page={"Review"} />
+        <FormTitle page={"Review & Submit"} />
 
         <FormStep>
-          
+          {form_error && this.renderError()}
+          {form_success && this.renderSuccess()}
         </FormStep>
 
         <FormButtons
           prevPage={this.prevPage}
           nextPage={this.nextPage}
           prevDisabled={false}
-          nextDisabled={false}
-          nextText={"Submit for review"}
+          nextDisabled={form_loading || form_success}
+          nextText={"Submit for approval"}
         />
       </div>
     );
@@ -50,8 +102,11 @@ class StepFour extends React.Component {
 
 // Container
 const mapStateToProps = state => ({
-  info  : state.fields.info,
-  errors: state.fields.errors
+  info        : state.fields.info,
+  errors      : state.fields.errors,
+  form_loading: state.fields.form_loading,
+  form_success: state.fields.form_success,
+  form_error  : state.fields.form_error
 });
 
 export default connect(mapStateToProps)(StepFour);
