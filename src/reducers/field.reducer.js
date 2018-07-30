@@ -35,6 +35,26 @@ export const fieldReducer = (state=initialFieldStore, action) => {
         errors: {...state.errors, [field]: undefined }
       };
 
+    case fieldActions.SUBMIT_FORM_LOADING:
+      return {
+        ...state,
+        form_loading: true
+      };
+
+    case fieldActions.SUBMIT_FORM_SUCCESS:
+      return {
+        ...state,
+        form_loading: false,
+        form_success: action.payload.message
+      };
+
+    case fieldActions.SUBMIT_FORM_ERROR:
+      return {
+        ...state,
+        form_loading: false,
+        form_error: action.payload.message
+      };
+
     default:
       return state;
   }
