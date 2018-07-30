@@ -13,15 +13,27 @@ class Home extends React.Component {
     super(props);
     this.state = { ...props };
     this.nextPage = this.nextPage.bind(this);
+    this.checkLogin = this.checkLogin.bind(this);
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchLogin());
+    this.checkLogin();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.loggedIn === true) this.nextPage();
+    // Each time we recieve props, check if we're logged in or not.
+    if (nextProps.loggedIn === false) this.checkLogin();
     else this.setState({ ...nextProps });
+  }
+
+  checkLogin() {
+    let { loggedIn, login_loading, dispatch } = this.props;
+
+    // If we're logged in then advance to the next page
+    if (loggedIn === true) this.nextPage();
+
+    // If we're in an API call, 
+    if (loggedIn === false && login_loading === false) dispatch(fetchLogin());
   }
 
   nextPage() {
@@ -51,7 +63,7 @@ class Home extends React.Component {
         dismissButtonAriaLabel="Close"
       >
         <p className="ms-textAlignCenter">Warning! There was an error while authenticating your login.</p>
-        <p className="ms-textAlignCenter">{error}</p>
+        <p className="ms-textAlignCenter" style={error_style}>{error}</p>
       </MessageBar>
     );
 

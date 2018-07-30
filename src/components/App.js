@@ -30,7 +30,7 @@ const App = ({ store }) => (
           <div className="ms-Grid-row">
             <Page>
               
-              <Navbar />
+              {/*<Navbar />*/}
               <Switch>
                 <Route path="/" exact     component={Home} />
                 <Route path="/dashboard"  component={Dashboard} />
