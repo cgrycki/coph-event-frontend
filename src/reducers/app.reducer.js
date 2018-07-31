@@ -16,7 +16,7 @@ export const appReducer = (state=initialStore.app, action) => {
 
     // Login validation cases
     case (appActions.LOGIN_LOADING):
-      return {...state, login_loading: true};
+      return { ...state, login_loading: true };
 
     case (appActions.LOGIN_SUCESS):
       var response = action.payload.loggedIn;
