@@ -13,6 +13,8 @@ export default class Course extends React.PureComponent {
 
   renderSearch() {
     // Renders the dropdown/search input to select a class
+    let { error } = this.props;
+
     const search_styles = { 
       "marginLeft": "auto",
       "width"     : "50%"
@@ -27,14 +29,12 @@ export default class Course extends React.PureComponent {
           selectedKey={this.props.referenced_course}
           defaultSelectedKey={this.renderSearchPlaceholder().key}
           options={[this.renderSearchPlaceholder()]}
-          dropdownWidth={350}
+          errorMessage={error}
+          useComboBoxAsMenuWidth={true}
         />
       </div>
     );
   }
-
-
-
 
   render() {
     let { references_course, onChange } = this.props;
