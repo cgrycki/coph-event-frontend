@@ -74,6 +74,7 @@ class StepOne extends React.Component {
           <Course
             references_course={info['references_course']}
             referenced_course={info['referenced_course']}
+            error={errors['referenced_course']}
             onChange={this.onChange}
           />
 
@@ -90,7 +91,7 @@ class StepOne extends React.Component {
         <FormButtons
           prevPage={this.prevPage}
           nextPage={this.nextPage}
-          prevDisabled={false}
+          prevDisabled={true}
           nextDisabled={false}
         />
       </div>
