@@ -45,12 +45,6 @@
   position: fixed;
 }
 
-/* Form buttons: Previous / Next */
-.FormButtons {
-  position: relative;
-  bottom: 0;
-}
-
 /* Form field: start_time, end_time */
 .FormTime {
   height: 32px;
