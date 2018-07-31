@@ -11,7 +11,6 @@ import { fetchLogin } from '../actions/app.actions';
 class Home extends React.Component {
   constructor(props) {
     super();
-    this.state = { ...props };
     this.nextPage = this.nextPage.bind(this);
     this.checkLogin = this.checkLogin.bind(this);
   }
@@ -27,8 +26,7 @@ class Home extends React.Component {
   }
 
   checkLogin(props) {
-    // Make an API call to our server to check if we are 
-    // in an authenticated session.
+    // Make an API call to our server to check if we are authenticated.
     let { loggedIn, login_loading, login_error, dispatch } = props;
 
     // If we aren't logged in, and haven't yet recieved a response, dispatch
@@ -102,7 +100,7 @@ class Home extends React.Component {
   }
 
   render() {
-    let { loggedIn } = this.state;
+    let { loggedIn } = this.props;
 
     return (
       <div>
