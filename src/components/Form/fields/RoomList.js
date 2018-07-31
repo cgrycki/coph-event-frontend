@@ -86,13 +86,13 @@ export default class RoomsList extends React.PureComponent {
           placeholder={"Add a room"}
           label={"Room Number"}
           selectedKey={value}
-          errorMessage={rooms_error}
+          //errorMessage={rooms_error}
           onChanged={(evt) => onChange('room_number', evt.roomNumber)}
           options={room_options}
           onRenderOption={this.renderOption}
           onRenderCaretDown={this.renderCarat}
           onRenderPlaceHolder={this.renderPlaceholder}
-          required={true} 
+          required
         />
     );
   }
