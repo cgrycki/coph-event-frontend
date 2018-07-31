@@ -22,7 +22,7 @@ const info = {
   food_drink_required: false,
   food_provider      : '',
   alcohol_provider   : '',
-  num_people         : 0
+  num_people         : 1
 }
 
 
