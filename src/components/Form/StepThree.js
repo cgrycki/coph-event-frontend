@@ -29,12 +29,10 @@ export default class StepThree extends React.Component {
 
   render() {
     return (
-      <div>
+      <FormStep>
         <FormTitle page={"Layout"} />
 
-        <FormStep>
-          <Editor />
-        </FormStep>
+        <Editor />
 
         <FormButtons
           prevPage={this.prevPage}
@@ -42,7 +40,7 @@ export default class StepThree extends React.Component {
           prevDisabled={false}
           nextDisabled={false}
         />
-      </div>
+      </FormStep>
     );
   }
 }

@@ -1,15 +1,15 @@
 /**
  * Application Store configuration
  */
-import { createStore, applyMiddleware, compose } from 'redux'
-import thunkMiddleware from 'redux-thunk'
-import { createLogger } from 'redux-logger'
-import initialStore from './initialStore';
-import rootReducer from '../reducers';
+import { createStore, applyMiddleware, compose }  from 'redux'
+import thunkMiddleware                            from 'redux-thunk'
+import { createLogger }                           from 'redux-logger'
+import initialStore                               from './initialStore';
+import rootReducer                                from '../reducers';
 
 
 // Logging middleware
-const loggerMiddleware = createLogger()
+const loggerMiddleware = createLogger();
 
 
 // Function to create a store with async + logging
