@@ -80,13 +80,11 @@ class StepFour extends React.Component {
     let { form_loading, form_success, form_error } = this.props;
 
     return (
-      <div>
+      <FormStep>
         <FormTitle page={"Review & Submit"} />
 
-        <FormStep>
-          {form_error && this.renderError()}
-          {form_success && this.renderSuccess()}
-        </FormStep>
+        {form_error && this.renderError()}
+        {form_success && this.renderSuccess()}
 
         <FormButtons
           prevPage={this.prevPage}
@@ -95,7 +93,7 @@ class StepFour extends React.Component {
           nextDisabled={form_loading || form_success}
           nextText={"Submit for approval"}
         />
-      </div>
+      </FormStep>
     );
   }
 }

@@ -17,8 +17,8 @@ import FormButtons    from './shared/FormButtons';
 // Form fields
 import EventName      from './fields/EventName';
 import DateTime       from './fields/DateTime';
-import RoomList       from './fields/RoomList';
 import EventComments  from './fields/EventComments';
+import RoomList       from './fields/RoomList';
 
 
 // Component
@@ -76,10 +76,8 @@ class StepTwo extends React.Component {
     } = this.props;
 
     return (
-      <div>
+      <FormStep>
         <FormTitle page={"Event Information"} />
-
-        <FormStep>
           <EventName
             value={info['event_name']}
             error={errors['event_name']}
@@ -111,7 +109,6 @@ class StepTwo extends React.Component {
             error={errors['event_comments']}
             onChange={this.onChange}
           />
-        </FormStep>
 
         <FormButtons
           prevPage={this.prevPage}
@@ -119,7 +116,7 @@ class StepTwo extends React.Component {
           prevDisabled={false}
           nextDisabled={false}
         />
-      </div>
+      </FormStep>
     );
   }
 }
