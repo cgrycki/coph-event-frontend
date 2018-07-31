@@ -15,8 +15,7 @@ export default class Course extends React.PureComponent {
     // Renders the dropdown/search input to select a class
     const search_styles = { 
       "marginLeft": "auto",
-      "width"     : "350px",
-      "maxWidth"  : "350px"
+      "width"     : "50%"
     };
 
     return (
