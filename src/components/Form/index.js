@@ -5,7 +5,8 @@ import React from 'react';
 export default class Form extends React.PureComponent {
   render() {
     const form_style = {
-      width: "100%"
+      width: "100%",
+      height: "100%"
     };
 
     return (

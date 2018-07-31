@@ -6,10 +6,7 @@ import { fieldActions } from '../constants/actionTypes';
 
 
 // Create the shape of our store to match reducers
-const initialFieldStore = {
-  info  : initialStore.fields.info,
-  errors: initialStore.fields.errors
-};
+const initialFieldStore = { ...initialStore.fields };
 
 
 /**

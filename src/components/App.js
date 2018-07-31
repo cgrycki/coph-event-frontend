@@ -2,13 +2,13 @@
 import React        from 'react';
 import { Provider } from 'react-redux'
 import { Fabric }   from 'office-ui-fabric-react';
-import { Switch, Redirect, BrowserRouter as Router, Route } from 'react-router-dom';
+import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
 
 // Site components
 import Navbar       from './common/NavBar';
 import Page         from './common/Page';
 import Home         from './Home';
-import Event        from './Event';
+import EventPage    from './Event';
 import Dashboard    from './Dashboard';
 
 // Form + Steps
@@ -34,7 +34,7 @@ const App = ({ store }) => (
               <Switch>
                 <Route path="/" exact     component={Home} />
                 <Route path="/dashboard"  component={Dashboard} />
-                <Route path="/event"      component={Event} />
+                <Route path="/event"      component={EventPage} />
                 <Form>
                   <Route path="/form/user"   component={StepOne} />
                   <Route path="/form/event"  component={StepTwo} />
