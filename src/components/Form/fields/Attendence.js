@@ -23,7 +23,7 @@ export default class Attendance extends React.PureComponent {
           value={value}
           onChange={(evt) => onChange('num_people', evt.target.value)}
           min={1}
-          max={100}
+          max={200}
         />
         {error && <span>{error}</span>}
       </div>
