@@ -64,13 +64,20 @@ export default class FoodDrink extends React.PureComponent {
 
     return (
       <div className="ms-Grid-row" style={row_styles}>
-        <Toggle
-          defaultChecked={false}
-          label={"Will you provide food or drinks?"}
-          onText="Yes"
-          offText="No"
-          onChanged={(evt) => onChange('food_drink_required', evt)}
-        />
+        <div>
+          <Toggle
+            defaultChecked={false}
+            label={"Will you provide food or drinks?"}
+            onText="Yes"
+            offText="No"
+            onChanged={(evt) => onChange('food_drink_required', evt)}
+          />
+          {food_drink_required && 
+            <span style={{marginTop: "20px"}}>
+              Explanation of rules span.
+            </span>
+          }
+        </div>
           { // Only show the food + drink inputs if toggle is true
             food_drink_required && this.renderProviders()
           }
