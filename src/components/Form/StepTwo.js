@@ -59,14 +59,7 @@ class StepTwo extends React.Component {
     let { room_number, date } = info;
 
     // Only make the API call if we have both a time and space selected.
-    if ((room_number !== '') && (date !== '')) {
-      // Format the date
-      let parsed_date = new Date(date);
-      let format_date = parsed_date.toISOString().split('T')[0];
-
-      // Initiate the fetch request!
-      dispatch(fetchRoomSchedule(room_number, format_date));
-    };
+    if ((room_number !== '') && (date !== '')) dispatch(fetchRoomSchedule(room_number, date));
   }
 
   render() {
