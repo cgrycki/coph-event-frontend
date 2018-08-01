@@ -8,6 +8,7 @@
     "d3-scale": "^2.1.0",
     "form-data": "^2.3.2",
     "konva": "^1.7.6",
+    "moment": "^2.22.2",
     "office-ui-fabric-core": "^9.6.0",
     "office-ui-fabric-react": "^5.117.1",
     "prop-types": "^15.6.2",

@@ -38,7 +38,8 @@ export default class Setup extends React.PureComponent {
     const flex_styles = {
       "marginLeft"    : "auto",
       "display"       : "flex",
-      "justifyContent": "space-between"
+      "justifyContent": "space-between",
+      "alignItems"    : "flex-end"
     };
 
     return (

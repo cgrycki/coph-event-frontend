@@ -35,9 +35,15 @@ class StepTwo extends React.Component {
     if (this.props.rooms.length === 0) this.props.dispatch(fetchRooms());
   }
 
-  componentDidUpdate() {
-    let { schedule_loading } = this.props;
-    if (!schedule_loading) this.fetchSchedule();
+  componentDidUpdate(prevProps) {
+    // Controls our room schedule loading: check param changes
+    const old_room = prevProps.info.room_number,
+        old_date = prevProps.info.date,
+        new_room = this.props.info.room_number,
+        new_date = this.props.info.date;
+
+    if (((old_room !== new_room) || (old_date !== new_date)) &&
+        (!this.props.schedule_loading)) this.fetchSchedule();
   }
 
   prevPage() {
@@ -59,14 +65,7 @@ class StepTwo extends React.Component {
     let { room_number, date } = info;
 
     // Only make the API call if we have both a time and space selected.
-    if ((room_number !== '') && (date !== '')) {
-      // Format the date
-      let parsed_date = new Date(date);
-      let format_date = parsed_date.toISOString().split('T')[0];
-
-      // Initiate the fetch request!
-      dispatch(fetchRoomSchedule(room_number, format_date));
-    };
+    if ((room_number !== '') && (date !== '')) dispatch(fetchRoomSchedule(room_number, date));
   }
 
   render() {
@@ -78,37 +77,37 @@ class StepTwo extends React.Component {
     return (
       <FormStep>
         <FormTitle page={"Event Information"} />
-          <EventName
-            value={info['event_name']}
-            error={errors['event_name']}
-            onChange={this.onChange}
-          />
 
-          <DateTime
-            date={info['date']}
-            start_time={info['start_time']}
-            end_time={info['end_time']}
-            start_time_error={errors['start_time']}
-            end_time_error={errors['end_time']}
-            coph_email={info['coph_email']}
-            coph_email_error={errors['coph_email']}
-            onChange={this.onChange}
-          />
+        <EventName
+          value={info['event_name']}
+          error={errors['event_name']}
+          onChange={this.onChange}
+        />
 
-          <RoomList
-            rooms={rooms}
-            rooms_loading={rooms_loading}
-            rooms_error={rooms_error}
-            value={info['room_number']}
-            onChange={this.onChange}
-          />
-          
+        <DateTime
+          date={info['date']}
+          start_time={info['start_time']}
+          end_time={info['end_time']}
+          start_time_error={errors['start_time']}
+          end_time_error={errors['end_time']}
+          coph_email={info['coph_email']}
+          coph_email_error={errors['coph_email']}
+          onChange={this.onChange}
+        />
 
-          <EventComments
-            value={info['event_comments']}
-            error={errors['event_comments']}
-            onChange={this.onChange}
-          />
+        <RoomList
+          rooms={rooms}
+          rooms_loading={rooms_loading}
+          rooms_error={rooms_error}
+          value={info['room_number']}
+          onChange={this.onChange}
+        />
+        
+        <EventComments
+          value={info['event_comments']}
+          error={errors['event_comments']}
+          onChange={this.onChange}
+        />
 
         <FormButtons
           prevPage={this.prevPage}

@@ -29,14 +29,14 @@ class Home extends React.Component {
     // Make an API call to our server to check if we are authenticated.
     let { loggedIn, login_loading, login_error, dispatch } = props;
 
+    // Base case, if we're logged in then advance to the next page
+    if (loggedIn === true) this.nextPage();
+
     // If we aren't logged in, and haven't yet recieved a response, dispatch
     // Also, don't make an API call if we have an error
-    if (loggedIn === false && 
-        login_loading === false && 
-        login_error === null) dispatch(fetchLogin());
-
-    // Otherwise, if we're logged in then advance to the next page
-    else if (loggedIn === true) this.nextPage();
+    else if ((loggedIn === false) && (login_loading === false) && (login_error === null)) { 
+      dispatch(fetchLogin());
+    }
   }
 
   nextPage() {

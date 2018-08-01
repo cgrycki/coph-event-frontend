@@ -5,6 +5,7 @@
   outline: 1px solid rgba(255, 0, 0, 0.0);
 }
 
+
 /* Navigation bar @ top of screen */
 .NavBarWrapper {
   position: fixed;
@@ -28,10 +29,6 @@
   padding: 0px 10px;
 }
 
-.App {
-  /* 40px for NavBar height + 30px margin */
-  margin-top: 50px;
-}
 
 /* Form Wizard Page */
 .Page {
@@ -45,10 +42,6 @@
   position: fixed;
 }
 
-/* Form field: start_time, end_time */
-.FormTime {
-  height: 32px;
-}
 
 /* Form field: Setup required? */
 .FormSetup {

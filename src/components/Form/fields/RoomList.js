@@ -58,7 +58,7 @@ export default class RoomsList extends React.PureComponent {
       <div key={`${room.roomNumber}`} style={option_style}>
         <div>
           <span style={floor_style}><strong>{room.floor}</strong></span>
-          {room.roomName}
+          {room.roomNumber}{' '}<i>seats: {room.maxOccupancy}</i>
         </div>
         <div>
           <i>{room.rmType}</i>
@@ -86,7 +86,7 @@ export default class RoomsList extends React.PureComponent {
           placeholder={"Add a room"}
           label={"Room Number"}
           selectedKey={value}
-          //errorMessage={rooms_error}
+          errorMessage={rooms_error}
           onChanged={(evt) => onChange('room_number', evt.roomNumber)}
           options={room_options}
           onRenderOption={this.renderOption}

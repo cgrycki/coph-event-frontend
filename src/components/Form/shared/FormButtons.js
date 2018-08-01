@@ -6,7 +6,7 @@ const flex_styles = {
   "display"       : "flex",
   "flexDirection" : "row",
   "justifyContent": "space-between",
-  "margin"        : "15px 0px 0px 0px"
+  "margin"        : "35px 0px 10px 0px"
 };
 
 export default class FormButtons extends React.PureComponent {
