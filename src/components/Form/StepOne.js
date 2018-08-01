@@ -34,7 +34,7 @@ class StepOne extends React.Component {
     this.props.history.push("/form/event");
   }
 
-  onChange(field, value, error=undefined) {
+  onChange(field, value) {
     this.props.dispatch(updateField(field, value));
   }
 
@@ -45,6 +45,7 @@ class StepOne extends React.Component {
       <FormStep>
         <FormTitle page={"User Information"} />
 
+        <div>
         <UserEmail
           value={info['user_email']}
           error={errors['user_email']}
@@ -81,10 +82,10 @@ class StepOne extends React.Component {
           food_drink_required={info['food_drink_required']}
           food_provider={info['food_provider']}
           alcohol_provider={info['alcohol_provider']}
-          food_error={errors['food_provider']}
-          drink_error={errors['alcohol_provider']}
+          food_drink_error={errors['food_drink_provider']}
           onChange={this.onChange}
         />
+        </div>
 
         <FormButtons
           prevPage={this.prevPage}

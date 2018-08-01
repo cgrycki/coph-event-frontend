@@ -1,4 +1,24 @@
-export const isWeekend = date => {
+/**
+ * Date and Time utilities
+ */
+const moment = require('moment')
+
+
+/**
+ * Returns a YYYY-MM-DD formatted date string.
+ * @param {string} date_string 
+ */
+const getDateISO = (date_string) =>  moment(date_string).format("YYYY-MM-DD");
+
+
+const sixMonthsFromToday = () => {
+  const today = new Date();
+  const sixMonths = moment(today).add(6, 'months');
+  return sixMonths.toDate();
+}
+
+
+const isWeekend = date => {
   // Create a JS date
   let dateObj = new Date(date);
 
@@ -8,7 +28,8 @@ export const isWeekend = date => {
   return (day_of_week === 6) || (day_of_week === 0);
 }
 
-export const nextWeek = () => {
+
+const nextWeek = () => {
   /* Returns the date string of one week from function evaluation. */
   const today = new Date();
   const nextWeek = new Date(
@@ -19,7 +40,10 @@ export const nextWeek = () => {
   return nextWeek;
 }
 
-export const datePickerStrings = {
+/**
+ * String specifications for Office Fabric DatePicker.
+ */
+const datePickerStrings = {
   /*
    * Datepicker requires ALL of these to be filled out. 
    * All for just two error messages.
@@ -84,3 +108,10 @@ export const datePickerStrings = {
   isRequiredErrorMessage: 'Event Date is required.',
   invalidInputErrorMessage: 'Invalid date format.'
 };
+
+
+module.exports.sixMonthsFromToday = sixMonthsFromToday;
+module.exports.isWeekend          = isWeekend;
+module.exports.getDateISO         = getDateISO;
+module.exports.nextWeek           = nextWeek;
+module.exports.datePickerStrings  = datePickerStrings;
