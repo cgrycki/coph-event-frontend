@@ -13,18 +13,32 @@ export const roomReducer = (state=initialStore.rooms, action) => {
       return { ...state, rooms_loading: true };
 
     case (roomActions.FETCH_ROOMS_SUCCESS):
-      return { ...state, rooms: action.payload, rooms_loading: false, rooms_error: null };
+      return { 
+        ...state, 
+        rooms: action.payload, 
+        rooms_loading: false, 
+        rooms_error: null 
+      };
 
     case (roomActions.FETCH_ROOMS_FAILURE):
       error = action.payload;
       rooms_error = error.message;
-      return { ...state, rooms: [], rooms_loading: false, rooms_error };
+      return { 
+        ...state,
+        rooms_loading: false, 
+        rooms_error 
+      };
     
     case (roomActions.FETCH_SCHEDULE_LOADING):
       return { ...state, schedule_loading: true };
 
     case (roomActions.FETCH_SCHEDULE_SUCCESS):
-      return { ...state, room_schedule: action.payload, rooms_loading: false, rooms_error: null};
+      return { 
+        ...state, 
+        room_schedule: action.payload.events, 
+        schedule_loading: false, 
+        schedule_error: null
+      };
 
     case (roomActions.FETCH_SCHEDULE_FAILURE):
       error = action.payload;

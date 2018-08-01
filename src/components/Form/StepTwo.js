@@ -35,9 +35,15 @@ class StepTwo extends React.Component {
     if (this.props.rooms.length === 0) this.props.dispatch(fetchRooms());
   }
 
-  componentDidUpdate() {
-    let { schedule_loading } = this.props;
-    if (!schedule_loading) this.fetchSchedule();
+  componentDidUpdate(prevProps) {
+    // Controls our room schedule loading: check param changes
+    const old_room = prevProps.info.room_number,
+        old_date = prevProps.info.date,
+        new_room = this.props.info.room_number,
+        new_date = this.props.info.date;
+
+    if (((old_room !== new_room) || (old_date != new_date)) &&
+        (!this.props.schedule_loading)) this.fetchSchedule();
   }
 
   prevPage() {
