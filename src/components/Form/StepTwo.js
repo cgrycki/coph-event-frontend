@@ -42,7 +42,7 @@ class StepTwo extends React.Component {
         new_room = this.props.info.room_number,
         new_date = this.props.info.date;
 
-    if (((old_room !== new_room) || (old_date != new_date)) &&
+    if (((old_room !== new_room) || (old_date !== new_date)) &&
         (!this.props.schedule_loading)) this.fetchSchedule();
   }
 
@@ -77,37 +77,37 @@ class StepTwo extends React.Component {
     return (
       <FormStep>
         <FormTitle page={"Event Information"} />
-          <EventName
-            value={info['event_name']}
-            error={errors['event_name']}
-            onChange={this.onChange}
-          />
 
-          <DateTime
-            date={info['date']}
-            start_time={info['start_time']}
-            end_time={info['end_time']}
-            start_time_error={errors['start_time']}
-            end_time_error={errors['end_time']}
-            coph_email={info['coph_email']}
-            coph_email_error={errors['coph_email']}
-            onChange={this.onChange}
-          />
+        <EventName
+          value={info['event_name']}
+          error={errors['event_name']}
+          onChange={this.onChange}
+        />
 
-          <RoomList
-            rooms={rooms}
-            rooms_loading={rooms_loading}
-            rooms_error={rooms_error}
-            value={info['room_number']}
-            onChange={this.onChange}
-          />
-          
+        <DateTime
+          date={info['date']}
+          start_time={info['start_time']}
+          end_time={info['end_time']}
+          start_time_error={errors['start_time']}
+          end_time_error={errors['end_time']}
+          coph_email={info['coph_email']}
+          coph_email_error={errors['coph_email']}
+          onChange={this.onChange}
+        />
 
-          <EventComments
-            value={info['event_comments']}
-            error={errors['event_comments']}
-            onChange={this.onChange}
-          />
+        <RoomList
+          rooms={rooms}
+          rooms_loading={rooms_loading}
+          rooms_error={rooms_error}
+          value={info['room_number']}
+          onChange={this.onChange}
+        />
+        
+        <EventComments
+          value={info['event_comments']}
+          error={errors['event_comments']}
+          onChange={this.onChange}
+        />
 
         <FormButtons
           prevPage={this.prevPage}
