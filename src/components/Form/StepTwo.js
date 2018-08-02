@@ -55,7 +55,7 @@ class StepTwo extends React.Component {
     else this.props.history.push("/form/review");
   }
 
-  onChange(field, value, error=undefined) {
+  onChange(field, value) {
     this.props.dispatch(updateField(field, value));
   }
 
@@ -104,8 +104,8 @@ class StepTwo extends React.Component {
         />
         
         <EventComments
-          value={info['event_comments']}
-          error={errors['event_comments']}
+          value={info['comments']}
+          error={errors['comments']}
           onChange={this.onChange}
         />
 
