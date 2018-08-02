@@ -63,7 +63,7 @@ class NavBarComponent extends React.Component {
     let { loggedIn, match, location } = this.props;
 
     // Disable if we're not logged in
-    let link_style = (loggedIn) ? 
+    let link_style = (loggedIn && !location.pathname.startsWith("/form")) ? 
       {color: '#eeeeee'} : 
       {pointerEvents: 'none', color: 'rgba(238, 238, 238, 0.5)'};
 
@@ -88,7 +88,7 @@ class NavBarComponent extends React.Component {
     let { loggedIn, match, location } = this.props;
 
     // Disable if we're not logged in
-    let link_style = (loggedIn) ? 
+    let link_style = (loggedIn && !location.pathname.startsWith("/dashboard")) ? 
       {color: '#eeeeee'} : 
       {pointerEvents: 'none', color: 'rgba(238, 238, 238, 0.5)'};
 
@@ -97,7 +97,7 @@ class NavBarComponent extends React.Component {
 
     return (
       <NavLink
-        to="/form/user"
+        to="/dashboard"
         isActive={isDashActive}
         style={link_style}
       >
@@ -110,6 +110,7 @@ class NavBarComponent extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <div className="NavBarWrapper">
         <div className="NavBar">
