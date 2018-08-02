@@ -17,16 +17,17 @@
 .NavBar {
   width: 100vw;
   height: 35px;
-  background-color:rgb(244, 244, 244);
+  /*background-color:rgb(244, 244, 244);*/
+  background-color: black;
   margin: 0px -8px 10px 0px;
 }
 .NavBar a {
-  color: #999999;
-  font-size: 1.2em;
-  vertical-align: middle;
+  color: #eeeeee;
+  font-size: 1em;
   font-weight: 400;
   font-family: sans-serif;
   padding: 0px 10px;
+  text-decoration: none;
 }
 
 
