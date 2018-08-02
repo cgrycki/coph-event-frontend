@@ -7,7 +7,7 @@ import FormStep       from './shared/FormStep';
 import FormButtons    from './shared/FormButtons';
 
 // Editor
-import Editor         from './editor/index';
+import Editor         from './editor';
 
 
 

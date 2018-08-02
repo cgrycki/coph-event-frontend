@@ -1,8 +1,11 @@
 /**
  * Action creators for our fields
  */
-import { fieldActions } from '../constants/actionTypes';
-import FormData from 'form-data';
+import { fieldActions }     from '../constants/actionTypes';
+import FormData             from 'form-data';
+import BusinessRequirements from '../utils/BusinessRequirements';
+
+const businessReqs = new BusinessRequirements();
 const URI = process.env.REACT_APP_REDIRECT_URI;
 
 
@@ -16,6 +19,23 @@ export const updateField = (field, value) => ({
   field: field,
   value: value
 })
+
+export const updateFieldAndErrors = (field, value) => {
+  return (dispatch, getState) => {
+    // Dispatch the field update
+    dispatch(updateField(field, value));
+
+    // Get the store after update
+    const current_state = getState();
+    const info          = current_state.fields.info;
+    const schedule      = current_state.rooms.room_schedule;
+
+    // Validate the forms new info
+    const errors = businessReqs.validate(info, schedule);
+
+    console.log(current_state);
+  }
+}
 
 
 /**
