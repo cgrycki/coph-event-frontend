@@ -11,9 +11,9 @@ class Page extends React.PureComponent {
 
     // Inline page styling
     // Original styling: "ms-sm12 ms-lg10 ms-xxl8 ms-lgPush1 ms-xxlPush2";
-    const page_width  = (isLayout) ? "96%"                : "76%";
-    const page_height = (isLayout) ? "calc(100% - 60px)"  : "76%";
-    const page_margin = (isLayout) ? "0px calc(4% / 2)"   : "6% 12%";
+    const page_width  = (isLayout) ? "98%"                : "76%";
+    const page_height = (isLayout) ? "calc(100% - 55px)"  : "76%";
+    const page_margin = (isLayout) ? "40px calc(2% / 2) 15px"   : "6% 12%";
     const page_style  = {
       width           : page_width,
       height          : page_height,
