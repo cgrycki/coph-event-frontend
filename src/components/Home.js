@@ -20,11 +20,6 @@ class Home extends React.Component {
     this.checkLogin(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
-    // Each time we recieve props, check if we're logged in or not.
-    this.checkLogin(nextProps);
-  }
-
   checkLogin(props) {
     // Make an API call to our server to check if we are authenticated.
     let { loggedIn, login_loading, login_error, dispatch } = props;
