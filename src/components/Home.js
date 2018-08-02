@@ -108,11 +108,15 @@ class Home extends React.Component {
 
         {this.renderStatus()}
 
-        <div className="ms-Grid-row">
-          <div className="ms-Grid-col ms-sm10 ms-smPush1">
+        <hr/>
+        <br/>
 
-            <div style={{"display": "flex", "justifyContent": "space-around", "marginTop": "15px"}} />
-              <div style={{'display': 'inline'}}>
+        <div className="ms-Grid-row">
+          <div className="ms-Grid-col ms-sm12">
+
+            <div style={{"display": "flex", "justifyContent": "space-between", marginTop: "15px"}}>
+
+              <div style={{float: 'left'}}>
                 <CompoundButton
                   primary={true}
                   secondaryText="with your Iowa account."
@@ -122,7 +126,7 @@ class Home extends React.Component {
                   href={`${process.env.REACT_APP_REDIRECT_URI}/auth`}
                 />
               </div>
-              <div style={{'display': 'inline', 'float': 'right'}}>
+              <div style={{float: 'right'}}>
                 <CompoundButton
                   primary={true}
                   text={"Create an Event"}
@@ -131,7 +135,9 @@ class Home extends React.Component {
                 />
               </div>
             </div>
+
           </div>
+        </div>
       </div>
     );
   }
