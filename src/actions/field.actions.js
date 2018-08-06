@@ -99,9 +99,10 @@ export function submitForm(info) {
 
     // Make the POST call
     fetch(uri, options)
-      .then(res => res.json())
       .then(res => {
         // Check errror from our server
+        console.log(res.body);
+        
         if (res.error) dispatch(submitFormFailure(res));
         else dispatch(submitFormSuccess(res));
       })
