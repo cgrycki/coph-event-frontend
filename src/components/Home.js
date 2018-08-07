@@ -1,9 +1,12 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React         from 'react';
+import { connect }   from 'react-redux';
 import { 
-  CompoundButton, Spinner, SpinnerSize,
-  MessageBar, MessageBarType 
-} from 'office-ui-fabric-react';
+  CompoundButton, 
+  Spinner, 
+  SpinnerSize,
+  MessageBar, 
+  MessageBarType 
+}                     from 'office-ui-fabric-react';
 import { fetchLogin } from '../actions/app.actions';
 
 
@@ -20,12 +23,24 @@ class Home extends React.Component {
     this.checkLogin(this.props);
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.checkLogin(nextProps);
+  }
+ 
   checkLogin(props) {
     // Make an API call to our server to check if we are authenticated.
-    let { loggedIn, login_loading, login_error, dispatch } = props;
+    let { loggedIn, login_loading, login_error, dispatch, history } = props;
 
-    // Base case, if we're logged in then advance to the next page
-    if (loggedIn === true) this.nextPage();
+    // Grab the redirect pathname if we were directed from a protected route
+    let redirect_from = ((props.location.state) && (props.location.state.from)) ?
+      props.location.state.from.pathname :
+      undefined;
+
+    // Base case, we were redirected from a protected route
+    if ((redirect_from !== undefined) && (loggedIn === true)) history.push(redirect_from);
+
+    // Authenticated from Workflow login case, if we're logged in then advance to the next page
+    else if ((redirect_from === undefined) && (loggedIn === true)) this.nextPage();
 
     // If we aren't logged in, and haven't yet recieved a response, dispatch
     // Also, don't make an API call if we have an error
@@ -96,6 +111,8 @@ class Home extends React.Component {
 
   render() {
     let { loggedIn } = this.props;
+
+    console.log(this.props);
 
     return (
       <div>

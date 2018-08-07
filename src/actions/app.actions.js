@@ -48,7 +48,11 @@ export function fetchLogin() {
     let uri = `${URI}/auth/validate`;
     let options = {
       withCredentials: true,
-      method: 'GET'
+      method: 'GET',
+      headers: {
+        'Content-Type': 'text/plain',
+        'Accept': 'application/json'
+      }
     };
 
     rp(uri, options)

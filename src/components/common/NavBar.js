@@ -2,7 +2,7 @@ import React              from 'react';
 import { connect }        from 'react-redux';
 import { Icon }           from 'office-ui-fabric-react';
 import { 
-  NavLink, 
+  NavLink,
   withRouter
 }                         from 'react-router-dom';
 import uiowa              from '../../assets/uiowa.png';
@@ -47,15 +47,16 @@ class NavBarComponent extends React.Component {
     // Styles
     let iconName = (loggedIn) ? 'Unlock' : 'Lock';
     let linkText = (loggedIn) ? 'Logout' : 'Login';
-    let linkHref = `${process.env.REACT_APP_REDIRECT_URI}/auth` + (loggedIn) ? '/logout': '';
+    let linkUri  = (loggedIn) ? 'logout' : '';
+    let linkHref = `${process.env.REACT_APP_REDIRECT_URI}/auth/${linkUri}`;
     
     return (
-      <NavLink to={linkHref} >
+      <a href={linkHref} >
         <div style={link_div_style}>
           <Icon iconName={iconName} />&nbsp;
           {linkText}
         </div>
-      </NavLink>
+      </a>
     );
   }
 
@@ -110,7 +111,6 @@ class NavBarComponent extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div className="NavBarWrapper">
         <div className="NavBar">
