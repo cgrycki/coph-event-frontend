@@ -110,7 +110,6 @@ class NavBarComponent extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div className="NavBarWrapper">
         <div className="NavBar">
