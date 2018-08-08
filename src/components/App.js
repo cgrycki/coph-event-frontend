@@ -5,18 +5,19 @@ import { Fabric }   from 'office-ui-fabric-react';
 import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
 
 // Site components
-import Navbar       from './common/NavBar';
-import Page         from './common/Page';
-import Home         from './Home';
-import EventPage    from './EventPage';
-import Dashboard    from './Dashboard';
+import Navbar         from './common/NavBar';
+import Page           from './common/Page';
+import ProtectedRoute from './common/ProtectedRoute';
+import Home           from './Home';
+import EventPage      from './EventPage';
+import Dashboard      from './Dashboard';
 
 // Form + Steps
-import Form         from './Form/';
-import StepOne      from './Form/StepOne';
-import StepTwo      from './Form/StepTwo';
-import StepThree    from './Form/StepThree';
-import StepFour     from './Form/StepFour';
+import Form           from './Form/';
+import StepOne        from './Form/StepOne';
+import StepTwo        from './Form/StepTwo';
+import StepThree      from './Form/StepThree';
+import StepFour       from './Form/StepFour';
 
 
 // Container
@@ -33,13 +34,13 @@ const App = ({ store }) => (
               <Navbar />
               <Switch>
                 <Route path="/" exact             component={Home} />
-                <Route path="/dashboard"          component={Dashboard} />
-                <Route path="/event/:package_id"  component={EventPage} />
+                <ProtectedRoute path="/dashboard"         Component={Dashboard} />
+                <ProtectedRoute path="/event/:package_id" Component={EventPage} />
                 <Form>
-                  <Route path="/form/user"        component={StepOne} />
-                  <Route path="/form/event"       component={StepTwo} />
-                  <Route path="/form/layout"      component={StepThree} />
-                  <Route path="/form/review"      component={StepFour} />
+                  <ProtectedRoute path="/form/user"   Component={StepOne} />
+                  <ProtectedRoute path="/form/event"  Component={StepTwo} />
+                  <ProtectedRoute path="/form/layout" Component={StepThree} />
+                  <ProtectedRoute path="/form/review" Component={StepFour} />
                 </Form>
               </Switch>
 
