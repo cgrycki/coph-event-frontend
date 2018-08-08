@@ -5,7 +5,6 @@
 import React from 'react';
 import * as d3Axis from 'd3-axis';
 import { select } from 'd3-selection';
-
 import './Schedule.css';
 
 export default class Axis extends React.Component {
@@ -28,9 +27,11 @@ export default class Axis extends React.Component {
       .tickSize(tickSize)
       .tickPadding(tickPadding);
     
-    // Conditionally add tick formatting
-    //if (format !== undefined) axis.tickFormat(format);
+    // add ticks
     if (ticks !== undefined) axis.ticks(ticks);
+    
+    // Conditionally add tick formatting
+    if (format !== undefined) axis.tickFormat(format);
 
     // Select this component's ref and update with new axis object.
     select(this.axisElement).call(axis);

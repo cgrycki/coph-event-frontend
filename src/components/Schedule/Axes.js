@@ -3,17 +3,20 @@
  */
 
 import React          from 'react';
-import { utcFormat }  from 'd3-time-format';
+import { 
+  utcFormat,
+  utcParse
+}                     from 'd3-time-format';
 import Axis           from './Axis';
 
+
+const formatTime = utcFormat("%I%p");
+const formatMinorTick = (d, i) => (i % 2 !== 0) ? formatTime(d) : '';
 
 export default ({ scales, margins, dimensions }) => {
   // Destructure our props
   const { xScale, yScale } = scales;
   const { width,  height } = dimensions;
-
-  // Create a hour format for Y axis
-  const hourFormat = utcFormat("%-I:%M %p");
   
   // Properties for each axis
   const xProps = {
@@ -29,7 +32,8 @@ export default ({ scales, margins, dimensions }) => {
     tranform   : `translate(0, 0)`,
     tickSize   : -(width - margins.left - margins.right),
     tickPadding: 3,
-    format     : hourFormat
+    //format     : formatMinorTick,
+    //ticks      : 20
   };
 
   const axes_g_transform = `translate(${margins.left}, 0)`;
