@@ -1,0 +1,23 @@
+
+/* Schedule */
+.Schedule {
+  border-top-color: rbga(51, 51, 51, 0.5);
+  border-right-color: rbga(51, 51, 51, 0.5);
+  border-bottom-color: rbga(51, 51, 51, 0.5);
+  border-left-color: rbga(51, 51, 51, 0.5);
+}
+
+/* Axis */
+.Axis path, 
+.Axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.Axis--Left path {
+  stroke: none;
+}
+.Axis--Left line {
+  stroke-opacity: 0.2;
+}

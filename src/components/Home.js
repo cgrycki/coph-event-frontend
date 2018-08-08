@@ -112,8 +112,6 @@ class Home extends React.Component {
   render() {
     let { loggedIn } = this.props;
 
-    console.log(this.props);
-
     return (
       <div>
 
