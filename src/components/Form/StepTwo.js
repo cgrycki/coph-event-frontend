@@ -72,8 +72,11 @@ class StepTwo extends React.Component {
   render() {
     let { 
       info, errors,
-      rooms, rooms_loading, rooms_error
+      rooms, rooms_loading, rooms_error,
+      room_schedule
     } = this.props;
+
+    console.log(this.props);
 
     return (
       <FormStep>
@@ -121,7 +124,12 @@ class StepTwo extends React.Component {
             />
           </div>
 
-          <RoomSchedule/>
+          <RoomSchedule
+            room_schedule={room_schedule}
+            start_time={info['start_time']}
+            end_time={info['end_time']}
+            event_name={info['event_name']}
+          />
 
         </div>
 
