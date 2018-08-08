@@ -1,5 +1,8 @@
 import React          from 'react';
-import { Label }      from 'office-ui-fabric-react';
+import { 
+  Label,
+  Icon 
+}                     from 'office-ui-fabric-react';
 import { 
   scaleUtc, 
   scaleLinear 
@@ -79,7 +82,11 @@ export default class RoomSchedule extends React.Component {
     return (
       <div style={schedule_style} ref={this.chartRef}>
 
-        <Label>Room Schedule</Label>
+        <span>
+          <Icon iconName="ChevronLeftMed" />
+          <Icon iconName="ChevronRightMed" />
+          <Label>Room Schedule</Label>
+        </span>
 
         <svg
           ref={this.chartRef}
