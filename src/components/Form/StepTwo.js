@@ -76,8 +76,6 @@ class StepTwo extends React.Component {
       room_schedule
     } = this.props;
 
-    console.log(this.props);
-
     return (
       <FormStep>
         <FormTitle page={"Event Information"} />
