@@ -1,13 +1,16 @@
 import React          from 'react';
 import { Label }      from 'office-ui-fabric-react';
-import { axisLeft }   from 'd3-axis';
-import { utcParse }   from 'd3-time-format';
 import { 
   scaleUtc, 
   scaleLinear 
 }                     from 'd3-scale';
+import {
+  day_start,
+  day_end
+}                     from './shared';
 
-import options_time   from '../../constants/time.constants';
+import Bars           from './Bars';
+import Axes           from './Axes';
 
 
 const schedule_style = {
@@ -15,9 +18,6 @@ const schedule_style = {
   margin: '0px 2% 15px',
   float : 'right'
 };
-const parseTime = utcParse("%I:%M %p"),
-      day_start = parseTime("7:00 AM"),
-      day_end   = parseTime("9:00 PM");
 
 
 export default class RoomSchedule extends React.Component {
@@ -25,7 +25,8 @@ export default class RoomSchedule extends React.Component {
     super();
     this.state = {
       width: 0,
-      height: 0
+      height: 0,
+      margins: { top: 10, right: 0, bottom: 10, left: 35 }
     };
 
     this.chartRef = React.createRef();
@@ -51,15 +52,30 @@ export default class RoomSchedule extends React.Component {
 
   createScale() {
     /* Create scales, takes width and height from our store. */
-    const x_scale = scaleLinear().range([0, this.state.width]);
-    const y_scale = scaleUtc()
+    // Get margins from our state
+    const { 
+      width, height, 
+      margins: { top, right, bottom, left }
+    } = this.state;
+
+
+    const xScale = scaleLinear()
+      .range([left, width - right]);
+    const yScale = scaleUtc()
       .domain([day_start, day_end])
-      .range([0, this.state.height]);
+      .range([top, height - bottom]);
     
-    return { x_scale, y_scale };
+    return { xScale, yScale };
   }
 
   render() {
+
+    // Create scales to pass to our axes
+    const { xScale, yScale } = this.createScale();
+    const { width, height, margins } = this.state;
+    const { room_schedule, start_time, end_time, event_name } = this.props;
+
+
     return (
       <div style={schedule_style} ref={this.chartRef}>
 
@@ -67,10 +83,24 @@ export default class RoomSchedule extends React.Component {
 
         <svg
           ref={this.chartRef}
-          className="ms-borderBase"
-          width={this.state.width}
-          height={this.state.height}
+          className="ms-borderBase Schedule"
+          width={width}
+          height={height}
         >
+          <Axes
+            scales={{ xScale, yScale }}
+            margins={margins}
+            dimensions={{ width, height }}
+          />
+          <Bars
+            scales={{ xScale, yScale }}
+            margins={margins}
+            dimensions={{ width, height }}
+            room_schedule={room_schedule}
+            start_time={start_time}
+            end_time={end_time}
+            event_name={event_name}
+          />
         </svg>
 
       </div>
