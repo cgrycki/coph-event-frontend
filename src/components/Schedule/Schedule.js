@@ -7,7 +7,7 @@ import {
   scaleLinear 
 }                     from 'd3-scale';
 
-import options_time   from '../../../constants/time.constants';
+import options_time   from '../../constants/time.constants';
 
 
 const schedule_style = {
