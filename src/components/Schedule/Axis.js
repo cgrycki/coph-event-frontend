@@ -6,7 +6,7 @@ import React from 'react';
 import * as d3Axis from 'd3-axis';
 import { select } from 'd3-selection';
 
-// .css
+import './Schedule.css';
 
 export default class Axis extends React.Component {
   componentDidMount() {
@@ -19,14 +19,18 @@ export default class Axis extends React.Component {
 
   renderAxis() {
     /* Creates a new d3 axis based on props passed to component. */
-    const { orient, scale, tickSize, tickPadding } = this.props;
+    const { orient, scale, tickSize, tickPadding, format, ticks } = this.props;
 
     // Construct d3 axis
     const axis_type = `axis${orient}`;
-    const axis = d3Axis[axis_type]()
+    let axis = d3Axis[axis_type]()
       .scale(scale)
       .tickSize(tickSize)
       .tickPadding(tickPadding);
+    
+    // Conditionally add tick formatting
+    //if (format !== undefined) axis.tickFormat(format);
+    if (ticks !== undefined) axis.ticks(ticks);
 
     // Select this component's ref and update with new axis object.
     select(this.axisElement).call(axis);
@@ -38,7 +42,7 @@ export default class Axis extends React.Component {
 
     return (
       <g
-        className={`Schedule.Axis Schedule.Axis-${orient}`}
+        className={`Axis Axis--${orient}`}
         ref={(el) => { this.axisElement = el; }}
         transform={transform}
       />

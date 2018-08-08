@@ -1,0 +1,16 @@
+
+
+/* Axis */
+.Axis path, 
+.Axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.Axis--Left path {
+  stroke: none;
+}
+.Axis--Left line {
+  stroke-opacity: 0.2;
+}
