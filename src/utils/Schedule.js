@@ -13,8 +13,8 @@ class Schedule {
   formatEventMAUI(evt) {
     /* Formats an object returned by the MAUI room schedule API */ 
     const formatted_evt = {
-      start_time : moment(evt.startTime, fmt_time),
-      end_time   : moment(evt.endTime, fmt_time),
+      start_time : moment(evt.startTime.trim(), "hh:mmA"),
+      end_time   : moment(evt.endTime.trim(), "hh:mmA"),
       event_title: evt.title,
       date       : evt.date,
       new_event  : false
@@ -43,20 +43,26 @@ class Schedule {
 
     // Base case: if there's only one event then we're good to go
     const n = all_events.length;
-    if (n === 1) return true;
+    if (n === 1) return false;
 
-    // Sort by the event starting time in increasing order
+    // Sort by the event starting time in increasing *start* order
     all_events.sort((a, b) => a.start_time - b.start_time);
 
-    // Iterate through the events from 0:n-1, checking for overlaps
-    for (var i = 1; i < n-1; i++) {
-      let previous = all_events[i-1], 
-          current  = all_events[i];
+    /*Iterate through the events from 0:n-1, checking for overlaps
+      events have a range defined by start and end times.
+      Two events overlap in one of two cases:
+        - eventA starts before and ends after B
+        - the start/end of an event is contained within the other
+    */
+    for (var i = 0; i < n-1; i++) {
+      let current = all_events[i], 
+          next    = all_events[i+1];
       
-      if (previous.end_time >= current.start_time) return false;
+      if (current.end_time.isSameOrAfter(next.start_time)) return true;
     };
 
-    return true;
+    // No overlaps detected!
+    return false;
   }
 }
 
