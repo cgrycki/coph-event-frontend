@@ -27,7 +27,7 @@ export const fieldReducer = (state=initialFieldStore, action) => {
       const new_info = { ...state.info, [field]: value };
       
       // Validate information
-      const new_errors = businessReqs.validate(new_info);
+      const new_errors = businessReqs.validate(new_info, field, value);
 
       return { 
         ...state, 
