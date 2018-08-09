@@ -53,7 +53,10 @@ export default class BusinessRequirements {
       let validationFunc = this.fieldMap[field];
       let validVal = validationFunc(value);
       
+      // If the validation function failed update with error message
       if (!validVal) this.errors[field] = this.errorMap[field];
+      // Otherwise explicitly clear the error (in case user corrected input)
+      else delete this.errors[field];
     };
   }
 
@@ -90,16 +93,28 @@ export default class BusinessRequirements {
   }
 
   validateSchedule(start_time, end_time, date, event_title, room_schedule) {
-    // Create an object for our proposed event time
-    let new_event = { start_time, end_time, date, event_title };
+    /* Validates there are no overlaps in proposed time. */
 
-    // Create a schedule instance
-    let schedule  = new Schedule(new_event, room_schedule);
+    // Make sure we have valid times/dates before we execute schedule validation
+    if (validTimes(start_time, end_time) && validDate(date)) {
+      console.log('validateSchedule fired with valid times & dates!');
 
-    // Check for overlaps
-    const noOverlaps = schedule.getOverlap();
+      // Create an object for our proposed event time
+      let new_event = { start_time, end_time, date, event_title };
 
-    this.errors['schedule_overlap'] = noOverlaps;
+      console.log(new_event, room_schedule);
+
+      // Create a schedule instance
+      let schedule  = new Schedule(new_event, room_schedule);
+
+      // Check for overlaps
+      const overlaps = schedule.getOverlap();
+
+      // If we find an overlap, set the error
+      if (overlaps) this.errors['schedule_overlap'] = overlaps;
+      // Otherwise clear it
+      else delete this.errors['schedule_overlap'];
+    };
   }
 
   validWeekend(date, coph_email) {
@@ -117,11 +132,11 @@ export default class BusinessRequirements {
       'CoPH email must be a valid Iowa email address.';
   }
 
-  validate(info, field=undefined, value=undefined) {
+  validate(info, errors, schedule=[], field=undefined, value=undefined) {
     /* Runs all of our validation functions, returning an object holding errors. */
     
-    // Clear errors
-    this.errors = {};
+    // Set our errors to those from our state passed as param
+    this.errors = errors;
 
     // Validate the last updated field
     this.validField(field, value);
@@ -133,10 +148,10 @@ export default class BusinessRequirements {
     this.validateFoodDrink(info.food_drink_required, info.food_provider, info.alcohol_provider);
 
     // Make sure Setup MFK is valid
-    this.validateMFK(info.setup_required, info.setup_mfk);
+    //this.validateMFK(info.setup_required, info.setup_mfk);
 
     // Make sure there are no overlaps in scheduling
-    //this.validateSchedule(info.start_time, info.end_time, info.date, info.event_title, room_schedule);
+    this.validateSchedule(info.start_time, info.end_time, info.date, info.event_title, schedule);
 
     // Weekend + CoPH employees
     this.validWeekend(info.date, info.coph_email);
