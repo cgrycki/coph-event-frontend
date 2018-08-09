@@ -13,6 +13,7 @@ export default class UserEmail extends React.PureComponent {
         value={value}
         onChange={onChange}
         error={error}
+        autofocus={true}
       />
     );
   }
