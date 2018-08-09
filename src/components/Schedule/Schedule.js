@@ -73,7 +73,11 @@ export default class RoomSchedule extends React.Component {
     // Create scales to pass to our axes
     const { xScale, yScale } = this.createScale();
     const { width, height, margins } = this.state;
-    const { room_schedule, start_time, end_time, event_name } = this.props;
+    const { 
+      room_schedule, 
+      start_time, end_time, event_name,
+      schedule_overlap
+    } = this.props;
 
 
     return (
@@ -100,6 +104,7 @@ export default class RoomSchedule extends React.Component {
             start_time={start_time}
             end_time={end_time}
             event_name={event_name}
+            schedule_overlap={schedule_overlap}
           />
         </svg>
 

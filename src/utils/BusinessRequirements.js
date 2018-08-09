@@ -97,12 +97,9 @@ export default class BusinessRequirements {
 
     // Make sure we have valid times/dates before we execute schedule validation
     if (validTimes(start_time, end_time) && validDate(date)) {
-      console.log('validateSchedule fired with valid times & dates!');
 
       // Create an object for our proposed event time
       let new_event = { start_time, end_time, date, event_title };
-
-      console.log(new_event, room_schedule);
 
       // Create a schedule instance
       let schedule  = new Schedule(new_event, room_schedule);

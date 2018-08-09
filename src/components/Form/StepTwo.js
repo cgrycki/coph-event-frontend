@@ -127,6 +127,7 @@ class StepTwo extends React.Component {
             start_time={info['start_time']}
             end_time={info['end_time']}
             event_name={info['event_name']}
+            schedule_overlap={errors['schedule_overlap']}
           />
 
         </div>
