@@ -1,7 +1,7 @@
 // Dependecies
 import React            from 'react';
 import { connect }      from 'react-redux';
-import { updateField }  from '../../actions/field.actions';
+import { updateForm }  from '../../actions/field.actions';
 
 // Form components
 import FormTitle        from './shared/FormTitle';
@@ -35,7 +35,7 @@ class StepOne extends React.Component {
   }
 
   onChange(field, value) {
-    this.props.dispatch(updateField(field, value));
+    this.props.dispatch(updateForm(field, value));
   }
 
   render() {

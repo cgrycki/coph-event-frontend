@@ -3,7 +3,7 @@ import React          from 'react';
 import { connect }    from 'react-redux';
 
 // Form actions
-import {updateField}  from '../../actions/field.actions';
+import {updateForm}  from '../../actions/field.actions';
 import { 
   fetchRooms,
   fetchRoomSchedule 
@@ -57,7 +57,7 @@ class StepTwo extends React.Component {
   }
 
   onChange(field, value) {
-    this.props.dispatch(updateField(field, value));
+    this.props.dispatch(updateForm(field, value));
   }
 
   fetchSchedule() {
