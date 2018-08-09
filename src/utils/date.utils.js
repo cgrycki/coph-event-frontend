@@ -2,6 +2,8 @@
  * Date and Time utilities
  */
 const moment = require('moment');
+const times = require('../constants/time.constants')
+  .map(d => d.key);
 
 
 /**
@@ -50,6 +52,13 @@ const nextWeek = () => {
   );
   return nextWeek;
 }
+
+const getTimeAfterStart = start_time => {
+  const start_index = times.indexOf(start_time);
+  const next_time = times[start_index+1];
+  console.log(`start: ${start_time}, index: ${start_index}, next: ${next_time}`);
+  return next_time;
+};
 
 
 /**
@@ -127,6 +136,7 @@ module.exports = {
   isWeekend,
   validTimes,
   getDateISO,
+  getTimeAfterStart,
   nextWeek,
   datePickerStrings
 }
