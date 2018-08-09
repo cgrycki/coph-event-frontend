@@ -30,9 +30,13 @@ const isWeekend = date => {
 
 
 const validTimes = (start, end) => {
-  const startMoment = moment(start, "h:mm A");
-  const endMoment = moment(end, "h:mm A");
-  return startMoment.isBefore(endMoment);
+  try {
+    const startMoment = moment(start, "h:mm A");
+    const endMoment = moment(end, "h:mm A");
+    return startMoment.isBefore(endMoment);
+  } catch (error) {
+    return false;
+  }
 }
 
 
