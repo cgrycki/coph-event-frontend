@@ -62,7 +62,6 @@ export default class Bars extends React.PureComponent {
 
   renderEventBar(data, props) {
     /* CONDITIONALLY renders our proposed event time. */
-    console.log(props);
 
     // Standard scales/margins/dimensions
     let { scales, margins, dimensions, schedule_overlap } = props;
@@ -71,7 +70,7 @@ export default class Bars extends React.PureComponent {
 
     // Event attributes, make sure we have valid attributes
     let { event_name, start_time, end_time } = data;
-    if (!start_time.length || !end_time.length) return (<g></g>);
+    if (start_time === "" || end_time === "") return (<g></g>);
 
     // Parse times
     start_time = parseAppTime(start_time);

@@ -4,6 +4,7 @@
 import { fieldActions }     from '../constants/actionTypes';
 import FormData             from 'form-data';
 import BusinessRequirements from '../utils/BusinessRequirements';
+import { getTimeAfterStart } from '../utils/date.utils';
 
 const businessReqs = new BusinessRequirements();
 const URI = process.env.REACT_APP_REDIRECT_URI;
@@ -42,10 +43,12 @@ export const updateForm = (field, value) => {
     const errors        = current_state.fields.errors;
     const schedule      = current_state.rooms.room_schedule;
 
-    // Validate the forms new info
-    const new_errors = businessReqs.validate(info, errors, schedule, field, value);
+    // Set end_time 'automagically' if not already entered
+    if (field === "start_time" && info.end_time === "")
+      dispatch(updateField("end_time", getTimeAfterStart(value)));
 
-    //console.log(current_state, errors);
+    // Validate the forms new info and update the store
+    const new_errors = businessReqs.validate(info, errors, schedule, field, value);
     dispatch(updateErrors(new_errors));
   }
 }
