@@ -31,7 +31,7 @@ const updateErrors = (errors) => ({
 });
 
 
-export const updateFieldAndErrors = (field, value) => {
+export const updateForm = (field, value) => {
   return (dispatch, getState) => {
     // Dispatch the field update
     dispatch(updateField(field, value));
@@ -39,13 +39,14 @@ export const updateFieldAndErrors = (field, value) => {
     // Get the store after update
     const current_state = getState();
     const info          = current_state.fields.info;
+    const errors        = current_state.fields.errors;
     const schedule      = current_state.rooms.room_schedule;
 
     // Validate the forms new info
-    const errors = businessReqs.validate(info, schedule, field, value);
+    const new_errors = businessReqs.validate(info, errors, schedule, field, value);
 
-    console.log(current_state, errors);
-    dispatch(updateErrors(errors));
+    //console.log(current_state, errors);
+    dispatch(updateErrors(new_errors));
   }
 }
 
