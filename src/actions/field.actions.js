@@ -20,6 +20,17 @@ export const updateField = (field, value) => ({
   value: value
 })
 
+
+/**
+ * Updates our stores errors.
+ * @param {object} errors Object containing our validation errors from BusinessReqs.
+ */
+const updateErrors = (errors) => ({
+  type: 'UPDATE_ERRORS',
+  errors
+});
+
+
 export const updateFieldAndErrors = (field, value) => {
   return (dispatch, getState) => {
     // Dispatch the field update
@@ -31,9 +42,10 @@ export const updateFieldAndErrors = (field, value) => {
     const schedule      = current_state.rooms.room_schedule;
 
     // Validate the forms new info
-    const errors = businessReqs.validate(info, schedule);
+    const errors = businessReqs.validate(info, schedule, field, value);
 
-    console.log(current_state);
+    console.log(current_state, errors);
+    dispatch(updateErrors(errors));
   }
 }
 
