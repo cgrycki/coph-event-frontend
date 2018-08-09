@@ -83,6 +83,8 @@ class StepOne extends React.Component {
           food_provider={info['food_provider']}
           alcohol_provider={info['alcohol_provider']}
           food_drink_error={errors['food_drink_provider']}
+          food_provider_error={errors['food_provider_error']}
+          alcohol_provider_error={errors['alcohol_provider_error']}
           onChange={this.onChange}
         />
         </div>
