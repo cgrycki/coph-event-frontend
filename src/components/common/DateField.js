@@ -1,5 +1,8 @@
 import React          from 'react';
-import { DatePicker } from 'office-ui-fabric-react';
+import { 
+  DatePicker,
+  DayOfWeek 
+}                     from 'office-ui-fabric-react';
 import { 
   sixMonthsFromToday, 
   getDateISO, 
@@ -47,6 +50,7 @@ export default class DateField extends React.PureComponent {
           label={'Event Date'}
           placeholder={'Add a date for the event'} 
           value={date_value}
+          firstDayOfWeek={DayOfWeek.Monday}
           minDate={new Date()}
           maxDate={sixMonthsFromToday()}
           isRequired={true}
