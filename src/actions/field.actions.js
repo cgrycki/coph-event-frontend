@@ -37,15 +37,15 @@ export const updateForm = (field, value) => {
     // Dispatch the field update
     dispatch(updateField(field, value));
 
+    // Set end_time 'automagically' if not already entered
+    if (field === "start_time" && getState().fields.info.end_time === "")
+      dispatch(updateField("end_time", getTimeAfterStart(value)));
+
     // Get the store after update
     const current_state = getState();
     const info          = current_state.fields.info;
     const errors        = current_state.fields.errors;
     const schedule      = current_state.rooms.room_schedule;
-
-    // Set end_time 'automagically' if not already entered
-    if (field === "start_time" && info.end_time === "")
-      dispatch(updateField("end_time", getTimeAfterStart(value)));
 
     // Validate the forms new info and update the store
     const new_errors = businessReqs.validate(info, errors, schedule, field, value);
