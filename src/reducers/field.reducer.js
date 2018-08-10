@@ -3,14 +3,11 @@
  */
 import initialStore         from '../store/initialStore';
 import { fieldActions }     from '../constants/actionTypes';
-import BusinessRequirements from '../utils/BusinessRequirements';
 
 
 // Create the shape of our store to match reducers
 const initialFieldStore = { ...initialStore.fields };
 
-// Create a validation class
-const businessReqs = new BusinessRequirements();
 
 /**
  * Reducer to handle changes to our fields.
