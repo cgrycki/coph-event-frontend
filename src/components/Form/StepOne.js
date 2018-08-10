@@ -24,6 +24,7 @@ class StepOne extends React.Component {
     this.prevPage = this.prevPage.bind(this);
     this.nextPage = this.nextPage.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.validate = this.validate.bind(this);
   }
 
   prevPage() {
@@ -36,6 +37,15 @@ class StepOne extends React.Component {
 
   onChange(field, value) {
     this.props.dispatch(updateForm(field, value));
+  }
+
+  validate() {
+    let { errors } = this.props;
+    
+    // If our store's errors have any keys, return true to disable
+    for (var error in errors) if (errors.hasOwnProperty(error)) return true;
+    // Otherwise return false to enable 'Next' button
+    return false;
   }
 
   render() {
@@ -93,7 +103,7 @@ class StepOne extends React.Component {
           prevPage={this.prevPage}
           nextPage={this.nextPage}
           prevDisabled={true}
-          nextDisabled={false}
+          nextDisabled={this.validate()}
         />
       </FormStep>
     );
