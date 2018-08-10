@@ -4,6 +4,7 @@
 const {
   isAfter,
   isAlphanumeric,
+  isAscii,
   isBefore,
   isIn,
   isInt,
@@ -62,7 +63,7 @@ const validSetupMFK = () => null;
 
 const validProvider = provider => 
   isLength(provider, { min: 5, max: 50 }) &&
-  isAlphanumeric(provider);
+  isAscii(provider);
 
 
 const validNumberPeople = num_people => 

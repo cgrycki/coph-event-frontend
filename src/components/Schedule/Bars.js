@@ -52,7 +52,7 @@ export default class Bars extends React.PureComponent {
           width={width - margins.left - margins.right - 4}
           height={yScale(endTime) - yScale(startTime)}
           fill={"#0078d4"}
-          fillOpacity={0.5}
+          fillOpacity={0.75}
           title={title}
         />
         {this.renderTitle(title)}

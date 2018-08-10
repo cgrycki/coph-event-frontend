@@ -60,15 +60,16 @@ export default class BusinessRequirements {
     };
   }
 
-  validateTime(start_time, end_time) {
+  validateTimes(start_time, end_time) {
     /* Ensures the proposed start time is before end time. */
     
     // Make sure both times are valid and entered
-    if ((start_time === '') || (end_time === '')) return null;
+    if ((start_time === "") || (end_time === "")) return null;
     
     // Otherwise convert to dates and compare
     if (!validTimes(start_time, end_time)) 
       this.errors['end_time'] = 'End time must be later than starting time.';
+    else delete this.errors['end_time'];
   }
 
   validateFoodDrink(food_drink_required, food_provider, drink_provider) {
@@ -77,15 +78,31 @@ export default class BusinessRequirements {
     // Only validate if flag is true
     if (food_drink_required === true) {
 
+      // Shorthand variables
+      let fd_empty = food_provider === "";
+      let dr_empty = drink_provider === "";
+
       // Display error if neither are filled out
-      if ((food_provider === "") && (drink_provider === "")) 
+      if (fd_empty && dr_empty) 
         this.errors['food_drink_provider'] = "Must have at least one provider if your event serves food or drink.";
-      // Otherwise, validate that at least one provider is valid
       else {
-        if (food_provider !== '' && !validProvider(food_provider)) this.errors['food_provider_error'] = 'Invalid format.';
-        if (drink_provider !== '' && !validProvider(drink_provider)) this.errors['alcohol_provider_error'] = 'Invalid format';
+        // Validate at least one provider is valid
+        if ((!fd_empty || !dr_empty) && 
+            (validProvider(food_provider) || validProvider(drink_provider)))
+              delete this.errors['food_drink_provider'];
+
+        // Continue to validate providers regardless
+        if (!fd_empty && !validProvider(food_provider))
+          this.errors['food_provider_error'] = 'Invalid format.';
+        if (!dr_empty && !validProvider(drink_provider))
+          this.errors['alcohol_provider_error'] = 'Invalid format';
       }
-    } 
+    } else {
+      // Clear the error if user isn't having food
+      delete this.errors['food_drink_provider'];
+      delete this.errors['food_provider_error'];
+      delete this.errors['alcohol_provider_error'];
+    };
   }
 
   validateMFK(setup_required, setup_mfk) {
@@ -139,7 +156,7 @@ export default class BusinessRequirements {
     this.validField(field, value);
 
     // Make sure our times are valid
-    this.validateTime(info.start_time, info.end_time);
+    this.validateTimes(info.start_time, info.end_time);
 
     // Make sure food/drink is valid
     this.validateFoodDrink(info.food_drink_required, info.food_provider, info.alcohol_provider);
