@@ -51,8 +51,8 @@ export default class Bars extends React.PureComponent {
           y={0}
           width={width - margins.left - margins.right - 4}
           height={yScale(endTime) - yScale(startTime)}
-          fill={"#8764B8"}
-          fillOpacity={0.5}
+          fill={"#0078d4"}
+          fillOpacity={0.75}
           title={title}
         />
         {this.renderTitle(title)}
@@ -64,17 +64,18 @@ export default class Bars extends React.PureComponent {
     /* CONDITIONALLY renders our proposed event time. */
 
     // Standard scales/margins/dimensions
-    let { scales, margins, dimensions } = props;
+    let { scales, margins, dimensions, schedule_overlap } = props;
     let { yScale } = scales;
     let { width } = dimensions;
 
     // Event attributes, make sure we have valid attributes
     let { event_name, start_time, end_time } = data;
-    if (!start_time.length || !end_time.length) return (<g></g>);
+    if (start_time === "" || end_time === "") return (<g></g>);
 
     // Parse times
     start_time = parseAppTime(start_time);
     end_time   = parseAppTime(end_time);
+
 
     return (
       <g 
@@ -86,8 +87,8 @@ export default class Bars extends React.PureComponent {
           y={0}
           width={width - margins.left - margins.right - 4}
           height={yScale(end_time) - yScale(start_time)}
-          fill={"#71AFE5"}
-          fillOpacity={0.8}
+          fill={(schedule_overlap) ? "#e81123" : "#107c10"}
+          fillOpacity={0.5}
           title={event_name}
         />
         {this.renderTitle(event_name)}

@@ -9,7 +9,7 @@ import rootReducer                                from '../reducers';
 
 
 // Logging middleware
-const loggerMiddleware = createLogger();
+const loggerMiddleware = createLogger({ collapsed: true });
 
 
 // Function to create a store with async + logging

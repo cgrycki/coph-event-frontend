@@ -2,6 +2,7 @@
  * Room actions
  */
 import { roomActions } from '../constants/actionTypes';
+import { updateForm } from './field.actions';
 import * as rp from 'request-promise';
 const URI = process.env.REACT_APP_REDIRECT_URI;
 
@@ -98,6 +99,7 @@ export function fetchRoomSchedule(room_number, date) {
     rp(uri, options)
       .then(res => JSON.parse(res))
       .then(data => dispatch(fetchScheduleSuccess(data)))
-      .catch(err => dispatch(fetchScheduleFailure(err)));
+      .catch(err => dispatch(fetchScheduleFailure(err)))
+      .finally(() => dispatch(updateForm(undefined, undefined)));
   }
 }

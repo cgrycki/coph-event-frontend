@@ -35,5 +35,4 @@ const options_time = [
   {key: "8:30 PM", text: " 8:30 PM"},
   {key: "9:00 PM", text: " 9:00 PM"}
 ];
-
-export default options_time;
+module.exports = options_time;

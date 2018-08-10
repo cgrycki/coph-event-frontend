@@ -3,14 +3,11 @@
  */
 import initialStore         from '../store/initialStore';
 import { fieldActions }     from '../constants/actionTypes';
-import BusinessRequirements from '../utils/BusinessRequirements';
 
 
 // Create the shape of our store to match reducers
 const initialFieldStore = { ...initialStore.fields };
 
-// Create a validation class
-const businessReqs = new BusinessRequirements();
 
 /**
  * Reducer to handle changes to our fields.
@@ -23,30 +20,24 @@ export const fieldReducer = (state=initialFieldStore, action) => {
 
   switch (type) {
     case fieldActions.UPDATE_FIELD:
-      // Create the new states information
+      // Create the new state's form field information
       const new_info = { ...state.info, [field]: value };
-      
-      // Validate information
-      const new_errors = businessReqs.validate(new_info);
-
-      return { 
-        ...state, 
-        info: new_info,
-        errors: new_errors
-      };
+      return { ...state, info: new_info };
+    
+    case fieldActions.UPDATE_ERRORS:
+      // Create the new state's form error information
+      let new_errors = { ...state.errors, ...action.errors };
+      return { ...state, errors: new_errors };
 
     case fieldActions.RESET_FIELD:
       return { 
         ...state, 
         info: {...state.info, [field]: initialFieldStore.info[field] },
-        errors: {...state.errors, [field]: undefined }
+        errors: {...state.errors, [field]: null }
       };
 
     case fieldActions.SUBMIT_FORM_LOADING:
-      return {
-        ...state,
-        form_loading: true
-      };
+      return { ...state, form_loading: true };
 
     case fieldActions.SUBMIT_FORM_SUCCESS:
       return {

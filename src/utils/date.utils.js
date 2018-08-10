@@ -1,12 +1,14 @@
 /**
  * Date and Time utilities
  */
-const moment = require('moment')
+const moment = require('moment');
+const times = require('../constants/time.constants')
+  .map(d => d.key);
 
 
 /**
  * Returns a YYYY-MM-DD formatted date string.
- * @param {string} date_string 
+ * @param {string} date_string
  */
 const getDateISO = (date_string) =>  moment(date_string).format("YYYY-MM-DD");
 
@@ -19,13 +21,24 @@ const sixMonthsFromToday = () => {
 
 
 const isWeekend = date => {
-  // Create a JS date
-  let dateObj = new Date(date);
+  // Create a Moment date
+  let dateObj = moment(date);
 
   // Get the day of the week from the JavaScript date object
-  let day_of_week = dateObj.getDay();
+  let day_of_week = dateObj.weekday();
   
-  return (day_of_week === 6) || (day_of_week === 0);
+  return ((day_of_week === 0) || (day_of_week === 6));
+}
+
+
+const validTimes = (start, end) => {
+  try {
+    const startMoment = moment(start, "h:mm A");
+    const endMoment = moment(end, "h:mm A");
+    return startMoment.isBefore(endMoment);
+  } catch (error) {
+    return false;
+  }
 }
 
 
@@ -39,6 +52,14 @@ const nextWeek = () => {
   );
   return nextWeek;
 }
+
+const getTimeAfterStart = start_time => {
+  const start_index = times.indexOf(start_time);
+  const next_time = times[start_index+1];
+  console.log(`start: ${start_time}, index: ${start_index}, next: ${next_time}`);
+  return next_time;
+};
+
 
 /**
  * String specifications for Office Fabric DatePicker.
@@ -110,8 +131,12 @@ const datePickerStrings = {
 };
 
 
-module.exports.sixMonthsFromToday = sixMonthsFromToday;
-module.exports.isWeekend          = isWeekend;
-module.exports.getDateISO         = getDateISO;
-module.exports.nextWeek           = nextWeek;
-module.exports.datePickerStrings  = datePickerStrings;
+module.exports = {
+  sixMonthsFromToday,
+  isWeekend,
+  validTimes,
+  getDateISO,
+  getTimeAfterStart,
+  nextWeek,
+  datePickerStrings
+}

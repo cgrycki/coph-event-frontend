@@ -10,7 +10,7 @@ import TextField    from '../../common/TextField';
 export default class FoodDrink extends React.PureComponent {
   renderFood() {
     // Renders the text input field for food providers
-    let { food_provider, food_drink_error, onChange } = this.props;
+    let { food_provider, food_provider_error, onChange } = this.props;
 
     return (
       <TextField
@@ -19,14 +19,14 @@ export default class FoodDrink extends React.PureComponent {
         field={"food_provider"}
         value={food_provider}
         onChange={onChange}
-        error={food_drink_error}
+        error={food_provider_error}
       />
     );
   }
 
   renderDrink() {
     // Renders the text input field for alcohol providers
-    let { alcohol_provider, food_drink_error, onChange } = this.props;
+    let { alcohol_provider, alcohol_provider_error, onChange } = this.props;
 
     return (
       <TextField
@@ -35,7 +35,7 @@ export default class FoodDrink extends React.PureComponent {
         field={"alcohol_provider"}
         value={alcohol_provider}
         onChange={onChange}
-        error={food_drink_error}
+        error={alcohol_provider_error}
       />
     );
   }
@@ -51,7 +51,7 @@ export default class FoodDrink extends React.PureComponent {
   }
 
   render() {
-    let { food_drink_required, onChange } = this.props;
+    let { food_drink_required, food_drink_error, onChange } = this.props;
 
     // Styles the row 
     const row_styles = {
@@ -73,7 +73,7 @@ export default class FoodDrink extends React.PureComponent {
             onChanged={(evt) => onChange('food_drink_required', evt)}
           />
           {food_drink_required && 
-            <span style={{marginTop: "20px"}}>Instruction text...</span>
+            <span style={{marginTop: "20px"}}>{food_drink_error}</span>
           }
         </div>
           { // Only show the food + drink inputs if toggle is true

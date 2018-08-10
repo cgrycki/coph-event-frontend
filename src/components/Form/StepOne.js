@@ -1,7 +1,7 @@
 // Dependecies
 import React            from 'react';
 import { connect }      from 'react-redux';
-import { updateField }  from '../../actions/field.actions';
+import { updateForm }  from '../../actions/field.actions';
 
 // Form components
 import FormTitle        from './shared/FormTitle';
@@ -24,6 +24,7 @@ class StepOne extends React.Component {
     this.prevPage = this.prevPage.bind(this);
     this.nextPage = this.nextPage.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.validate = this.validate.bind(this);
   }
 
   prevPage() {
@@ -35,7 +36,16 @@ class StepOne extends React.Component {
   }
 
   onChange(field, value) {
-    this.props.dispatch(updateField(field, value));
+    this.props.dispatch(updateForm(field, value));
+  }
+
+  validate() {
+    let { errors } = this.props;
+    
+    // If our store's errors have any keys, return true to disable
+    for (var error in errors) if (errors.hasOwnProperty(error)) return true;
+    // Otherwise return false to enable 'Next' button
+    return false;
   }
 
   render() {
@@ -83,6 +93,8 @@ class StepOne extends React.Component {
           food_provider={info['food_provider']}
           alcohol_provider={info['alcohol_provider']}
           food_drink_error={errors['food_drink_provider']}
+          food_provider_error={errors['food_provider_error']}
+          alcohol_provider_error={errors['alcohol_provider_error']}
           onChange={this.onChange}
         />
         </div>
@@ -91,7 +103,7 @@ class StepOne extends React.Component {
           prevPage={this.prevPage}
           nextPage={this.nextPage}
           prevDisabled={true}
-          nextDisabled={false}
+          nextDisabled={this.validate()}
         />
       </FormStep>
     );

@@ -9,7 +9,7 @@ export default class TextInput extends React.PureComponent {
     let { 
       label, placeholder, value, onChange,
       field, error,
-      required, multiline, rows
+      required, multiline, rows, autofocus
     } = this.props;
 
     return (
@@ -29,9 +29,10 @@ export default class TextInput extends React.PureComponent {
         required={(required !== undefined) ? required : true}
         multiline={(multiline !== undefined) ? multiline : false}
         rows={(rows !== undefined) ? rows : 1}
+        autoFocus={(autofocus !== undefined) ? true : false}
 
         /* Hints */
-        suffix={(field === 'user_email') ? '@uiowa.edu' : undefined}
+        suffix={((field === 'user_email') || (field === 'coph_email')) ? '@uiowa.edu' : undefined}
       />
     );
   }
