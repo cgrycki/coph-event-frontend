@@ -21,3 +21,7 @@
 .Axis--Left line {
   stroke-opacity: 0.2;
 }
+
+.EventBar {
+  transition: fill 0.3s ease;
+}

@@ -90,6 +90,7 @@ export default class Bars extends React.PureComponent {
           fill={(schedule_overlap) ? "#e81123" : "#107c10"}
           fillOpacity={0.5}
           title={event_name}
+          className="EventBar"
         />
         {this.renderTitle(event_name)}
       </g>
