@@ -1,34 +1,81 @@
 /**
  * Parameter validation
  */
+const {
+  isAfter,
+  isAscii,
+  isBefore,
+  isIn,
+  isInt,
+  isISO8601,
+  isEmail,
+  isLength,
+  contains
+}                     = require('validator');
+const { 
+  sixMonthsFromToday,
+  getDateISO
+}                     = require('./date.utils');
+const times           = require('../constants/time.constants').map(d => d.key);
 
-import { check } from 'validator';
+
+const validIowaEmail = email => {
+  return (
+    isEmail(email) &&
+    contains(email, 'uiowa.edu')
+  );
+}
 
 
-export const validUserEmail = () => null;
+const validContactEmail = contact_email => {
+  return (contact_email === "") ? true : isEmail(contact_email);
+}
 
-export const validContactEmail = () => null;
 
-export const validCophEmail = () => null;
+const validEventName = event_name => isLength(event_name, {min: 5, max: 50});
 
-export const validEventName = () => null;
 
-export const validEventComments = () => null;
+const validEventComments = comments => isLength(comments, { max: 3000 });
 
-export const validDate = () => null;
 
-export const validStartTime = () => null;
+const validDate = date => {
+  /* Must be a ISO formatted date AND must be after today AND not > 6 months */
+  return (
+    isISO8601(date) &&
+    isAfter(date) &&
+    isBefore(date, getDateISO(sixMonthsFromToday()))
+  ); 
+}
 
-export const validEndTime = () => null;
 
-export const validRoomNumber = () => null;
+const validTime = time => isIn(time, times);
 
-export const validCourseReference = () => null;
 
-export const validSetupMFK = () => null;
+const validRoomNumber = () => null;
 
-export const validFoodProvider = () => null;
 
-export const validDrinkProvider = () => null;
+const validCourseReference = () => null;
 
-export const validNumberPeople = () => null;
+
+const validSetupMFK = () => null;
+
+
+const validProvider = provider => 
+  isLength(provider, { min: 5, max: 50 }) &&
+  isAscii(provider);
+
+
+const validNumberPeople = num_people => 
+  isInt(num_people, { min: 1, max: 206 });
+
+
+module.exports = {
+  validContactEmail,
+  validIowaEmail,
+  validEventName,
+  validEventComments,
+  validDate,
+  validTime,
+  validProvider,
+  validNumberPeople
+};

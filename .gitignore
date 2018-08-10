@@ -80,6 +80,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-
+# Ignore notebooks
 **/.ipynb_checkpoints/*
+# Ignore env file
 .env
+# Ignore image thumbnails
+**/Thumbs.db

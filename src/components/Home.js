@@ -7,6 +7,7 @@ import {
   MessageBar, 
   MessageBarType 
 }                     from 'office-ui-fabric-react';
+import { error_style, hero_style } from '../constants/styles';
 import { fetchLogin } from '../actions/app.actions';
 
 
@@ -40,7 +41,7 @@ class Home extends React.Component {
     if ((redirect_from !== undefined) && (loggedIn === true)) history.push(redirect_from);
 
     // Authenticated from Workflow login case, if we're logged in then advance to the next page
-    else if ((redirect_from === undefined) && (loggedIn === true)) this.nextPage();
+    //else if ((redirect_from === undefined) && (loggedIn === true)) this.nextPage();
 
     // If we aren't logged in, and haven't yet recieved a response, dispatch
     // Also, don't make an API call if we have an error
@@ -64,11 +65,6 @@ class Home extends React.Component {
   }
 
   renderError(error) {
-    const error_style = {
-      "color"     : "#a80000",
-      "fontFamily": "Segoe UI"
-    };
-
     return (
       <MessageBar
         messageBarType={MessageBarType.error}
@@ -109,17 +105,31 @@ class Home extends React.Component {
     );
   }
 
+  renderGreeting() {
+    /* Renders a greeting depending on the time of day. */
+    let hours = (new Date()).getHours();
+
+    // 5am - 12pm: Morning
+    if (hours > 5 && hours < 13) return 'Good morning sunshine';
+    // 1pm - 5pm: Afternoon
+    else if (hours > 12 && hours < 18) return 'Good afternoon.';
+    // 6pm - 10pm: Evening
+    else if (hours > 17 && hours < 23) return 'Good evening.';
+    // 11pm - 4am
+    else return 'Still up?';
+  }
+
   render() {
     let { loggedIn } = this.props;
-
-    console.log(this.props);
 
     return (
       <div>
 
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12">
-            <h1 className="ms-fontSize-su">Events @ College of Public Health</h1>
+            <h1 style={hero_style}>{this.renderGreeting()}</h1>
+            <br/>
+            <h1 style={hero_style}>Can we help with an event?</h1>
           </div>
         </div>
 

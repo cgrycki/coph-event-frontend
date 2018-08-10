@@ -3,7 +3,8 @@
  */
 import * as rp from 'request-promise';
 import FormData from 'form-data';
-import { eventActions } from '../constants';
+import { eventActions } from '../constants/actionTypes';
+
 
 // Base URI for our API
 const URI = process.env.REACT_APP_REDIRECT_URI;
@@ -31,13 +32,13 @@ export const fetchEventFailure = (error) => ({
 /**
  * GET call our API to retrieve information on an single event
  */
-export function getEvent(eventID) {
+export function getEvent(package_id) {
   return (dispatch) => {
     // Notify application we're making a request
     dispatch(fetchEventLoading());
 
     // Set up options for the API request
-    let uri = `${URI}/events/${eventID}`;
+    let uri = `${URI}/events?package_id=${package_id}`;
     let options = {
       method: 'GET',
       withCredentials: true

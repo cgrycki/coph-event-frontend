@@ -9,7 +9,7 @@ import Navbar         from './common/NavBar';
 import Page           from './common/Page';
 import ProtectedRoute from './common/ProtectedRoute';
 import Home           from './Home';
-import EventPage      from './EventPage';
+import EventPage      from './EventPage/EventPage';
 import Dashboard      from './Dashboard';
 
 // Form + Steps

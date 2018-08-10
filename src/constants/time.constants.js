@@ -15,8 +15,8 @@ const options_time = [
   {key: "10:30 AM", text: "10:30 AM"},
   {key: "11:00 AM", text: "11:00 AM"},
   {key: "11:30 AM", text: "11:30 AM"},
-  {key: "12:00 AM", text: "12:00 AM"},
-  {key: "12:30 AM", text: "12:30 AM"},
+  {key: "12:00 PM", text: "12:00 PM"},
+  {key: "12:30 PM", text: "12:30 PM"},
   {key: "1:00 PM", text: " 1:00 PM"},
   {key: "1:30 PM", text: " 1:30 PM"},
   {key: "2:00 PM", text: " 2:00 PM"},
@@ -35,5 +35,4 @@ const options_time = [
   {key: "8:30 PM", text: " 8:30 PM"},
   {key: "9:00 PM", text: " 9:00 PM"}
 ];
-
-export default options_time;
+module.exports = options_time;

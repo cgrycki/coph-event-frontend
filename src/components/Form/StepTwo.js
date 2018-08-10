@@ -3,7 +3,7 @@ import React          from 'react';
 import { connect }    from 'react-redux';
 
 // Form actions
-import {updateField}  from '../../actions/field.actions';
+import {updateForm}  from '../../actions/field.actions';
 import { 
   fetchRooms,
   fetchRoomSchedule 
@@ -19,6 +19,7 @@ import EventName      from './fields/EventName';
 import DateTime       from './fields/DateTime';
 import EventComments  from './fields/EventComments';
 import RoomList       from './fields/RoomList';
+import RoomSchedule   from '../Schedule/Schedule';
 
 
 // Component
@@ -56,7 +57,7 @@ class StepTwo extends React.Component {
   }
 
   onChange(field, value) {
-    this.props.dispatch(updateField(field, value));
+    this.props.dispatch(updateForm(field, value));
   }
 
   fetchSchedule() {
@@ -71,43 +72,65 @@ class StepTwo extends React.Component {
   render() {
     let { 
       info, errors,
-      rooms, rooms_loading, rooms_error
+      rooms, rooms_loading, rooms_error,
+      room_schedule
     } = this.props;
 
     return (
       <FormStep>
         <FormTitle page={"Event Information"} />
 
-        <EventName
-          value={info['event_name']}
-          error={errors['event_name']}
-          onChange={this.onChange}
-        />
+        <div style={{
+          display: 'flex',
+          flexGrow: '1'
+        }}>
+          <div style={{
+            width: '70%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between'
+          }}>
+            <EventName
+              value={info['event_name']}
+              error={errors['event_name']}
+              onChange={this.onChange}
+            />
 
-        <DateTime
-          date={info['date']}
-          start_time={info['start_time']}
-          end_time={info['end_time']}
-          start_time_error={errors['start_time']}
-          end_time_error={errors['end_time']}
-          coph_email={info['coph_email']}
-          coph_email_error={errors['coph_email']}
-          onChange={this.onChange}
-        />
+            <DateTime
+              date={info['date']}
+              start_time={info['start_time']}
+              end_time={info['end_time']}
+              start_time_error={errors['start_time']}
+              end_time_error={errors['end_time']}
+              coph_email={info['coph_email']}
+              coph_email_error={errors['coph_email']}
+              onChange={this.onChange}
+            />
 
-        <RoomList
-          rooms={rooms}
-          rooms_loading={rooms_loading}
-          rooms_error={rooms_error}
-          value={info['room_number']}
-          onChange={this.onChange}
-        />
-        
-        <EventComments
-          value={info['comments']}
-          error={errors['comments']}
-          onChange={this.onChange}
-        />
+            <RoomList
+              rooms={rooms}
+              rooms_loading={rooms_loading}
+              rooms_error={rooms_error}
+              value={info['room_number']}
+              onChange={this.onChange}
+            />
+            
+            <EventComments
+              value={info['comments']}
+              error={errors['comments']}
+              onChange={this.onChange}
+            />
+          </div>
+
+          <RoomSchedule
+            room_schedule={room_schedule}
+            start_time={info['start_time']}
+            end_time={info['end_time']}
+            event_name={info['event_name']}
+            schedule_overlap={errors['schedule_overlap']}
+          />
+
+        </div>
 
         <FormButtons
           prevPage={this.prevPage}
