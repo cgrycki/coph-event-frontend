@@ -3,7 +3,6 @@
  */
 const {
   isAfter,
-  isAlphanumeric,
   isAscii,
   isBefore,
   isIn,
