@@ -1,17 +1,25 @@
+// Dependencies
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 
-export default class EventComponent extends React.Component {
+// Actions
+import { getEvent } from '../../actions/event.actions';
+
+
+// Component
+class EventPageComponent extends React.Component {
   constructor(props) {
     super();
     this.state = { ...props };
   }
 
   componentDidMount() {
-    // Fetches our event information
-    const { match: { params }} = this.props;
+    /* Fetches our event information on mount. */
+    const { match: { params: { package_id }}} = this.props;
     
+    console.log(package_id);
   }
 
   render() {
@@ -30,3 +38,11 @@ export default class EventComponent extends React.Component {
     );
   }
 }
+
+
+// Container
+const mapStateToProps = state => ({
+
+});
+
+export default connect(mapStateToProps)(EventPageComponent);
