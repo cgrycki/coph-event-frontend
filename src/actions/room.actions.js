@@ -44,7 +44,7 @@ export function fetchRooms() {
     dispatch(fetchRoomsLoading());
 
     // Set up options for API call
-    let uri     = `${URI}/rooms`;
+    let uri     = `${URI}/maui/rooms`;
     let options = { method: 'GET', withCredentials: true };
 
     rp(uri, options)
@@ -87,7 +87,7 @@ export function fetchRoomSchedule(room_number, date) {
     dispatch(fetchScheduleLoading());
 
     // Create the URL for our API call
-    let uri = `${URI}/rooms/${room_number}/${date}`;
+    let uri = `${URI}/maui/rooms/${room_number}/${date}`;
     let options = {
       method: 'GET',
       withCredentials: true,
