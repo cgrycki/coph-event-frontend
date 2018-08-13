@@ -1,7 +1,10 @@
 // Dependencies
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React        from 'react';
+import { NavLink }  from 'react-router-dom';
+import { connect }  from 'react-redux';
+
+import EventNav     from './EventNav';
+import EventDetails from './EventDetails';
 
 
 // Actions
@@ -34,6 +37,10 @@ class EventPageComponent extends React.Component {
           activeStyle={{ textDecoration: 'none', color: 'black' }}>
             Create an event
         </NavLink>
+        <hr/>
+        
+        <EventNav/>
+        <EventDetails />
       </div>
     );
   }
