@@ -6,11 +6,13 @@ import {
   MessageBarType,
   Link 
 }                     from 'office-ui-fabric-react';
+import {error_style}  from '../../constants/styles';
 
 // Form components
 import FormTitle      from './shared/FormTitle';
 import FormStep       from './shared/FormStep';
 import FormButtons    from './shared/FormButtons';
+import EventDetails   from '../EventPage/EventDetails';
 
 // Actions
 import { submitForm } from '../../actions/field.actions';
@@ -37,12 +39,6 @@ class StepFour extends React.Component {
   renderError() {
     // Renders an submission error
     let { form_error } = this.props;
-
-    // Inline styling for error notification
-    const error_style = {
-      "color"     : "#a80000",
-      "fontFamily": "Segoe UI"
-    };
 
     return (
       <MessageBar
@@ -78,6 +74,7 @@ class StepFour extends React.Component {
 
   render() {
     let { form_loading, form_success, form_error } = this.props;
+    console.log(this.props);
 
     return (
       <FormStep>
@@ -85,6 +82,8 @@ class StepFour extends React.Component {
 
         {form_error && this.renderError()}
         {form_success && this.renderSuccess()}
+
+        <EventDetails event={this.props.info} />
 
         <FormButtons
           prevPage={this.prevPage}
