@@ -45,9 +45,7 @@ class EventPageComponent extends React.Component {
 
         <hr/>
         
-        <EventDetails 
-          event={event}
-        />
+        <EventDetails event={event} />
       </div>
     );
   }

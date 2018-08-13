@@ -144,6 +144,13 @@ export default class EventDetails extends React.PureComponent {
               event.event_name,
               event.room_number)}
           </div>
+
+          <div className="EventPageRow">
+            {this.renderDateTimes(
+              event.date, 
+              event.start_time, 
+              event.end_time)}
+          </div>
           
           <div className="EventPageRow">
             {this.renderLabel("On-Site Contact Email")}
@@ -154,13 +161,6 @@ export default class EventDetails extends React.PureComponent {
             {this.renderLabel("Expected Attendance")}
             {event.num_people}
           </div>          
-
-          <div className="EventPageRow">
-            {this.renderDateTimes(
-              event.date, 
-              event.start_time, 
-              event.end_time)}
-          </div>
 
           <div className="EventPageRow">
             {this.renderProviders(
