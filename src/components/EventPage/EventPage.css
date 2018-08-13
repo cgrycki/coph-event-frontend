@@ -1,0 +1,14 @@
+.EventPageRow {
+  margin-bottom: 10px;
+}
+
+.EventPageHeader,
+.EventPageDateTimes,
+.EventPageProviders,
+.EventPageCourse {
+  max-width: 50%;
+  display: flex;
+  justify-content: space-between;
+  justify-items: flex-end;
+}
+
