@@ -37,6 +37,10 @@ class EventPageComponent extends React.Component {
           activeStyle={{ textDecoration: 'none', color: 'black' }}>
             Create an event
         </NavLink>
+        <hr/>
+        
+        <EventNav/>
+        <EventDetails />
       </div>
     );
   }
