@@ -47,13 +47,24 @@ export default class EventDetails extends React.PureComponent {
         </div>
 
         <div>
-          {this.renderLabel("Start")}
-          {start || " "}
+          {this.renderLabel("Start  -  End")}
+          {start} - {end}
         </div>
+      </div>
+    );
+  }
 
+  renderEmails(contact, coph) {
+    /* Renders the row to view form emails */
+    return (
+      <div className="EventPageEmails">
         <div>
-          {this.renderLabel("End")}
-          {end || " "}
+          {this.renderLabel("On-Site Contact Email")}
+          {contact || "None"}
+        </div>
+        <div>
+          {this.renderLabel("CoPH Email (for weekends)")}
+          {coph || "None"}
         </div>
       </div>
     );
@@ -153,8 +164,9 @@ export default class EventDetails extends React.PureComponent {
           </div>
           
           <div className="EventPageRow">
-            {this.renderLabel("On-Site Contact Email")}
-            {event.contact_email}
+            {this.renderEmails(
+              event.contact_email,
+              event.coph_email)}
           </div>
 
           <div className="EventPageRow">
