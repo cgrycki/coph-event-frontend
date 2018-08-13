@@ -29,6 +29,7 @@ class StepTwo extends React.Component {
     this.prevPage = this.prevPage.bind(this);
     this.nextPage = this.nextPage.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.validate = this.validate.bind(this);
   }
 
   componentDidMount() {
@@ -54,6 +55,25 @@ class StepTwo extends React.Component {
   nextPage() {
     if (this.props.info['room_number'] === 'XC100') this.props.history.push("/form/layout");
     else this.props.history.push("/form/review");
+  }
+
+  validate() {
+    /* Validates current step. */
+    let { info, errors } = this.props;
+
+    // If we don't have the following fields, don't let user progress.
+    let needed = ['event_name', 'date', 'start_time', 'end_time', 'room_number'];
+    let needed_flag = false;
+    needed.forEach(field => {
+      if (!info.hasOwnProperty(field) || info[field] === "") needed_flag = true;
+    });
+    if (needed_flag) return true;
+
+    // Even if they have the fields, make sure they're valid
+    for (var error in errors) if (errors.hasOwnProperty(error)) return true;
+
+    // Both fields and errors passed?
+    return false;
   }
 
   onChange(field, value) {
@@ -136,7 +156,7 @@ class StepTwo extends React.Component {
           prevPage={this.prevPage}
           nextPage={this.nextPage}
           prevDisabled={false}
-          nextDisabled={false}
+          nextDisabled={this.validate()}
         />
       </FormStep>
     );
