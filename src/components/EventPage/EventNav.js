@@ -30,14 +30,16 @@ export default class EventNav extends React.PureComponent {
 
   render() {
     return (
-      <div className="ms-Grid-row">
-        <Breadcrumb
-          items={[
-            this.renderMyEventsBreadcrumb(),
-            this.renderEventBreadcrumb()
-          ]}
-          maxDisplayedItems={2}
-        />
+      <div className="EventPageNav">
+        <div className="ms-Grid-row">
+          <Breadcrumb
+            items={[
+              this.renderMyEventsBreadcrumb(),
+              this.renderEventBreadcrumb()
+            ]}
+            maxDisplayedItems={2}
+          />
+        </div>
       </div>
     );
   }

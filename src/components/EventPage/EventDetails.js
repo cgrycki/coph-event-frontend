@@ -8,7 +8,6 @@ import {
   Toggle 
 }                     from 'office-ui-fabric-react';
 import { getDateISO } from '../../utils/date.utils';
-import './EventPage.css';
 
 export default class EventDetails extends React.PureComponent {
   renderLabel(text) {
@@ -109,6 +108,28 @@ export default class EventDetails extends React.PureComponent {
     );
   }
 
+  renderSetup(required, setup_mfk) {
+    /* Renders the financial info for furniture setup. */
+    return (
+      <div className="EventPageSetup">
+        <div>
+          {this.renderLabel("Requires Furniture & Setup")}
+          <Toggle
+            onText="Yes"
+            offText="No"
+            disabled={true}
+            defaultValue={required}
+          />
+        </div>
+
+        <div>
+          {this.renderLabel("MFK Number")}
+          {setup_mfk || "None"}
+        </div>
+      </div>
+    );
+  }
+
 
 
   render() {
@@ -130,6 +151,11 @@ export default class EventDetails extends React.PureComponent {
           </div>
 
           <div className="EventPageRow">
+            {this.renderLabel("Expected Attendance")}
+            {event.num_people}
+          </div>          
+
+          <div className="EventPageRow">
             {this.renderDateTimes(
               event.date, 
               event.start_time, 
@@ -144,13 +170,20 @@ export default class EventDetails extends React.PureComponent {
           </div>
 
           <div className="EventPageRow">
+            {this.renderSetup(
+              event.setup_required, 
+              event.setup_mfk)}
+          </div>
+
+          <div className="EventPageRow">
             {this.renderCourse(
               event.references_course,
               event.referenced_course)}
           </div>
 
           <div className="EventPageRow">
-            
+            {this.renderLabel("Additional Comments")}
+            {event.comments}
           </div>
 
         </div>
