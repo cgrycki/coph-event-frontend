@@ -27,6 +27,7 @@ export default class BusinessRequirements {
     this.fieldMap = {
       'user_email'   : validIowaEmail,
       'contact_email': validContactEmail,
+      'coph_email'   : validIowaEmail,
       'num_people'   : validNumberPeople,
       'event_name'   : validEventName,
       'comments'     : validEventComments,
@@ -35,8 +36,9 @@ export default class BusinessRequirements {
       'end_time'     : validTime
     };
     this.errorMap = {
-      'user_email'   : 'Invalid Iowa Email',
+      'user_email'   : 'Invalid Iowa email',
       'contact_email': 'Invalid email format',
+      'coph_email'   : 'Invalid Iowa email',
       'num_people'   : 'Invalid number',
       'event_name'   : 'Invalid event name',
       'comments'     : 'Invalid comments',
@@ -138,8 +140,10 @@ export default class BusinessRequirements {
     let isDateWeekend = isWeekend(date);
     let validCophEmail = validIowaEmail(coph_email);
 
+    // Clear error for base case
+    if (isDateWeekend === false) delete this.errors['coph_email'];
     // If they haven't yet filled out the email field explain why
-    if (isDateWeekend && coph_email === '') this.errors['coph_email'] = 'You must enter a CoPH ' +
+    else if (isDateWeekend && coph_email === '') this.errors['coph_email'] = 'You must enter a CoPH ' +
       'employee email if your event is on a weekend.';
     // If they HAVE filled it out, ensure it's an iowa address
     else if (isDateWeekend && !validCophEmail) this.errors['coph_email'] = 

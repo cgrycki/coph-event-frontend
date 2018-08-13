@@ -1,10 +1,10 @@
 // Dependencies
 import React        from 'react';
-import { NavLink }  from 'react-router-dom';
 import { connect }  from 'react-redux';
 
 import EventNav     from './EventNav';
 import EventDetails from './EventDetails';
+import './EventPage.css';
 
 
 // Actions
@@ -20,27 +20,32 @@ class EventPageComponent extends React.Component {
 
   componentDidMount() {
     /* Fetches our event information on mount. */
-    const { match: { params: { package_id }}} = this.props;
+    const { 
+      match: { params: { package_id }},
+      dispatch
+    } = this.props;
     
-    console.log(package_id);
+    // Execute our call to get single event data
+    dispatch(getEvent(package_id));
   }
 
   render() {
-    return (
-      <div>
-        <h2>Event: <span className="ms-font-xl">Details</span></h2>
-        <h4>Package ID: <span className="ms-font-l">{this.props.match.params.package_id}</span></h4>
-        <hr/>
+    const { 
+      match: { params: { package_id }},
+      history,
+      event
+    } = this.props;
 
-        <NavLink
-          to={'/form/user'}
-          activeStyle={{ textDecoration: 'none', color: 'black' }}>
-            Create an event
-        </NavLink>
+    return (
+      <div className="ms-Grid-col ms-sm12 EventPage">
+        <EventNav
+          package_id={package_id}
+          history={history}
+        />
+
         <hr/>
         
-        <EventNav/>
-        <EventDetails />
+        <EventDetails event={event} />
       </div>
     );
   }
@@ -49,7 +54,10 @@ class EventPageComponent extends React.Component {
 
 // Container
 const mapStateToProps = state => ({
-
+  event: state.events.event,
+  event_loading: state.events.event_loading,
+  event_error: state.events.event_error
 });
+
 
 export default connect(mapStateToProps)(EventPageComponent);
