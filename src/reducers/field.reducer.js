@@ -2,7 +2,10 @@
  * Field Reducers 
  */
 import initialStore         from '../store/initialStore';
-import { fieldActions }     from '../constants/actionTypes';
+import { 
+  fieldActions,
+  appActions
+}     from '../constants/actionTypes';
 
 
 // Create the shape of our store to match reducers
@@ -28,6 +31,12 @@ export const fieldReducer = (state=initialFieldStore, action) => {
       // Create the new state's form error information
       let new_errors = { ...state.errors, ...action.errors };
       return { ...state, errors: new_errors };
+
+    case appActions.LOGIN_SUCESS:
+      // If we've logged in correctly, set the user email from login response
+      const { hawkid } = action.payload;
+      const email_info = { ...state.info, 'user_email': `${hawkid}@uiowa.edu` };
+      return { ...state, info: email_info };
 
     case fieldActions.RESET_FIELD:
       return { 

@@ -1,7 +1,7 @@
 // Dependecies
 import React            from 'react';
 import { connect }      from 'react-redux';
-import { updateForm }  from '../../actions/field.actions';
+import { updateForm }   from '../../actions/field.actions';
 
 // Form components
 import FormTitle        from './shared/FormTitle';
@@ -66,7 +66,7 @@ class StepOne extends React.Component {
         <FormTitle page={"User Information"} />
 
         <div>
-        <UserEmail value={user_email} />
+        <UserEmail value={info['user_email']} />
         
         <ContactEmail
           value={info['contact_email']}
@@ -119,8 +119,7 @@ class StepOne extends React.Component {
 // Container
 const mapStateToProps = state => ({
   info      : state.fields.info,
-  errors    : state.fields.errors,
-  user_email: state.app.user_email
+  errors    : state.fields.errors
 });
 
 export default connect(mapStateToProps)(StepOne);
