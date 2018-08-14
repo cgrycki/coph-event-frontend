@@ -57,8 +57,9 @@ export const fieldReducer = (state=initialFieldStore, action) => {
       
       return {
         ...state,
-        info: emptied_info,
+        info        : emptied_info,
         form_loading: false,
+        form_error  : null,
         form_success: action.payload.message
       };
 
