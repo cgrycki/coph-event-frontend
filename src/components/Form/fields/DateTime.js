@@ -14,8 +14,9 @@ export default class DateTime extends React.PureComponent {
 
     // Inline flexible styling
     const flex_style = {
-      'display': 'flex', 
-      'justifyContent': 'space-between'
+      'display'       : 'flex',
+      'justifyContent': 'space-between',
+      'minHeight'     : '120px'
     };
 
     return (
