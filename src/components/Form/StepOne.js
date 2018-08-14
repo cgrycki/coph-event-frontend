@@ -43,24 +43,30 @@ class StepOne extends React.Component {
     let { errors } = this.props;
     
     // If our store's errors have any keys, return true to disable
-    for (var error in errors) if (errors.hasOwnProperty(error)) return true;
-    // Otherwise return false to enable 'Next' button
-    return false;
+    let needed_flag = false,
+        needed = [
+        'contact_email', 'num_people', 
+        'food_drink_provider', 'food_provider_error', 'alcohol_provider_error', 
+        'references_course_error', 'referenced_course_error',
+        'setup_required_error', 'setup_mfk_error'
+      ];
+    needed.forEach(field => {
+      if (errors.hasOwnProperty(field)) needed_flag = true;
+    });
+    
+    if (needed_flag) return true;
+    else return false;
   }
 
   render() {
-    let { info, errors } = this.props;
+    let { info, errors, user_email } = this.props;
 
     return (
       <FormStep>
         <FormTitle page={"User Information"} />
 
         <div>
-        <UserEmail
-          value={info['user_email']}
-          error={errors['user_email']}
-          onChange={this.onChange}
-        />
+        <UserEmail value={user_email} />
         
         <ContactEmail
           value={info['contact_email']}
@@ -112,8 +118,9 @@ class StepOne extends React.Component {
 
 // Container
 const mapStateToProps = state => ({
-  info  : state.fields.info,
-  errors: state.fields.errors
+  info      : state.fields.info,
+  errors    : state.fields.errors,
+  user_email: state.app.user_email
 });
 
 export default connect(mapStateToProps)(StepOne);
