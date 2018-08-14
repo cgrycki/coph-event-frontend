@@ -59,7 +59,7 @@ export function getEvent(package_id) {
  * @param {*} start Start number of range
  * @param {*} end End number of range
  */
-export function getEvents(n=10, start=0, end=0) {
+export function getEvents() {
   return (dispatch) => {
     // Notify application we're making a request
     dispatch(fetchEventLoading());
@@ -73,7 +73,7 @@ export function getEvents(n=10, start=0, end=0) {
 
     // Resolve the promise
     rp(uri, options)
-      .then(res => res.json())
+      .then(res => JSON.parse(res))
       .then(data => dispatch(fetchEventsSucess(data)))
       .catch(err => dispatch(fetchEventFailure(err)));
   }

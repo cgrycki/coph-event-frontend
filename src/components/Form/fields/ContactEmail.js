@@ -14,6 +14,7 @@ export default class ContactEmail extends React.PureComponent {
         onChange={onChange}
         error={error}
         required={false}
+        autofocus={true}
       />
     );
   }

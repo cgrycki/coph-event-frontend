@@ -19,8 +19,13 @@ export const appReducer = (state=initialStore.app, action) => {
       return { ...state, login_loading: true };
 
     case (appActions.LOGIN_SUCESS):
-      var response = action.payload.loggedIn;
-      return {...state, loggedIn: response, login_loading: false };
+      var { loggedIn, hawkid } = action.payload;
+      return {
+        ...state, 
+        loggedIn: loggedIn, 
+        user_email: `${hawkid}@uiowa.edu`, 
+        login_loading: false
+      };
 
     case (appActions.LOGIN_FAILURE):
       error = action.payload;
