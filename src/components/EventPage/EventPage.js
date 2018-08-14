@@ -1,11 +1,11 @@
 // Dependencies
-import React        from 'react';
-import { connect }  from 'react-redux';
+import React          from 'react';
+import { connect }    from 'react-redux';
 
-import EventNav     from './EventNav';
-import EventDetails from './EventDetails';
+import EventNav       from './EventNav';
+import EventDetails   from './EventDetails';
+import WorkflowWidget from './WorkflowWidget';
 import './EventPage.css';
-
 
 // Actions
 import { getEvent } from '../../actions/event.actions';
@@ -13,9 +13,8 @@ import { getEvent } from '../../actions/event.actions';
 
 // Component
 class EventPageComponent extends React.Component {
-  constructor(props) {
+  constructor() {
     super();
-    this.state = { ...props };
   }
 
   componentDidMount() {
@@ -31,7 +30,7 @@ class EventPageComponent extends React.Component {
 
   render() {
     const { 
-      match: { params: { package_id }},
+      match: { params: { package_id, signature_id }},
       history,
       event
     } = this.props;
@@ -43,9 +42,16 @@ class EventPageComponent extends React.Component {
           history={history}
         />
 
-        <hr/>
+        <h2>Event Details</h2> 
+
+        <div>
+          <hr/>
+          <br/>
+        </div>
         
         <EventDetails event={event} />
+
+        {signature_id && <WorkflowWidget />}
       </div>
     );
   }
