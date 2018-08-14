@@ -5,7 +5,8 @@
 import React         from 'react';
 import { 
   DetailsList,
-  CheckboxVisibility 
+  CheckboxVisibility,
+  DefaultButton 
 }                     from 'office-ui-fabric-react';
 import { getDateISO } from '../../utils/date.utils';
 
@@ -43,7 +44,7 @@ export default class EventList extends React.Component {
       <DetailsList
         items={this.renderItems(events)}
         columns={columns}
-        checkboxVisibility={CheckboxVisibility.onHover}
+        checkboxVisibility={CheckboxVisibility.hidden}
         onActiveItemChanged={(item) => this.onActiveItem(item)}
       />
     );
@@ -55,7 +56,7 @@ const columns = [
     key: 'event_name',
     name: 'Name',
     fieldName: 'event_name',
-    minWidth: 160,
+    minWidth: 120,
     maxWidth: 300,
     isResizable: true
   },
@@ -64,7 +65,6 @@ const columns = [
     name: 'Approved',
     fieldName: 'approved',
     minWidth: 60,
-    maxWidth: 60,
     isResizable: false,
     onRender: (item) => {
       /* Renders a color column */
@@ -76,28 +76,58 @@ const columns = [
     key: 'date',
     name: 'Date',
     fieldName: 'date',
-    minWidth: 80,
+    minWidth: 70,
     isResizable: true
   },
   {
     key: 'room',
     name: 'Room',
     fieldName: 'room_number',
-    minWidth: 80,
+    minWidth: 60,
     isResizable: true
   },
   {
     key: 'setup',
     name: 'Setup Required',
     fieldName: 'setup_required',
-    minWidth: 100,
+    minWidth: 80,
     isResizable: true
   },
   {
     key: 'food_drink',
     name: 'Food/Drink Provided',
     fieldName: 'food_drink_required',
-    minWidth: 100,
+    minWidth: 80,
     isResizable: true
+  },
+  {
+    key: 'view',
+    name: ' ',
+    fieldName: 'package_id',
+    minWidth: 80,
+    onRender: (item) => {
+      return (
+        <DefaultButton
+          primary={true}
+          onClick={() => console.log(item.key)}
+          text="View" 
+        />
+      );
+    }
+  },
+  {
+    key: 'delete',
+    name: ' ',
+    fieldName: 'package_id',
+    minWidth: 80,
+    onRender: (item) => {
+      return (
+        <DefaultButton
+          onClick={() => console.log(item.key)}
+          text="Remove"
+          disabled={item.approved !== true}
+        />
+      )
+    }
   }
 ];
