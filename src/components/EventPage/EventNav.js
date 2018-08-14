@@ -11,7 +11,7 @@ export default class EventNav extends React.PureComponent {
     const { package_id } = this.props;
 
     return { 
-      text: package_id, 
+      text: `Event #${package_id}`, 
       key: "myEvent", 
       isCurrentItem: true
     };
