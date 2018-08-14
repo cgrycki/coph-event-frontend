@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import EventList from './EventList';
 
 // Actions
 import { getEvents } from '../../actions/event.actions';
@@ -9,7 +10,9 @@ import { getEvents } from '../../actions/event.actions';
 class DashboardComponent extends React.Component {
   constructor(props) {
     super();
-    this.state = { ...props };
+    this.state = {
+      events: props.events
+    };
   }
 
   componentDidMount() {
@@ -19,15 +22,29 @@ class DashboardComponent extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('old', this.props);
-    console.log('new', nextProps);
+    this.setState({ 
+      events       : nextProps.events,
+      event_loading: nextProps.event_loading,
+      event_error  : nextProps.event_error
+    });
   }
 
+  //renderLoad() {}
+  //renderError() {}
+
   render() {
-    console.log(this.props);
+    let { 
+      events, event_loading, event_error,
+      history
+    } = this.props;
+
     return (
-      <div>
+      <div className="ms-Grid-col ms-sm12">
         <h3>Admin Page</h3>
+        <EventList 
+          events={events}
+          history={history}
+        />
       </div>
     );
   }
@@ -36,8 +53,11 @@ class DashboardComponent extends React.Component {
 
 // Container
 const mapStateToProps = state => ({
-  events: state.events.events,
-  loggedIn: state.app.loggedIn,
-  isAdmin: state.app.isAdmin
-})
+  events       : state.events.events,
+  event_loading: state.events.event_loading,
+  event_error  : state.events.event_error,
+  loggedIn     : state.app.loggedIn,
+  isAdmin      : state.app.isAdmin
+});
+
 export default connect(mapStateToProps)(DashboardComponent);

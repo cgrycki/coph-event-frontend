@@ -50,10 +50,10 @@ class StepOne extends React.Component {
         'references_course_error', 'referenced_course_error',
         'setup_required_error', 'setup_mfk_error'
       ];
-
     needed.forEach(field => {
       if (errors.hasOwnProperty(field)) needed_flag = true;
     });
+    
     if (needed_flag) return true;
     else return false;
   }
