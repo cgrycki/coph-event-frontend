@@ -1,6 +1,7 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import EventList from './EventList';
+import React        from 'react';
+import { connect }  from 'react-redux';
+import EventList    from './EventList';
+import './Dashboard.css';
 
 // Actions
 import { getEvents } from '../../actions/event.actions';
@@ -39,12 +40,19 @@ class DashboardComponent extends React.Component {
     } = this.props;
 
     return (
-      <div className="ms-Grid-col ms-sm12">
-        <h3>Admin Page</h3>
+      <div className="ms-Grid-col ms-sm12 Dashboard">
+        <h2>My Events</h2>
+        
+        <div>
+          <hr/>
+          <br/>
+        </div>
+
         <EventList 
           events={events}
           history={history}
         />
+      
       </div>
     );
   }

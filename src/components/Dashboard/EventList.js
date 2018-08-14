@@ -19,6 +19,7 @@ export default class EventList extends React.Component {
     
     let items = events.slice().map(item => ({
       key                : item.package_id,
+      event_name         : item.event_name,
       room_number        : item.room_number,
       date               : getDateISO(item.date),
       approved           : item.approved.toString(),
@@ -51,6 +52,14 @@ export default class EventList extends React.Component {
 
 const columns = [
   {
+    key: 'event_name',
+    name: 'Name',
+    fieldName: 'event_name',
+    minWidth: 160,
+    maxWidth: 300,
+    isResizable: true
+  },
+  {
     key: 'approved',
     name: 'Approved',
     fieldName: 'approved',
@@ -68,7 +77,6 @@ const columns = [
     name: 'Date',
     fieldName: 'date',
     minWidth: 80,
-    maxWidth: 120,
     isResizable: true
   },
   {
@@ -76,23 +84,20 @@ const columns = [
     name: 'Room',
     fieldName: 'room_number',
     minWidth: 80,
-    maxWidth: 120,
     isResizable: true
   },
   {
     key: 'setup',
     name: 'Setup Required',
     fieldName: 'setup_required',
-    minWidth: 80,
-    maxWidth: 120,
+    minWidth: 100,
     isResizable: true
   },
   {
     key: 'food_drink',
     name: 'Food/Drink Provided',
     fieldName: 'food_drink_required',
-    minWidth: 40,
-    maxWidth: 40,
+    minWidth: 100,
     isResizable: true
   }
 ];
