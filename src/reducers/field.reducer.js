@@ -2,7 +2,10 @@
  * Field Reducers 
  */
 import initialStore         from '../store/initialStore';
-import { fieldActions }     from '../constants/actionTypes';
+import { 
+  fieldActions,
+  appActions
+}     from '../constants/actionTypes';
 
 
 // Create the shape of our store to match reducers
@@ -29,6 +32,12 @@ export const fieldReducer = (state=initialFieldStore, action) => {
       let new_errors = { ...state.errors, ...action.errors };
       return { ...state, errors: new_errors };
 
+    case appActions.LOGIN_SUCESS:
+      // If we've logged in correctly, set the user email from login response
+      const { hawkid } = action.payload;
+      const email_info = { ...state.info, 'user_email': `${hawkid}@uiowa.edu` };
+      return { ...state, info: email_info };
+
     case fieldActions.RESET_FIELD:
       return { 
         ...state, 
@@ -40,9 +49,17 @@ export const fieldReducer = (state=initialFieldStore, action) => {
       return { ...state, form_loading: true };
 
     case fieldActions.SUBMIT_FORM_SUCCESS:
+      // Empty our info fields sans the user email, which remains the same.
+      const emptied_info = { 
+        ...initialFieldStore.info, 
+        user_email: state.info.user_email
+      };
+      
       return {
         ...state,
+        info        : emptied_info,
         form_loading: false,
+        form_error  : null,
         form_success: action.payload.message
       };
 

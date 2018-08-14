@@ -134,7 +134,8 @@ export function deleteEvent(package_id) {
     let options = {
       method         : 'DELETE',
       uri            : uri,
-      withCredentials: true
+      withCredentials: true,
+      json           : true
     };
 
     rp(options)

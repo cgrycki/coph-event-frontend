@@ -25,7 +25,7 @@ class EditorComponent extends React.Component {
     let { canvas_width, canvas_height } = this.getCanvasSize();
 
     return (
-      <div className="ms-borderBase">
+      <div className="ms-borderBase ms-ScaleUpIn100">
         <Stage width={500} height={500} />
       </div>
     );

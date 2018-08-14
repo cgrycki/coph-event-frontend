@@ -32,10 +32,17 @@ const updateErrors = (errors) => ({
 });
 
 
+/**
+ * Updates our form field AND validates current state.
+ * @param {string} field - Field key to update in our form info
+ * @param {any} value - Value of user input
+ */
 export const updateForm = (field, value) => {
   return (dispatch, getState) => {
-    // Dispatch the field update
-    dispatch(updateField(field, value));
+    // Dispatch the field update if and only if field/value are defined.
+    // After loading room schedule we dispatch an update to 
+    // validate the new schedule doesn't conflict with prior input.
+    if (field !== undefined) dispatch(updateField(field, value));
 
     // Set end_time 'automagically' if not already entered
     if (field === "start_time" && getState().fields.info.end_time === "")
@@ -117,7 +124,7 @@ export function submitForm(info) {
     fetch(uri, options)
       .then(res => {
         // Check errror from our server
-        if (res.error) dispatch(submitFormFailure(res));
+        if (res.error || res.status !== 201) dispatch(submitFormFailure(res));
         else dispatch(submitFormSuccess(res));
       })
       .catch(err => dispatch(submitFormFailure(err)));
