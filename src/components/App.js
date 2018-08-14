@@ -10,7 +10,7 @@ import Page           from './common/Page';
 import ProtectedRoute from './common/ProtectedRoute';
 import Home           from './Home';
 import EventPage      from './EventPage/EventPage';
-import Dashboard      from './Dashboard';
+import Dashboard      from './Dashboard/Dashboard';
 
 // Form + Steps
 import Form           from './Form/';
