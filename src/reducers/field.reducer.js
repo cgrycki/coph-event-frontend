@@ -49,9 +49,17 @@ export const fieldReducer = (state=initialFieldStore, action) => {
       return { ...state, form_loading: true };
 
     case fieldActions.SUBMIT_FORM_SUCCESS:
+      // Empty our info fields sans the user email, which remains the same.
+      const emptied_info = { 
+        ...initialFieldStore.info, 
+        user_email: state.info.user_email
+      };
+      
       return {
         ...state,
+        info        : emptied_info,
         form_loading: false,
+        form_error  : null,
         form_success: action.payload.message
       };
 
