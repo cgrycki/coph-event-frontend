@@ -132,7 +132,8 @@ export function deleteEvent(package_id) {
 
     let uri = `${URI}/workflow/?package_id=${package_id}`;
     let options = {
-      method: 'DELETE',
+      method         : 'DELETE',
+      uri            : uri,
       withCredentials: true
     };
 
