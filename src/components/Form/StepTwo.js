@@ -100,10 +100,12 @@ class StepTwo extends React.Component {
       <FormStep>
         <FormTitle page={"Event Information"} />
 
-        <div style={{
-          display: 'flex',
-          flexGrow: '1'
-        }}>
+        <div
+          className="ms-slideRightIn40" 
+          style={{
+            display: 'flex',
+            flexGrow: '1'
+          }}>
           <div style={{
             width: '70%',
             display: 'flex',

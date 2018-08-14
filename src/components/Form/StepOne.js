@@ -59,13 +59,13 @@ class StepOne extends React.Component {
   }
 
   render() {
-    let { info, errors, user_email } = this.props;
+    let { info, errors } = this.props;
 
     return (
       <FormStep>
         <FormTitle page={"User Information"} />
 
-        <div>
+        <div className="ms-slideRightIn40">
         <UserEmail value={info['user_email']} />
         
         <ContactEmail
