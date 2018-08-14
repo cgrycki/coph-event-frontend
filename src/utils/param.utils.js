@@ -42,7 +42,6 @@ const validDate = date => {
   /* Must be a ISO formatted date AND must be after today AND not > 6 months */
   return (
     isISO8601(date) &&
-    isAfter(date) &&
     isBefore(date, getDateISO(sixMonthsFromToday()))
   ); 
 }

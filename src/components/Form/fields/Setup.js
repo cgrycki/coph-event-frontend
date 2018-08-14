@@ -43,7 +43,10 @@ export default class Setup extends React.PureComponent {
     };
 
     return (
-      <div style={flex_styles}>
+      <div 
+        className="ms-slideRightIn20 ms-slideLeftOut20"
+        style={flex_styles}
+      >
         {this.renderField('FUND    ', 3)}
         {this.renderField('ORG      ', 3)}
         {this.renderField('DEPT     ', 3)}
