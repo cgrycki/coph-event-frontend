@@ -126,16 +126,22 @@ export function patchEvent(eventInfo) {
 
 
 // TO DO
-export function deleteEvent(eventID) {
+export function deleteEvent(package_id) {
   return (dispatch) => {
     dispatch(fetchEventLoading());
 
-    let uri = `${URI}/events/${eventID}`;
+    let uri = `${URI}/workflow/?package_id=${package_id}`;
     let options = {
       method: 'DELETE',
       withCredentials: true
     };
 
-    //rp(uri, options).then(...)
+    rp(options)
+      .then(res => console.log(res))
+      .then(res => {
+        if (res.error) dispatch(fetchEventFailure(res))
+        else dispatch(fetchEventSucess(res));
+      })
+      .catch(err => dispatch(fetchEventFailure(err)));
   }
 }
