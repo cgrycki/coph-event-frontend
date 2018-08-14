@@ -25,7 +25,12 @@ class Home extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.checkLogin(nextProps);
+    // Update login status
+    this.setState({
+      loggedIn     : nextProps.loggedIn,
+      login_loading: nextProps.login_loading,
+      login_error  : nextProps.login_error
+    });
   }
  
   checkLogin(props) {
@@ -127,9 +132,11 @@ class Home extends React.Component {
 
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12">
-            <h1 style={hero_style}>{this.renderGreeting()}</h1>
-            <br/>
-            <h1 style={hero_style}>Can we help with an event?</h1>
+            <h1 
+              className="ms-slideRightIn40"
+              style={hero_style}
+            >{this.renderGreeting()}</h1>
+            <h1 style={hero_style}>Can we help you with an event?</h1>
           </div>
         </div>
 
