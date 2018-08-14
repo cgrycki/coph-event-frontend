@@ -33,9 +33,11 @@ const App = ({ store }) => (
               
               <Navbar />
               <Switch>
-                <Route path="/" exact             component={Home} />
+                <Route path="/" exact                     component={Home} />
                 <ProtectedRoute path="/dashboard"         Component={Dashboard} />
-                <ProtectedRoute path="/event/:package_id" Component={EventPage} />
+                <ProtectedRoute 
+                  path="/event/:package_id/:signature_id?" 
+                                                          Component={EventPage} />
                 <Form>
                   <ProtectedRoute path="/form/user"   Component={StepOne} />
                   <ProtectedRoute path="/form/event"  Component={StepTwo} />

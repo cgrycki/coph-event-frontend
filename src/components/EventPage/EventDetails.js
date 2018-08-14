@@ -63,7 +63,7 @@ export default class EventDetails extends React.PureComponent {
           {contact || "None"}
         </div>
         <div>
-          {this.renderLabel("CoPH Email (for weekends)")}
+          {this.renderLabel("CoPH Email")}
           {coph || "None"}
         </div>
       </div>
@@ -88,8 +88,7 @@ export default class EventDetails extends React.PureComponent {
         <div>
           {this.renderLabel("Food Provider")}
           {food_provider || "None"}
-        </div>
-        <div>
+          
           {this.renderLabel("Alcohol Provider")}
           {drink_provider || "None"}
         </div>

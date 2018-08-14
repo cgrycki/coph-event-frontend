@@ -8,7 +8,7 @@ import WorkflowWidget from './WorkflowWidget';
 import './EventPage.css';
 
 // Actions
-import { getEvent } from '../../actions/event.actions';
+import { getEvent }   from '../../actions/event.actions';
 
 
 // Component
@@ -51,7 +51,12 @@ class EventPageComponent extends React.Component {
         
         <EventDetails event={event} />
 
-        {signature_id && <WorkflowWidget />}
+        {signature_id &&
+          <WorkflowWidget
+            package_id={package_id}
+            signature_id={signature_id}
+          />
+        }
       </div>
     );
   }
@@ -60,9 +65,9 @@ class EventPageComponent extends React.Component {
 
 // Container
 const mapStateToProps = state => ({
-  event: state.events.event,
+  event        : state.events.event,
   event_loading: state.events.event_loading,
-  event_error: state.events.event_error
+  event_error  : state.events.event_error
 });
 
 

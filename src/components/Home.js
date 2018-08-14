@@ -15,47 +15,47 @@ import { fetchLogin } from '../actions/app.actions';
 class Home extends React.Component {
   constructor(props) {
     super();
-    this.nextPage = this.nextPage.bind(this);
+    this.nextPage   = this.nextPage.bind(this);
     this.checkLogin = this.checkLogin.bind(this);
+    this.redirect   = this.redirect.bind(this);
   }
 
   componentDidMount() {
-    // Kick off login check when the component mounts
+    /* Kick off login check when the component mounts. */
     this.checkLogin(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    // Update login status
-    this.setState({
-      loggedIn     : nextProps.loggedIn,
-      login_loading: nextProps.login_loading,
-      login_error  : nextProps.login_error
-    });
+    /* Updated login status? => Redirect */
+    this.redirect(nextProps);
   }
  
   checkLogin(props) {
-    // Make an API call to our server to check if we are authenticated.
-    let { loggedIn, login_loading, login_error, dispatch, history } = props;
-
-    // Grab the redirect pathname if we were directed from a protected route
-    let redirect_from = ((props.location.state) && (props.location.state.from)) ?
-      props.location.state.from.pathname :
-      undefined;
-
-    // Base case, we were redirected from a protected route
-    if ((redirect_from !== undefined) && (loggedIn === true)) history.push(redirect_from);
-
-    // Authenticated from Workflow login case, if we're logged in then advance to the next page
-    //else if ((redirect_from === undefined) && (loggedIn === true)) this.nextPage();
+    /* Make an API call to our server to check if we are authenticated. */
+    let { loggedIn, login_loading, login_error, dispatch } = props;
 
     // If we aren't logged in, and haven't yet recieved a response, dispatch
     // Also, don't make an API call if we have an error
-    else if ((loggedIn === false) && (login_loading === false) && (login_error === null)) { 
+    if ((loggedIn === false) && (login_loading === false) && (login_error === null)) { 
       dispatch(fetchLogin());
     }
   }
 
+  redirect(props) {
+    /* Checks login status and redirects to original page if appropriate. */
+    let { loggedIn, location, history } = props;
+
+    // Grab the redirect pathname if we were directed from a protected route
+    let redirect_from = (location.state && location.state.from) ?
+      location.state.from.pathname :
+      undefined;
+
+    // Base case, we were redirected from a protected route
+    if ((redirect_from !== undefined) && (loggedIn === true)) history.push(redirect_from);
+  }
+
   nextPage() {
+    /* Takes user to create event form. */
     this.props.history.push('/form/user');
   }
 

@@ -117,8 +117,6 @@ export function submitForm(info) {
     fetch(uri, options)
       .then(res => {
         // Check errror from our server
-        console.log(res.body);
-        
         if (res.error) dispatch(submitFormFailure(res));
         else dispatch(submitFormSuccess(res));
       })

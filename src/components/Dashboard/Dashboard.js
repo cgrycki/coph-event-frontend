@@ -3,6 +3,8 @@ import { connect }  from 'react-redux';
 import EventList    from './EventList';
 import './Dashboard.css';
 
+import DeleteForm   from './DeleteForm';
+
 // Actions
 import { getEvents } from '../../actions/event.actions';
 
@@ -51,6 +53,10 @@ class DashboardComponent extends React.Component {
         <EventList 
           events={events}
           history={history}
+        />
+
+        <DeleteForm
+          dispatch={this.props.dispatch}
         />
       
       </div>
