@@ -21,7 +21,7 @@ export default class DateField extends React.PureComponent {
 
   renderCophEmail(value, error, onChange) {
     return (
-      <div>
+      <div className="ms-slideDownIn20">
         <TextField
           label={"CoPH Employee Email"}
           placeholder={"Enter on-premises CoPH employee's email"}

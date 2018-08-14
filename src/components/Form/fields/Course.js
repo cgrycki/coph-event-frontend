@@ -21,7 +21,10 @@ export default class Course extends React.PureComponent {
     };
 
     return (
-      <div style={search_styles}>
+      <div 
+        className="ms-slideRightIn20 ms-slideLeftOut20"
+        style={search_styles}
+      >
         <ComboBox
           label={'Course Name'}
           allowFreeform={true}

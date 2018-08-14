@@ -43,7 +43,10 @@ export default class FoodDrink extends React.PureComponent {
   renderProviders() {
     // Renders a div with both food and alcohol
     return (
-      <div style={{marginLeft: "auto", width: "50%"}}>
+      <div
+        className="ms-slideRightIn20 ms-slideLeftOut20" 
+        style={{marginLeft: "auto", width: "50%"}}
+      >
         {this.renderFood()}
         {this.renderDrink()}
       </div>
@@ -59,7 +62,8 @@ export default class FoodDrink extends React.PureComponent {
       "boxSizing"     : "border-box",
       "display"       : "flex",
       "justifyContent": "flex-start",
-      "flexDirection" : "row"
+      "flexDirection" : "row",
+      "minHeight"     : "125px"
     }
 
     return (
