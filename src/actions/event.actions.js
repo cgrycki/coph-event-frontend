@@ -130,12 +130,13 @@ export function deleteEvent(package_id) {
   return (dispatch) => {
     dispatch(fetchEventLoading());
 
-    let uri = `${URI}/workflow/?package_id=${package_id}`;
+    let uri = `${URI}/workflow/`;
     let options = {
       method         : 'DELETE',
       uri            : uri,
       withCredentials: true,
-      json           : true
+      json           : true,
+      body           : JSON.stringify({ "package_id": package_id })
     };
 
     rp(options)
