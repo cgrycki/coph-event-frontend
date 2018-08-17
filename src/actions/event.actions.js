@@ -65,7 +65,7 @@ export function getEvents() {
     dispatch(fetchEventLoading());
 
     // URI + options for API call
-    let uri = `${URI}/events`;
+    let uri = `${URI}/events/my`;
     let options = {
       method: 'GET',
       withCredentials: true
