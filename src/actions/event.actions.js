@@ -47,7 +47,6 @@ export function getEvent(package_id) {
 
     // Make the call, and resolve the promise
     rp(uri, options)
-      .then(res => console.log(res))
       .then(data => dispatch(fetchEventSucess(data)))
       .catch(err => dispatch(fetchEventFailure(err)));
   }
