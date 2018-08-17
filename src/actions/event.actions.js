@@ -67,13 +67,13 @@ export function getEvents() {
     // URI + options for API call
     let uri = `${URI}/events/my`;
     let options = {
-      method: 'GET',
+      method         : 'GET',
+      json           : true,
       withCredentials: true
     };
 
     // Resolve the promise
     rp(uri, options)
-      .then(res => JSON.parse(res))
       .then(data => dispatch(fetchEventsSucess(data)))
       .catch(err => dispatch(fetchEventFailure(err)));
   }
