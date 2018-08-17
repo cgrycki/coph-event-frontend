@@ -15,8 +15,8 @@ export const eventReducer = (state=initialStore.events, action) => {
       return { ...state, event_loading: false, event_error: action.payload };
 
     case (eventActions.EVENT_SUCESS):
-      let eventInfo = action.payload;
-      return { ...state, event_loading: false, event: eventInfo };
+      let { evt, permissions } = action.payload;
+      return { ...state, event_loading: false, event: evt, permissions };
 
     case (eventActions.EVENTS_SUCESS):
       let eventsInfo = action.payload;
