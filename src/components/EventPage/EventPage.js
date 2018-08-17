@@ -55,8 +55,7 @@ class EventPageComponent extends React.Component {
           <WorkflowWidget
             package_id={package_id}
             signature_id={signature_id}
-          />
-        }
+          />}
       </div>
     );
   }
@@ -66,6 +65,7 @@ class EventPageComponent extends React.Component {
 // Container
 const mapStateToProps = state => ({
   event        : state.events.event,
+  permissions  : state.events.permissions,
   event_loading: state.events.event_loading,
   event_error  : state.events.event_error
 });
