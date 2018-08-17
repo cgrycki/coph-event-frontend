@@ -5,7 +5,7 @@ import { Fabric }   from 'office-ui-fabric-react';
 import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
 
 // Site components
-import Navbar         from './common/NavBar';
+import NavBar         from './common/NavBar/';
 import Page           from './common/Page';
 import ProtectedRoute from './common/ProtectedRoute';
 import Home           from './Home';
@@ -31,7 +31,7 @@ const App = ({ store }) => (
           <div className="ms-Grid-row">
             <Page>
               
-              <Navbar />
+              <NavBar />
               <Switch>
                 <Route path="/" exact                     component={Home} />
                 <ProtectedRoute path="/dashboard"         Component={Dashboard} />

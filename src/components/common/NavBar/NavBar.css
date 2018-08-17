@@ -1,0 +1,15 @@
+/* Navigation Bar Styling */
+
+/* Div wrapping CommandBar component. */
+.NavBarWrapper {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  border-bottom: 1px solid #333333;
+}
+
+/* Leftmost item, U. Iowa Logo */
+.NavLogo {
+  pointer-events: none;
+}
