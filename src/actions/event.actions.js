@@ -38,15 +38,16 @@ export function getEvent(package_id) {
     dispatch(fetchEventLoading());
 
     // Set up options for the API request
-    let uri = `${URI}/events?package_id=${package_id}`;
+    let uri = `${URI}/events/${package_id}`;
     let options = {
-      method: 'GET',
+      method         : 'GET',
+      json           : true,
       withCredentials: true
     };
 
     // Make the call, and resolve the promise
     rp(uri, options)
-      .then(res => JSON.parse(res)[0])
+      .then(res => console.log(res))
       .then(data => dispatch(fetchEventSucess(data)))
       .catch(err => dispatch(fetchEventFailure(err)));
   }
