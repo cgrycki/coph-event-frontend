@@ -1,6 +1,7 @@
 // Dependencies
 import React          from 'react';
 import { connect }    from 'react-redux';
+import { ActionButton } from 'office-ui-fabric-react';
 
 import EventNav       from './EventNav';
 import EventDetails   from './EventDetails';
@@ -9,6 +10,7 @@ import './EventPage.css';
 
 // Actions
 import { getEvent }   from '../../actions/event.actions';
+import { populateFieldInfo }         from '../../actions/field.actions';
 
 
 // Component
@@ -28,6 +30,23 @@ class EventPageComponent extends React.Component {
     dispatch(getEvent(package_id));
   }
 
+  renderEditButton() {
+    /* Conditionally renders a edit button */
+    const { permissions, dispatch, event } = this.props;
+
+    return (
+      <span style={{ float: 'right' }}>
+        <ActionButton
+          iconProps={{ iconName: 'Edit' }}
+          disabled={permissions.canEdit}
+          onClick={() => dispatch(populateFieldInfo(event))}
+        >
+          Edit Event
+        </ActionButton>
+      </span>
+    );
+  }
+
   render() {
     const { 
       match: { params: { package_id, signature_id }},
@@ -42,7 +61,14 @@ class EventPageComponent extends React.Component {
           history={history}
         />
 
-        <h2>Event Details</h2> 
+        <div className="ms-Grid-row">
+          <div className="ms-Grid-col ms-sm9 ms-lg9 ms-xxl9">
+            <h2 >Event Details</h2>
+          </div>
+          <div className="ms-Grid-col ms-sm3 ms-lg3 ms-xxl3">
+            {this.renderEditButton()}
+          </div>
+        </div>
 
         <div>
           <hr/>
