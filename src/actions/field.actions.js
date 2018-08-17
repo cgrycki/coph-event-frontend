@@ -62,16 +62,6 @@ export const updateForm = (field, value) => {
 
 
 /**
- * Resets a field to it's initial state.
- * @param {string} field String representation of field key we should reset
- */
-export const resetField = (field) => ({
-  type: fieldActions.RESET_FIELD,
-  field: field
-})
-
-
-/**
  * Notifies store that we've initiated a POST request. Blocks other POSTs
  */
 export const submitFormLoading = () => ({
@@ -130,3 +120,14 @@ export function submitForm(info) {
       .catch(err => dispatch(submitFormFailure(err)));
   }
 }
+
+
+/**
+ * Populates our fields from an already created event.
+ * @param {Object} info - Event information
+ * @returns {Object} Action for redux
+ */
+export const populateFieldInfo = (info) => ({
+  type   : fieldActions.POPULATE_FIELDS,
+  payload: info
+});

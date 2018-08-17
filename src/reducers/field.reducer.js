@@ -38,12 +38,6 @@ export const fieldReducer = (state=initialFieldStore, action) => {
       const email_info = { ...state.info, 'user_email': `${hawkid}@uiowa.edu` };
       return { ...state, info: email_info };
 
-    case fieldActions.RESET_FIELD:
-      return { 
-        ...state, 
-        info: {...state.info, [field]: initialFieldStore.info[field] },
-        errors: {...state.errors, [field]: null }
-      };
 
     case fieldActions.SUBMIT_FORM_LOADING:
       return { ...state, form_loading: true };
@@ -69,6 +63,11 @@ export const fieldReducer = (state=initialFieldStore, action) => {
         form_loading: false,
         form_error: action.payload.message
       };
+
+    case fieldActions.POPULATE_FIELDS:
+      // Users can edit events after they've been created and before they've been approved.
+      const hydrated_info = { ...initialStore.info, ...action.payload };
+      return { ...state, info: hydrated_info };
 
     default:
       return state;
