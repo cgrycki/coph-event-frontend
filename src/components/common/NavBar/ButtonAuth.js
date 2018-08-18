@@ -13,7 +13,8 @@ const ButtonAuth = (props) => {
     iconProps: {
       iconName: iconName,
       style: { color: '#333333' }
-    }
+    },
+    href: linkHref
   };
 };
 
