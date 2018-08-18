@@ -27,6 +27,11 @@ class StepOne extends React.Component {
     this.validate = this.validate.bind(this);
   }
 
+  componentDidMount() {
+    /* Set web page title on mount. */
+    document.title = "Create Event: User";
+  }
+
   prevPage() {
     this.props.history.goBack(-1);
   }

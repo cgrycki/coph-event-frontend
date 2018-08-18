@@ -30,6 +30,12 @@ class EventPageComponent extends React.Component {
     dispatch(getEvent(package_id));
   }
 
+  componentWillUpdate(nextProps) {
+    /* Updates web page title when we recieve data from the REST call. */
+    let { event } = nextProps;
+    document.title = `Event: ${event.event_title}`;
+  }
+
   renderEditButton() {
     /* Conditionally renders a edit button */
     const { permissions, dispatch, event } = this.props;

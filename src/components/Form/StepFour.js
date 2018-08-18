@@ -26,6 +26,11 @@ class StepFour extends React.Component {
     this.nextPage = this.nextPage.bind(this);
   }
 
+  componentDidMount() {
+    /* Set web page title on mount. */
+    document.title = "Create Event: Review";
+  }
+
   prevPage() {
     this.props.history.goBack(-1);
   }

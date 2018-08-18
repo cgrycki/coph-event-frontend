@@ -33,6 +33,9 @@ class StepTwo extends React.Component {
   }
 
   componentDidMount() {
+    // Set web page title on mount.
+    document.title = "Create Event: Event";
+    
     // Only load the rooms from our API if we haven't yet before
     if (this.props.rooms.length === 0) this.props.dispatch(fetchRooms());
   }

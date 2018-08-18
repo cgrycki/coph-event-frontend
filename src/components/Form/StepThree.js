@@ -19,6 +19,11 @@ export default class StepThree extends React.Component {
     this.nextPage = this.nextPage.bind(this);
   }
 
+  componentDidMount() {
+    /* Set web page title on mount. */
+    document.title = "Create Event: Layout";
+  }
+
   prevPage() {
     this.props.history.goBack(-1);
   }
