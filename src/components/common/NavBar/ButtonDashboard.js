@@ -8,18 +8,13 @@ const ButtonDashboard = (props) => {
   // Disable if we're not logged in AND not currently on dash page.
   let disabled = (loggedIn && !location.pathname.startsWith("/dashboard")) ?
     false : true;
-  // Match disabled colors
-  let icon_color = (disabled) ? '#c8c8c8' : '#333333';
 
   return {
     key      : 'dashboard',
     name     : 'My Events',
     disabled : disabled,
-    iconProps: {
-      iconName: 'EventDate',
-      style   : { color: icon_color }
-    },
-    onClick: () => history.push("/dashboard")
+    iconProps: { iconName: 'EventDate' },
+    onClick  : () => history.push("/dashboard")
   };
 }
 

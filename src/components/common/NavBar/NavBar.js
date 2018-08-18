@@ -26,7 +26,6 @@ class NavBar extends React.PureComponent {
       <div className="NavBarWrapper">
         <CommandBar
           className="NavBar"
-          style={{ backgroundColor: 'black' }}
           items={[Logo]}
           farItems={far_items} 
         />

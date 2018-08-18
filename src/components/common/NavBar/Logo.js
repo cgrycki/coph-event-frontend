@@ -3,7 +3,7 @@
  */
 
 import { IconType } from 'office-ui-fabric-react';
-import PNG          from './uiowa.png';
+import PNG          from './uiowa-yellow.png';
 
 const Logo = {
   key      : 'logo',
@@ -16,7 +16,7 @@ const Logo = {
     imageProps: {
       className: 'NavLogo',
       src      : PNG,
-      height   : 40
+      height   : 33
     }
   }
 };
