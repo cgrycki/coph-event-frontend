@@ -98,9 +98,10 @@ const rooms = {
 const events = {
   event: {},
   permissions: {
-    canView         : false,
     canEdit         : false,
     canInitiatorVoid: false,
+    canVoid         : false,
+    canVoidAfter    : false,
     canSign         : false,
     signatureId     : null
   },
