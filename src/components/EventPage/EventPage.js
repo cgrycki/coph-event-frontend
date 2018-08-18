@@ -1,7 +1,10 @@
 // Dependencies
 import React          from 'react';
 import { connect }    from 'react-redux';
-import { ActionButton } from 'office-ui-fabric-react';
+import { 
+  ActionButton,
+  DefaultButton
+} from 'office-ui-fabric-react';
 
 import EventNav       from './EventNav';
 import EventDetails   from './EventDetails';
@@ -32,8 +35,8 @@ class EventPageComponent extends React.Component {
 
   componentWillUpdate(nextProps) {
     /* Updates web page title when we recieve data from the REST call. */
-    let { event } = nextProps;
-    document.title = `Event: ${event.event_title}`;
+    let { event: { event_name }} = nextProps;
+    if (event_name) document.title = `Event: ${event_name}`;
   }
 
   renderEditButton() {
@@ -41,15 +44,54 @@ class EventPageComponent extends React.Component {
     const { permissions, dispatch, event } = this.props;
 
     return (
-      <span style={{ float: 'right' }}>
-        <ActionButton
-          iconProps={{ iconName: 'Edit' }}
-          disabled={permissions.canEdit}
-          onClick={() => dispatch(populateFieldInfo(event))}
-        >
-          Edit Event
-        </ActionButton>
-      </span>
+      <ActionButton
+        iconProps={{ iconName: 'Edit' }}
+        disabled={permissions.canEdit}
+        onClick={() => dispatch(populateFieldInfo(event))}
+      >
+        Edit Event
+      </ActionButton>
+    );
+  }
+
+  renderRemoveButton() {
+    /* Conditionally renders a cancel button */
+    const { permissions, dispatch, event } = this.props;
+
+    return (
+      <ActionButton
+        iconProps={{ iconName: 'RemoveEvent' }}
+        disabled={permissions.canInitiatorVoid || permissions.canVoid}
+      >
+        Cancel Event
+      </ActionButton>
+    );
+  }
+
+  renderActionButton() {
+    let { dispatch, permissions, event } = this.props;
+
+    return (
+      <DefaultButton
+        text="Actions"
+        split={true}
+        menuProps={{
+          items: [
+            {
+              key: 'editEvent',
+              name: 'Edit Event Information',
+              iconProps: { iconName: 'Edit' },
+              disabled: permissions.canEdit
+            },
+            {
+              key: 'removeEvent',
+              name: 'Cancel Event',
+              iconProps: { iconName: 'RemoveEvent' },
+              disabled: !permissions.canInitiatorVoid && !permissions.canVoid
+            }
+          ]
+        }}
+      />
     );
   }
 
@@ -72,7 +114,9 @@ class EventPageComponent extends React.Component {
             <h2 >Event Details</h2>
           </div>
           <div className="ms-Grid-col ms-sm3 ms-lg3 ms-xxl3">
-            {this.renderEditButton()}
+            <span style={{ float: 'right' }} className="ms-clearfix">
+              {this.renderActionButton()}
+            </span>
           </div>
         </div>
 
