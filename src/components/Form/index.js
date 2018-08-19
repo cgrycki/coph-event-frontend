@@ -1,16 +1,13 @@
 // Dependencies
 import React from 'react';
+import './Form.css';
+
 
 // Component
 export default class Form extends React.PureComponent {
   render() {
-    const form_style = {
-      width: "100%",
-      height: "100%"
-    };
-
     return (
-      <div className="ms-Grid-row" style={form_style}>
+      <div className="ms-Grid-row Form">
         {this.props.children}
       </div>
     );

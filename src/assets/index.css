@@ -9,12 +9,11 @@ body {
 }
 
 
-/* Form Wizard Page */
+/* Page Wrapper for our routes */
 .Page {
   background-color: #ffffff;
-  padding: 5px 25px 20px 25px !important;
-  border-radius: 3px;
-  display: block;
+  padding: 25px 30px !important;
+  border-radius: 2px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.12), 0 2px 3px rgba(0,0,0,0.24);
   transition: 750ms;
   -webkit-transition: 750ms;
