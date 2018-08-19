@@ -1,44 +1,41 @@
-/**
- * Event Navigation bar: breadcrumbs, admin tab
- */
-
+/* Dependencies -------------------------------------------------------------*/
 import React          from 'react';
-import { Breadcrumb } from 'office-ui-fabric-react';
+import NavPage        from '../common/NavPage'
+import ActionButtons  from './ActionButtons';
 
+
+/* React Component ----------------------------------------------------------*/
+/**
+ * Displays an Event Page heading, consisting of PageNav breadcrumbs and action
+ * buttons to dispatch events.
+ */
 export default class EventNav extends React.PureComponent {
-  renderEventBreadcrumb() {
-    /* Renders a disabled breadcrumb for a given event. */
-    const { package_id } = this.props;
-
-    return { 
-      text: `Event #${package_id}`, 
-      key: "myEvent", 
-      isCurrentItem: true
-    };
-  }
-
-  renderMyEventsBreadcrumb() {
-    /* Renders a redirect breadcrumb to user's dashboard page. */
-    const { history } = this.props;
-
-    return {
-      text: "My Events",
-      key: "myEvents",
-      onClick: () => history.push("/dashboard")
-    };
-  }
-
   render() {
+    let { history, permissions, onEdit, onRemove, package_id } = this.props;
+
     return (
-      <div className="EventPageNav">
-        <div className="ms-Grid-row">
-          <Breadcrumb
-            items={[
-              this.renderMyEventsBreadcrumb(),
-              this.renderEventBreadcrumb()
-            ]}
-            maxDisplayedItems={2}
+      <div className="ms-Grid-row">
+        <div className="ms-Grid-col ms-sm12 ms-lg12 ms-xxl12">
+
+          <NavPage
+            history={history}
+            package_id={package_id}
           />
+
+          <div className="EventNav">
+            <div className="EventNavHeading">
+              <h2>Event Details</h2>
+            </div>
+
+            <div className="EventNavActions">
+              <ActionButtons
+                permissions={permissions}
+                onEdit={onEdit}
+                onRemove={onRemove}
+              />
+            </div>
+          </div>
+
         </div>
       </div>
     );

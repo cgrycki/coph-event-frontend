@@ -49,20 +49,13 @@
 .ms-CommandBarItem-commandText,
 .ms-CommandBarItem-icon,
 .ms-CommandBarItem > button,
-.ms-CommandBarItem > a {
-  color: #fdfdfd !important;
-  background-color: #000000 !important;
-}
+.ms-CommandBarItem > a {}
 
 .ms-CommandBarItem:hover .ms-CommandBarItem-commandText,
 .ms-CommandBarItem:hover .ms-CommandBarItem-icon,
 .ms-CommandBarItem:hover > button,
-.ms-CommandBarItem:hover > a {
-  /*color: #fcd116 !important;*/
-}
+.ms-CommandBarItem:hover > a {}
 
 .ms-CommandBarItem > button:disabled > .ms-CommandBarItem-commandText, 
-.ms-CommandBarItem > button:disabled > .ms-CommandBarItem-icon {
-  /*color: #7f7f7f !important;*/
-}
+.ms-CommandBarItem > button:disabled > .ms-CommandBarItem-icon {}
 

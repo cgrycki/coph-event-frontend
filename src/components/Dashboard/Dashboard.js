@@ -1,5 +1,6 @@
 import React        from 'react';
 import { connect }  from 'react-redux';
+import NavPage      from '../common/NavPage';
 import EventList    from './EventList';
 import './Dashboard.css';
 
@@ -46,13 +47,16 @@ class DashboardComponent extends React.Component {
 
     return (
       <div className="ms-Grid-col ms-sm12 Dashboard">
+
+        <NavPage history={history} />
+
         <h2>My Events</h2>
         
         <div>
           <hr/>
           <br/>
         </div>
-
+       
         <EventList 
           events={events}
           history={history}

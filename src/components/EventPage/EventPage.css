@@ -1,28 +1,70 @@
+/* Styling for Event Page (Details) */
 .EventPage {
   display: flex;
   flex-direction: column;
-  align-self: flex-start;
-
+  width: 100%;
 }
 
-.EventPageNav {
+/* Contains breadcrumbs, page title, and action buttons. */
+.EventNav {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbod;
   display: flex;
-  align-self: flex-start;
-}
-
-.EventPageRow {
-  margin-bottom: 10px;
-}
-
-.EventPageHeader,
-.EventPageDateTimes,
-.EventPageEmails,
-.EventPageProviders,
-.EventPageSetup,
-.EventPageCourse {
-  max-width: 50%;
-  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
   justify-content: space-between;
-  align-items: flex-start;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  flex-direction: row;
 }
 
+/* Event Page title */
+.EventNavHeading {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbod;
+  display: flex;
+}
+
+/* Pull action buttons to the far right. */
+.EventNavActions {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbod;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
+  -ms-flex-align: end;
+  align-items: flex-end;
+}
+
+/* Smoother transitions */
+.ActionButton .ms-ContextualMenu-link .ms-ContextualMenu-itemText,
+.ActionButton .ms-ContextualMenu-link .ms-ContextualMenu-icon {
+  transition: color 250ms;
+}
+
+/* Change default color of action button icons */
+.ActionButton .ms-ContextualMenu-link .ms-ContextualMenu-itemText,
+.ActionButton .ms-ContextualMenu-link .ms-ContextualMenu-icon {
+  /*color: #333333;*/
+}
+
+/* Change color of action icon on hover */
+.ActionButton .ms-ContextualMenu-link:hover .ms-ContextualMenu-icon {
+  /*color: #fcd116 !important;*/
+}
+
+/* Change color of disabled action buttons and icons */
+.ActionButton .ms-ContextualMenu-link:disabled .ms-ContextualMenu-itemText,
+.ActionButton .ms-ContextualMenu-link:disabled .ms-ContextualMenu-icon {
+  /*color: #333333 !important;*/
+}

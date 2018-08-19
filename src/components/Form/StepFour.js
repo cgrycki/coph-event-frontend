@@ -12,7 +12,7 @@ import {error_style}  from '../../constants/styles';
 import FormTitle      from './shared/FormTitle';
 import FormStep       from './shared/FormStep';
 import FormButtons    from './shared/FormButtons';
-import EventDetails   from '../EventPage/EventDetails';
+import Details        from '../common/Details';
 
 // Actions
 import { submitForm } from '../../actions/field.actions';
@@ -88,7 +88,7 @@ class StepFour extends React.Component {
         {form_error && this.renderError()}
         {form_success && this.renderSuccess()}
 
-        <EventDetails event={this.props.info} />
+        <Details event={this.props.info} />
 
         <FormButtons
           prevPage={this.prevPage}

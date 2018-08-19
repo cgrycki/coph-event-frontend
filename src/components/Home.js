@@ -115,7 +115,7 @@ class Home extends React.Component {
     let hours = (new Date()).getHours();
 
     // 5am - 12pm: Morning
-    if (hours > 5 && hours < 13) return 'Good morning sunshine';
+    if (hours > 5 && hours < 13) return 'Good morning sunshine!';
     // 1pm - 5pm: Afternoon
     else if (hours > 12 && hours < 18) return 'Good afternoon.';
     // 6pm - 10pm: Evening
