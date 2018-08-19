@@ -30,21 +30,11 @@
   display: flex;
 }
 
-/* Pull action buttons to the far right. */
-.EventNavActions {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbod;
-  display: flex;
-  -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
-  -webkit-box-align: end;
-  -webkit-align-items: flex-end;
-  -ms-flex-align: end;
-  align-items: flex-end;
+/* Widen action buttons */
+.ActionButtons button {
+  width: 200px;
 }
+
 
 /* Smoother transitions */
 .ActionButton .ms-ContextualMenu-link .ms-ContextualMenu-itemText,

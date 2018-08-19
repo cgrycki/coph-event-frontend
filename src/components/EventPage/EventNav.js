@@ -27,13 +27,13 @@ export default class EventNav extends React.PureComponent {
               <h2>Event Details</h2>
             </div>
 
-            <div className="EventNavActions">
-              <ActionButtons
-                permissions={permissions}
-                onEdit={onEdit}
-                onRemove={onRemove}
-              />
-            </div>
+            
+            <ActionButtons
+              permissions={permissions}
+              onEdit={onEdit}
+              onRemove={onRemove}
+            />
+
           </div>
 
         </div>
