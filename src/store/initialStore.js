@@ -69,16 +69,11 @@ const layout = {
 
 // Application: Stores application data about our user's session
 const app = {
-  path         : '/',
-
   loggedIn     : false,
   login_loading: false,
   login_error  : null,
-
   user_email   : '',
-  isAdmin      : false,
-  user_loading : false,
-  user_error   : null
+  is_admin      : false
 };
 
 
