@@ -6,6 +6,11 @@
   height: 100%;
 }
 
+/* Smoother progress indicator changes */
+.FormProgress {
+  transition: width 500ms;
+}
+
 /* Ensure each step is a flexbox and also expands */
 .FormStep {
   min-height: 100%;

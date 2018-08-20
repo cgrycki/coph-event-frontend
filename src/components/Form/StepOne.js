@@ -68,7 +68,7 @@ class StepOne extends React.Component {
 
     return (
       <FormStep>
-        <FormTitle page={"User Information"} />
+        <FormTitle page={"User Information"} progress={0.25} />
 
         <div className="ms-slideRightIn40 FormFields">
           <UserEmail value={info['user_email']} />

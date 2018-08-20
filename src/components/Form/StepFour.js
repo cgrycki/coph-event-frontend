@@ -101,7 +101,7 @@ class StepFour extends React.Component {
 
     return (
       <FormStep>
-        <FormTitle page={"Review & Submit"} />
+        <FormTitle page={"Review & Submit"} progress={1} />
 
         <Popup
           popupHidden={this.state.popupHidden}
