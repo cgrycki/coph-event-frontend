@@ -1,4 +1,5 @@
 import React from 'react';
+import { ProgressIndicator } from 'office-ui-fabric-react';
 
 export default class FormTitle extends React.PureComponent {
   renderPage(page) {
@@ -12,13 +13,19 @@ export default class FormTitle extends React.PureComponent {
   }
 
   render() {
-    let { page } = this.props;
-    const title_style = { marginBottom: "25px" };
+    let { page, progress } = this.props;
 
     return (
-      <div className="ms-Grid-row">
+      <div className="ms-Grid-row" style={{ marginBottom: "25px" }}>
         <div className="ms-Grid-col ms-sm12">
-          <h2 style={title_style}>Create an Event{(page !== undefined) && this.renderPage(page)}</h2>
+          <h2 style={{ marginBottom: "5px"}}>
+            Create an Event{(page !== undefined) && this.renderPage(page)}
+          </h2>
+          <ProgressIndicator 
+            className="FormProgress"
+            barHeight={4} 
+            percentComplete={progress} 
+          />
         </div>
       </div>
     );

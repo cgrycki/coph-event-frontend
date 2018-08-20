@@ -102,7 +102,7 @@ class StepTwo extends React.Component {
 
     return (
       <FormStep>
-        <FormTitle page={"Event Information"} />
+        <FormTitle page={"Event Information"} progress={0.5} />
 
         <div
           className="ms-slideRightIn40" 
