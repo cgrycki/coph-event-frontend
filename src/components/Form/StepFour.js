@@ -1,12 +1,6 @@
 // Dependecies
 import React          from 'react';
 import { connect }    from 'react-redux';
-import { 
-  MessageBar, 
-  MessageBarType,
-  Link 
-}                     from 'office-ui-fabric-react';
-import {error_style}  from '../../constants/styles';
 
 // Form components
 import FormTitle      from './shared/FormTitle';
@@ -31,9 +25,12 @@ class StepFour extends React.Component {
     };
 
     this.prevPage        = this.prevPage.bind(this);
-    this.hidePopup       = this.hidePopup.bind(this);
-    this.warnSubmitPopup = this.warnSubmitPopup.bind(this);
     this.submitForm      = this.submitForm.bind(this);
+    this.hidePopup       = this.hidePopup.bind(this);
+    this.submitWarnPopup = this.submitWarnPopup.bind(this);
+    this.submitLoadPopup = this.submitLoadPopup.bind(this);
+    this.submitDonePopup = this.submitDonePopup.bind(this);
+    this.submitErrdPopup = this.submitErrdPopup.bind(this);
   }
 
   componentDidMount() {
@@ -43,8 +40,15 @@ class StepFour extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     /* Updates our component in response to form submission updates */
-    console.log(nextProps, this.props);
 
+    // Check if there was a successful POST
+    if (nextProps.form_success) this.submitDonePopup();
+
+    // Check if we're loading
+    else if (nextProps.form_loading) this.submitLoadPopup();
+
+    // Check for errors
+    else if (nextProps.form_error) this.submitErrdPopup();
   }
 
   prevPage() {
@@ -56,47 +60,11 @@ class StepFour extends React.Component {
     dispatch(submitForm(info));
   }
 
-  renderError() {
-    // Renders an submission error
-    let { form_error } = this.props;
-
-    return (
-      <MessageBar
-        messageBarType={MessageBarType.error}
-        isMultiline={false}
-        dismissButtonAriaLabel="Close"
-      >
-        <p style={error_style}>{form_error}</p>
-      </MessageBar>
-    );
-  }
-
-  renderSuccess() {
-    // Renders a notification success bar
-    let { form_success, info } = this.props;
-    
-    return (
-      <MessageBar
-        /*actions={
-          <div>
-            <MessageBarButton>Yes</MessageBarButton>
-            <MessageBarButton>No</MessageBarButton>
-          </div>
-        }*/
-        messageBarType={MessageBarType.success}
-        isMultiline={false}
-      >
-        {form_success}{'! '}{info['event_name']}{' created!'}
-        <Link href="/">Back to homepage.</Link>
-      </MessageBar>
-    );
-  }
-
   hidePopup() {
     this.setState({ popupHidden: true });
   }
 
-  warnSubmitPopup() {
+  submitWarnPopup() {
     this.setState({
       popupHidden  : false,
       popupType    : 'submit',
@@ -104,15 +72,36 @@ class StepFour extends React.Component {
     });
   }
 
+  submitLoadPopup() {
+    this.setState({
+      popupHidden  : false,
+      popupType    : "submitted",
+      popupYesClick: () => console.log("Patience... it's submitted.")
+    });
+  }
+
+  submitDonePopup() {
+    this.setState({
+      popupHidden  : false,
+      popupType    : "success",
+      popupYesClick: this.hidePopup
+    })
+  }
+
+  submitErrdPopup() {
+    this.setState({
+      popupHidden  : false,
+      popupType    : "error",
+      popupYesClick: this.submitForm
+    });
+  }
+
   render() {
-    let { form_loading, form_success, form_error } = this.props;
+    let { form_loading, form_success } = this.props;
 
     return (
       <FormStep>
         <FormTitle page={"Review & Submit"} />
-
-        {form_error && this.renderError()}
-        {form_success && this.renderSuccess()}
 
         <Popup
           popupHidden={this.state.popupHidden}
@@ -125,7 +114,7 @@ class StepFour extends React.Component {
 
         <FormButtons
           prevPage={this.prevPage}
-          nextPage={this.warnSubmitPopup}
+          nextPage={this.submitWarnPopup}
           prevDisabled={false}
           nextDisabled={form_loading || form_success}
           nextText={"Submit for approval"}
