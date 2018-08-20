@@ -32,6 +32,13 @@ const messages = {
     btnTextNo: "View Event",
     message: "Success! Your event was successfully created. Check your email, you'll be getting a confirmation shortly."
   },
+  error : {
+    title: "We're sorry...",
+    subText: "",
+    btnTextYes: "Retry",
+    btnTextNo: "Close",
+    message: "There was an error while processing your request."
+  },
   edit  : {
     title: "Are you sure you want to edit this event?",
     subText: "This will clear any unsaved progress in the Event Creation form.",
@@ -43,12 +50,6 @@ const messages = {
     subText: "This will remove the event from Workflow, and can not be undone.",
     btnTextYes: "Yes, delete this event",
     btnTextNo: "Cancel"
-  },
-  error : {
-    title: "We're sorry...",
-    subText: "There was an error while processing your request.",
-    btnTextYes: "Retry",
-    btnTextNo: "Close"
   }
 };
 

@@ -30,25 +30,25 @@ export default class Popup extends React.Component {
     return { ...messages[popupType] };
   }
 
+  /** Creates a message bar if we have a stateful REST call. */
   popupMessageBar(popupType) {
-    let popupMessageBarType, popupMessageBarMessage;
+    // Get the bar text
+    const popupMessageBarMessage = messages[popupType].message;
     
-    if (popupType === "success") {
-      popupMessageBarType    = MessageBarType.success;
-      popupMessageBarMessage = messages[popupType].message;
-    }
-    else if (popupType === "submitted") {
-      popupMessageBarType    = MessageBarType.info;
-      popupMessageBarMessage = messages[popupType].message;
-    }
+    // Get the bar type
+    let barType;
+    if (popupType === "success")        barType = MessageBarType.success;
+    else if (popupType === "submitted") barType = MessageBarType.info;
+    else                                barType = MessageBarType.error;
 
     return (
-      <MessageBar messageBarType={popupMessageBarType}>
+      <MessageBar messageBarType={barType}>
         {popupMessageBarMessage}
       </MessageBar>
     );
   }
 
+  /** Renders a popup dialog  */
   render() {
     const { popupHidden, popupType, btnClickYes, btnClickNo } = this.props;
     const { title, subText, btnTextYes, btnTextNo } = this.popupMessages(popupType);
@@ -70,8 +70,9 @@ export default class Popup extends React.Component {
       >
         <br/>
 
-        {(popupType === "success" || popupType === "submitted") 
-          && this.popupMessageBar(popupType)}
+        {(popupType === "success" || 
+          popupType === "submitted" || 
+          popupType === "error") && this.popupMessageBar(popupType)}
 
         <DialogFooter>
           <DefaultButton
