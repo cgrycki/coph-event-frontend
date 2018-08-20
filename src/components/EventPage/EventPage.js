@@ -28,10 +28,18 @@ class EventPage extends React.Component {
   constructor() {
     super();
 
-    this.state     = { popupHidden: true };
+    this.state     = { 
+      popupHidden  : true,
+      popupType    : 'edit',
+      popupYesClick: () => console.log('clicked!')
+    };
 
-    this.showPopup = this.showPopup.bind(this);
-    this.hidePopup = this.hidePopup.bind(this);
+    // Bind popup functions
+    this.hidePopup       = this.hidePopup.bind(this);
+    this.warnEditEvent   = this.warnEditEvent.bind(this);
+    this.warnDeleteEvent = this.warnDeleteEvent.bind(this);
+
+    // Dispatch functions
     this.editEvent = this.editEvent.bind(this);
   }
 
@@ -53,16 +61,33 @@ class EventPage extends React.Component {
     dispatch(getEvent(package_id));
   }
 
-  /* Alters component state, and shows a modal popup after a rerender. */
-  showPopup() { this.setState({ popupHidden: false}); }
-
   /* Alters component state, and hides the popup after a rerender. */
-  hidePopup() { this.setState({ popupHidden: true }); }
+  hidePopup() { 
+    this.setState({ popupHidden: true }); 
+  }
+
+  /** Sets our popup type to edit and flags the dialog to render. */
+  warnEditEvent() {
+    this.setState({
+      popupHidden  : false,
+      popupType    : 'edit',
+      popupYesClick: this.editEvent
+    });
+  }
 
   /** Populates the form information fields with current event's data. */
   editEvent() {
     let { dispatch, event } = this.props;
     dispatch(populateFieldInfo(event));
+  }
+
+  /** Sets our popup type to delete and opens the dialog. */
+  warnDeleteEvent() {
+    this.setState({
+      popupHidden  : false,
+      popupType    : 'delete',
+      popupYesClick: this.deleteEventFromServer
+    })
   }
 
   /** Initiates deleteing of the current event from Workflow and Dynamodb. */
@@ -76,9 +101,8 @@ class EventPage extends React.Component {
 
   render() {
     let { 
-      dispatch, history,                             // Application functions
-      permissions, event,                            // Event information
-      match: { params: { package_id, signature_id }} // Workflow information
+      history,  match: { params: { package_id, signature_id }},                            
+      permissions, event,
     } = this.props;
 
     return (
@@ -86,8 +110,8 @@ class EventPage extends React.Component {
         <EventNav
           history={history}
           permissions={permissions}
-          onEdit={this.editEvent}
-          onRemove={this.showPopup}
+          onEdit={this.warnEditEvent}
+          onRemove={this.warnDeleteEvent}
           package_id={package_id}
         />
 
@@ -98,11 +122,8 @@ class EventPage extends React.Component {
 
         <Popup
           popupHidden={this.state.popupHidden}
-          title={"Delete Event"}
-          subText={"Are you sure you want to remove the event from Workflow? This can not be undone."}
-          btnTextYes={"Yes, delete the event"}
-          btnClickYes={() => this.deleteEventFromServer()}
-          btnTextNo={"Cancel"}
+          popupType={this.state.popupType}
+          btnClickYes={() => this.state.popupYesClick()}
           btnClickNo={() => this.hidePopup()}
         />
 
@@ -121,10 +142,10 @@ const mapStateToProps = state => ({
   event_error  : state.events.event_error
 });
 
-const mapDispatchToProps = dispatch => ({
+/*const mapDispatchToProps = dispatch => ({
   getEvent   : package_id => dispatch(getEvent(package_id)),
   deleteEvent: package_id => dispatch(deleteEvent(package_id)),
   editEvent  : info => dispatch(populateFieldInfo(info))
-});
+});*/
 
 export default connect(mapStateToProps)(EventPage);

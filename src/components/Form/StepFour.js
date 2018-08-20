@@ -1,18 +1,13 @@
 // Dependecies
 import React          from 'react';
 import { connect }    from 'react-redux';
-import { 
-  MessageBar, 
-  MessageBarType,
-  Link 
-}                     from 'office-ui-fabric-react';
-import {error_style}  from '../../constants/styles';
 
 // Form components
 import FormTitle      from './shared/FormTitle';
 import FormStep       from './shared/FormStep';
 import FormButtons    from './shared/FormButtons';
 import Details        from '../common/Details';
+import Popup          from '../common/Popup';
 
 // Actions
 import { submitForm } from '../../actions/field.actions';
@@ -22,8 +17,20 @@ import { submitForm } from '../../actions/field.actions';
 class StepFour extends React.Component {
   constructor(props) {
     super(props);
-    this.prevPage = this.prevPage.bind(this);
-    this.nextPage = this.nextPage.bind(this);
+
+    this.state = {
+      popupHidden  : true,
+      popupType    : 'submit',
+      popupYesClick: this.submitForm
+    };
+
+    this.prevPage        = this.prevPage.bind(this);
+    this.submitForm      = this.submitForm.bind(this);
+    this.hidePopup       = this.hidePopup.bind(this);
+    this.submitWarnPopup = this.submitWarnPopup.bind(this);
+    this.submitLoadPopup = this.submitLoadPopup.bind(this);
+    this.submitDonePopup = this.submitDonePopup.bind(this);
+    this.submitErrdPopup = this.submitErrdPopup.bind(this);
   }
 
   componentDidMount() {
@@ -31,68 +38,83 @@ class StepFour extends React.Component {
     document.title = "Create Event: Review";
   }
 
+  componentWillReceiveProps(nextProps) {
+    /* Updates our component in response to form submission updates */
+
+    // Check if there was a successful POST
+    if (nextProps.form_success) this.submitDonePopup();
+
+    // Check if we're loading
+    else if (nextProps.form_loading) this.submitLoadPopup();
+
+    // Check for errors
+    else if (nextProps.form_error) this.submitErrdPopup();
+  }
+
   prevPage() {
     this.props.history.goBack(-1);
   }
 
-  nextPage() {
-    // Submission handler
+  submitForm() {
     let { dispatch, info } = this.props;
     dispatch(submitForm(info));
   }
 
-  renderError() {
-    // Renders an submission error
-    let { form_error } = this.props;
-
-    return (
-      <MessageBar
-        messageBarType={MessageBarType.error}
-        isMultiline={false}
-        dismissButtonAriaLabel="Close"
-      >
-        <p style={error_style}>{form_error}</p>
-      </MessageBar>
-    );
+  hidePopup() {
+    this.setState({ popupHidden: true });
   }
 
-  renderSuccess() {
-    // Renders a notification success bar
-    let { form_success, info } = this.props;
-    
-    return (
-      <MessageBar
-        /*actions={
-          <div>
-            <MessageBarButton>Yes</MessageBarButton>
-            <MessageBarButton>No</MessageBarButton>
-          </div>
-        }*/
-        messageBarType={MessageBarType.success}
-        isMultiline={false}
-      >
-        {form_success}{'! '}{info['event_name']}{' created!'}
-        <Link href="/">Back to homepage.</Link>
-      </MessageBar>
-    );
+  submitWarnPopup() {
+    this.setState({
+      popupHidden  : false,
+      popupType    : 'submit',
+      popupYesClick: this.submitForm
+    });
+  }
+
+  submitLoadPopup() {
+    this.setState({
+      popupHidden  : false,
+      popupType    : "submitted",
+      popupYesClick: () => console.log("Patience... it's submitted.")
+    });
+  }
+
+  submitDonePopup() {
+    this.setState({
+      popupHidden  : false,
+      popupType    : "success",
+      popupYesClick: this.hidePopup
+    })
+  }
+
+  submitErrdPopup() {
+    this.setState({
+      popupHidden  : false,
+      popupType    : "error",
+      popupYesClick: this.submitForm
+    });
   }
 
   render() {
-    let { form_loading, form_success, form_error } = this.props;
-    console.log(this.props);
+    let { form_loading, form_success } = this.props;
 
     return (
       <FormStep>
         <FormTitle page={"Review & Submit"} />
 
-        {form_error && this.renderError()}
-        {form_success && this.renderSuccess()}
+        <Popup
+          popupHidden={this.state.popupHidden}
+          popupType={this.state.popupType}
+          btnClickYes={() => this.state.popupYesClick()}
+          btnClickNo={() => this.hidePopup()}
+        />
 
         <Details event={this.props.info} />
 
         <FormButtons
           prevPage={this.prevPage}
-          nextPage={this.nextPage}
+          nextPage={this.submitWarnPopup}
           prevDisabled={false}
           nextDisabled={form_loading || form_success}
           nextText={"Submit for approval"}
