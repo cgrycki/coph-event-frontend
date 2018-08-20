@@ -8,25 +8,33 @@ import initialStore                               from './initialStore';
 import rootReducer                                from '../reducers';
 import { getDateISO }                             from '../utils/date.utils.js';
 
+import { createBrowserHistory } from 'history';
+import { connectRouter, routerMiddleware } from 'connected-react-router';
 
 // Logging middleware
 const loggerMiddleware = createLogger({ collapsed: true });
 
 
 // Function to create a store with async + logging
-export function configureStore(preloadedState) {
+export function configureStore(preloadedState, browserHistory) {
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
   return createStore(
-    rootReducer,
+    connectRouter(browserHistory)(rootReducer),
     preloadedState,
     composeEnhancers(
-      applyMiddleware(thunkMiddleware, loggerMiddleware)
+      applyMiddleware(
+        routerMiddleware(browserHistory),
+        thunkMiddleware,
+        loggerMiddleware
+      )
     )
-  )
+  );
 }
 
 // Default export, configured store populated from our initialStore
-const configuredStore = configureStore(initialStore);
+const history = createBrowserHistory();
+const configuredStore = configureStore(initialStore, history);
 
 // Dispatch the current date to the store
 configuredStore.dispatch({ 
