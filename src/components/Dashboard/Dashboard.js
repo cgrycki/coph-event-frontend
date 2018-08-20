@@ -1,9 +1,8 @@
 import React        from 'react';
 import { connect }  from 'react-redux';
+import NavPage      from '../common/NavPage';
 import EventList    from './EventList';
 import './Dashboard.css';
-
-import DeleteForm   from './DeleteForm';
 
 // Actions
 import { getEvents } from '../../actions/event.actions';
@@ -46,22 +45,20 @@ class DashboardComponent extends React.Component {
 
     return (
       <div className="ms-Grid-col ms-sm12 Dashboard">
+
+        <NavPage history={history} />
+
         <h2>My Events</h2>
         
         <div>
           <hr/>
           <br/>
         </div>
-
+       
         <EventList 
           events={events}
           history={history}
-        />
-
-        <DeleteForm
-          dispatch={this.props.dispatch}
-        />
-      
+        /> 
       </div>
     );
   }

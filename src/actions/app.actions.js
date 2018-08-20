@@ -20,7 +20,7 @@ const fetchLoginLoading = () => ({
  * @param {*} response 
  */
 const fetchLoginSuccess = (response) => ({
-  type: appActions.LOGIN_SUCESS,
+  type: appActions.LOGIN_SUCCESS,
   payload: response
 })
 
@@ -58,7 +58,7 @@ export function fetchLogin() {
     rp(uri, options)
       .then(res => JSON.parse(res))
       .then(data => dispatch(fetchLoginSuccess(data)))
-      .catch(err => dispatch(fetchLoginFailure(err)));
+      .catch(err => dispatch(fetchLoginFailure(JSON.parse(err))));
   }
 }
 

@@ -1,0 +1,43 @@
+
+/* Scheduler -- Expand vertically */
+.Scheduler {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-self: stretch
+}
+
+/* Responsive Wrapper -- Fill Scheduler's height */
+.Wrapper {
+  height: 100%;
+}
+
+
+
+
+
+
+/* Axis */
+.Axis path, 
+.Axis line {
+  fill: none;
+  stroke: #222;
+  shape-rendering: crispEdges;
+}
+
+.Axis--Left path {
+  stroke: none;
+}
+.Axis--Left line {
+  stroke-opacity: 0.2;
+}
+.minor line {
+  stroke-dasharray: 2,2;
+  stroke-opacity: 0.15;
+}
+
+
+
+.EventBar {
+  transition: fill 0.3s ease;
+}

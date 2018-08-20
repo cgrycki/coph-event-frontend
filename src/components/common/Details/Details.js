@@ -7,9 +7,11 @@ import {
   Label,
   Toggle 
 }                     from 'office-ui-fabric-react';
-import { getDateISO } from '../../utils/date.utils';
 
-export default class EventDetails extends React.PureComponent {
+import { getDateISO } from './../../../utils/date.utils';
+
+
+export default class Details extends React.PureComponent {
   renderLabel(text) {
     /* Renders label with semilight font weight and secondary colored text. */
     return (

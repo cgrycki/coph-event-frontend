@@ -1,0 +1,15 @@
+.EventPageRow {
+  margin: 0 -8px;
+}
+
+.EventPageHeader,
+.EventPageDateTimes,
+.EventPageEmails,
+.EventPageProviders,
+.EventPageSetup,
+.EventPageCourse {
+  max-width: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}

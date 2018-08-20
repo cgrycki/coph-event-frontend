@@ -1,5 +1,6 @@
-import React         from 'react';
-import { connect }   from 'react-redux';
+import React          from 'react';
+import { connect }    from 'react-redux';
+import { fetchLogin } from '../actions/app.actions';
 import { 
   CompoundButton, 
   Spinner, 
@@ -7,8 +8,11 @@ import {
   MessageBar, 
   MessageBarType 
 }                     from 'office-ui-fabric-react';
-import { error_style, hero_style } from '../constants/styles';
-import { fetchLogin } from '../actions/app.actions';
+import { 
+  error_style, 
+  hero_style, 
+  hero_sm_style 
+}                     from '../constants/styles';
 
 
 // Component
@@ -115,7 +119,7 @@ class Home extends React.Component {
     let hours = (new Date()).getHours();
 
     // 5am - 12pm: Morning
-    if (hours > 5 && hours < 13) return 'Good morning sunshine';
+    if (hours > 5 && hours < 13) return 'Good morning sunshine!';
     // 1pm - 5pm: Afternoon
     else if (hours > 12 && hours < 18) return 'Good afternoon.';
     // 6pm - 10pm: Evening
@@ -136,7 +140,7 @@ class Home extends React.Component {
               className="ms-slideRightIn40"
               style={hero_style}
             >{this.renderGreeting()}</h1>
-            <h1 style={hero_style}>Can we help you with an event?</h1>
+            <h1 style={hero_sm_style}>Can we help you with an event?</h1>
           </div>
         </div>
 

@@ -17,11 +17,7 @@ class Page extends React.PureComponent {
     const page_style  = {
       width           : page_width,
       minHeight       : page_height,
-      margin          : page_margin,
-      display         : "flex",
-      "justifyContent": "center",
-      "alignSelf"     : "center",
-      "alignItems"    : "center"
+      margin          : page_margin
     };
 
     return (

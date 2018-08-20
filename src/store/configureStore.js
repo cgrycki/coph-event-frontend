@@ -6,6 +6,7 @@ import thunkMiddleware                            from 'redux-thunk'
 import { createLogger }                           from 'redux-logger'
 import initialStore                               from './initialStore';
 import rootReducer                                from '../reducers';
+import { getDateISO }                             from '../utils/date.utils.js';
 
 
 // Logging middleware
@@ -24,7 +25,14 @@ export function configureStore(preloadedState) {
   )
 }
 
-
 // Default export, configured store populated from our initialStore
 const configuredStore = configureStore(initialStore);
+
+// Dispatch the current date to the store
+configuredStore.dispatch({ 
+  type: 'UPDATE_FIELD', 
+  field: 'date', 
+  value: getDateISO(new Date())
+});
+
 export default configuredStore;

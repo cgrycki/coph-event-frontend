@@ -2,10 +2,10 @@
  * Axis Component
  */
 
-import React from 'react';
-import * as d3Axis from 'd3-axis';
-import { select } from 'd3-selection';
-import './Schedule.css';
+import React        from 'react';
+import * as d3Axis  from 'd3-axis';
+import { select }   from 'd3-selection';
+import '../Scheduler.css';
 
 export default class Axis extends React.Component {
   componentDidMount() {
@@ -18,7 +18,7 @@ export default class Axis extends React.Component {
 
   renderAxis() {
     /* Creates a new d3 axis based on props passed to component. */
-    const { orient, scale, tickSize, tickPadding, format, ticks } = this.props;
+    const { orient, scale, tickSize, tickPadding, format, ticks, classed } = this.props;
 
     // Construct d3 axis
     const axis_type = `axis${orient}`;
@@ -35,6 +35,12 @@ export default class Axis extends React.Component {
 
     // Select this component's ref and update with new axis object.
     select(this.axisElement).call(axis);
+
+    if (classed) {
+      select(this.axisElement)
+        .selectAll(".tick")
+        .classed("minor", (d, i) => classed(d, i));
+    }
   }
 
   render() {

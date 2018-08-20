@@ -1,17 +1,10 @@
 import React from 'react';
 import { DefaultButton } from 'office-ui-fabric-react';
 
-// Flex row
-const flex_styles = {
-  "display"       : "flex",
-  "flexDirection" : "row",
-  "justifyContent": "space-between",
-  "margin"        : "35px 0px 10px 0px"
-};
 
 export default class FormButtons extends React.PureComponent {
   render() {
-    let { 
+    let {
       prevPage, prevDisabled, prevText,
       nextPage, nextDisabled, nextText
     } = this.props;
@@ -25,25 +18,32 @@ export default class FormButtons extends React.PureComponent {
     if (nextText === undefined) nextText = 'Next';
 
     return (
+      <div>
       <div className="ms-Grid-row">
-        <div className="ms-Grid-col ms-sm12 FormButtons">
-          <div style={flex_styles}>
-            <DefaultButton
-              primary={false}
-              disabled={prevDisabled}
-              text={prevText}
-              onClick={() => prevPage()}
-            />
+        <div className="ms-Grid-col ms-sm12">
+          <div className="FormButtons">
+            <div>
+              <DefaultButton
+                primary={false}
+                disabled={prevDisabled}
+                text={prevText}
+                onClick={() => prevPage()}
+              />
+            </div>
 
-            <DefaultButton
-              primary={true}
-              disabled={nextDisabled}
-              buttonType={button_type}
-              text={nextText}
-              onClick={() => nextPage()}
-            />
+            <div>
+              <DefaultButton
+                primary={true}
+                disabled={nextDisabled}
+                buttonType={button_type}
+                text={nextText}
+                onClick={() => nextPage()}
+              />
+            </div>
           </div>
+          
         </div>
+      </div>
       </div>
     );
   }

@@ -18,7 +18,7 @@ export const appReducer = (state=initialStore.app, action) => {
     case (appActions.LOGIN_LOADING):
       return { ...state, login_loading: true };
 
-    case (appActions.LOGIN_SUCESS):
+    case (appActions.LOGIN_SUCCESS):
       var { loggedIn, hawkid } = action.payload;
       return {
         ...state, 

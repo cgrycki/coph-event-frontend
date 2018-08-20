@@ -10,7 +10,9 @@ const times = require('../constants/time.constants')
  * Returns a YYYY-MM-DD formatted date string.
  * @param {string} date_string
  */
-const getDateISO = (date_string) =>  moment(date_string).format("YYYY-MM-DD");
+const getDateISO = (date_string) =>  moment(date_string).local().format("YYYY-MM-DD");
+
+const getDateFromISO = (date_string) => moment(date_string).local();
 
 
 const sixMonthsFromToday = () => {
@@ -22,7 +24,7 @@ const sixMonthsFromToday = () => {
 
 const isWeekend = date => {
   // Create a Moment date
-  let dateObj = moment(date);
+  let dateObj = moment(date).local();
 
   // Get the day of the week from the JavaScript date object
   let day_of_week = dateObj.weekday();
@@ -59,6 +61,21 @@ const getTimeAfterStart = start_time => {
   console.log(`start: ${start_time}, index: ${start_index}, next: ${next_time}`);
   return next_time;
 };
+
+
+
+/**
+ * Computes a new date given the difference from a given date.
+ * @param {string} date YYYY-MM-DD formatted date string.
+ * @param {number} delta The difference we should compute from the given date.
+ * @param {string} unit Unit of time used to compute difference, one of {'days', 'months', 'years'}.
+ * @returns {string} newDate Computed date in YYYY-MM-DD format.
+ */
+const dateDelta = (date, delta, unit='days') => {
+  const momentDate = moment(date).local();
+  const newDate    = momentDate.add(delta, unit);
+  return newDate.format("YYYY-MM-DD");
+}
 
 
 /**
@@ -136,7 +153,9 @@ module.exports = {
   isWeekend,
   validTimes,
   getDateISO,
+  getDateFromISO,
   getTimeAfterStart,
   nextWeek,
+  dateDelta,
   datePickerStrings
 }

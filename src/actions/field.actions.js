@@ -71,11 +71,11 @@ export const submitFormLoading = () => ({
 
 /**
  * Notifies store our POST has been successful, and returns a message.
- * @param {*} payload HTTP Response from our server
+ * @param {*} response HTTP response from our server
  */
-export const submitFormSuccess = (payload) => ({
-  type: fieldActions.SUBMIT_FORM_SUCCESS,
-  payload
+export const submitFormSuccess = (response) => ({
+  type   : fieldActions.SUBMIT_FORM_SUCCESS,
+  payload: response
 })
 
 
@@ -112,11 +112,8 @@ export function submitForm(info) {
 
     // Make the POST call
     fetch(uri, options)
-      .then(res => {
-        // Check errror from our server
-        if (res.error || res.status !== 201) dispatch(submitFormFailure(res));
-        else dispatch(submitFormSuccess(res));
-      })
+      .then(res => res.json())
+      .then(res => dispatch(submitFormSuccess(res)))
       .catch(err => dispatch(submitFormFailure(err)));
   }
 }

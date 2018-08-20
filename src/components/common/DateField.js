@@ -5,7 +5,8 @@ import {
 }                     from 'office-ui-fabric-react';
 import { 
   sixMonthsFromToday, 
-  getDateISO, 
+  getDateISO,
+  getDateFromISO,
   datePickerStrings, 
   isWeekend 
 }                     from '../../utils/date.utils';
@@ -15,7 +16,7 @@ import TextField      from './TextField';
 export default class DateField extends React.PureComponent {
   parseDate(str) {
     /* Parses a JS date string into an ISO 8601 format before updating field. */
-    let parsed = getDateISO(str);
+    const parsed = getDateISO(str);
     this.props.onChange('date', parsed);
   }
 
@@ -42,8 +43,10 @@ export default class DateField extends React.PureComponent {
     } = this.props;
 
     // Conditionally set the value of the date picker
-    const date_value = (date !== "") ? new Date(date) : undefined;
-    
+    const date_value = (date !== "") ? 
+      new Date(getDateFromISO(date)) : 
+      undefined;
+
     return (
       <div style={{'display': 'inline-block', 'width': '50%'}}>
         <DatePicker

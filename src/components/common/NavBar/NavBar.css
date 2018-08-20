@@ -18,26 +18,44 @@
   pointer-events: none;
 }
 
+/* Smoother transitions */
+.NavBar .ms-Button--commandBar,
+.NavBar .ms-Button--commandBar i {
+  transition: color 250ms;
+}
+
 /* Sets default CommandBarItem text, icon, and button to U Iowa styles. */
-.ms-CommandBarItem-commandText,
-.ms-CommandBarItem-icon,
-.ms-CommandBarItem > button,
-.ms-CommandBarItem > a {
+.NavBar .ms-Button--commandBar,
+.NavBar .ms-Button--commandBar i {
   color: #fdfdfd !important;
   background-color: #000000 !important;
-  
 }
 
 /* Sets CommandBarItems to yellow on hover */
-.ms-CommandBarItem:hover .ms-CommandBarItem-commandText,
-.ms-CommandBarItem:hover .ms-CommandBarItem-icon,
-.ms-CommandBarItem:hover > button,
-.ms-CommandBarItem:hover > a {
+.NavBar .ms-Button--commandBar:hover,
+.NavBar .ms-Button--commandBar:hover i {
   color: #fcd116 !important;
 }
 
 /* Sets CommandBarItems color to grey when disabled */
-.ms-CommandBarItem > button:disabled > .ms-CommandBarItem-commandText, 
-.ms-CommandBarItem > button:disabled > .ms-CommandBarItem-icon {
+.NavBar .is-disabled,
+.NavBar .is-disabled i {
   color: #7f7f7f !important;
 }
+
+
+
+/* OLD FABRIC STYLES */
+.ms-CommandBarItem-commandText,
+.ms-CommandBarItem-icon,
+.ms-CommandBarItem > button,
+.ms-CommandBarItem > a {}
+
+.ms-CommandBarItem:hover .ms-CommandBarItem-commandText,
+.ms-CommandBarItem:hover .ms-CommandBarItem-icon,
+.ms-CommandBarItem:hover > button,
+.ms-CommandBarItem:hover > a {}
+
+.ms-CommandBarItem > button:disabled > .ms-CommandBarItem-commandText, 
+.ms-CommandBarItem > button:disabled > .ms-CommandBarItem-icon {}
+
