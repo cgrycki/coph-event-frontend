@@ -18,6 +18,20 @@ const messages = {
     btnTextYes: "Submit",
     btnTextNo: "Edit Event"
   },
+  submitted: {
+    title: "Event Submission ⏳ ",
+    subText: "",
+    btnTextYes: "Submit",
+    btnTextNo: "Edit Event",
+    message: "Submitting..."
+  },
+  success: {
+    title: "Event Submission 🎉 ",
+    subText: "",
+    btnTextYes: "Create another event",
+    btnTextNo: "View Event",
+    message: "Success! Your event was successfully created. Check your email, you'll be getting a confirmation shortly."
+  },
   edit  : {
     title: "Are you sure you want to edit this event?",
     subText: "This will clear any unsaved progress in the Event Creation form.",

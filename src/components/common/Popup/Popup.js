@@ -4,7 +4,9 @@ import {
   Dialog,
   DialogType,
   DialogFooter,
-  DefaultButton
+  DefaultButton,
+  MessageBar,
+  MessageBarType
 }                     from 'office-ui-fabric-react';
 import messages       from './messages';
 import './Popup.css';
@@ -28,11 +30,29 @@ export default class Popup extends React.Component {
     return { ...messages[popupType] };
   }
 
+  popupMessageBar(popupType) {
+    let popupMessageBarType, popupMessageBarMessage;
+    
+    if (popupType === "success") {
+      popupMessageBarType    = MessageBarType.success;
+      popupMessageBarMessage = messages[popupType].message;
+    }
+    else if (popupType === "submitted") {
+      popupMessageBarType    = MessageBarType.info;
+      popupMessageBarMessage = messages[popupType].message;
+    }
+
+    return (
+      <MessageBar messageBarType={popupMessageBarType}>
+        {popupMessageBarMessage}
+      </MessageBar>
+    );
+  }
+
   render() {
     const { popupHidden, popupType, btnClickYes, btnClickNo } = this.props;
     const { title, subText, btnTextYes, btnTextNo } = this.popupMessages(popupType);
     
-    console.log(this.props);
     return (
       <Dialog
         hidden={popupHidden}
@@ -49,6 +69,9 @@ export default class Popup extends React.Component {
         }}
       >
         <br/>
+
+        {(popupType === "success" || popupType === "submitted") 
+          && this.popupMessageBar(popupType)}
 
         <DialogFooter>
           <DefaultButton
