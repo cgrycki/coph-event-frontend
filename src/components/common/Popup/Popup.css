@@ -6,3 +6,7 @@
   min-width: 300px;
 }
 
+/* More legible dialog subText */
+.ms-Dialog-subText {
+  font-size: 14px;
+}

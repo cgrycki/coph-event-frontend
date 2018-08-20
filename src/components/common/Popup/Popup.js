@@ -1,11 +1,12 @@
 /* Dependencies -------------------------------------------------------------*/
-import React from 'react';
+import React          from 'react';
 import {
   Dialog,
   DialogType,
   DialogFooter,
   DefaultButton
-}             from 'office-ui-fabric-react';
+}                     from 'office-ui-fabric-react';
+import messages       from './messages';
 import './Popup.css';
 
 
@@ -22,13 +23,16 @@ import './Popup.css';
  *  - No button onClick: closes the modal by setting it's parent state
  */
 export default class Popup extends React.Component {
-  render() {
-    let { 
-      popupHidden, title, subText,
-      btnTextYes, btnClickYes,
-      btnTextNo, btnClickNo
-    } = this.props;
+  /** Returns the dialog popup textual messages depending on poopupType. */
+  popupMessages(popupType) {
+    return { ...messages[popupType] };
+  }
 
+  render() {
+    const { popupHidden, popupType, btnClickYes, btnClickNo } = this.props;
+    const { title, subText, btnTextYes, btnTextNo } = this.popupMessages(popupType);
+    
+    console.log(this.props);
     return (
       <Dialog
         hidden={popupHidden}
@@ -45,6 +49,7 @@ export default class Popup extends React.Component {
         }}
       >
         <br/>
+
         <DialogFooter>
           <DefaultButton
             primary={true}
