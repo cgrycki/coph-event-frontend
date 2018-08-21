@@ -93,7 +93,8 @@ class Home extends React.Component {
     const status_style = {
       "minHeight" : "250px",
       "display"   : "flex",
-      "alignItems": "center"
+      "alignItems": "center",
+      display: (login_loading || login_error ) ? '' : 'none'
     };
 
     return (
