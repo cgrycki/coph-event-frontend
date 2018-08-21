@@ -104,17 +104,14 @@ class StepTwo extends React.Component {
       <FormStep>
         <FormTitle page={"Event Information"} progress={0.5} />
 
-        <div
-          className="ms-slideRightIn40" 
-          style={{
-            display: 'flex',
-            flexGrow: '1'
-          }}>
+        <div className="ms-slideRightIn40 FormFields">
+        <div style={{ height: "100%", display: "flex"}}>
           <div style={{
             width: '70%',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between'
+            flexGrow: "1",
+            justifyContent: "space-between"
           }}>
             <EventName
               value={info['event_name']}
@@ -158,7 +155,7 @@ class StepTwo extends React.Component {
             schedule_overlap={errors['schedule_overlap']}
             onChange={this.onChange}
           />
-
+        </div>
         </div>
 
         <FormButtons
