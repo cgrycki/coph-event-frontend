@@ -38,7 +38,6 @@ export const fieldReducer = (state=initialFieldStore, action) => {
       const email_info = { ...state.info, 'user_email': `${hawkid}@uiowa.edu` };
       return { ...state, info: email_info };
 
-
     case fieldActions.SUBMIT_FORM_LOADING:
       return { ...state, form_loading: true };
 
@@ -62,6 +61,14 @@ export const fieldReducer = (state=initialFieldStore, action) => {
         ...state,
         form_loading: false,
         form_error  : action.payload.message,
+        form_success: false
+      };
+
+    case fieldActions.SUBMIT_FORM_RESET:
+      return {
+        ...state,
+        form_loading: false,
+        form_error  : null,
         form_success: false
       };
 

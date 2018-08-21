@@ -93,6 +93,12 @@ export const submitFormFailure = (payload) => ({
 })
 
 
+/** Notifies that we've navigated away from the submission page and can reset. */
+export const submitFormReset = () => ({
+  type: fieldActions.SUBMIT_FORM_RESET
+})
+
+
 /**
  * Wraps our submission actions so that we can execute from our components.
  */
@@ -122,6 +128,7 @@ export function submitForm(info) {
         else {    
           dispatch(submitFormSuccess(res)); // successful submission!
           dispatch(push("/dashboard"));     // Route to dashboard
+          dispatch(submitFormReset());      // Clear form status for future events
       }})
       .catch(err => dispatch(submitFormFailure(err)));
   }
