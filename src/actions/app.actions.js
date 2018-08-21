@@ -48,16 +48,12 @@ export function fetchLogin() {
     let uri = `${URI}/auth/validate`;
     let options = {
       withCredentials: true,
-      method: 'GET',
-      headers: {
-        'Content-Type': 'text/plain',
-        'Accept': 'application/json'
-      }
+      method         : 'GET',
+      json           : true
     };
 
     rp(uri, options)
-      .then(res => JSON.parse(res))
       .then(data => dispatch(fetchLoginSuccess(data)))
-      .catch(err => dispatch(fetchLoginFailure(JSON.parse(err))));
+      .catch(err => dispatch(fetchLoginFailure(err)));
   }
 }

@@ -63,7 +63,7 @@ export const eventReducer = (state=initialStore.events, action) => {
     /** Successful POST request, add event to our list */
     case fieldActions.SUBMIT_FORM_SUCCESS:
       const events_plus_new = [...state.events, action.payload];
-      return { ...state, events: events_plus_new };
+      return { ...state, events: events_plus_new, event: action.payload };
 
     default:
       return state;

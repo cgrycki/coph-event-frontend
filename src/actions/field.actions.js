@@ -1,10 +1,14 @@
 /**
  * Action creators for our fields
  */
+import { push }             from 'connected-react-router';
 import { fieldActions }     from '../constants/actionTypes';
 import FormData             from 'form-data';
 import BusinessRequirements from '../utils/BusinessRequirements';
-import { getTimeAfterStart } from '../utils/date.utils';
+import { 
+  getTimeAfterStart,
+  parseDynamo
+} from '../utils/date.utils';
 
 const businessReqs = new BusinessRequirements();
 const URI = process.env.REACT_APP_REDIRECT_URI;
@@ -115,8 +119,10 @@ export function submitForm(info) {
       .then(res => res.json())
       .then(res => {
         if (res.error) dispatch(submitFormFailure(res));
-        else dispatch(submitFormSuccess(res));
-      })
+        else {    
+          dispatch(submitFormSuccess(res)); // successful submission!
+          dispatch(push("/dashboard"));     // Route to dashboard
+      }})
       .catch(err => dispatch(submitFormFailure(err)));
   }
 }
@@ -131,3 +137,13 @@ export const populateFieldInfo = (info) => ({
   type   : fieldActions.POPULATE_FIELDS,
   payload: info
 });
+
+
+/**
+ * Populates field information for an event and then dispatches a routing action.
+ */
+export const populateFormAndPush = (info) => (dispatch) => {
+  const formattedInfo = parseDynamo(info);    // Format Dynamo object
+  dispatch(populateFieldInfo(formattedInfo)); // Populate form infomation
+  dispatch(push("/form/user"));               // Route to form so user can edit
+}
