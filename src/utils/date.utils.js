@@ -15,9 +15,17 @@ const getDateISO = (date_string) =>  moment(date_string).local().format("YYYY-MM
 const getDateFromISO = (date_string) => moment(date_string).local();
 
 const parseDynamo = (event) => {
-  const date      = moment(event.date).local().format("YYYY-MM-DD");
-  const new_event = { ...event, date: date };
-  return new_event;
+  let new_event = { ...event };
+
+  // Parse attributes
+  new_event.num_people = +new_event.num_people;
+
+  // Remove the 'createdAt' key from Dynamo
+  const filt_evt = Object.keys(new_event)
+    .filter(key => key !== 'createdAt')
+    .reduce((obj, key) => { obj[key] = new_event[key]; return obj; }, {});
+
+  return filt_evt;
 }
 
 
