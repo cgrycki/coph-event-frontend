@@ -124,8 +124,6 @@ class EventPage extends React.Component {
       permissions, event,
     } = this.props;
 
-    console.log(this.props);
-
     return (
       <div className="EventPage">
         <EventNav

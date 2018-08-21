@@ -3,6 +3,7 @@
  */
 import { push }             from 'connected-react-router';
 import { fieldActions }     from '../constants/actionTypes';
+import * as rp              from 'request-promise';
 import FormData             from 'form-data';
 import BusinessRequirements from '../utils/BusinessRequirements';
 import { 
@@ -110,7 +111,9 @@ export function submitForm(info) {
 
     // Create a new form to submit, and add each field key/value to it.
     let form = new FormData();
-    Object.keys(info).forEach(key => { form.append(key, info[key]); });
+    Object.keys(info)
+      .filter(key => key !== 'package_id')
+      .forEach(key => { form.append(key, info[key]); });
 
     // Set up URI and options for POST API call.
     let uri = `${URI}/events`;
@@ -129,6 +132,33 @@ export function submitForm(info) {
           dispatch(submitFormSuccess(res)); // successful submission!
           dispatch(push("/dashboard"));     // Route to dashboard
           dispatch(submitFormReset());      // Clear form status for future events
+      }})
+      .catch(err => dispatch(submitFormFailure(err)));
+  }
+}
+
+
+export function patchForm(info) {
+  return (dispatch) => {
+    // Notify store we're submitting
+    dispatch(submitFormLoading());
+    
+    // Create options for our PATCH
+    const options = {
+      method: 'PATCH',
+      uri: `${URI}/events/${info.package_id}`,
+      withCredentials: true,
+      json: true,
+      body: info
+    };
+
+    rp(options)
+      .then(res => {
+        if (res.error) dispatch(submitFormFailure(res));
+        else {
+          dispatch(submitFormSuccess(res));
+          dispatch(push("/dashboard"));
+          dispatch(submitFormReset());
       }})
       .catch(err => dispatch(submitFormFailure(err)));
   }

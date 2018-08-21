@@ -6,6 +6,7 @@
 
 // Fields: Object holding our user data entered into HTML fields
 const info = {
+  package_id         : null,
   user_email         : '',
   contact_email      : '',
   coph_email         : '',
