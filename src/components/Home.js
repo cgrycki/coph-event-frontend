@@ -132,7 +132,7 @@ class Home extends React.Component {
     let { loggedIn } = this.props;
 
     return (
-      <div>
+      <div className="Home">
 
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12">
@@ -149,11 +149,11 @@ class Home extends React.Component {
         <hr/>
         <br/>
 
+        <div>
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12">
 
-            <div style={{"display": "flex", "justifyContent": "space-between", marginTop: "15px"}}>
-
+            <div style={{"display": "flex", "justifyContent": "space-between", margin: "15px 0px"}}>
               <div style={{float: 'left'}}>
                 <CompoundButton
                   primary={true}
@@ -176,6 +176,8 @@ class Home extends React.Component {
 
           </div>
         </div>
+        </div>
+
       </div>
     );
   }
