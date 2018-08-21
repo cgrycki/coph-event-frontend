@@ -16,9 +16,9 @@ export default class ActionButtons extends React.PureComponent {
     let { permissions, onEdit, onRemove } = this.props;
 
     return (
-      <div className="ActionButtons">
+      <div className="ActionButtonsDash">
         <DefaultButton
-          text="Event Actions"
+          text="View"
           split={true}
           menuProps={{
             className          : 'ActionButton',

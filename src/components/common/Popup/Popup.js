@@ -1,11 +1,14 @@
 /* Dependencies -------------------------------------------------------------*/
-import React from 'react';
+import React          from 'react';
 import {
   Dialog,
   DialogType,
   DialogFooter,
-  DefaultButton
-}             from 'office-ui-fabric-react';
+  DefaultButton,
+  MessageBar,
+  MessageBarType
+}                     from 'office-ui-fabric-react';
+import messages       from './messages';
 import './Popup.css';
 
 
@@ -22,13 +25,35 @@ import './Popup.css';
  *  - No button onClick: closes the modal by setting it's parent state
  */
 export default class Popup extends React.Component {
-  render() {
-    let { 
-      popupHidden, title, subText,
-      btnTextYes, btnClickYes,
-      btnTextNo, btnClickNo
-    } = this.props;
+  /** Returns the dialog popup textual messages depending on poopupType. */
+  popupMessages(popupType) {
+    return { ...messages[popupType] };
+  }
 
+  /** Creates a message bar if we have a stateful REST call. */
+  popupMessageBar(popupType) {
+    // Get the bar text
+    const popupMessageBarMessage = messages[popupType].message;
+    
+    // Get the bar type
+    let barType;
+    if (popupType === "success")        barType = MessageBarType.success;
+    else if (popupType === "submitted") barType = MessageBarType.info;
+    else if (popupType === "deleting")  barType = MessageBarType.info;
+    else                                barType = MessageBarType.error;
+
+    return (
+      <MessageBar messageBarType={barType}>
+        {popupMessageBarMessage}
+      </MessageBar>
+    );
+  }
+
+  /** Renders a popup dialog  */
+  render() {
+    const { popupHidden, popupType, btnClickYes, btnClickNo } = this.props;
+    const { title, subText, btnTextYes, btnTextNo } = this.popupMessages(popupType);
+    
     return (
       <Dialog
         hidden={popupHidden}
@@ -45,6 +70,12 @@ export default class Popup extends React.Component {
         }}
       >
         <br/>
+
+        {(popupType === "success" || 
+          popupType === "submitted" || 
+          popupType === "deleting" ||
+          popupType === "error") && this.popupMessageBar(popupType)}
+
         <DialogFooter>
           <DefaultButton
             primary={true}

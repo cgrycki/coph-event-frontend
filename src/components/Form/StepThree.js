@@ -35,7 +35,7 @@ export default class StepThree extends React.Component {
   render() {
     return (
       <FormStep>
-        <FormTitle page={"Layout"} />
+        <FormTitle page={"Layout"} progress={0.75} />
 
         <Editor />
 

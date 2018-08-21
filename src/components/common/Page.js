@@ -15,9 +15,9 @@ class Page extends React.PureComponent {
     const page_height = (isLayout) ? "calc(100% - 55px)"  : "76%";
     const page_margin = (isLayout) ? "40px calc(2% / 2) 15px"   : "6% 12%";
     const page_style  = {
-      width           : page_width,
-      minHeight       : page_height,
-      margin          : page_margin
+      width : page_width,
+      height: page_height,
+      margin: page_margin
     };
 
     return (

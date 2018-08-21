@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-export default Chart => (
+export default ChartComponent => (
   class Wrapper extends React.Component {
     constructor(props) {
       super(props);
@@ -48,7 +48,7 @@ export default Chart => (
       const { containerWidth, containerHeight } = this.state;
 
       return (
-        <Chart 
+        <ChartComponent
           width={containerWidth}
           height={containerHeight}
           {...this.props}

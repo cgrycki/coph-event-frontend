@@ -9,6 +9,7 @@ import {
   fetchRoomSchedule 
 }                     from '../../actions/room.actions';
 
+
 // Form components
 import FormTitle      from './shared/FormTitle';
 import FormStep       from './shared/FormStep';
@@ -19,7 +20,7 @@ import EventName      from './fields/EventName';
 import DateTime       from './fields/DateTime';
 import EventComments  from './fields/EventComments';
 import RoomList       from './fields/RoomList';
-import RoomSchedule   from '../Schedule/Schedule';
+import RoomSchedule   from '../Scheduler/';
 
 
 // Component
@@ -101,23 +102,28 @@ class StepTwo extends React.Component {
 
     return (
       <FormStep>
-        <FormTitle page={"Event Information"} />
+        <FormTitle page={"Event Information"} progress={0.5} />
 
-        <div
-          className="ms-slideRightIn40" 
-          style={{
-            display: 'flex',
-            flexGrow: '1'
-          }}>
+        <div className="ms-slideRightIn40 FormFields">
+        <div style={{ height: "100%", display: "flex"}}>
           <div style={{
             width: '70%',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between'
+            flexGrow: "1",
+            justifyContent: "space-between"
           }}>
             <EventName
               value={info['event_name']}
               error={errors['event_name']}
+              onChange={this.onChange}
+            />
+
+            <RoomList
+              rooms={rooms}
+              rooms_loading={rooms_loading}
+              rooms_error={rooms_error}
+              value={info['room_number']}
               onChange={this.onChange}
             />
 
@@ -131,14 +137,6 @@ class StepTwo extends React.Component {
               coph_email_error={errors['coph_email']}
               onChange={this.onChange}
             />
-
-            <RoomList
-              rooms={rooms}
-              rooms_loading={rooms_loading}
-              rooms_error={rooms_error}
-              value={info['room_number']}
-              onChange={this.onChange}
-            />
             
             <EventComments
               value={info['comments']}
@@ -148,13 +146,16 @@ class StepTwo extends React.Component {
           </div>
 
           <RoomSchedule
+            room_number={info['room_number']}
             room_schedule={room_schedule}
+            event_name={info['event_name']}
+            date={info['date']}
             start_time={info['start_time']}
             end_time={info['end_time']}
-            event_name={info['event_name']}
             schedule_overlap={errors['schedule_overlap']}
+            onChange={this.onChange}
           />
-
+        </div>
         </div>
 
         <FormButtons
