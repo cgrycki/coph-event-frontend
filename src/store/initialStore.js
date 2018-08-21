@@ -6,6 +6,7 @@
 
 // Fields: Object holding our user data entered into HTML fields
 const info = {
+  package_id         : null,
   user_email         : '',
   contact_email      : '',
   coph_email         : '',
@@ -69,16 +70,11 @@ const layout = {
 
 // Application: Stores application data about our user's session
 const app = {
-  path         : '/',
-
   loggedIn     : false,
   login_loading: false,
   login_error  : null,
-
   user_email   : '',
-  isAdmin      : false,
-  user_loading : false,
-  user_error   : null
+  is_admin      : false
 };
 
 

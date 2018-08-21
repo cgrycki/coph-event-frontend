@@ -1,10 +1,15 @@
 /**
  * Action creators for our fields
  */
+import { push }             from 'connected-react-router';
 import { fieldActions }     from '../constants/actionTypes';
+import * as rp              from 'request-promise';
 import FormData             from 'form-data';
 import BusinessRequirements from '../utils/BusinessRequirements';
-import { getTimeAfterStart } from '../utils/date.utils';
+import { 
+  getTimeAfterStart,
+  parseDynamo
+} from '../utils/date.utils';
 
 const businessReqs = new BusinessRequirements();
 const URI = process.env.REACT_APP_REDIRECT_URI;
@@ -89,6 +94,12 @@ export const submitFormFailure = (payload) => ({
 })
 
 
+/** Notifies that we've navigated away from the submission page and can reset. */
+export const submitFormReset = () => ({
+  type: fieldActions.SUBMIT_FORM_RESET
+})
+
+
 /**
  * Wraps our submission actions so that we can execute from our components.
  */
@@ -100,7 +111,9 @@ export function submitForm(info) {
 
     // Create a new form to submit, and add each field key/value to it.
     let form = new FormData();
-    Object.keys(info).forEach(key => { form.append(key, info[key]); });
+    Object.keys(info)
+      .filter(key => key !== 'package_id')
+      .forEach(key => { form.append(key, info[key]); });
 
     // Set up URI and options for POST API call.
     let uri = `${URI}/events`;
@@ -115,8 +128,38 @@ export function submitForm(info) {
       .then(res => res.json())
       .then(res => {
         if (res.error) dispatch(submitFormFailure(res));
-        else dispatch(submitFormSuccess(res));
-      })
+        else {    
+          dispatch(submitFormSuccess(res)); // successful submission!
+          dispatch(push("/dashboard"));     // Route to dashboard
+          dispatch(submitFormReset());      // Clear form status for future events
+      }})
+      .catch(err => dispatch(submitFormFailure(err)));
+  }
+}
+
+
+export function patchForm(info) {
+  return (dispatch) => {
+    // Notify store we're submitting
+    dispatch(submitFormLoading());
+    
+    // Create options for our PATCH
+    const options = {
+      method: 'PATCH',
+      uri: `${URI}/events/${info.package_id}`,
+      withCredentials: true,
+      json: true,
+      body: info
+    };
+
+    rp(options)
+      .then(res => {
+        if (res.error) dispatch(submitFormFailure(res));
+        else {
+          dispatch(submitFormSuccess(res));
+          dispatch(push("/dashboard"));
+          dispatch(submitFormReset());
+      }})
       .catch(err => dispatch(submitFormFailure(err)));
   }
 }
@@ -131,3 +174,13 @@ export const populateFieldInfo = (info) => ({
   type   : fieldActions.POPULATE_FIELDS,
   payload: info
 });
+
+
+/**
+ * Populates field information for an event and then dispatches a routing action.
+ */
+export const populateFormAndPush = (info) => (dispatch) => {
+  const formattedInfo = parseDynamo(info);    // Format Dynamo object
+  dispatch(populateFieldInfo(formattedInfo)); // Populate form infomation
+  dispatch(push("/form/user"));               // Route to form so user can edit
+}

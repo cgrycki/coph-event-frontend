@@ -1,8 +1,9 @@
 // Dependencies
-import React        from 'react';
-import { Provider } from 'react-redux'
-import { Fabric }   from 'office-ui-fabric-react';
-import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
+import React                from 'react';
+import { Provider }         from 'react-redux'
+import { Fabric }           from 'office-ui-fabric-react';
+import { ConnectedRouter }  from 'connected-react-router';
+import { Route, Switch }    from 'react-router';
 
 // Site components
 import NavBar         from './common/NavBar/';
@@ -20,12 +21,11 @@ import StepThree      from './Form/StepThree';
 import StepFour       from './Form/StepFour';
 
 
-// Container
-// Holds our application data store and sets routes up
-const App = ({ store }) => (
+// Container -- Holds our application data store and sets routes up
+const App = ({ store, history }) => (
   <Provider store={store}>
-    <Fabric dir="ltr">
-      <Router>
+    <ConnectedRouter history={history}>
+      <Fabric dir="ltr">
 
         <div className="ms-Grid App">
           <div className="ms-Grid-row">
@@ -50,8 +50,9 @@ const App = ({ store }) => (
           </div>
         </div>
 
-      </Router>
-    </Fabric>
+      </Fabric>
+    </ConnectedRouter>
   </Provider>
 );
+
 export default App;

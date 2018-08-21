@@ -3,6 +3,7 @@
  */
 import * as rp          from 'request-promise';
 import FormData         from 'form-data';
+import { push }         from 'connected-react-router';
 import { eventActions } from '../constants/actionTypes';
 const URI               = process.env.REACT_APP_REDIRECT_URI;
 
@@ -136,7 +137,9 @@ export function deleteEvent(package_id) {
     };
 
     rp(options)
-      .then(res => dispatch(deleteEventSuccess(res)))
+      .then(res => (res.error) ?
+        dispatch(fetchEventFailure(res)) :
+        dispatch(deleteEventSuccess(res)))
       .catch(err => dispatch(fetchEventFailure(err)));
   }
 }

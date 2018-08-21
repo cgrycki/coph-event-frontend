@@ -14,6 +14,21 @@ const getDateISO = (date_string) =>  moment(date_string).local().format("YYYY-MM
 
 const getDateFromISO = (date_string) => moment(date_string).local();
 
+const parseDynamo = (event) => {
+  let new_event = { ...event };
+
+  // Parse attributes
+  new_event.num_people = +new_event.num_people;
+
+  // Remove the 'createdAt' key from Dynamo
+  const filt_evt = Object.keys(new_event)
+    .filter(key => key !== 'createdAt')
+    .reduce((obj, key) => { obj[key] = new_event[key]; return obj; }, {});
+
+  return filt_evt;
+}
+
+
 
 const sixMonthsFromToday = () => {
   const today = new Date();
@@ -101,41 +116,9 @@ const datePickerStrings = {
     'November',
     'December'
   ],
-
-  shortMonths: [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec'
-  ],
-
-  days: [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday'
-  ],
-
-  shortDays: [
-    'S',
-    'M',
-    'T',
-    'W',
-    'T',
-    'F',
-    'S'
-  ],
+  shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+  shortDays: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
 
   goToToday: 'Go to today',
   prevMonthAriaLabel: 'Go to previous month',
@@ -154,6 +137,7 @@ module.exports = {
   validTimes,
   getDateISO,
   getDateFromISO,
+  parseDynamo,
   getTimeAfterStart,
   nextWeek,
   dateDelta,

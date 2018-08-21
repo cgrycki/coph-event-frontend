@@ -1,20 +1,31 @@
 import React        from 'react';
 import { connect }  from 'react-redux';
 import NavPage      from '../common/NavPage';
+import Popup        from '../common/Popup';
 import EventList    from './EventList';
 import './Dashboard.css';
 
+
 // Actions
 import { getEvents } from '../../actions/event.actions';
+import { populateFormAndPush } from '../../actions/field.actions';
+import { deleteEvent } from '../../actions/event.actions';
 
 
 // Component
 class DashboardComponent extends React.Component {
   constructor(props) {
     super();
+
     this.state = {
-      events: props.events
+      popupHidden: true,
+      popupType: 'edit',
+      popupYesClick: () => console.log('clicked!')
     };
+
+    this.hidePopup = this.hidePopup.bind(this);
+    this.warnEditPopup = this.warnEditPopup.bind(this);
+    this.warnDeletePopup = this.warnDeletePopup.bind(this);
   }
 
   componentDidMount() {
@@ -26,22 +37,32 @@ class DashboardComponent extends React.Component {
     dispatch(getEvents());
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ 
-      events       : nextProps.events,
-      event_loading: nextProps.event_loading,
-      event_error  : nextProps.event_error
+  hidePopup() {
+    this.setState({ popupHidden: true });
+  }
+
+  warnEditPopup() {
+    this.setState({
+      popupHidden: false,
+      popupType: 'edit',
+      popupYesClick: () => console.log('clicked warning!')
     });
   }
 
-  //renderLoad() {}
-  //renderError() {}
+  editEvent(package_id) {
+    console.log(package_id);
+  }
+
+  warnDeletePopup() {
+    this.setState({
+      popupHidden: false,
+      popupType: 'delete',
+      popupYesClick: () => console.log('clicked delete!')
+    });
+  }
 
   render() {
-    let { 
-      events, event_loading, event_error,
-      history
-    } = this.props;
+    let { events, event_loading, event_error, dispatch, history } = this.props;
 
     return (
       <div className="ms-Grid-col ms-sm12 Dashboard">
@@ -55,9 +76,9 @@ class DashboardComponent extends React.Component {
           <br/>
         </div>
        
-        <EventList 
+        <EventList
           events={events}
-          history={history}
+          
         /> 
       </div>
     );

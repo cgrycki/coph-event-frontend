@@ -1,6 +1,7 @@
 /* Dependencies -------------------------------------------------------------*/
 import React          from 'react';
 import { connect }    from 'react-redux';
+import { push }       from 'connected-react-router';
 
 import EventNav       from './EventNav';
 import ActionButtons  from './ActionButtons';
@@ -10,12 +11,13 @@ import Details        from '../common/Details';
 
 import './EventPage.css';
 
+
 /* Actions ------------------------------------------------------------------*/
 import { 
   getEvent,
   deleteEvent 
-}                             from '../../actions/event.actions';
-import { populateFieldInfo }  from '../../actions/field.actions';
+}                               from '../../actions/event.actions';
+import { populateFormAndPush }  from '../../actions/field.actions';
 
 
 /* React Component ----------------------------------------------------------*/
@@ -38,9 +40,11 @@ class EventPage extends React.Component {
     this.hidePopup       = this.hidePopup.bind(this);
     this.warnEditEvent   = this.warnEditEvent.bind(this);
     this.warnDeleteEvent = this.warnDeleteEvent.bind(this);
+    this.loadDeleteEvent = this.loadDeleteEvent.bind(this);
 
     // Dispatch functions
     this.editEvent = this.editEvent.bind(this);
+    this.deleteEventFromServer = this.deleteEventFromServer.bind(this);
   }
 
   /** Retrieves information from server about event */
@@ -50,9 +54,18 @@ class EventPage extends React.Component {
   }
 
   /** Updates our web page title when event loads. */
-  componentWillUpdate(nextProps) {
-    const { event: { event_name }} = nextProps;
+  componentWillUpdate(nextProps, prevProps) {
+    const { event: { event_name }, dispatch } = nextProps;
     if (event_name) document.title = `Event: ${event_name}`;
+
+    // If the current state has been set to delete, and loading then we know the user 
+    //initiated an event deletion. We should set the popup type to deleting to let them know
+    if (this.state.popupType === "delete" && nextProps.event_loading)
+      this.loadDeleteEvent();
+    else if (this.state.popupType === "deleting" && !nextProps.event_loading) {
+      if (!nextProps.event_error) dispatch(push("/dashboard"));
+      else this.setState({ popupType: 'error' });
+    };
   }
 
   /** Initiates a GET request to our server for an event */
@@ -78,7 +91,7 @@ class EventPage extends React.Component {
   /** Populates the form information fields with current event's data. */
   editEvent() {
     let { dispatch, event } = this.props;
-    dispatch(populateFieldInfo(event));
+    dispatch(populateFormAndPush(event));
   }
 
   /** Sets our popup type to delete and opens the dialog. */
@@ -90,12 +103,18 @@ class EventPage extends React.Component {
     })
   }
 
+  /** Sets our popup type to loading */
+  loadDeleteEvent() {
+    this.setState({
+      popupHidden: false,
+      popupType: "deleting",
+      popupYesClick: () => console.log("Patience... Submitted to server")
+    });
+  }
+
   /** Initiates deleteing of the current event from Workflow and Dynamodb. */
   deleteEventFromServer() {
-    const { 
-      match: { params: { package_id }},
-      dispatch
-    } = this.props;
+    const { match: { params: { package_id }}, dispatch } = this.props;
     dispatch(deleteEvent(package_id));
   }
 

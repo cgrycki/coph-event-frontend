@@ -10,7 +10,10 @@ import Details        from '../common/Details';
 import Popup          from '../common/Popup';
 
 // Actions
-import { submitForm } from '../../actions/field.actions';
+import { 
+  submitForm,
+  patchForm
+} from '../../actions/field.actions';
 
 
 // Component
@@ -27,10 +30,7 @@ class StepFour extends React.Component {
     this.prevPage        = this.prevPage.bind(this);
     this.submitForm      = this.submitForm.bind(this);
     this.hidePopup       = this.hidePopup.bind(this);
-    this.submitWarnPopup = this.submitWarnPopup.bind(this);
-    this.submitLoadPopup = this.submitLoadPopup.bind(this);
-    this.submitDonePopup = this.submitDonePopup.bind(this);
-    this.submitErrdPopup = this.submitErrdPopup.bind(this);
+    this.renderPopup = this.renderPopup.bind(this);
   }
 
   componentDidMount() {
@@ -40,15 +40,12 @@ class StepFour extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     /* Updates our component in response to form submission updates */
-
     // Check if there was a successful POST
-    if (nextProps.form_success) this.submitDonePopup();
-
+    if (nextProps.form_success) this.renderPopup("success");
     // Check if we're loading
-    else if (nextProps.form_loading) this.submitLoadPopup();
-
+    else if (nextProps.form_loading) this.renderPopup("submitted");
     // Check for errors
-    else if (nextProps.form_error) this.submitErrdPopup();
+    else if (nextProps.form_error) this.renderPopup("error");
   }
 
   prevPage() {
@@ -57,42 +54,30 @@ class StepFour extends React.Component {
 
   submitForm() {
     let { dispatch, info } = this.props;
-    dispatch(submitForm(info));
+    // Does this form have a packageID? if it does, it needs to be 
+    // updated instead of created
+    if (info.package_id === null) dispatch(submitForm(info));
+    else dispatch(patchForm(info));
   }
 
   hidePopup() {
     this.setState({ popupHidden: true });
   }
 
-  submitWarnPopup() {
-    this.setState({
-      popupHidden  : false,
-      popupType    : 'submit',
-      popupYesClick: this.submitForm
-    });
-  }
+  renderPopup(popupType) {
+    // Really the only unique part of the popup is it's confirmation action
+    const onConfirm = {
+      submit   : this.submitForm,
+      submitted: () => console.log("Patience... it's been submitted."),
+      success  : this.hidePopup,
+      error    : this.hidePopup
+    };
 
-  submitLoadPopup() {
+    // Set component to render the popup type w/ call back.
     this.setState({
       popupHidden  : false,
-      popupType    : "submitted",
-      popupYesClick: () => console.log("Patience... it's submitted.")
-    });
-  }
-
-  submitDonePopup() {
-    this.setState({
-      popupHidden  : false,
-      popupType    : "success",
-      popupYesClick: this.hidePopup
-    })
-  }
-
-  submitErrdPopup() {
-    this.setState({
-      popupHidden  : false,
-      popupType    : "error",
-      popupYesClick: this.submitForm
+      popupType    : popupType,
+      popupYesClick: onConfirm[popupType]
     });
   }
 
@@ -114,7 +99,7 @@ class StepFour extends React.Component {
 
         <FormButtons
           prevPage={this.prevPage}
-          nextPage={this.submitWarnPopup}
+          nextPage={() => this.renderPopup("submit")}
           prevDisabled={false}
           nextDisabled={form_loading || form_success}
           nextText={"Submit for approval"}

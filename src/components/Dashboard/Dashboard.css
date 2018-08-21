@@ -3,3 +3,7 @@
   flex-direction: column;
   align-self: flex-start;
 }
+
+.ActionButtonsDash {
+  width: 150px;
+}

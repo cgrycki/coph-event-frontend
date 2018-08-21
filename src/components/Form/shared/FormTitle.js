@@ -16,16 +16,18 @@ export default class FormTitle extends React.PureComponent {
     let { page, progress } = this.props;
 
     return (
-      <div className="ms-Grid-row" style={{ marginBottom: "25px" }}>
-        <div className="ms-Grid-col ms-sm12">
-          <h2 style={{ marginBottom: "5px"}}>
-            Create an Event{(page !== undefined) && this.renderPage(page)}
-          </h2>
-          <ProgressIndicator 
-            className="FormProgress"
-            barHeight={4} 
-            percentComplete={progress} 
-          />
+      <div className="FormTitle">
+        <div className="ms-Grid-row" style={{ marginBottom: "25px" }}>
+          <div className="ms-Grid-col ms-sm12">
+            <h2 style={{ marginBottom: "5px"}}>
+              Create an Event{(page !== undefined) && this.renderPage(page)}
+            </h2>
+            <ProgressIndicator 
+              className="FormProgress"
+              barHeight={4} 
+              percentComplete={progress} 
+            />
+          </div>
         </div>
       </div>
     );

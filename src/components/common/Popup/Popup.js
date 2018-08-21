@@ -39,6 +39,7 @@ export default class Popup extends React.Component {
     let barType;
     if (popupType === "success")        barType = MessageBarType.success;
     else if (popupType === "submitted") barType = MessageBarType.info;
+    else if (popupType === "deleting")  barType = MessageBarType.info;
     else                                barType = MessageBarType.error;
 
     return (
@@ -72,6 +73,7 @@ export default class Popup extends React.Component {
 
         {(popupType === "success" || 
           popupType === "submitted" || 
+          popupType === "deleting" ||
           popupType === "error") && this.popupMessageBar(popupType)}
 
         <DialogFooter>

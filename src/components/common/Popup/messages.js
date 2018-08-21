@@ -46,10 +46,24 @@ const messages = {
     btnTextNo: "Cancel"
   },
   delete: {
-    title: "Are you sure you want to delete this event?",
-    subText: "This will remove the event from Workflow, and can not be undone.",
+    title: "Delete Event",
+    subText: "Are you sure you want to delete this event? This will remove the event from Workflow, and can not be undone.",
     btnTextYes: "Yes, delete this event",
     btnTextNo: "Cancel"
+  },
+  deleting: {
+    title: "Delete Event ⏳",
+    subText: "",
+    btnTextYes: "Yes, delete this event",
+    btnTextNo: "Cancel",
+    message: "Deleting..."
+  },
+  deleted: {
+    title: "Delete Event ✔️",
+    subText: "",
+    btnTextYes: "Yes, cancel this event",
+    btnTextNo: "Cancel",
+    message: "Event deleted!"
   }
 };
 
