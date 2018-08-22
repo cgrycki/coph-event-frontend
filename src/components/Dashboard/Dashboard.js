@@ -41,7 +41,7 @@ class DashboardComponent extends React.Component {
         <EventList
           isAdmin={this.props.isAdmin}
           items={this.props.events}
-          loading={this.props.events_loading}
+          loading={this.props.event_loading}
           error={this.props.event_error}
           onView={this.props.popuplateEventAndPush}
           onEdit={this.props.populateFormAndPush}
