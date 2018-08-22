@@ -18,6 +18,11 @@
   pointer-events: none;
 }
 
+/* Show full Iowa logo by preventing height collapse */
+.NavLogo .ms-Icon-imageContainer.ms-Button-icon {
+  height: 33px !important;
+}
+
 /* Smoother transitions */
 .NavBar .ms-Button--commandBar,
 .NavBar .ms-Button--commandBar i {
