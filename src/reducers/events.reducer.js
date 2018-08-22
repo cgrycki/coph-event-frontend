@@ -26,8 +26,13 @@ export const eventReducer = (state=initialStore.events, action) => {
 
     /** Success GET request, populate events list. */
     case eventActions.GET_EVENTS_SUCCESS:
-      let eventsInfo = action.payload;
-      return { ...state, event_loading: false, events: eventsInfo };
+      const eventsInfo = action.payload;
+      return { 
+        ...state, 
+        event_loading: false,
+        event_error  : null,
+        events       : eventsInfo
+      };
 
     /** Successful DELETE request, filter event with matching Package ID */
     case eventActions.DELETE_EVENT_SUCCESS:
@@ -40,25 +45,6 @@ export const eventReducer = (state=initialStore.events, action) => {
         event_error  : null,
         events       : filtered_events
       };
-    
-    /** Successful PATCH request, update event. */
-    case eventActions.PATCH_EVENT_SUCCESS:
-      const patched_evt = action.payload;
-      const { package_id: patched_package_id } = patched_evt;
-      
-      // Update event in list
-      const updated_events = state.events.map(e => {
-        if (e.package_id === patched_package_id) return evt;
-        else return e;
-      });
-
-      return {
-        ...state,
-        event_loading: false,
-        event_error  : null,
-        events       : updated_events,
-        event        : evt
-      }
 
     /** Successful POST request, add event to our list */
     case fieldActions.SUBMIT_FORM_SUCCESS:

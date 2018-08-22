@@ -2,7 +2,6 @@
  * Action creators for our events
  */
 import * as rp          from 'request-promise';
-import FormData         from 'form-data';
 import { push }         from 'connected-react-router';
 import { eventActions } from '../constants/actionTypes';
 const URI               = process.env.REACT_APP_REDIRECT_URI;
@@ -34,12 +33,6 @@ export const fetchEventsSuccess = (response) => ({
 /** Notify store of a successful event deletion */
 export const deleteEventSuccess = (response) => ({
   type   : eventActions.DELETE_EVENT_SUCCESS,
-  payload: response
-})
-
-/** Notify store of a successful event PATCH */
-export const patchEventSuccess = (response) => ({
-  type   : eventActions.PATCH_EVENT_SUCCESS,
   payload: response
 })
 
@@ -95,35 +88,10 @@ export function getEvents() {
 }
 
 
-// TO DO
-export function postOrPatchEvent(eventInfo, method) {
-  return (dispatch) => {
-    // Create a form containing our event info
-    let form_submission = new FormData();
-    for (var key in eventInfo) form_submission.append(key, eventInfo[key]);
-    
-    // Notify application we're making a request
-    dispatch(fetchEventLoading());
-
-    // URI + options for API call
-    const uri = (method === 'POST') ?
-      `${URI}/events` : `${URI}/events/${eventInfo.package_id}`;
-
-    let options = {
-      method         : method,
-      withCredentials: true,
-      body           : form_submission
-    };
-
-    // Resolve the promise
-    rp(uri, options)
-      .then(res => res.json())
-      .then(data => dispatch(fetchEventsSuccess(data)))
-      .catch(err => dispatch(fetchEventFailure(err)));
-  }
-}
-
-
+/**
+ * Dispatches the delete event sequence.
+ * @param {number} package_id Primary key of an event
+ */
 export function deleteEvent(package_id) {
   return (dispatch) => {
     dispatch(fetchEventLoading());
@@ -143,3 +111,7 @@ export function deleteEvent(package_id) {
       .catch(err => dispatch(fetchEventFailure(err)));
   }
 }
+
+
+/** Push to the single event page. Event will load on page mount. */
+export const popuplateEventAndPush = (package_id) => push(`/event/${package_id}`);
