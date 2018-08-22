@@ -7,9 +7,12 @@ import './Dashboard.css';
 
 
 // Actions
-import { getEvents } from '../../actions/event.actions';
+import { 
+  getEvents,
+  deleteEvent,
+  popuplateEventAndPush
+}                              from '../../actions/event.actions';
 import { populateFormAndPush } from '../../actions/field.actions';
-import { deleteEvent } from '../../actions/event.actions';
 
 
 // Component
@@ -18,67 +21,58 @@ class DashboardComponent extends React.Component {
     super();
 
     this.state = {
-      popupHidden: true,
-      popupType: 'edit',
+      isAdmin      : props.isAdmin,
+      popupHidden  : true,
+      popupType    : 'edit',
       popupYesClick: () => console.log('clicked!')
     };
 
-    this.hidePopup = this.hidePopup.bind(this);
-    this.warnEditPopup = this.warnEditPopup.bind(this);
-    this.warnDeletePopup = this.warnDeletePopup.bind(this);
+    this.hidePopup   = this.hidePopup.bind(this);
+    this.renderPopup = this.renderPopup.bind(this);
   }
 
+  /** Fetches event list on load and alters web page title */
   componentDidMount() {
-    /* Fetches event list on load. */
-    // Alter web page title
     document.title = "My Events @ CPHB";
-
-    let { dispatch } = this.props;
-    dispatch(getEvents());
+    this.props.getEventsFromServer();
   }
 
   hidePopup() {
     this.setState({ popupHidden: true });
   }
 
-  warnEditPopup() {
-    this.setState({
-      popupHidden: false,
-      popupType: 'edit',
-      popupYesClick: () => console.log('clicked warning!')
-    });
-  }
+  renderPopup(popupType) {
+    const clickCallback = {
+      'view'   : this.props.popuplateEventAndPush,
+      'edit'   : this.props.populateFormAndPush,
+      'delete' : this.props.deleteEventFromServer,
+      'approve': () => console.log('clicked approve')
+    };
 
-  editEvent(package_id) {
-    console.log(package_id);
-  }
-
-  warnDeletePopup() {
     this.setState({
-      popupHidden: false,
-      popupType: 'delete',
-      popupYesClick: () => console.log('clicked delete!')
+      popupHidden  : false,
+      popupType    : popupType,
+      popupYesClick: clickCallback[popupType]
     });
   }
 
   render() {
-    let { events, event_loading, event_error, dispatch, history } = this.props;
-
+    const { events, history } = this.props;
     return (
       <div className="ms-Grid-col ms-sm12 Dashboard">
 
-        <NavPage history={history} />
-
-        <h2>My Events</h2>
-        
-        <div>
-          <hr/>
-          <br/>
+        <div className="ms-Grid-row DashboardHeader">
+          <NavPage history={history} />
+          <h2>My Events</h2>
         </div>
+        
+        <div><hr/><br/></div>
        
         <EventList
           events={events}
-          
+          onView={this.props.popuplateEventAndPush}
+          onEdit={this.props.populateFormAndPush}
+          onDelete={this.props.deleteEventFromServer}
         /> 
       </div>
     );
@@ -95,4 +89,11 @@ const mapStateToProps = state => ({
   isAdmin      : state.app.isAdmin
 });
 
-export default connect(mapStateToProps)(DashboardComponent);
+const mapDispatchToProps = dispatch => ({
+  getEventsFromServer  : () => dispatch(getEvents()),
+  popuplateEventAndPush: (package_id) => dispatch(populateFormAndPush(package_id)),
+  populateFormAndPush  : (info) => dispatch(populateFormAndPush(info)),
+  deleteEventFromServer: (package_id) => dispatch(deleteEvent(package_id))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardComponent);
