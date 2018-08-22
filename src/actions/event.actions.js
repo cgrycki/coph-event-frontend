@@ -114,4 +114,4 @@ export function deleteEvent(package_id) {
 
 
 /** Push to the single event page. Event will load on page mount. */
-export const popuplateEventAndPush = (package_id) => push(`/event/${package_id}`);
+export const populateEventAndPush = (package_id) => push(`/event/${package_id}`);

@@ -3,7 +3,6 @@
  */
 
 import React         from 'react';
-import { push }      from 'connected-react-router';
 import { 
   DetailsList,
   CheckboxVisibility,
@@ -81,14 +80,24 @@ const columns = [
 ];
 
 export default class EventList extends React.Component {
+  constructor() {
+    super();
+    this.state = {};
+
+    this.renderItemCol = this.renderItemCol.bind(this);
+  }
+
   renderItemCol(item, index, column) {
-    const { dispatch } = this.props;
+    const { onView, onEdit, onDelete } = this.props;
 
     switch(column.key) {
       case 'package_id':
         return (
           <ActionButtons
-
+            package_id={item.key}
+            onView={onView}
+            onEdit={onEdit}
+            onDelete={onDelete}
           />
         );
       default:
@@ -113,23 +122,17 @@ export default class EventList extends React.Component {
     return items;
   }
 
-  onActiveItem(item) {
-    /* Callback for selecting an event in our details list. */
-    let { history } = this.props;
-    let event_page = `/event/${item.key}`;
-    history.push(event_page);
-  }
 
 
   
   render() {
-    let { events } = this.props;
+    const { events } = this.props;
     return (
       <DetailsList
         items={this.renderItems(events)}
         columns={columns}
         checkboxVisibility={CheckboxVisibility.hidden}
-        onRenderItemColumn={this.renderItemCol}
+        //onRenderItemColumn={this.renderItemCol}
         //onActiveItemChanged={(item) => this.onActiveItem(item)}
       />
     );

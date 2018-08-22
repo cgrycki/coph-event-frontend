@@ -10,7 +10,7 @@ import './Dashboard.css';
 import { 
   getEvents,
   deleteEvent,
-  popuplateEventAndPush
+  populateEventAndPush
 }                              from '../../actions/event.actions';
 import { populateFormAndPush } from '../../actions/field.actions';
 
@@ -37,15 +37,28 @@ class DashboardComponent extends React.Component {
     this.props.getEventsFromServer();
   }
 
+  componentWillUpdate(nextProps, prevProps) {
+    const { event_loading, event_error } = nextProps;
+    const { popupType } = this.state;
+
+    // If event deletion request was initiated
+    if (event_loading && popupType === "delete") this.renderPopup('deleting');
+    else if (popupType === "deleting" && !event_loading) {
+      // Check for errors, if none than the event was successfully deleted
+      if (event_error) this.renderPopup("error");
+      else this.hidePopup();
+    };
+  }
+
   hidePopup() {
     this.setState({ popupHidden: true });
   }
 
   renderPopup(popupType) {
     const clickCallback = {
-      'view'   : this.props.popuplateEventAndPush,
       'edit'   : this.props.populateFormAndPush,
       'delete' : this.props.deleteEventFromServer,
+      'deleting': () => console.log("Patience... I've sent the request to delete."),
       'approve': () => console.log('clicked approve')
     };
 
@@ -67,7 +80,13 @@ class DashboardComponent extends React.Component {
         </div>
         
         <div><hr/><br/></div>
-       
+
+        <Popup
+          popupType={this.state.popupType}
+          popupHidden={this.state.popupHidden}
+          popupYesClick={this.state.popupYesClick}
+        />
+
         <EventList
           events={events}
           onView={this.props.popuplateEventAndPush}
@@ -91,7 +110,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getEventsFromServer  : () => dispatch(getEvents()),
-  popuplateEventAndPush: (package_id) => dispatch(populateFormAndPush(package_id)),
+  popuplateEventAndPush: (package_id) => dispatch(populateEventAndPush(package_id)),
   populateFormAndPush  : (info) => dispatch(populateFormAndPush(info)),
   deleteEventFromServer: (package_id) => dispatch(deleteEvent(package_id))
 });

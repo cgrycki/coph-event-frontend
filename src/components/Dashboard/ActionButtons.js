@@ -13,7 +13,15 @@ import {
  */
 export default class ActionButtons extends React.PureComponent {
   render() {
-    let { permissions, onEdit, onRemove } = this.props;
+    let { 
+      permissions, 
+      onEdit, 
+      onDelete, 
+      onView,
+      package_id
+    } = this.props;
+
+    console.log(this.props);
 
     return (
       <div className="ActionButtonsDash">
@@ -38,7 +46,7 @@ export default class ActionButtons extends React.PureComponent {
                 name     : 'Cancel Event',
                 iconProps: { iconName: 'RemoveEvent' },
                 disabled : false, //!permissions.canInitiatorVoid && !permissions.canVoid,
-                onClick  : onRemove
+                onClick  : onDelete
               }
             ]
           }}
