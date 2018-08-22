@@ -3,7 +3,6 @@
  */
 import { appActions } from '../constants/actionTypes';
 import * as rp from 'request-promise';
-
 const URI = process.env.REACT_APP_REDIRECT_URI;
 
  
@@ -54,6 +53,6 @@ export function fetchLogin() {
 
     rp(uri, options)
       .then(data => dispatch(fetchLoginSuccess(data)))
-      .catch(err => dispatch(fetchLoginFailure(JSON.parse(err))));
+      .catch(err => dispatch(fetchLoginFailure(err)));
   }
 }

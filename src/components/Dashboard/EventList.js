@@ -4,26 +4,51 @@
 
 import React         from 'react';
 import { 
-  //ShimmeredDetailsList,
+  DetailsList,
   CheckboxVisibility,
   Icon,
   DefaultButton,
   DirectionalHint
 }                     from 'office-ui-fabric-react';
 import { ShimmeredDetailsList } from 'office-ui-fabric-react/lib/ShimmeredDetailsList';
+import Popup          from '../common/Popup';
 import { getDateISO } from '../../utils/date.utils';
 
 
 export default class EventList extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
+    this.state = {
+      isAdmin      : props.isAdmin,
+      event        : undefined,
+      popupType    : 'edit',
+      popupHidden  : true,
+      popupYesClick: (item) => this.props.editEvent(item)
+    };
+
     this.createColumns = this.createColumns.bind(this);
+    this.hidePopup     = this.hidePopup.bind(this);
+    this.renderPopup   = this.renderPopup.bind(this);
+  }
+
+  /** Checks incoming props from state => handles popup state. */
+  componentWillUpdate(nextProps, prevProps) {
+    const { loading, error } = nextProps;
+    const { popupType } = this.state;
+
+    // If event deletion request was initiated
+    if (loading && popupType === "delete") this.renderPopup('deleting');
+    else if (popupType === "deleting" && !loading) {
+      // Check for errors, if none than the event was successfully deleted
+      if (error) this.renderPopup("error");
+      else this.hidePopup();
+    };
   }
 
   /** Creates columns by binding passed action dispatchers. */
   createColumns() {
     // This is gross and verbose. 
-    const { onView, onEdit, onDelete } = this.props;
+    const { onView } = this.props;
 
     const columns = [
       {
@@ -37,7 +62,7 @@ export default class EventList extends React.Component {
         onRender: (item) => {
           const approved = item.approved
           const iconName = approved === 'true' ? 'Approve' : 'Blocked';
-          const iconColor = approved !== 'true' ? 'green' : 'red';
+          const iconColor = approved === 'true' ? 'green' : 'red';
           return (<Icon
             title={approved.toString()}
             iconName={iconName}
@@ -79,8 +104,9 @@ export default class EventList extends React.Component {
         minWidth: 150,
         maxWidth: 200,
         onRender: (item) => {
+          item.date = getDateISO(item.date);
           return (<DefaultButton
-            onClick={() => onView(item.key)}
+            onClick={() => onView(item.package_id)}
             text="View event"
             split={true}
             menuProps={{
@@ -93,14 +119,14 @@ export default class EventList extends React.Component {
                   name: 'Edit Event Information',
                   iconProps: { iconName: 'Edit' },
                   disabled: false, // permissions
-                  onClick: () => onEdit()
+                  onClick: () => this.renderPopup('edit')
                 },
                 {
                   key: 'deleteEvent',
                   name: 'Delete Event',
                   iconProps: { iconName: 'RemoveEvent' },
                   disabled: true,
-                  onClick: () => onDelete()
+                  onClick: () => this.renderPopup('delete')
                 }
               ]
             }}
@@ -111,18 +137,58 @@ export default class EventList extends React.Component {
 
     return columns;
   }
+  
+  /* Alters component state, and hides the popup after a rerender. */
+  hidePopup() { 
+    this.setState({ popupHidden: true }); 
+  }
+
+  /** Sets the popup to visible and maps a dispatched action from props to popup callback. */
+  renderPopup(popupType) {
+    // Gather dispatch functions from react-redux's connect
+    const { onEdit, onDelete } = this.props;
+
+    // Get the currently selected event and parse it's date
+    let { event } = this.state;
+    event.date = getDateISO(event.date);
+
+    // Create a mapping of 'state' => function
+    const clickCallback = {
+      edit    : () => onEdit(event),
+      delete  : () => onDelete(event),
+      deleting: () => console.log("Patience... I've sent the delete request to the server"),
+      error   : () => this.hidePopup()
+    };
+
+    this.setState({
+      popupHidden  : false,
+      popupType    : popupType,
+      popupYesClick: clickCallback[popupType]
+    });
+  }
+  
 
   render() {
-    console.log(this.props);
     const loading = this.props.loading || true;
+
     return (
-      <div style={{ display: 'flex', width: '100%' }}>
-        <ShimmeredDetailsList
+      <div className="Dashboard--EventsList">
+        <DetailsList
           items={this.props.items}
           columns={this.createColumns()}
+          onActiveItemChanged={(item) => this.setState({ event: item })}
           enableSimmer={loading}
           checkboxVisibility={CheckboxVisibility.hidden}
           listProps={{ renderedWindowsAhead: 0, renderedWindowsBehind: 0 }}
+          style={{ display: 'flex', width: '100%' }}
+          width={'100%'}
+        />
+
+        <Popup
+          popupType={this.state.popupType}
+          popupHidden={this.state.popupHidden}
+          btnClickYes={() => this.state.popupYesClick()}
+          btnClickNo={() => this.hidePopup()}
         />
       </div>
     );

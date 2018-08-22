@@ -1,7 +1,6 @@
 import React        from 'react';
 import { connect }  from 'react-redux';
 import NavPage      from '../common/NavPage';
-import Popup        from '../common/Popup';
 import EventList    from './EventList';
 import './Dashboard.css';
 
@@ -19,54 +18,13 @@ import { populateFormAndPush } from '../../actions/field.actions';
 class DashboardComponent extends React.Component {
   constructor(props) {
     super();
-
-    this.state = {
-      isAdmin      : props.isAdmin,
-      popupHidden  : true,
-      popupType    : 'edit',
-      popupYesClick: () => console.log('clicked!')
-    };
-
-    this.hidePopup   = this.hidePopup.bind(this);
-    this.renderPopup = this.renderPopup.bind(this);
+    this.state = {isAdmin: props.isAdmin};
   }
 
   /** Fetches event list on load and alters web page title */
   componentDidMount() {
     document.title = "My Events @ CPHB";
     this.props.getEventsFromServer();
-  }
-
-  componentWillUpdate(nextProps, prevProps) {
-    const { event_loading, event_error } = nextProps;
-    const { popupType } = this.state;
-
-    // If event deletion request was initiated
-    if (event_loading && popupType === "delete") this.renderPopup('deleting');
-    else if (popupType === "deleting" && !event_loading) {
-      // Check for errors, if none than the event was successfully deleted
-      if (event_error) this.renderPopup("error");
-      else this.hidePopup();
-    };
-  }
-
-  hidePopup() {
-    this.setState({ popupHidden: true });
-  }
-
-  renderPopup(popupType) {
-    const clickCallback = {
-      'edit'    : () => this.props.populateFormAndPush,
-      'delete'  : () => this.props.deleteEventFromServer,
-      'deleting': () => console.log("Patience... I've sent the request to delete."),
-      'approve' : () => console.log('clicked approve')
-    };
-
-    this.setState({
-      popupHidden  : false,
-      popupType    : popupType,
-      popupYesClick: clickCallback[popupType]
-    });
   }
 
   render() {
@@ -80,18 +38,14 @@ class DashboardComponent extends React.Component {
         
         <div><hr/><br/></div>
 
-        <Popup
-          popupType={this.state.popupType}
-          popupHidden={this.state.popupHidden}
-          popupYesClick={this.state.popupYesClick}
-        />
-
         <EventList
+          isAdmin={this.props.isAdmin}
           items={this.props.events}
           loading={this.props.events_loading}
+          error={this.props.event_error}
           onView={this.props.popuplateEventAndPush}
-          onEdit={() => this.renderPopup('edit')}
-          onDelete={() => this.renderPopup('delete')}
+          onEdit={this.props.populateFormAndPush}
+          onDelete={this.props.deleteEventFromServer}
         /> 
       </div>
     );
