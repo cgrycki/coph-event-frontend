@@ -1,15 +1,11 @@
-.EventPageRow {
-  margin: 0 -8px;
+
+.spacer .ms-Grid-row:not(:last-child) {
+  margin-top: 5px !important;
+  padding-bottom: 15px !important;
+  border-bottom: 0.75px solid rgba(51, 51, 51, 0.1);
 }
 
-.EventPageHeader,
-.EventPageDateTimes,
-.EventPageEmails,
-.EventPageProviders,
-.EventPageSetup,
-.EventPageCourse {
-  max-width: 50%;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+.spacer .ms-Label {
+  color: #767676;
+  font-weight: 300;
 }

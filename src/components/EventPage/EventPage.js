@@ -91,7 +91,7 @@ class EventPage extends React.Component {
   render() {
     let { 
       history,  match: { params: { package_id, signature_id }},                            
-      permissions, event,
+      permissions, event, event_loading
     } = this.props;
 
     return (
@@ -104,10 +104,10 @@ class EventPage extends React.Component {
           package_id={package_id}
         />
 
-        {' '}
-        <hr/>
 
-        <Details event={event} />
+        <br/>
+        {' '}
+        <Details event={event} loading={event_loading} />
 
         <Popup
           popupHidden={this.state.popupHidden}
