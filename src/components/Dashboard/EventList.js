@@ -56,8 +56,8 @@ export default class EventList extends React.Component {
         name: 'Approved',
         className: 'Dashboard--approved',
         ariaLabel: '',
-        minWidth: 48,
-        maxWidth: 48,
+        minWidth: 64,
+        maxWidth: 32,
         onRender: (item) => {
           const approved = item.approved
           const iconName = approved === 'true' ? 'Approve' : 'Blocked';
@@ -80,19 +80,23 @@ export default class EventList extends React.Component {
         key: 'attendance',
         fieldName: 'num_people',
         name: 'Attendance',
-        minWidth: 64
+        minWidth: 64,
+        maxWidth: 75
       },
       {
         key: 'date',
         fieldName: 'date',
+        name: 'Date',
         minWidth: 80,
-        onRender: (item) => item.date
+        maxWidth: 80,
+        onRender: (item) => getDateISO(item.date)
       },
       {
         key: 'contact_email',
         fieldName: 'contact_email',
+        name: 'Alt. contact email',
         ariaLabel: 'Event Planner or alternative contact',
-        minWidth: 80
+        minWidth: 100
       },
       {
         key: 'package_id',
