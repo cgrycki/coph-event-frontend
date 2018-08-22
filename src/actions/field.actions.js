@@ -32,7 +32,7 @@ export const updateField = (field, value) => ({
  * @param {object} errors Object containing our validation errors from BusinessReqs.
  */
 const updateErrors = (errors) => ({
-  type: 'UPDATE_ERRORS',
+  type: fieldActions.UPDATE_ERRORS,
   errors
 });
 
@@ -182,5 +182,6 @@ export const populateFieldInfo = (info) => ({
 export const populateFormAndPush = (info) => (dispatch) => {
   const formattedInfo = parseDynamo(info);    // Format Dynamo object
   dispatch(populateFieldInfo(formattedInfo)); // Populate form infomation
+  dispatch(submitFormReset());                // Reset the form submission loading+error+success
   dispatch(push("/form/user"));               // Route to form so user can edit
 }

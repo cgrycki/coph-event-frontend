@@ -1,84 +1,51 @@
 import React        from 'react';
 import { connect }  from 'react-redux';
 import NavPage      from '../common/NavPage';
-import Popup        from '../common/Popup';
 import EventList    from './EventList';
 import './Dashboard.css';
 
 
 // Actions
-import { getEvents } from '../../actions/event.actions';
+import { 
+  getEvents,
+  deleteEvent,
+  populateEventAndPush
+}                              from '../../actions/event.actions';
 import { populateFormAndPush } from '../../actions/field.actions';
-import { deleteEvent } from '../../actions/event.actions';
 
 
 // Component
 class DashboardComponent extends React.Component {
   constructor(props) {
     super();
-
-    this.state = {
-      popupHidden: true,
-      popupType: 'edit',
-      popupYesClick: () => console.log('clicked!')
-    };
-
-    this.hidePopup = this.hidePopup.bind(this);
-    this.warnEditPopup = this.warnEditPopup.bind(this);
-    this.warnDeletePopup = this.warnDeletePopup.bind(this);
+    this.state = {isAdmin: props.isAdmin};
   }
 
+  /** Fetches event list on load and alters web page title */
   componentDidMount() {
-    /* Fetches event list on load. */
-    // Alter web page title
     document.title = "My Events @ CPHB";
-
-    let { dispatch } = this.props;
-    dispatch(getEvents());
-  }
-
-  hidePopup() {
-    this.setState({ popupHidden: true });
-  }
-
-  warnEditPopup() {
-    this.setState({
-      popupHidden: false,
-      popupType: 'edit',
-      popupYesClick: () => console.log('clicked warning!')
-    });
-  }
-
-  editEvent(package_id) {
-    console.log(package_id);
-  }
-
-  warnDeletePopup() {
-    this.setState({
-      popupHidden: false,
-      popupType: 'delete',
-      popupYesClick: () => console.log('clicked delete!')
-    });
+    this.props.getEventsFromServer();
   }
 
   render() {
-    let { events, event_loading, event_error, dispatch, history } = this.props;
-
     return (
       <div className="ms-Grid-col ms-sm12 Dashboard">
 
-        <NavPage history={history} />
-
-        <h2>My Events</h2>
-        
-        <div>
-          <hr/>
-          <br/>
+        <div className="ms-Grid-row DashboardHeader">
+          <NavPage history={this.props.history} />
+          <h2>My Events</h2>
         </div>
-       
+        
+        <div><hr/><br/></div>
+
         <EventList
-          events={events}
-          
+          isAdmin={this.props.isAdmin}
+          items={this.props.events}
+          loading={this.props.event_loading}
+          error={this.props.event_error}
+          onView={this.props.popuplateEventAndPush}
+          onEdit={this.props.populateFormAndPush}
+          onDelete={this.props.deleteEventFromServer}
         /> 
       </div>
     );
@@ -95,4 +62,11 @@ const mapStateToProps = state => ({
   isAdmin      : state.app.isAdmin
 });
 
-export default connect(mapStateToProps)(DashboardComponent);
+const mapDispatchToProps = dispatch => ({
+  getEventsFromServer  : () => dispatch(getEvents()),
+  popuplateEventAndPush: (package_id) => dispatch(populateEventAndPush(package_id)),
+  populateFormAndPush  : (info) => dispatch(populateFormAndPush(info)),
+  deleteEventFromServer: (package_id) => dispatch(deleteEvent(package_id))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardComponent);
