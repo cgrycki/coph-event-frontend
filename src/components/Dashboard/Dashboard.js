@@ -56,10 +56,10 @@ class DashboardComponent extends React.Component {
 
   renderPopup(popupType) {
     const clickCallback = {
-      'edit'   : this.props.populateFormAndPush,
-      'delete' : this.props.deleteEventFromServer,
+      'edit'    : () => this.props.populateFormAndPush,
+      'delete'  : () => this.props.deleteEventFromServer,
       'deleting': () => console.log("Patience... I've sent the request to delete."),
-      'approve': () => console.log('clicked approve')
+      'approve' : () => console.log('clicked approve')
     };
 
     this.setState({
@@ -70,12 +70,11 @@ class DashboardComponent extends React.Component {
   }
 
   render() {
-    const { events, history } = this.props;
     return (
       <div className="ms-Grid-col ms-sm12 Dashboard">
 
         <div className="ms-Grid-row DashboardHeader">
-          <NavPage history={history} />
+          <NavPage history={this.props.history} />
           <h2>My Events</h2>
         </div>
         
@@ -88,10 +87,11 @@ class DashboardComponent extends React.Component {
         />
 
         <EventList
-          events={events}
+          items={this.props.events}
+          loading={this.props.events_loading}
           onView={this.props.popuplateEventAndPush}
-          onEdit={this.props.populateFormAndPush}
-          onDelete={this.props.deleteEventFromServer}
+          onEdit={() => this.renderPopup('edit')}
+          onDelete={() => this.renderPopup('delete')}
         /> 
       </div>
     );

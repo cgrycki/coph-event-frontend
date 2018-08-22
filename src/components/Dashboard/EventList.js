@@ -4,137 +4,127 @@
 
 import React         from 'react';
 import { 
-  DetailsList,
+  //ShimmeredDetailsList,
   CheckboxVisibility,
+  Icon,
   DefaultButton,
-  buildColumns
+  DirectionalHint
 }                     from 'office-ui-fabric-react';
-import ActionButtons  from './ActionButtons';
+import { ShimmeredDetailsList } from 'office-ui-fabric-react/lib/ShimmeredDetailsList';
 import { getDateISO } from '../../utils/date.utils';
 
-
-
-const columns = [
-  {
-    key: 'event_name',
-    name: 'Name',
-    fieldName: 'event_name',
-    minWidth: 60,
-    maxWidth: 200,
-    isResizable: true
-  },
-  {
-    key: 'approved',
-    name: 'Approved',
-    fieldName: 'approved',
-    minWidth: 30,
-    isResizable: true,
-    onRender: (item) => {
-      /* Renders a color column */
-      const color = (item.approved === "true") ? 'green' : 'red';
-      return (<p className={`ms-fontColor-${color}`}>{item.approved}</p>);
-    }
-  },
-  {
-    key: 'date',
-    name: 'Date',
-    fieldName: 'date',
-    minWidth: 70,
-    isResizable: true
-  },
-  {
-    key: 'room',
-    name: 'Room',
-    fieldName: 'room_number',
-    minWidth: 60,
-    isResizable: true
-  },
-  {
-    key: 'setup',
-    name: 'Setup Required',
-    fieldName: 'setup_required',
-    minWidth: 80,
-    isResizable: true
-  },
-  {
-    key: 'food_drink',
-    name: 'Food/Drink Provided',
-    fieldName: 'food_drink_required',
-    minWidth: 80,
-    isResizable: true
-  },
-  {
-    key: 'actions',
-    name: ' ',
-    fieldName: 'package_id',
-    minWidth: 80,
-    isResizable: true,
-    onRender: (item) => {
-      return (
-        <ActionButtons
-
-        />
-      )
-    }
-  }
-];
 
 export default class EventList extends React.Component {
   constructor() {
     super();
-    this.state = {};
-
-    this.renderItemCol = this.renderItemCol.bind(this);
+    this.createColumns = this.createColumns.bind(this);
   }
 
-  renderItemCol(item, index, column) {
+  /** Creates columns by binding passed action dispatchers. */
+  createColumns() {
+    // This is gross and verbose. 
     const { onView, onEdit, onDelete } = this.props;
 
-    switch(column.key) {
-      case 'package_id':
-        return (
-          <ActionButtons
-            package_id={item.key}
-            onView={onView}
-            onEdit={onEdit}
-            onDelete={onDelete}
-          />
-        );
-      default:
-        <span>{item[column.key]}</span>
-    }
+    const columns = [
+      {
+        key: 'approved',
+        fieldName: 'approved',
+        name: 'Approved',
+        className: 'Dashboard--approved',
+        ariaLabel: '',
+        minWidth: 48,
+        maxWidth: 48,
+        onRender: (item) => {
+          const approved = item.approved
+          const iconName = approved === 'true' ? 'Approve' : 'Blocked';
+          const iconColor = approved !== 'true' ? 'green' : 'red';
+          return (<Icon
+            title={approved.toString()}
+            iconName={iconName}
+            style={{ color: iconColor }}
+        />)}
+      },
+      {
+        key: 'event_name',
+        fieldName: 'event_name',
+        name: 'Title',
+        arialLabel: 'Title of the event',
+        minWidth: 128,
+        maxWidth: 300
+      },
+      {
+        key: 'attendance',
+        fieldName: 'num_people',
+        name: 'Attendance',
+        minWidth: 64
+      },
+      {
+        key: 'date',
+        fieldName: 'date',
+        minWidth: 80,
+        onRender: (item) => item.date
+      },
+      {
+        key: 'contact_email',
+        fieldName: 'contact_email',
+        ariaLabel: 'Event Planner or alternative contact',
+        minWidth: 80
+      },
+      {
+        key: 'package_id',
+        fieldName: 'package_id',
+        name: '',
+        className: 'Dashboard--ActionButton',
+        ariaLabel: 'Operations for this Event',
+        minWidth: 150,
+        maxWidth: 200,
+        onRender: (item) => {
+          return (<DefaultButton
+            onClick={() => onView(item.key)}
+            text="View event"
+            split={true}
+            menuProps={{
+              useTargetAsMinWidth: true,
+              gapSpace: 2,
+              directionalHint: DirectionalHint.bottomRightEdge,
+              items: [
+                {
+                  key: 'editEvent',
+                  name: 'Edit Event Information',
+                  iconProps: { iconName: 'Edit' },
+                  disabled: false, // permissions
+                  onClick: () => onEdit()
+                },
+                {
+                  key: 'deleteEvent',
+                  name: 'Delete Event',
+                  iconProps: { iconName: 'RemoveEvent' },
+                  disabled: true,
+                  onClick: () => onDelete()
+                }
+              ]
+            }}
+          />);
+        }
+      }
+    ];
+
+    return columns;
   }
 
-
-  renderItems(events) {
-    /* Renders rows from array of event objects. */
-    
-    let items = events.slice().map(item => ({
-      key                : item.package_id,
-      event_name         : item.event_name,
-      room_number        : item.room_number,
-      date               : getDateISO(item.date),
-      approved           : item.approved,
-      setup_required     : item.setup_required.toString(),
-      food_drink_required: item.food_drink_required.toString()
-    }));
-
-    return items;
-  }
-
-
-
-  
   render() {
-    const { events } = this.props;
+    console.log(this.props);
+    const loading = this.props.loading || true;
     return (
-      <DetailsList
-        items={this.renderItems(events)}
-        columns={columns}
-        checkboxVisibility={CheckboxVisibility.hidden}
-        //onRenderItemColumn={this.renderItemCol}
-        //onActiveItemChanged={(item) => this.onActiveItem(item)}
-      />
+      <div style={{ display: 'flex', width: '100%' }}>
+        <ShimmeredDetailsList
+          items={this.props.items}
+          columns={this.createColumns()}
+          enableSimmer={loading}
+          checkboxVisibility={CheckboxVisibility.hidden}
+          listProps={{ renderedWindowsAhead: 0, renderedWindowsBehind: 0 }}
+        />
+      </div>
     );
   }
 }
