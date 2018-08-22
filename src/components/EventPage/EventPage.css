@@ -34,27 +34,3 @@
 .ActionButtons button {
   width: 200px;
 }
-
-
-/* Smoother transitions */
-.ActionButton .ms-ContextualMenu-link .ms-ContextualMenu-itemText,
-.ActionButton .ms-ContextualMenu-link .ms-ContextualMenu-icon {
-  transition: color 250ms;
-}
-
-/* Change default color of action button icons */
-.ActionButton .ms-ContextualMenu-link .ms-ContextualMenu-itemText,
-.ActionButton .ms-ContextualMenu-link .ms-ContextualMenu-icon {
-  /*color: #333333;*/
-}
-
-/* Change color of action icon on hover */
-.ActionButton .ms-ContextualMenu-link:hover .ms-ContextualMenu-icon {
-  /*color: #fcd116 !important;*/
-}
-
-/* Change color of disabled action buttons and icons */
-.ActionButton .ms-ContextualMenu-link:disabled .ms-ContextualMenu-itemText,
-.ActionButton .ms-ContextualMenu-link:disabled .ms-ContextualMenu-icon {
-  /*color: #333333 !important;*/
-}

@@ -4,7 +4,6 @@ import { connect }    from 'react-redux';
 import { push }       from 'connected-react-router';
 
 import EventNav       from './EventNav';
-import ActionButtons  from './ActionButtons';
 import WorkflowWidget from './WorkflowWidget';
 import Popup          from '../common/Popup';
 import Details        from '../common/Details';
@@ -29,7 +28,6 @@ import { populateFormAndPush }  from '../../actions/field.actions';
 class EventPage extends React.Component {
   constructor() {
     super();
-
     this.state     = { 
       popupHidden  : true,
       popupType    : 'edit',
@@ -37,91 +35,63 @@ class EventPage extends React.Component {
     };
 
     // Bind popup functions
-    this.hidePopup       = this.hidePopup.bind(this);
-    this.warnEditEvent   = this.warnEditEvent.bind(this);
-    this.warnDeleteEvent = this.warnDeleteEvent.bind(this);
-    this.loadDeleteEvent = this.loadDeleteEvent.bind(this);
-
-    // Dispatch functions
-    this.editEvent = this.editEvent.bind(this);
-    this.deleteEventFromServer = this.deleteEventFromServer.bind(this);
+    this.hidePopup   = this.hidePopup.bind(this);
+    this.renderPopup = this.renderPopup.bind(this);
   }
 
   /** Retrieves information from server about event */
   componentDidMount()   {
     const { match: { params: { package_id }}} = this.props;
-    this.fetchEventFromServer(package_id);
+    this.props.getEventFromServer(package_id);
   }
 
   /** Updates our web page title when event loads. */
   componentWillUpdate(nextProps, prevProps) {
-    const { event: { event_name }, dispatch } = nextProps;
+    const { event: { event_name }, event_loading, event_error } = nextProps;
+    const { popupType } = this.state;
+
+    // Change page title
     if (event_name) document.title = `Event: ${event_name}`;
 
-    // If the current state has been set to delete, and loading then we know the user 
-    //initiated an event deletion. We should set the popup type to deleting to let them know
-    if (this.state.popupType === "delete" && nextProps.event_loading)
-      this.loadDeleteEvent();
-    else if (this.state.popupType === "deleting" && !nextProps.event_loading) {
-      if (!nextProps.event_error) dispatch(push("/dashboard"));
-      else this.setState({ popupType: 'error' });
+    // Check for updates in event status to trigger popup changes
+    // If we've set the popup to delete but there's a 
+    if (event_loading && popupType === "delete") this.renderPopup("deleting");
+    else if (popupType === "deleting" && !event_loading) {
+      // Check for errors, if none than the event was successfully deleted
+      if (!event_error) this.props.navigate("/dashboard");
+      else this.renderPopup("error");
     };
   }
 
-  /** Initiates a GET request to our server for an event */
-  fetchEventFromServer(package_id) {
-    const { dispatch } = this.props;
-    dispatch(getEvent(package_id));
-  }
 
   /* Alters component state, and hides the popup after a rerender. */
   hidePopup() { 
     this.setState({ popupHidden: true }); 
   }
 
-  /** Sets our popup type to edit and flags the dialog to render. */
-  warnEditEvent() {
-    this.setState({
-      popupHidden  : false,
-      popupType    : 'edit',
-      popupYesClick: this.editEvent
-    });
-  }
+  renderPopup(popupType) {
+    // Gather dispatch functions from react-redux's connect
+    const { event, editEvent, deleteEventFromServer, navigate } = this.props;
 
-  /** Populates the form information fields with current event's data. */
-  editEvent() {
-    let { dispatch, event } = this.props;
-    dispatch(populateFormAndPush(event));
-  }
+    // Create a mapping of 'state' => function
+    const clickCallback = {
+      edit    : () => editEvent(event),
+      delete  : () => deleteEventFromServer(event.package_id),
+      deleting: () => console.log("Patience... I've sent the delete request to the server"),
+      error   : () => navigate("/dashboard")
+    };
 
-  /** Sets our popup type to delete and opens the dialog. */
-  warnDeleteEvent() {
-    this.setState({
-      popupHidden  : false,
-      popupType    : 'delete',
-      popupYesClick: this.deleteEventFromServer
-    })
-  }
-
-  /** Sets our popup type to loading */
-  loadDeleteEvent() {
     this.setState({
       popupHidden: false,
-      popupType: "deleting",
-      popupYesClick: () => console.log("Patience... Submitted to server")
+      popupType: popupType,
+      popupYesClick: clickCallback[popupType]
     });
-  }
-
-  /** Initiates deleteing of the current event from Workflow and Dynamodb. */
-  deleteEventFromServer() {
-    const { match: { params: { package_id }}, dispatch } = this.props;
-    dispatch(deleteEvent(package_id));
   }
 
   render() {
     let { 
       history,  match: { params: { package_id, signature_id }},                            
-      permissions, event,
+      permissions, event, event_loading
     } = this.props;
 
     return (
@@ -129,15 +99,15 @@ class EventPage extends React.Component {
         <EventNav
           history={history}
           permissions={permissions}
-          onEdit={this.warnEditEvent}
-          onRemove={this.warnDeleteEvent}
+          onEdit={() => this.renderPopup('edit')}
+          onRemove={() => this.renderPopup('delete')}
           package_id={package_id}
         />
 
-        {' '}
-        <hr/>
 
-        <Details event={event} />
+        <br/>
+        {' '}
+        <Details event={event} loading={event_loading} />
 
         <Popup
           popupHidden={this.state.popupHidden}
@@ -161,10 +131,11 @@ const mapStateToProps = state => ({
   event_error  : state.events.event_error
 });
 
-/*const mapDispatchToProps = dispatch => ({
-  getEvent   : package_id => dispatch(getEvent(package_id)),
-  deleteEvent: package_id => dispatch(deleteEvent(package_id)),
-  editEvent  : info => dispatch(populateFieldInfo(info))
-});*/
+const mapDispatchToProps = dispatch => ({
+  getEventFromServer   : package_id => dispatch(getEvent(package_id)),
+  deleteEventFromServer: package_id => dispatch(deleteEvent(package_id)),
+  editEvent            : info => dispatch(populateFormAndPush(info)),
+  navigate             : path => dispatch(push(path))
+});
 
-export default connect(mapStateToProps)(EventPage);
+export default connect(mapStateToProps, mapDispatchToProps)(EventPage);

@@ -1,7 +1,20 @@
 /* Dependencies -------------------------------------------------------------*/
 import React          from 'react';
 import NavPage        from '../common/NavPage'
+import { ActionButton } from 'office-ui-fabric-react';
 import ActionButtons  from './ActionButtons';
+
+
+
+const makeButton = (iconName, text, callback) => (
+  <ActionButton
+    iconProps={{ iconName: iconName }}
+    text={text}
+    onClick={() => callback()}
+  />);
+
+
+
 
 
 /* React Component ----------------------------------------------------------*/
@@ -27,15 +40,11 @@ export default class EventNav extends React.PureComponent {
               <h2>Event Details</h2>
             </div>
 
-            
-            <ActionButtons
-              permissions={permissions}
-              onEdit={onEdit}
-              onRemove={onRemove}
-            />
-
+            <span style={{ float: 'right'}}>
+              {makeButton('Edit', "Edit Event", onEdit)}
+              {makeButton('removeEvent', "Cancel Event", onRemove)}
+            </span>
           </div>
-
         </div>
       </div>
     );

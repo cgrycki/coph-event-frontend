@@ -54,6 +54,6 @@ export function fetchLogin() {
 
     rp(uri, options)
       .then(data => dispatch(fetchLoginSuccess(data)))
-      .catch(err => dispatch(fetchLoginFailure(err)));
+      .catch(err => dispatch(fetchLoginFailure(JSON.parse(err))));
   }
 }
