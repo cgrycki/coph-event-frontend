@@ -2,8 +2,6 @@
 import React          from 'react';
 import NavPage        from '../common/NavPage'
 import { ActionButton } from 'office-ui-fabric-react';
-import ActionButtons  from './ActionButtons';
-
 
 
 const makeButton = (iconName, text, callback) => (
@@ -12,8 +10,6 @@ const makeButton = (iconName, text, callback) => (
     text={text}
     onClick={() => callback()}
   />);
-
-
 
 
 

@@ -11,7 +11,11 @@ export default class Scheduler extends React.Component {
   render() {
     /* Renders a schdule component */
     
-    let { date, start, end, title } = this.props;     // Proposed event props
+    let { 
+      date, 
+      start_time:start, 
+      end_time:end, 
+      event_name: title           } = this.props;     // Proposed event props
     let { room_schedule, room_number } = this.props;  // Existing events
     let { onChange } = this.props;                    // Changing events
 

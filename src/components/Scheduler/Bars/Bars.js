@@ -42,27 +42,27 @@ export default class Bars extends React.PureComponent {
     let { width } = dimensions;
 
     // Event attributes, make sure we have valid attributes
-    let { event_name, start_time, end_time } = data;
-    if (start_time === "" || end_time === "") return (<g></g>);
+    let { title, start, end } = data;
+    if (start === "" || end === "") return (<g></g>);
 
     // Parse times
-    start_time = parseAppTime(start_time);
-    end_time   = parseAppTime(end_time);
+    start = parseAppTime(start);
+    end   = parseAppTime(end);
 
     // One more check for negative heights
-    if ((yScale(end_time) - yScale(start_time)) < 0) return (<g></g>);
+    if ((yScale(end) - yScale(start)) < 0) return (<g></g>);
       
     return (
       <Bar
         key={'proposedEvent'}
-        transform={`translate(${margins.left}, ${yScale(start_time)})`}
+        transform={`translate(${margins.left}, ${yScale(start)})`}
         x={1}
         y={0}
         width={width - margins.left - margins.right - 2}
-        height={yScale(end_time) - yScale(start_time)}
+        height={yScale(end) - yScale(start)}
         fill={(schedule_overlap) ? "#e81123" : "#107c10"}
         fillOpacity={0.5}
-        title={event_name}
+        title={title}
         className="EventBar"
       />
     );
@@ -73,7 +73,6 @@ export default class Bars extends React.PureComponent {
 
     // Create the room's events
     const room_bars = room_schedule.map(d => this.renderMAUIBar(d, this.props));
-
     // Create proposed event
     const proposedEvent = this.renderUserBar(new_event, this.props);
 
