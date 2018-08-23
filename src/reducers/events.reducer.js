@@ -26,12 +26,12 @@ export const eventReducer = (state=initialStore.events, action) => {
 
     /** Success GET request, populate events list. */
     case eventActions.GET_EVENTS_SUCCESS:
-      const eventsInfo = action.payload;
+      const evts = action.payload;
       return { 
         ...state, 
         event_loading: false,
         event_error  : null,
-        events       : eventsInfo
+        events       : evts
       };
 
     /** Successful DELETE request, filter event with matching Package ID */

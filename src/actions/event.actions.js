@@ -112,6 +112,53 @@ export function deleteEvent(package_id) {
   }
 }
 
+/**
+ * Dispatches the delete event FOR WORKFLOW ONLY.
+ * @param {number} package_id Primary key of an event
+ */
+export function deleteWorkflowEvent(package_id) {
+  return (dispatch) => {
+    dispatch(fetchEventLoading());
+
+    let uri = `${URI}/utils/workflow/${package_id}`;
+    let options = {
+      method         : 'DELETE',
+      uri            : uri,
+      withCredentials: true,
+      json           : true
+    };
+
+    rp(options)
+      .then(res => (res.error) ?
+        dispatch(fetchEventFailure(res)) :
+        dispatch(deleteEventSuccess(res)))
+      .catch(err => dispatch(fetchEventFailure(err)));
+  }
+}
+
+/**
+ * Dispatches the delete event FOR WORKFLOW ONLY.
+ * @param {number} package_id Primary key of an event
+ */
+export function deleteDynamoEvent(package_id) {
+  return (dispatch) => {
+    dispatch(fetchEventLoading());
+
+    let uri = `${URI}/utils/dynamo/${package_id}`;
+    let options = {
+      method         : 'DELETE',
+      uri            : uri,
+      withCredentials: true,
+      json           : true
+    };
+
+    rp(options)
+      .then(res => (res.error) ?
+        dispatch(fetchEventFailure(res)) :
+        dispatch(deleteEventSuccess(res)))
+      .catch(err => dispatch(fetchEventFailure(err)));
+  }
+}
 
 /** Push to the single event page. Event will load on page mount. */
 export const populateEventAndPush = (package_id) => push(`/event/${package_id}`);
