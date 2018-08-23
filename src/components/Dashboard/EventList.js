@@ -19,7 +19,7 @@ export default class EventList extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      isAdmin      : props.isAdmin,
+      is_admin      : props.is_admin,
       event        : undefined,
       popupType    : 'edit',
       popupHidden  : true,

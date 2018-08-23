@@ -1,6 +1,6 @@
 import React        from 'react';
 import { connect }  from 'react-redux';
-import NavPage      from '../common/NavPage';
+import DashboardNav from './DashboardNav';
 import EventList    from './EventList';
 import './Dashboard.css';
 
@@ -18,7 +18,7 @@ import { populateFormAndPush } from '../../actions/field.actions';
 class DashboardComponent extends React.Component {
   constructor(props) {
     super();
-    this.state = {isAdmin: props.isAdmin};
+    this.state = {is_admin: props.is_admin};
   }
 
   /** Fetches event list on load and alters web page title */
@@ -31,15 +31,15 @@ class DashboardComponent extends React.Component {
     return (
       <div className="ms-Grid-col ms-sm12 Dashboard">
 
-        <div className="ms-Grid-row DashboardHeader">
-          <NavPage history={this.props.history} />
-          <h2>My Events</h2>
-        </div>
+        <DashboardNav 
+          history={this.props.history}
+          is_admin={this.props.is_admin}
+        />
         
         <div><hr/><br/></div>
 
         <EventList
-          isAdmin={this.props.isAdmin}
+          is_admin={this.props.is_admin}
           items={this.props.events}
           loading={this.props.event_loading}
           error={this.props.event_error}
@@ -58,8 +58,8 @@ const mapStateToProps = state => ({
   events       : state.events.events,
   event_loading: state.events.event_loading,
   event_error  : state.events.event_error,
-  loggedIn     : state.app.loggedIn,
-  isAdmin      : state.app.isAdmin
+  logged_in     : state.app.logged_in,
+  is_admin      : state.app.is_admin
 });
 
 const mapDispatchToProps = dispatch => ({

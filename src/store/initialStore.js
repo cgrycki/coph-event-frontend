@@ -70,7 +70,7 @@ const layout = {
 
 // Application: Stores application data about our user's session
 const app = {
-  loggedIn     : false,
+  logged_in     : false,
   login_loading: false,
   login_error  : null,
   user_email   : '',

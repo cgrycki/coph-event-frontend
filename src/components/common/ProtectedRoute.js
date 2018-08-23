@@ -12,9 +12,9 @@ import Home                 from '../Home';
 
 // Const
 const ProtectedRouteConst = (props) => {
-  let { loggedIn, path, Component } = props;
+  let { logged_in, path, Component } = props;
 
-  return (loggedIn) ?
+  return (logged_in) ?
     // If we're logged in, render the intended component
     <Route path={path} component={Component} /> :
     // If not, redirect to home with history. This will allow rerouting 
@@ -26,8 +26,8 @@ const ProtectedRouteConst = (props) => {
 
 // Container
 const mapStateToProps = (state) => ({
-  loggedIn     : state.app.loggedIn,
-  isAdmin      : state.app.isAdmin
+  logged_in     : state.app.logged_in,
+  is_admin      : state.app.is_admin
 });
 // Set pure to false so that react+redux can rerender component within private route
 export default connect(mapStateToProps, null, null, { pure: false })(ProtectedRouteConst);
