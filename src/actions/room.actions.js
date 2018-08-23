@@ -14,7 +14,6 @@ const fetchRoomsLoading = () => ({
   type: roomActions.FETCH_ROOMS_LOADING
 })
 
-
 /**
  * Tells application that we have successfully recieved our rooms data
  * @param {*} response HTTP response containing List of objects from our API
@@ -24,7 +23,6 @@ const fetchRoomsSuccess = (response) => ({
   payload: response,
 })
 
-
 /**
  * Notifies application of unsuccessful room call.
  * @param {error} error Error returned from our API call
@@ -33,7 +31,6 @@ const fetchRoomsFailure = (error) => ({
   type   : roomActions.FETCH_ROOMS_FAILURE,
   payload: error
 })
-
 
 /**
  * Wraps all of our actions in a function so that we may execute an async action
@@ -101,5 +98,39 @@ export function fetchRoomSchedule(room_number, date) {
       .then(data => dispatch(fetchScheduleSuccess(data)))
       .catch(err => dispatch(fetchScheduleFailure(err)))
       .finally(() => dispatch(updateForm(undefined, undefined)));
+  }
+}
+
+
+const fetchCoursesLoading = () => ({
+  type: roomActions.FETCH_COURSES_LOADING
+});
+
+const fetchCoursesSuccess = (response) => ({
+  type   : roomActions.FETCH_COURSES_SUCCESS,
+  payload: response
+});
+
+const fetchCoursesError = (error) => ({
+  type   : roomActions.FETCH_COURSES_ERROR,
+  payload: error
+});
+
+export function fetchCourses(courseString) {
+  return (dispatch) => {
+    // Notify store we're initiating a course search
+    dispatch(fetchCoursesLoading());
+
+    // Create the options for the API call
+    const options = {
+      method         : 'GET',
+      uri            : `${URI}/maui/courses/${courseString}`,
+      withCredentials: true,
+      json           : true
+    };
+
+    rp(options)
+      .then(res => dispatch(fetchCoursesSuccess(res)))
+      .catch(err => dispatch(fetchCoursesError(err)));
   }
 }

@@ -80,13 +80,17 @@ const app = {
 
 // Rooms: Stores our API room data
 const rooms = {
-  rooms           : [],
-  rooms_loading   : false,
-  room_error      : null,
+  rooms        : [],
+  rooms_loading: false,
+  room_error   : null,
 
   room_schedule   : [],
   schedule_loading: false,
-  schedule_error  : null
+  schedule_error  : null,
+
+  courses       : [],
+  course_loading: false,
+  course_error  : null
 };
 
 
