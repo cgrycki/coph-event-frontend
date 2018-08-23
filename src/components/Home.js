@@ -136,7 +136,7 @@ class Home extends React.Component {
       <div className="Home">
 
         <div className="ms-Grid-row">
-          <div className="ms-Grid-col ms-sm12">
+          <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg10 ms-lgPush1 ms-xl10 ms-xxl8 ms-xxlPush2">
             <h1 
               className="ms-slideRightIn40"
               style={hero_style}
@@ -151,32 +151,32 @@ class Home extends React.Component {
         <br/>
 
         <div>
-        <div className="ms-Grid-row">
-          <div className="ms-Grid-col ms-sm12">
+          <div className="ms-Grid-row">
+            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg10 ms-lgPush1 ms-xl10 ms-xxl8 ms-xxlPush2">
 
-            <div style={{"display": "flex", "justifyContent": "space-between", margin: "15px 0px"}}>
-              <div style={{float: 'left'}}>
-                <CompoundButton
-                  primary={true}
-                  secondaryText="with your Iowa account."
-                  disabled={loggedIn}
-                  text={"Login"}
-                  title="Login to your University of Iowa account."
-                  href={`${process.env.REACT_APP_REDIRECT_URI}/auth`}
-                />
+              <div style={{"display": "flex", "justifyContent": "space-between", margin: "15px 0px"}}>
+                <div style={{float: 'left'}}>
+                  <CompoundButton
+                    primary={true}
+                    secondaryText="with your Iowa account."
+                    disabled={loggedIn}
+                    text={"Login"}
+                    title="Login to your University of Iowa account."
+                    href={`${process.env.REACT_APP_REDIRECT_URI}/auth`}
+                  />
+                </div>
+                <div style={{float: 'right'}}>
+                  <CompoundButton
+                    primary={true}
+                    text={"Create an Event"}
+                    disabled={!loggedIn}
+                    onClick={() => this.nextPage()}
+                  />
+                </div>
               </div>
-              <div style={{float: 'right'}}>
-                <CompoundButton
-                  primary={true}
-                  text={"Create an Event"}
-                  disabled={!loggedIn}
-                  onClick={() => this.nextPage()}
-                />
-              </div>
+
             </div>
-
           </div>
-        </div>
         </div>
 
       </div>

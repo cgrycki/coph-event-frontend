@@ -26,12 +26,12 @@ const App = ({ store, history }) => (
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <Fabric dir="ltr">
+        <NavBar />
 
         <div className="ms-Grid App">
           <div className="ms-Grid-row">
             <Page>
               
-              <NavBar />
               <Switch>
                 <Route path="/" exact                     component={Home} />
                 <ProtectedRoute path="/dashboard"         Component={Dashboard} />

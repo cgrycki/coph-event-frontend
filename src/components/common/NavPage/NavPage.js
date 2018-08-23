@@ -115,13 +115,16 @@ export default class NavPage extends React.PureComponent {
   render() {
     return (
       <div className="ms-Grid-row">
-        <div className="ms-Grid-col ms-sm12 ms-lg12 ms-xxl12">
+        <div 
+          className="ms-Grid-col ms-sm12 ms-lg12 ms-xxl12"
+          style={{ paddingLeft: 'unset' }}
+        >
           <Breadcrumb
-              maxDisplayedItems={2}
-              items={this.createCrumbs(this.props)}
-            />
-          </div>
+            maxDisplayedItems={2}
+            items={this.createCrumbs(this.props)}
+          />
         </div>
+      </div>
     );
   }
 }

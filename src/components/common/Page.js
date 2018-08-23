@@ -11,19 +11,23 @@ class Page extends React.PureComponent {
 
     // Inline page styling
     // Original styling: "ms-sm12 ms-lg10 ms-xxl8 ms-lgPush1 ms-xxlPush2";
-    const page_width  = (isLayout) ? "98%"                : "76%";
-    const page_height = (isLayout) ? "calc(100% - 55px)"  : "76%";
+    const page_width  = (isLayout) ? "98%"                : "inherit";
+    const page_height = (isLayout) ? "calc(100% - 55px)"  : "inherit";
     const page_margin = (isLayout) ? "40px calc(2% / 2) 15px"   : "6% 12%";
     const page_style  = {
-      width : page_width,
-      height: page_height,
-      margin: page_margin
+      //width : page_width,
+      //height: '100%',
+      display: 'flex',
+      flexGrow: '1',
+      flexDirection: 'column'
+      //margin: page_margin
     };
 
     return (
       <div 
-        className={"Page ms-borderBase ms-Grid-col ms-fadeIn10"}
-        style={page_style}>
+        className="ms-borderBase ms-Grid-col ms-sm12 ms-md12 ms-lg10 ms-lgPush1 ms-xl8 ms-xlPush2 ms-xxl6 ms-xxlPush3 ms-fadeIn10 Page"
+        //style={page_style}
+      >
         {this.props.children}
       </div>
     );

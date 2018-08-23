@@ -20,13 +20,13 @@ body {
 /* Page Wrapper for our routes */
 .Page {
   background-color: #ffffff;
-  padding: 25px 30px !important;
+  padding: 10px 25px 10px 25px !important;
   border-radius: 2px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.12), 0 2px 3px rgba(0,0,0,0.24);
   transition: 750ms;
   -webkit-transition: 750ms;
   -moz-transition: 750ms;
-  position: fixed;
+  min-height: 50vh;
 }
 
 

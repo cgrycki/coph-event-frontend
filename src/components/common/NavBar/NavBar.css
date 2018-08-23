@@ -2,10 +2,7 @@
 
 /* Div wrapping CommandBar component. Set position to fixed to escape container*/
 .NavBarWrapper {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 100vw;
+  margin-bottom: 10px;
 }
 
 /* Override CommandBar background color */

@@ -57,7 +57,7 @@ export default class EventList extends React.Component {
         className: 'Dashboard--approved',
         ariaLabel: '',
         minWidth: 64,
-        maxWidth: 32,
+        maxWidth: 64,
         onRender: (item) => {
           const approved = item.approved
           const iconName = approved === 'true' ? 'Approve' : 'Blocked';
