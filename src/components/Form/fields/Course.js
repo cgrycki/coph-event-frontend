@@ -1,6 +1,10 @@
 import React from 'react';
-import { Toggle, ComboBox } from 'office-ui-fabric-react';
-import { isNumeric, isLength } from 'validator';
+import { 
+  Toggle, 
+  ComboBox,
+  BasePicker,
+  BasePickerListBelow
+} from 'office-ui-fabric-react';
 
 
 /**
