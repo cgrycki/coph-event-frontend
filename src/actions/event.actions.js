@@ -4,6 +4,7 @@
 import * as rp          from 'request-promise';
 import { push }         from 'connected-react-router';
 import { eventActions } from '../constants/actionTypes';
+import { parseDynamo }  from '../utils/date.utils';
 const URI               = process.env.REACT_APP_REDIRECT_URI;
 
 
@@ -16,6 +17,11 @@ export const fetchEventLoading = () => ({
 export const fetchEventFailure = (error) => ({
   type: eventActions.EVENT_ERROR,
   payload: error
+})
+
+/** Reusable action to reset REST status */
+export const fetchEventReset = () => ({
+  type: eventActions.EVENT_RESET
 })
 
 /** Notify store that we've successfully fetched an event from server */
@@ -36,9 +42,16 @@ export const deleteEventSuccess = (response) => ({
   payload: response
 })
 
+/** Sets our store attribute controlling fetch behavior on Event Page load. */
+export const setEventFetch = (shouldFetch) => ({
+  type: eventActions.SET_FETCH_EVENT,
+  payload: shouldFetch
+});
+
 
 /**
  * GET call our API to retrieve information on an single event
+ * @param {number} package_id HashKey of event to GET from API. 
  */
 export function getEvent(package_id) {
   return (dispatch) => {
@@ -160,5 +173,22 @@ export function deleteDynamoEvent(package_id) {
   }
 }
 
-/** Push to the single event page. Event will load on page mount. */
-export const populateEventAndPush = (package_id) => push(`/event/${package_id}`);
+/** Populate event from our events list. */
+export const populateEventInfo = (evt, permissions) => ({
+  type: eventActions.POPULATE_EVENT_INFO,
+  payload: { evt, permissions }
+});
+
+/** 
+ * Populates an event and then dispatches navigation to the event page for viewing.
+ * @param {Object} item Event and permissions object from our store's events [].
+ * @param [item.evt] {Object} - Event information submitted by user.
+ * @param [item.permissions] {Object} - Event permissions from Workflow. 
+ */
+export const populateEventAndPush = ({evt, permissions}) => (dispatch) => {
+  const formattedInfo = parseDynamo(evt);                   // Format Dynamo object
+  dispatch(populateEventInfo(formattedInfo, permissions));  // Populate Event Page info
+  dispatch(fetchEventReset());                              // Reset event page loading+error+success
+  dispatch(setEventFetch(false));                           // Disable retrieving event because we've loaded it
+  dispatch(push(`/event/${evt.package_id}`));               // Route to the event so user can view
+}

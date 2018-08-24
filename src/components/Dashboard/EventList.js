@@ -61,7 +61,7 @@ export default class EventList extends React.Component {
         onRender: (item) => {
           const approved = item.evt.approved
           const iconName = approved === 'true' ? 'EventAccepted' : 'EventDeclined';
-          const iconColor = approved === 'true' ? 'green' : 'red';
+          const iconColor = approved === 'true' ? '#107c10' : '#e81123';
           return (<Icon
             title={approved.toString()}
             iconName={iconName}
@@ -85,9 +85,9 @@ export default class EventList extends React.Component {
       {
         key: 'attendance',
         name: 'Attendance',
-        minWidth: 64,
-        maxWidth: 75,
-        onRender: (item) => item.evt.num_people
+        minWidth: 62,
+        maxWidth: 62,
+        onRender: (item) => <span style={{float: 'right'}}>{item.evt.num_people}</span>
       },
       {
         key: 'date',
@@ -113,7 +113,7 @@ export default class EventList extends React.Component {
         onRender: (item) => {
           item.date = getDateISO(item.evt.date);
           return (<DefaultButton
-            onClick={() => onView(item.evt.package_id)}
+            onClick={() => onView(item)}
             text="View event"
             split={true}
             menuProps={{
@@ -132,7 +132,7 @@ export default class EventList extends React.Component {
                   key: 'deleteEvent',
                   name: 'Delete Event',
                   iconProps: { iconName: 'RemoveEvent' },
-                  disabled: ((!item.permissions.canInitatorVoid) || (!item.permissions.canVoid)),
+                  disabled: (!item.permissions.canInitiatorVoid || !item.permissions.canVoid),
                   onClick: () => this.renderPopup('delete')
                 }
               ]

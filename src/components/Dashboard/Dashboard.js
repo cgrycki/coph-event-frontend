@@ -63,7 +63,7 @@ class DashboardComponent extends React.Component {
                 items={this.props.events}
                 loading={this.props.event_loading}
                 error={this.props.event_error}
-                onView={this.props.popuplateEventAndPush}
+                onView={this.props.populateEventAndPush}
                 onEdit={this.props.populateFormAndPush}
                 onDelete={this.props.deleteEventFromServer}
               />
@@ -108,7 +108,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  popuplateEventAndPush: (package_id) => dispatch(populateEventAndPush(package_id)),
+  populateEventAndPush: (package_id) => dispatch(populateEventAndPush(package_id)),
   populateFormAndPush  : (info) => dispatch(populateFormAndPush(info)),
   getEventsFromServer  : () => dispatch(getEvents()),
   deleteEventFromServer: (package_id) => dispatch(deleteEvent(package_id)),

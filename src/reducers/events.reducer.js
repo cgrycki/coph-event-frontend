@@ -9,6 +9,7 @@ import {
 
 export const eventReducer = (state=initialStore.events, action) => {
   const type = action.type;
+  var evt, evts, package_id, permissions, error;
 
   switch (type) {
     /** Initiated a REST call */
@@ -19,14 +20,21 @@ export const eventReducer = (state=initialStore.events, action) => {
     case eventActions.EVENT_ERROR:
       return { ...state, event_loading: false, event_error: action.payload.error };
 
-    /** Successful GET request, populate single event */
+    /** Reset REST status for events */
+    case eventActions.EVENT_RESET:
+      return { ...state, event_loading: false, event_error: null };
+
+    case eventActions.SET_FETCH_EVENT:
+      return { ...state, should_fetch: false };
+
+    /** Successful GET request, populate event page */
     case eventActions.GET_EVENT_SUCCESS:
-      let { evt, permissions } = action.payload;
+      var { evt, permissions } = action.payload;
       return { ...state, event_loading: false, event: evt, permissions };
 
     /** Success GET request, populate events list. */
     case eventActions.GET_EVENTS_SUCCESS:
-      const evts = action.payload;
+      evts = action.payload;
       return { 
         ...state, 
         event_loading: false,
@@ -36,7 +44,7 @@ export const eventReducer = (state=initialStore.events, action) => {
 
     /** Successful DELETE request, filter event with matching Package ID */
     case eventActions.DELETE_EVENT_SUCCESS:
-      const package_id = +action.payload.package_id;
+      package_id = +action.payload.package_id;
       const filtered_events = state.events.filter(e => e.package_id !== package_id);
 
       return { 
@@ -46,10 +54,15 @@ export const eventReducer = (state=initialStore.events, action) => {
         events       : filtered_events
       };
 
-    /** Successful POST request, add event to our list */
+    /** Successful POST request, add event to our events list */
     case fieldActions.SUBMIT_FORM_SUCCESS:
       const events_plus_new = [...state.events, action.payload];
       return { ...state, events: events_plus_new, event: action.payload };
+
+    /** Populate event page information */
+    case eventActions.POPULATE_EVENT_INFO:
+      var { evt, permissions } = action.payload;
+      return { ...state, event: evt, permissions };
 
     default:
       return state;

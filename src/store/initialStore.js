@@ -101,9 +101,10 @@ const events = {
     canSign         : false,
     signatureId     : null
   },
-  events: [],
+  events       : [],
   event_loading: false,
-  event_error: null
+  event_error  : null,
+  should_fetch : true
 };
 
 
