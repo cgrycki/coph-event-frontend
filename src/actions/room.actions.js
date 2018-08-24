@@ -14,7 +14,6 @@ const fetchRoomsLoading = () => ({
   type: roomActions.FETCH_ROOMS_LOADING
 })
 
-
 /**
  * Tells application that we have successfully recieved our rooms data
  * @param {*} response HTTP response containing List of objects from our API
@@ -24,7 +23,6 @@ const fetchRoomsSuccess = (response) => ({
   payload: response,
 })
 
-
 /**
  * Notifies application of unsuccessful room call.
  * @param {error} error Error returned from our API call
@@ -33,7 +31,6 @@ const fetchRoomsFailure = (error) => ({
   type   : roomActions.FETCH_ROOMS_FAILURE,
   payload: error
 })
-
 
 /**
  * Wraps all of our actions in a function so that we may execute an async action

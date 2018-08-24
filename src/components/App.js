@@ -20,6 +20,9 @@ import StepTwo        from './Form/StepTwo';
 import StepThree      from './Form/StepThree';
 import StepFour       from './Form/StepFour';
 
+import StepSix        from './Form/StepSix';
+
+
 
 // Container -- Holds our application data store and sets routes up
 const App = ({ store, history }) => (
@@ -33,6 +36,7 @@ const App = ({ store, history }) => (
               
               <NavBar />
               <Switch>
+                <Route path="/form/search" exact component={StepSix} />
                 <Route path="/" exact                     component={Home} />
                 <ProtectedRoute path="/dashboard"         Component={Dashboard} />
                 <ProtectedRoute 

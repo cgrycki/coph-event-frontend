@@ -9,6 +9,7 @@ export const roomReducer = (state=initialStore.rooms, action) => {
   let type = action.type;
 
   switch (type) {
+    /** Rooms ------------------------------------------------------------------*/
     case (roomActions.FETCH_ROOMS_LOADING):
       return { ...state, rooms_loading: true };
 
@@ -29,6 +30,7 @@ export const roomReducer = (state=initialStore.rooms, action) => {
         rooms_error 
       };
     
+    /** Room schedules ---------------------------------------------------------*/
     case (roomActions.FETCH_SCHEDULE_LOADING):
       return { ...state, schedule_loading: true };
 
@@ -44,8 +46,9 @@ export const roomReducer = (state=initialStore.rooms, action) => {
       error = action.payload;
       schedule_error = error.message;
       return { ...state, schedule_loading: false, schedule_error };
-
-    case (roomActions.FETCH_ROOMS_RESET):
+    
+    /** Reset MAUI REST --------------------------------------------------------*/
+    case roomActions.FETCH_ROOMS_RESET:
       return { ...initialStore.rooms };
 
     default:

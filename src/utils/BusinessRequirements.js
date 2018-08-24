@@ -21,6 +21,7 @@ import {
 }                     from './param.utils';
 
 
+
 export default class BusinessRequirements {
   constructor() {
     this.errors = {};
@@ -107,6 +108,15 @@ export default class BusinessRequirements {
     };
   }
 
+  validateCourse(references_course, referenced_course) {
+    /** Ensures there is a course if the references_course toggle is true */
+    if ((references_course === true) && (referenced_course === '')) { 
+        this.errors['referenced_course'] = "You must select a course before proceeding.";
+    }
+    // Clear the errors
+    else delete this.errors['referenced_course'];
+  }
+
   validateMFK(setup_required, setup_mfk) {
     return null;
   }
@@ -164,6 +174,9 @@ export default class BusinessRequirements {
 
     // Make sure food/drink is valid
     this.validateFoodDrink(info.food_drink_required, info.food_provider, info.alcohol_provider);
+
+    // Make sure the course selection is valid
+    this.validateCourse(info.references_course, info.referenced_course);
 
     // Make sure Setup MFK is valid
     //this.validateMFK(info.setup_required, info.setup_mfk);
