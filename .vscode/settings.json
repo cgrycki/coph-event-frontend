@@ -1,9 +1,4 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
 	"files.exclude": {
 		"**/.git": true,
 		"**/.svn": true,
@@ -13,6 +8,7 @@
 		
 		// Hide Node packages
 		"node_modules/": true,
+		"node_module.s/": true,
 
 		// Hide NPM install files
 		"package*.json": true,
@@ -24,7 +20,10 @@
 		".gitignore": true,
 
 		// Hide VS Code
-		".vscode/": true
+		".vscode/": true,
+		
+		// Hide old code until we intergrate
+		"old-src": true
 	},
 	// Tab settings for javascript
 	"editor.tabSize": 2,
