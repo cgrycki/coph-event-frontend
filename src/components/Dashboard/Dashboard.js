@@ -1,7 +1,14 @@
 import React        from 'react';
 import { connect }  from 'react-redux';
+import {
+  Pivot,
+  PivotItem,
+  PivotLinkFormat,
+  PivotLinkSize
+}                   from 'office-ui-fabric-react';
 import NavPage      from '../common/NavPage';
 import EventList    from './EventList';
+import AdminTools   from './AdminTools';
 import './Dashboard.css';
 
 
@@ -9,6 +16,8 @@ import './Dashboard.css';
 import { 
   getEvents,
   deleteEvent,
+  deleteWorkflowEvent,
+  deleteDynamoEvent,
   populateEventAndPush
 }                              from '../../actions/event.actions';
 import { populateFormAndPush } from '../../actions/field.actions';
@@ -18,7 +27,10 @@ import { populateFormAndPush } from '../../actions/field.actions';
 class DashboardComponent extends React.Component {
   constructor(props) {
     super();
-    this.state = {isAdmin: props.isAdmin};
+    this.state = {
+      tab: "MyEvents",
+      is_admin: props.is_admin
+    };
   }
 
   /** Fetches event list on load and alters web page title */
@@ -30,23 +42,56 @@ class DashboardComponent extends React.Component {
   render() {
     return (
       <div className="ms-Grid-col ms-sm12 Dashboard">
-
-        <div className="ms-Grid-row DashboardHeader">
+      
+        <div className="ms-Grid-row">
           <NavPage history={this.props.history} />
-          <h2>My Events</h2>
         </div>
         
-        <div><hr/><br/></div>
+        <br/>
 
-        <EventList
-          isAdmin={this.props.isAdmin}
-          items={this.props.events}
-          loading={this.props.event_loading}
-          error={this.props.event_error}
-          onView={this.props.popuplateEventAndPush}
-          onEdit={this.props.populateFormAndPush}
-          onDelete={this.props.deleteEventFromServer}
-        /> 
+        <div className="ms-Grid-row">
+          <Pivot linkSize={PivotLinkSize.Large} linkFormat={PivotLinkFormat.links}>
+            <PivotItem
+              key="MyEvents"
+              linkText="My Events"
+              itemIcon="BulletedList"
+              itemCount={this.props.events.length}
+            >
+              <br/>
+              <EventList
+                is_admin={this.props.is_admin}
+                items={this.props.events}
+                loading={this.props.event_loading}
+                error={this.props.event_error}
+                onView={this.props.populateEventAndPush}
+                onEdit={this.props.populateFormAndPush}
+                onDelete={this.props.deleteEventFromServer}
+              />
+            </PivotItem>
+            <PivotItem
+              key="MySchedule"
+              linkText="Schedule"
+              itemIcon="CalendarAgenda"
+              disabled
+            />
+            {this.state.is_admin && 
+              <PivotItem
+                key="AdminTools"
+                linkText="Administrator Tools"
+                itemIcon="Settings"
+                
+              >
+                <br/>
+                <AdminTools
+                  workflowCallback={(package_id) => this.props.deleteWorkflowEvent(package_id)}
+                  dynamoCallback={(package_id) => this.props.deleteDynamoEvent(package_id)}
+                  loading={this.props.event_loading}
+                  error={this.props.event_error}
+                />
+              </PivotItem>}
+          </Pivot>
+        </div>
+
       </div>
     );
   }
@@ -58,15 +103,17 @@ const mapStateToProps = state => ({
   events       : state.events.events,
   event_loading: state.events.event_loading,
   event_error  : state.events.event_error,
-  loggedIn     : state.app.loggedIn,
-  isAdmin      : state.app.isAdmin
+  logged_in    : state.app.logged_in,
+  is_admin     : state.app.is_admin
 });
 
 const mapDispatchToProps = dispatch => ({
-  getEventsFromServer  : () => dispatch(getEvents()),
-  popuplateEventAndPush: (package_id) => dispatch(populateEventAndPush(package_id)),
+  populateEventAndPush: (package_id) => dispatch(populateEventAndPush(package_id)),
   populateFormAndPush  : (info) => dispatch(populateFormAndPush(info)),
-  deleteEventFromServer: (package_id) => dispatch(deleteEvent(package_id))
+  getEventsFromServer  : () => dispatch(getEvents()),
+  deleteEventFromServer: (package_id) => dispatch(deleteEvent(package_id)),
+  deleteWorkflowEvent  : (package_id) => dispatch(deleteWorkflowEvent(package_id)),
+  deleteDynamoEvent    : (package_id) => dispatch(deleteDynamoEvent(package_id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardComponent);

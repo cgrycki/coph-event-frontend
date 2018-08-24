@@ -15,12 +15,13 @@ export const appReducer = (state=initialStore.app, action) => {
       return { ...state, login_loading: true };
 
     case appActions.LOGIN_SUCCESS:
-      var { loggedIn, hawkid } = action.payload;
+      var { loggedIn: logged_in, hawkid, isAdmin: is_admin } = action.payload;
       return {
         ...state, 
-        loggedIn: loggedIn, 
-        user_email: `${hawkid}@uiowa.edu`, 
-        login_loading: false
+        logged_in    : logged_in,
+        user_email   : `${hawkid}@uiowa.edu`,
+        login_loading: false,
+        is_admin     : is_admin
       };
 
     case appActions.LOGIN_FAILURE:

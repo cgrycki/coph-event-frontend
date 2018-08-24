@@ -41,8 +41,12 @@ class EventPage extends React.Component {
 
   /** Retrieves information from server about event */
   componentDidMount()   {
-    const { match: { params: { package_id }}} = this.props;
-    this.props.getEventFromServer(package_id);
+    const { 
+      match: { params: { package_id }},
+      should_fetch, getEventFromServer
+    } = this.props;
+    
+    if (should_fetch) getEventFromServer(package_id);
   }
 
   /** Updates our web page title when event loads. */
@@ -64,7 +68,7 @@ class EventPage extends React.Component {
   }
 
 
-  /* Alters component state, and hides the popup after a rerender. */
+  /** Alters component state, and hides the popup after a rerender. */
   hidePopup() { 
     this.setState({ popupHidden: true }); 
   }
@@ -125,6 +129,7 @@ class EventPage extends React.Component {
 
 /* Redux Container ----------------------------------------------------------*/
 const mapStateToProps = state => ({
+  should_fetch : state.events.should_fetch,
   event        : state.events.event,
   permissions  : state.events.permissions,
   event_loading: state.events.event_loading,

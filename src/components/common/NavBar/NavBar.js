@@ -36,8 +36,8 @@ class NavBar extends React.PureComponent {
 
 // Container
 const mapStateToProps = state => ({
-  loggedIn: state.app.loggedIn,
-  isAdmin : state.app.isAdmin
+  logged_in: state.app.logged_in,
+  is_admin : state.app.is_admin
 });
 
 export default withRouter(connect(mapStateToProps)(NavBar));

@@ -1,16 +1,16 @@
 /**
  * Creates a 'login'/'logout' button for site navigation bar.
  * @param {Object} props - Props passed from NavBar
- * @param [props.loggedin] {boolean} Boolean from app storing authentication status.
+ * @param [props.logged_in] {boolean} Boolean from app storing authentication status.
  * @returns {Object} CommandBarItem props
  */
 const ButtonAuth = (props) => {
-  let { loggedIn } = props;
+  let { logged_in } = props;
 
   // Styles
-  let iconName = (loggedIn) ? 'Unlock' : 'Lock';
-  let linkText = (loggedIn) ? 'Logout' : 'Login';
-  let linkUri  = (loggedIn) ? 'logout' : '';
+  let iconName = (logged_in) ? 'Unlock' : 'Lock';
+  let linkText = (logged_in) ? 'Logout' : 'Login';
+  let linkUri  = (logged_in) ? 'logout' : '';
   let linkHref = `${process.env.REACT_APP_REDIRECT_URI}/auth/${linkUri}`;
 
   return {
