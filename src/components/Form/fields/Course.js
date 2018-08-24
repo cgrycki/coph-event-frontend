@@ -3,15 +3,11 @@ import {
   Toggle, 
   BasePicker,
   TagPicker,
-  Icon
+  Icon,
+  Label
 } from 'office-ui-fabric-react';
 import * as rp from 'request-promise';
-import { fetchCourses } from '../../../actions/room.actions';
-
-
-const courseStyle = {
-  margin: '10px'
-};
+const courseStyle = { margin: '10px' };
 
 
 /**
@@ -21,21 +17,18 @@ export default class Course extends React.Component {
   constructor() {
     super();
     this.state = { 
-      query: '', 
+      query         : '',
       selectedCourse: [],
-      courses: []
+      courses       : []
     };
     
     this.restCall           = this.restCall.bind(this);
     this.resolveSuggestions = this.resolveSuggestions.bind(this);
-    this.onInputChange      = this.onInputChange.bind(this);
     this.itemSelected       = this.itemSelected.bind(this);
+    this.renderSelection    = this.renderSelection.bind(this);
   }
 
-  /** Return text for selected item in picker */
-  getTextFromItem = (item) => item.title;
-
-  /** Conducts a REST call  */
+  /** Returns a REST call to fetch courses from MAUI as a Promise */
   restCall(courseText) {
     const uri = `${process.env.REACT_APP_REDIRECT_URI}/maui/courses/${courseText}`;
     const options = {
@@ -64,35 +57,59 @@ export default class Course extends React.Component {
 
   /** Returns the selected item as a DOM node. */
   renderSelection(item) {
-    console.log('render selection fired!', item);
+    const selStyle = {
+      background: "#d0d0d0",
+      margin    : "2px",
+      height    : "26px",
+      lineHeight: "26px"
+    }
+    const selIconStyle = { 
+      fontSize: "16px",
+      margin  : "0 8px",
+      lineHeight: "26px"
+    }
+    const selTextStyle = {
+      overflow    : "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace  : "nowrap",
+      margin      : "0 8px",
+      verticalAlign: "baseline"
+    }
+    const selCloseStyle = {
+      cursor   : "pointer",
+      color    : "#666666",
+      fontSize : "12px",
+      display  : "inline-block",
+      textAlign: "center",
+      width    : "30px"
+    }
 
-    /*return (
-      <div key="selectedCourse">
-        &nbsp;&nbsp;
-        <span>
-          <Icon iconName="Education" style={{ fontSize: '16px'}}/>
+    return (
+      <div key="selectedCourse" style={selStyle}>
+        <span style={selIconStyle}><Icon iconName="Education" /></span>
+        <span style={selTextStyle}>{item.item.text}</span>
+        <span style={selCloseStyle}>
+          <Icon 
+            iconName="Cancel"
+            onClick={() => this.setState({ selectedCourse: [] })}
+          />
         </span>
-        &nbsp;{item.item.text}
       </div>
-    );*/
-    return item.item.text;
+    );
   }
 
   /** Input callback -- fetches courses if we have none. Otherwise filters suggestions */
   resolveSuggestions(e) {
-    return (e && e.length >= 3) ? this.restCall(e.toLowerCase()) : null;
+    return (e && e.length >= 2) ? this.restCall(e.toLowerCase()) : null;
   }
 
-  onInputChange(e) {
-    console.log(e, this.props);
-  }
-
+  /** Sets our component's selected course to item. */
   itemSelected(item) {
     this.setState({ selectedCourse: [item] });
   }
 
   render() {
-    const { references_course, onChange, courses } = this.props;
+    const { references_course, onChange } = this.props;
     
     return (
       <div className="ms-Grid-row">
@@ -107,8 +124,13 @@ export default class Course extends React.Component {
         </div>
 
         <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg8 ms-xl7 ms-xlPush1 ms-slideRightIn20 ms-slideLeftOut20">
+          <Label 
+            disabled={!references_course} 
+            required={!references_course}>
+            Course Name
+          </Label>
           <TagPicker
-            disabled={references_course}
+            disabled={!references_course}
 
             itemLimit={1}
             items={this.state.courses}
@@ -119,11 +141,7 @@ export default class Course extends React.Component {
 
             resolveDelay={200}
             onResolveSuggestions={this.resolveSuggestions}
-            
-            //onInputChange=when the input string changes
-            onFocus={this.onInputChange}
-            //onChange = when selection items change
-            
+                        
             selectedItems={this.state.selectedCourse}
             onItemSelected={this.itemSelected}
 
@@ -133,10 +151,9 @@ export default class Course extends React.Component {
               loadingText          : 'Fetching Courses from MAUI...',
               searchingText        : 'Searching for Courses from MAUI.',
               resultsMaximumNumber : 20,
-              showRemoveButtons     : true,
-
+              showRemoveButtons    : true
             }}
-            inputProps={{ placeholder: "Start typing a course name", icon: 'Education' }}
+            inputProps={{ placeholder: "Start typing to search for a course" }}
           />
         </div>
       </div>
