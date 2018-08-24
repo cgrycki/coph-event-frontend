@@ -1,12 +1,12 @@
-import React from 'react';
+import React            from 'react';
+import { error_style }  from '../../../constants/styles';
+import * as rp          from 'request-promise';
 import { 
   Toggle, 
   BasePicker,
-  TagPicker,
   Icon,
   Label
-} from 'office-ui-fabric-react';
-import * as rp from 'request-promise';
+}                       from 'office-ui-fabric-react';
 const courseStyle = { margin: '10px' };
 
 
@@ -17,15 +17,14 @@ export default class Course extends React.Component {
   constructor() {
     super();
     this.state = { 
-      query         : '',
-      selectedCourse: [],
-      courses       : []
+      query         : ''
     };
     
-    this.restCall           = this.restCall.bind(this);
     this.resolveSuggestions = this.resolveSuggestions.bind(this);
+    this.restCall           = this.restCall.bind(this);
     this.itemSelected       = this.itemSelected.bind(this);
     this.renderSelection    = this.renderSelection.bind(this);
+    this.clearSelected      = this.clearSelected.bind(this);
   }
 
   /** Returns a REST call to fetch courses from MAUI as a Promise */
@@ -91,7 +90,7 @@ export default class Course extends React.Component {
         <span style={selCloseStyle}>
           <Icon 
             iconName="Cancel"
-            onClick={() => this.setState({ selectedCourse: [] })}
+            onClick={() => this.clearSelected()}
           />
         </span>
       </div>
@@ -105,11 +104,25 @@ export default class Course extends React.Component {
 
   /** Sets our component's selected course to item. */
   itemSelected(item) {
-    this.setState({ selectedCourse: [item] });
+    this.props.onChange('referenced_course', item.text);
+  }
+
+  /** Clears the course selection from component and store */
+  clearSelected() {
+    this.props.onChange('referenced_course', '');
   }
 
   render() {
-    const { references_course, onChange } = this.props;
+    const { 
+      references_course, 
+      referenced_course,
+      error,
+      onChange 
+    } = this.props;
+
+    // If we have a course text then create a list
+    const selectedCourse = (referenced_course !== '') ? 
+      [{ key: "selected", text: referenced_course }] : [];
     
     return (
       <div className="ms-Grid-row">
@@ -126,10 +139,10 @@ export default class Course extends React.Component {
         <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg8 ms-xl7 ms-xlPush1 ms-slideRightIn20 ms-slideLeftOut20">
           <Label 
             disabled={!references_course} 
-            required={!references_course}>
+            required={references_course}>
             Course Name
           </Label>
-          <TagPicker
+          <BasePicker
             disabled={!references_course}
 
             itemLimit={1}
@@ -142,7 +155,7 @@ export default class Course extends React.Component {
             resolveDelay={200}
             onResolveSuggestions={this.resolveSuggestions}
                         
-            selectedItems={this.state.selectedCourse}
+            selectedItems={selectedCourse}
             onItemSelected={this.itemSelected}
 
             pickerSuggestionsProps={{
@@ -155,6 +168,8 @@ export default class Course extends React.Component {
             }}
             inputProps={{ placeholder: "Start typing to search for a course" }}
           />
+          {/* Add in an error message */}
+          <span style={error_style}>{error}</span>
         </div>
       </div>
     );

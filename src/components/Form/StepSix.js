@@ -4,7 +4,6 @@ import { connect }    from 'react-redux';
 
 // Form actions
 import {updateForm}  from '../../actions/field.actions';
-import {fetchCourses}from '../../actions/room.actions';
 
 // Form components
 import FormTitle      from './shared/FormTitle';
@@ -29,13 +28,9 @@ class StepSix extends React.Component {
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12 ms-xl12 ms-xxl12">
             <Course
-              courses={this.props.courses}
-              loading={this.props.loading}
-              error={this.props.error}
-              fetchCourses={this.props.fetchCourses}
               references_course={this.props.info.references_course}
               referenced_course={this.props.info.referenced_course}
-              fieldError={this.props.errors['references_course']}
+              error={this.props.errors['referenced_course']}
               onChange={this.props.updateForm}
             />
           </div>
@@ -55,17 +50,12 @@ class StepSix extends React.Component {
 
 // Container
 const mapStateToProps = state => ({
-  courses: state.rooms.courses,
-  loading: state.rooms.course_loading,
-  error  : state.rooms.course_error,
   info   : state.fields.info,
   errors : state.fields.errors
 })
 
 const mapDispatchToProps = dispatch => ({
-  updateForm  : (field, value) => dispatch(updateForm(field, value)),
-  fetchCourses: courseText => dispatch(fetchCourses(courseText))
+  updateForm  : (field, value) => dispatch(updateForm(field, value))
 })
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(StepSix);
