@@ -100,37 +100,3 @@ export function fetchRoomSchedule(room_number, date) {
       .finally(() => dispatch(updateForm(undefined, undefined)));
   }
 }
-
-
-const fetchCoursesLoading = () => ({
-  type: roomActions.FETCH_COURSES_LOADING
-});
-
-const fetchCoursesSuccess = (response) => ({
-  type   : roomActions.FETCH_COURSES_SUCCESS,
-  payload: response
-});
-
-const fetchCoursesError = (error) => ({
-  type   : roomActions.FETCH_COURSES_ERROR,
-  payload: error
-});
-
-export function fetchCourses(courseString) {
-  return (dispatch) => {
-    // Notify store we're initiating a course search
-    dispatch(fetchCoursesLoading());
-
-    // Create the options for the API call
-    const options = {
-      method         : 'GET',
-      uri            : `${URI}/maui/courses/${courseString}`,
-      withCredentials: true,
-      json           : true
-    };
-
-    rp(options)
-      .then(res => dispatch(fetchCoursesSuccess(res)))
-      .catch(err => dispatch(fetchCoursesError(err)));
-  }
-}
