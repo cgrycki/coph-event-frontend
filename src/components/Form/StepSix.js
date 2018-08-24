@@ -27,8 +27,17 @@ class StepSix extends React.Component {
         <FormTitle page={'placeholder'} progress={0.5} />
         
         <div className="ms-Grid-row">
-          <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg10 ms-lgPush1 ms-xl10 ms-xlPush1 ms-xxl8 ms-xxlPush2">
-            
+          <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12 ms-xl12 ms-xxl12">
+            <Course
+              courses={this.props.courses}
+              loading={this.props.loading}
+              error={this.props.error}
+              fetchCourses={this.props.fetchCourses}
+              references_course={this.props.info.references_course}
+              referenced_course={this.props.info.referenced_course}
+              fieldError={this.props.errors['references_course']}
+              onChange={this.props.updateForm}
+            />
           </div>
         </div>
 
@@ -54,7 +63,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchCourses: courseText => fetchCourses(courseText)
+  updateForm  : (field, value) => dispatch(updateForm(field, value)),
+  fetchCourses: courseText => dispatch(fetchCourses(courseText))
 })
 
 
