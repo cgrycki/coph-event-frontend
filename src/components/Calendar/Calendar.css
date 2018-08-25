@@ -1,0 +1,64 @@
+/* Calendar styling */
+
+
+.rbc-time-header {
+  
+}
+
+/* Unbold headers */
+.rbc-header {
+  font-weight: normal;
+  text-align: left;
+  border-left: unset !important;
+  border-bottom: unset !important;
+  padding: 4px 0 4px 4px;
+}
+
+/* Match week and month day headings to command bar background */
+.rbc-month-header, .rbc-time-header-cell {
+  background-color: rgb(244, 244, 244) !important;
+}
+
+
+/* Change todays color */
+.rbc-today {
+  background-color: #E4E4E4;
+}
+/* Highlight day when moused */
+.rbc-day-bg:hover {
+  background-color: #f8f8f8;
+}
+
+
+/* Left align date cell text */
+.rbc-date-cell {
+  text-align: left;
+  margin-left: 3px;
+  color: #767676 !important;
+  font-size: 14px;
+}
+
+/* Event styling */
+.rbc-event {
+  background-color: rgb(193, 233, 254);
+  border-radius: 0px;
+  color: rgb(51, 51, 51);
+}
+.rbc-event .rbc-event-content {
+  font-weight: bolder;
+  font-size: 12px;
+}
+
+
+/* Unshade out of range time cells in month => deemphasize date numbers */
+.rbc-off-range {
+  color: #a6a6a6!important;
+}
+.rbc-off-range-bg {
+  background: unset !important;
+}
+
+/* Demphasize time slots */
+.rbc-time-slot {
+  border-top: 1px dashed #f8f8f8;
+}
