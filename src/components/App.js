@@ -11,7 +11,8 @@ import Page           from './common/Page';
 import ProtectedRoute from './common/ProtectedRoute';
 import Home           from './Home';
 import EventPage      from './EventPage/';
-import Dashboard      from './Dashboard/Dashboard';
+import Dashboard      from './Dashboard/';
+import Calendar       from './Calendar/';
 
 // Form + Steps
 import Form           from './Form/';
@@ -29,7 +30,7 @@ const App = ({ store, history }) => (
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <Fabric dir="ltr">
-
+  
         <div className="ms-Grid App">
           <div className="ms-Grid-row">
             <Page>
@@ -37,11 +38,12 @@ const App = ({ store, history }) => (
               <NavBar />
               <Switch>
                 <Route path="/form/search" exact component={StepSix} />
+                <Route path="/calendar" exact component={Calendar} />
+
                 <Route path="/" exact                     component={Home} />
                 <ProtectedRoute path="/dashboard"         Component={Dashboard} />
                 <ProtectedRoute 
-                  path="/event/:package_id/:signature_id?" 
-                                                          Component={EventPage} />
+                  path="/event/:package_id/:signature_id?" Component={EventPage} />
                 <Form>
                   <ProtectedRoute path="/form/user"   Component={StepOne} />
                   <ProtectedRoute path="/form/event"  Component={StepTwo} />
