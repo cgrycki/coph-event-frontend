@@ -19,7 +19,17 @@ const info = {
   references_course  : false,
   referenced_course  : '',
   setup_required     : false,
-  setup_mfk          : '',
+  setup_mfk          : {
+    FUND          : '',
+    ORG           : '',
+    DEPT          : '',
+    SUBDEPT       : '',
+    GRANT         : '',
+    INST_ACCT     : '',
+    ORG_ACCT      : '',
+    DEPT_ACCT     : '',
+    FUNC_COST_CNTR: ''
+  },
   food_drink_required: false,
   food_provider      : '',
   alcohol_provider   : '',
