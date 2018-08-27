@@ -9,10 +9,7 @@ import {
 export default class Panel extends React.Component {
   constructor() {
     super();
-
-    this.state          = { checkedRooms: new Set() };
     this.createCheckbox = this.createCheckbox.bind(this);
-    this.onCheck        = this.onCheck.bind(this);
   }
 
   /** Creates a checkbox for a room. */
@@ -21,29 +18,15 @@ export default class Panel extends React.Component {
       <div className="" key={room.roomNumber}>
         <Checkbox
           label={room.roomNumber}
-          checked={this.state.checkedRooms.has(room.roomNumber)}
-          onChange={() => this.onCheck(room.roomNumber)}
+          checked={this.props.checkedRooms.has(room.roomNumber)}
+          onChange={() => this.props.onCheck(room.roomNumber)}
         />
       </div>
     );
   }
 
-  /** Adds or removes a room to or from component state. */
-  onCheck(roomNumber) {
-    // Create a copy of our state
-    let newRooms = new Set(this.state.checkedRooms);
-
-    if (newRooms.has(roomNumber)) newRooms.delete(roomNumber);
-    else newRooms.add(roomNumber);
-    console.log(this.state.checkedRooms, newRooms);
-
-    this.setState({ checkedRooms: newRooms });
-    // Dispatch new schedule fetch
-    //
-  }
-
-
   render() {
+    
     return (
       <div className="ms-Grid-col ms-sm4 ms-md4 ms-lg4 ms-xl4 ms-xxl4">
       

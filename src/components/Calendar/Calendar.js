@@ -1,7 +1,9 @@
 import React                              from 'react';
 import moment                             from 'moment';
 import { connect }                        from 'react-redux';
-import { fetchRooms, fetchRoomSchedule }  from '../../actions/room.actions';
+import { fetchRooms, 
+  fetchCalendarSchedule }                 from '../../actions/room.actions';
+import { getDateISO }                     from '../../utils/date.utils';
 import Panel                              from './Panel';
 import Toolbar                            from './Toolbar';
 import formats                            from './formats';
@@ -18,7 +20,6 @@ const components = {
   toolbar: Toolbar
 }
 
-
 const test = [
   {
     start: new Date(),
@@ -27,16 +28,23 @@ const test = [
   }
 ];
 
+
+
+
+
 class Calendar extends React.Component {
   constructor() {
     super();
     this.state = {
       view        : "month",
+      checkedRooms: new Set(),
       start_date  : new Date(),
       end_date    : new Date()
     };
 
+    
     this.onDateChange = this.onDateChange.bind(this);
+    this.onCheck      = this.onCheck.bind(this);
   }
 
   /** Fetches rooms on mount if we don't have them loaded. */
@@ -51,15 +59,31 @@ class Calendar extends React.Component {
     this.setState({ [field]: date })
   }
 
+  /** Adds or removes a room to or from component state. */
+  onCheck(roomNumber) {
+    // Create a copy of our state
+    let newRooms = new Set(this.state.checkedRooms);
+
+    if (newRooms.has(roomNumber)) newRooms.delete(roomNumber);
+    else newRooms.add(roomNumber);
+    
+
+    this.setState({ checkedRooms: newRooms });
+    // Dispatch new schedule fetch
+    //
+  }
 
   render() {
+    console.log(this.state.checkedRooms, Array.from(this.state.checkedRooms))
     return (
       <div className="ms-Grid-row">
         <Panel
           rooms={this.props.rooms}
+          checkedRooms={this.state.checkedRooms}
           start_date={this.state.start_date}
           end_date={this.state.end_date}
           onDateChange={this.onDateChange}
+          onCheck={this.onCheck}
         />
 
 
@@ -89,7 +113,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchRooms: () => dispatch(fetchRooms())
+  fetchRooms: () => dispatch(fetchRooms()),
+  fetchCalendarSchedule: (rooms, start, end) => dispatch(fetchCalendarSchedule(rooms, start, end))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Calendar);
