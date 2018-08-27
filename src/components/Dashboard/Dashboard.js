@@ -36,7 +36,7 @@ class DashboardComponent extends React.Component {
   /** Fetches event list on load and alters web page title */
   componentDidMount() {
     document.title = "My Events @ CPHB";
-    this.props.getEventsFromServer();
+    if (this.props.events.length === 0) this.props.getEventsFromServer();
   }
 
   render() {

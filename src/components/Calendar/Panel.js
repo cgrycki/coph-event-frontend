@@ -15,7 +15,7 @@ export default class Panel extends React.Component {
   /** Creates a checkbox for a room. */
   createCheckbox(room) {
     return (
-      <div className="" key={room.roomNumber}>
+      <div className="Calendar--CheckRow" key={room.roomNumber}>
         <Checkbox
           label={room.roomNumber}
           checked={this.props.checkedRooms.has(room.roomNumber)}

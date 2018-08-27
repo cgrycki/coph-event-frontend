@@ -1,4 +1,10 @@
-/* Calendar styling */
+/*** Calendar styling ***/
+
+/* Panel checkboxes */
+.Calendar--CheckRow {
+  margin: 5px 0;
+}
+
 
 
 /* Unbold headers */
