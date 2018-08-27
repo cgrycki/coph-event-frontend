@@ -10,10 +10,10 @@ export const roomReducer = (state=initialStore.rooms, action) => {
 
   switch (type) {
     /** Rooms ------------------------------------------------------------------*/
-    case (roomActions.FETCH_ROOMS_LOADING):
+    case roomActions.FETCH_ROOMS_LOADING:
       return { ...state, rooms_loading: true };
 
-    case (roomActions.FETCH_ROOMS_SUCCESS):
+    case roomActions.FETCH_ROOMS_SUCCESS:
       return { 
         ...state, 
         rooms: action.payload, 
@@ -21,7 +21,7 @@ export const roomReducer = (state=initialStore.rooms, action) => {
         rooms_error: null 
       };
 
-    case (roomActions.FETCH_ROOMS_FAILURE):
+    case roomActions.FETCH_ROOMS_FAILURE:
       error = action.payload;
       rooms_error = error.message;
       return { 
@@ -31,18 +31,22 @@ export const roomReducer = (state=initialStore.rooms, action) => {
       };
     
     /** Room schedules ---------------------------------------------------------*/
-    case (roomActions.FETCH_SCHEDULE_LOADING):
+    case roomActions.FETCH_SCHEDULE_LOADING:
       return { ...state, schedule_loading: true };
 
-    case (roomActions.FETCH_SCHEDULE_SUCCESS):
+    case roomActions.FETCH_SCHEDULE_SUCCESS:
       return { 
         ...state, 
-        room_schedule: action.payload.events, 
+        room_schedule: action.payload.schedule.map(evt => {
+          evt.start_time = new Date(evt.start_time),
+          evt.end_time = new Date(evt.end_time);
+          return evt;
+        }), 
         schedule_loading: false, 
         schedule_error: null
       };
 
-    case (roomActions.FETCH_SCHEDULE_FAILURE):
+    case roomActions.FETCH_SCHEDULE_FAILURE:
       error = action.payload;
       schedule_error = error.message;
       return { ...state, schedule_loading: false, schedule_error };

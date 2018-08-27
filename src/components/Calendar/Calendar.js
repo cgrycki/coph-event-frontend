@@ -14,19 +14,10 @@ import './Calendar.css';
 
 // Setup localizer
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
-
-
+// Calendar components
 const components = {
   toolbar: Toolbar
 }
-
-const test = [
-  {
-    start: new Date(),
-    end: new Date(moment().add(1, "days")),
-    title: "Some title"
-  }
-];
 
 
 
@@ -52,11 +43,43 @@ class Calendar extends React.Component {
     if (this.props.rooms.length === 0) this.props.fetchRooms();
   }
 
+  /** Checks for changes in rooms+start+end dates, and fetches schedules accordingly. */
+  componentDidUpdate(prevProps, prevState) {
+    // Variables for fetch call
+    const start = getDateISO(this.state.start_date);
+    const end   = getDateISO(this.state.end_date);
+    const rooms = Array.from(this.state.checkedRooms);
+
+    // Check if we have a difference in rooms
+    if ((prevState.checkedRooms.size !== this.state.checkedRooms.size) &&
+        (this.state.checkedRooms.size !== 0)) {
+        this.props.fetchCalendarSchedule(rooms, start, end);
+    // Different start date?
+    } else if ((prevState.start_date !== this.state.start_date) &&
+        (this.state.checkedRooms.size !== 0)){
+        this.props.fetchCalendarSchedule(rooms, start, end);
+    // Different end date?
+    } else if ((prevState.end_date !== this.state.end_date) &&
+        (this.state.checkedRooms.size !== 0)){
+        this.props.fetchCalendarSchedule(rooms, start, end);
+    };
+  }
+
   /** Updates component date ranges. */
   onDateChange(date, field) {
     // Conditional update: if start take miniumum of current start and new evt
-    // If end take maximum of new evt and 
-    this.setState({ [field]: date })
+    // If end take maximum of new evt and end_date
+
+    let currentStart = this.state.start_date;
+    let currentEnd   = this.state.end_date;
+    let currentDate  = date;
+
+    // Take the max/mins
+    //if (field === 'start_date') date = Math.min(currentStart, currentDate);
+    //else date = Math.min(currentEnd, currentDate);
+
+    // Set the state
+    this.setState({ [field]: date });
   }
 
   /** Adds or removes a room to or from component state. */
@@ -64,17 +87,15 @@ class Calendar extends React.Component {
     // Create a copy of our state
     let newRooms = new Set(this.state.checkedRooms);
 
+    // Add or remove the room accordingly
     if (newRooms.has(roomNumber)) newRooms.delete(roomNumber);
     else newRooms.add(roomNumber);
     
-
+    // Set the component state
     this.setState({ checkedRooms: newRooms });
-    // Dispatch new schedule fetch
-    //
   }
 
   render() {
-    console.log(this.state.checkedRooms, Array.from(this.state.checkedRooms))
     return (
       <div className="ms-Grid-row">
         <Panel
@@ -91,14 +112,16 @@ class Calendar extends React.Component {
           <BigCalendar
             defaultDate={new Date()}
             defaultView="month"
-            style={{ height: '750px' }}
+            style={{ height: '600px' }}
 
             formats={formats}
             components={components}
 
-            events={test}
-            startAccessor='start'
-            endAccessor='end'
+            events={this.props.room_schedule}
+            titleAccessor="event_name"
+            startAccessor='start_time'
+            endAccessor='end_time'
+            selectable='ignoreEvents'
           />
         </div>
       </div>
