@@ -70,11 +70,11 @@ const layout = {
 
 // Application: Stores application data about our user's session
 const app = {
-  loggedIn     : false,
+  logged_in     : false,
   login_loading: false,
   login_error  : null,
   user_email   : '',
-  is_admin      : false
+  is_admin     : false
 };
 
 
@@ -83,7 +83,6 @@ const rooms = {
   rooms           : [],
   rooms_loading   : false,
   room_error      : null,
-
   room_schedule   : [],
   schedule_loading: false,
   schedule_error  : null
@@ -101,9 +100,10 @@ const events = {
     canSign         : false,
     signatureId     : null
   },
-  events: [],
+  events       : [],
   event_loading: false,
-  event_error: null
+  event_error  : null,
+  should_fetch : true
 };
 
 

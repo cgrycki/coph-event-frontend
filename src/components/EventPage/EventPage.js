@@ -41,8 +41,12 @@ class EventPage extends React.Component {
 
   /** Retrieves information from server about event */
   componentDidMount()   {
-    const { match: { params: { package_id }}} = this.props;
-    this.props.getEventFromServer(package_id);
+    const { 
+      match: { params: { package_id }},
+      should_fetch, getEventFromServer
+    } = this.props;
+    
+    if (should_fetch) getEventFromServer(package_id);
   }
 
   /** Updates our web page title when event loads. */
@@ -63,12 +67,12 @@ class EventPage extends React.Component {
     };
   }
 
-
-  /* Alters component state, and hides the popup after a rerender. */
+  /** Alters component state, and hides the popup after a rerender. */
   hidePopup() { 
     this.setState({ popupHidden: true }); 
   }
 
+  /** Sets our popup's state and callback */
   renderPopup(popupType) {
     // Gather dispatch functions from react-redux's connect
     const { event, editEvent, deleteEventFromServer, navigate } = this.props;
@@ -90,7 +94,8 @@ class EventPage extends React.Component {
 
   render() {
     let { 
-      history,  match: { params: { package_id, signature_id }},                            
+      history,  match: { params: { package_id }},
+      permissions: { signatureId },                        
       permissions, event, event_loading
     } = this.props;
 
@@ -116,7 +121,11 @@ class EventPage extends React.Component {
           btnClickNo={() => this.hidePopup()}
         />
 
-        {signature_id && <WorkflowWidget signature_id={signature_id} />}
+        {signatureId && 
+          <WorkflowWidget
+            packageId={package_id}
+            signatureId={signatureId} 
+          />}
       </div>
     );
   }
@@ -125,6 +134,7 @@ class EventPage extends React.Component {
 
 /* Redux Container ----------------------------------------------------------*/
 const mapStateToProps = state => ({
+  should_fetch : state.events.should_fetch,
   event        : state.events.event,
   permissions  : state.events.permissions,
   event_loading: state.events.event_loading,

@@ -36,18 +36,18 @@ class Home extends React.Component {
  
   checkLogin(props) {
     /* Make an API call to our server to check if we are authenticated. */
-    let { loggedIn, login_loading, login_error, dispatch } = props;
+    let { logged_in, login_loading, login_error, dispatch } = props;
 
     // If we aren't logged in, and haven't yet recieved a response, dispatch
     // Also, don't make an API call if we have an error
-    if ((loggedIn === false) && (login_loading === false) && (login_error === null)) { 
+    if ((logged_in === false) && (login_loading === false) && (login_error === null)) { 
       dispatch(fetchLogin());
     }
   }
 
   redirect(props) {
     /* Checks login status and redirects to original page if appropriate. */
-    let { loggedIn, location, history } = props;
+    let { logged_in, location, history } = props;
 
     // Grab the redirect pathname if we were directed from a protected route
     let redirect_from = (location.state && location.state.from) ?
@@ -55,7 +55,7 @@ class Home extends React.Component {
       undefined;
 
     // Base case, we were redirected from a protected route
-    if ((redirect_from !== undefined) && (loggedIn === true)) history.push(redirect_from);
+    if ((redirect_from !== undefined) && (logged_in === true)) history.push(redirect_from);
   }
 
   nextPage() {
@@ -130,7 +130,7 @@ class Home extends React.Component {
   }
 
   render() {
-    let { loggedIn } = this.props;
+    let { logged_in } = this.props;
 
     return (
       <div className="Home">
@@ -159,7 +159,7 @@ class Home extends React.Component {
                   <CompoundButton
                     primary={true}
                     secondaryText="with your Iowa account."
-                    disabled={loggedIn}
+                    disabled={logged_in}
                     text={"Login"}
                     title="Login to your University of Iowa account."
                     href={`${process.env.REACT_APP_REDIRECT_URI}/auth`}
@@ -169,7 +169,7 @@ class Home extends React.Component {
                   <CompoundButton
                     primary={true}
                     text={"Create an Event"}
-                    disabled={!loggedIn}
+                    disabled={!logged_in}
                     onClick={() => this.nextPage()}
                   />
                 </div>
@@ -187,7 +187,7 @@ class Home extends React.Component {
 
 // Container
 const mapStateToProps = state => ({ 
-  loggedIn     : state.app.loggedIn,
+  logged_in     : state.app.logged_in,
   login_loading: state.app.login_loading,
   login_error  : state.app.login_error
 })

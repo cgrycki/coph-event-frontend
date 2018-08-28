@@ -6,6 +6,7 @@ import { CommandBar } from 'office-ui-fabric-react';
 
 // Navigation Bar buttons
 import Logo             from './Logo';
+import ButtonCal        from './ButtonCal';
 import ButtonAuth       from './ButtonAuth';
 import ButtonCreate     from './ButtonCreate';
 import ButtonDashboard  from './ButtonDashboard';
@@ -26,7 +27,7 @@ class NavBar extends React.PureComponent {
       <div className="NavBarWrapper">
         <CommandBar
           className="NavBar"
-          items={[Logo]}
+          items={[Logo, ButtonCal(this.props)]}
           farItems={far_items} 
         />
       </div>
@@ -36,8 +37,8 @@ class NavBar extends React.PureComponent {
 
 // Container
 const mapStateToProps = state => ({
-  loggedIn: state.app.loggedIn,
-  isAdmin : state.app.isAdmin
+  logged_in: state.app.logged_in,
+  is_admin : state.app.is_admin
 });
 
 export default withRouter(connect(mapStateToProps)(NavBar));

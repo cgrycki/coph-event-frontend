@@ -19,8 +19,9 @@ export default class EventList extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      isAdmin      : props.isAdmin,
+      is_admin     : props.is_admin,
       event        : undefined,
+      permissions  : undefined,
       popupType    : 'edit',
       popupHidden  : true,
       popupYesClick: (item) => this.props.editEvent(item)
@@ -52,64 +53,67 @@ export default class EventList extends React.Component {
     const columns = [
       {
         key: 'approved',
-        fieldName: 'approved',
         name: 'Approved',
         className: 'Dashboard--approved',
         ariaLabel: '',
         minWidth: 64,
         maxWidth: 64,
         onRender: (item) => {
-          const approved = item.approved
-          const iconName = approved === 'true' ? 'Approve' : 'Blocked';
-          const iconColor = approved === 'true' ? 'green' : 'red';
+          const approved = item.evt.approved
+          const iconName = approved === 'true' ? 'EventAccepted' : 'EventDeclined';
+          const iconColor = approved === 'true' ? '#107c10' : '#e81123';
           return (<Icon
             title={approved.toString()}
             iconName={iconName}
-            style={{ color: iconColor }}
+            className="ms-textAlignRight"
+            style={{ 
+              color      : iconColor,
+              fontSize   : '18px',
+              marginRight: '1em',
+              float      : 'right'
+            }}
         />)}
       },
       {
         key: 'event_name',
-        fieldName: 'event_name',
         name: 'Title',
         arialLabel: 'Title of the event',
         minWidth: 128,
-        maxWidth: 300
+        maxWidth: 300,
+        onRender: (item) => item.evt.event_name
       },
       {
         key: 'attendance',
-        fieldName: 'num_people',
         name: 'Attendance',
-        minWidth: 64,
-        maxWidth: 75
+        minWidth: 62,
+        maxWidth: 62,
+        onRender: (item) => <span style={{float: 'right'}}>{item.evt.num_people}</span>
       },
       {
         key: 'date',
-        fieldName: 'date',
         name: 'Date',
         minWidth: 80,
         maxWidth: 80,
-        onRender: (item) => getDateISO(item.date)
+        onRender: (item) => getDateISO(item.evt.date)
       },
       {
         key: 'contact_email',
-        fieldName: 'contact_email',
         name: 'Alt. contact email',
         ariaLabel: 'Event Planner or alternative contact',
-        minWidth: 100
+        minWidth: 100,
+        onRender: (item) => item.evt.contact_email
       },
       {
         key: 'package_id',
-        fieldName: 'package_id',
         name: '',
         className: 'Dashboard--ActionButton',
         ariaLabel: 'Operations for this Event',
         minWidth: 150,
         maxWidth: 200,
         onRender: (item) => {
-          item.date = getDateISO(item.date);
+          item.date = getDateISO(item.evt.date);
           return (<DefaultButton
-            onClick={() => onView(item.package_id)}
+            onClick={() => onView(item)}
             text="View event"
             split={true}
             menuProps={{
@@ -121,14 +125,14 @@ export default class EventList extends React.Component {
                   key: 'editEvent',
                   name: 'Edit Event Information',
                   iconProps: { iconName: 'Edit' },
-                  disabled: false, // permissions
+                  disabled: !item.permissions.canEdit,
                   onClick: () => this.renderPopup('edit')
                 },
                 {
                   key: 'deleteEvent',
                   name: 'Delete Event',
                   iconProps: { iconName: 'RemoveEvent' },
-                  disabled: true,
+                  disabled: (!item.permissions.canInitiatorVoid || !item.permissions.canVoid),
                   onClick: () => this.renderPopup('delete')
                 }
               ]
@@ -184,7 +188,10 @@ export default class EventList extends React.Component {
         <DetailsList
           items={this.props.items}
           columns={this.createColumns()}
-          onActiveItemChanged={(item) => this.setState({ event: item })}
+          onActiveItemChanged={(item) => this.setState({ 
+            event: item.evt, 
+            permissions: item.permissions 
+          })}
           //enableSimmer={loading}
           //onRenderMissingItem={(index, rowProps) => this.renderMissingItem(index, rowProps)}
           checkboxVisibility={CheckboxVisibility.hidden}

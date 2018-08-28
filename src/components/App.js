@@ -11,7 +11,8 @@ import Page           from './common/Page';
 import ProtectedRoute from './common/ProtectedRoute';
 import Home           from './Home';
 import EventPage      from './EventPage/';
-import Dashboard      from './Dashboard/Dashboard';
+import Dashboard      from './Dashboard/';
+import Calendar       from './Calendar/';
 
 // Form + Steps
 import Form           from './Form/';
@@ -19,6 +20,9 @@ import StepOne        from './Form/StepOne';
 import StepTwo        from './Form/StepTwo';
 import StepThree      from './Form/StepThree';
 import StepFour       from './Form/StepFour';
+
+import StepSix        from './Form/StepSix';
+
 
 
 // Container -- Holds our application data store and sets routes up
@@ -33,11 +37,13 @@ const App = ({ store, history }) => (
             <Page>
               
               <Switch>
+                <Route path="/form/search" exact component={StepSix} />
+                <Route path="/calendar" exact component={Calendar} />
+
                 <Route path="/" exact                     component={Home} />
                 <ProtectedRoute path="/dashboard"         Component={Dashboard} />
                 <ProtectedRoute 
-                  path="/event/:package_id/:signature_id?" 
-                                                          Component={EventPage} />
+                  path="/event/:package_id/:signature_id?" Component={EventPage} />
                 <Form>
                   <ProtectedRoute path="/form/user"   Component={StepOne} />
                   <ProtectedRoute path="/form/event"  Component={StepTwo} />

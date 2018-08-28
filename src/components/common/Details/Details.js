@@ -95,20 +95,20 @@ export default class Details extends React.PureComponent {
                 label={"For an University of Iowa course?"}
                 onText="Yes"
                 offText="No"
-                value={!course}
+                value={courseRef}
                 disabled
               />
             </div>
 
             <div className="ms-Grid-col ms-sm11 ms-smPush1 ms-md7 ms-lg8 ms-lgPush1 ms-xl6 ms-xlPush3">
-              {!course && <TextField label={"Course"} value={'Introduction to the Fundamentals of Underwater Basket Weaving'} disabled />}
+              {<TextField label={"Course"} value={course || ''} disabled />}
             </div>
           </div>
             
           
           <div className="ms-Grid-row">
-            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12 ms-xl9 ms-xxl8">
-              {comments &&  <TextField label={"Comments"} multiline={true} value={comments} disabled />}
+            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg9 ms-xl8 ms-xxl6">
+              <TextField label={"Comments"} multiline={true} value={comments || ''} disabled />
             </div>
           </div>
           
