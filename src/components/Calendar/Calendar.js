@@ -26,8 +26,6 @@ const components = {
 
 
 
-
-
 class Calendar extends React.Component {
   constructor() {
     super();

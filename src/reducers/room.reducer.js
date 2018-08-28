@@ -1,7 +1,7 @@
 /**
  * Room reducer
  */
-import { roomActions } from '../constants/actionTypes';
+import { roomActions, fieldActions } from '../constants/actionTypes';
 import moment from 'moment';
 import initialStore from '../store/initialStore';
 
@@ -59,6 +59,10 @@ export const roomReducer = (state=initialStore.rooms, action) => {
       error = action.payload;
       schedule_error = error.message;
       return { ...state, schedule_loading: false, schedule_error };
+
+    /** Reset Schedules on form creation ---------------------------------------*/
+    case fieldActions.POPULATE_FIELDS:
+      return { ...state, room_schedule: [] };
     
     /** Reset MAUI REST --------------------------------------------------------*/
     case roomActions.FETCH_ROOMS_RESET:
