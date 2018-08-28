@@ -71,7 +71,7 @@ class DashboardComponent extends React.Component {
             </PivotItem>
             <PivotItem
               key="MySchedule"
-              linkText="Schedule"
+              linkText="My Schedule"
               itemIcon="CalendarAgenda"
             >
               <br/>
