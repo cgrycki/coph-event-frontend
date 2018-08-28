@@ -11,9 +11,9 @@ const ButtonDashboard = (props) => {
 
   return {
     key      : 'dashboard',
-    name     : 'My Events',
+    name     : 'My Dashboard',
     disabled : disabled,
-    iconProps: { iconName: 'EventDate' },
+    iconProps: { iconName: 'ViewDashboard' },
     onClick  : () => history.push("/dashboard")
   };
 }
