@@ -30,6 +30,13 @@ export default class NavPage extends React.PureComponent {
   }
 
 
+  getCalendarBreadcrumb() {
+    const { history: { location: { pathname }}} = this.props;
+    const cal_pg_props = this.createProps('CalCrumb', 'Room Calendar', "/calendar");
+    return cal_pg_props;
+  }
+
+
   /**
    * Returns an object describing the properties of a EventPage breadcrumb.
    * @param {Object} props Properties passed from page calling NavPage.
@@ -94,8 +101,11 @@ export default class NavPage extends React.PureComponent {
     
     // By default we should be able to see the home page
     let crumbs = [this.getHomeBreadcrumb()];
-
+    
     // But we rely on our location for any other breadcrumbs...
+    // Check if we're on the calendar
+    if (pathname === "/calendar") crumbs.push(this.getCalendarBreadcrumb());
+
     // Check if we're on our dashboard
     if (pathname === "/dashboard") crumbs.push(this.getDashboardBreadcrumb());
 

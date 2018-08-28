@@ -8,6 +8,7 @@ import {
   maxTime
 }                                         from './shared';
 import { getDateISO }                     from '../../utils/date.utils';
+import NavPage                            from '../common/NavPage';
 import Panel                              from './Panel';
 import Toolbar                            from './Toolbar';
 import formats                            from './formats';
@@ -102,35 +103,44 @@ class Calendar extends React.Component {
   render() {
     return (
       <div className="ms-Grid-row">
-        <Panel
-          rooms={this.props.rooms}
-          checkedRooms={this.state.checkedRooms}
-          start_date={this.state.start_date}
-          end_date={this.state.end_date}
-          onDateChange={this.onDateChange}
-          onCheck={this.onCheck}
-        />
+        <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12 ms-xl12 ms-xxl12">
 
+          <div className="ms-Grid-row">
+            <NavPage history={this.props.history} />
+          </div>
 
-        <div className="ms-Grid-col ms-lg8 ms-xl8 ms-xxl8">
-          <BigCalendar
-            defaultDate={new Date()}
-            defaultView="month"
-            style={{ height: '600px' }}
-            min={minTime}
-            max={maxTime}
-            
-            formats={formats}
-            components={components}
+          <div className="ms-Grid-row">
+            <Panel
+              rooms={this.props.rooms}
+              checkedRooms={this.state.checkedRooms}
+              start_date={this.state.start_date}
+              end_date={this.state.end_date}
+              onDateChange={this.onDateChange}
+              onCheck={this.onCheck}
+            />
 
-            events={this.props.room_schedule}
-            titleAccessor="event_name"
-            startAccessor='start_time'
-            endAccessor='end_time'
-            selectable='ignoreEvents'
-          />
+            <div className="ms-Grid-col ms-lg8 ms-xl8 ms-xxl8">
+              <BigCalendar
+                defaultDate={new Date()}
+                defaultView="month"
+                style={{ height: '600px' }}
+                min={minTime}
+                max={maxTime}
+                
+                formats={formats}
+                components={components}
+
+                events={this.props.room_schedule}
+                titleAccessor="event_name"
+                startAccessor='start_time'
+                endAccessor='end_time'
+                selectable='ignoreEvents'
+              />
+            </div>
+        
         </div>
       </div>
+    </div>
     );
   }
 }
