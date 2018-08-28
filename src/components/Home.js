@@ -152,7 +152,7 @@ class Home extends React.Component {
 
         <div>
           <div className="ms-Grid-row">
-            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg10 ms-lgPush1 ms-xl10 ms-xxl8 ms-xxlPush2">
+            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg10 ms-lgPush1 ms-xl10 ms-xlPush1 ms-xxl8 ms-xxlPush2">
 
               <div style={{"display": "flex", "justifyContent": "space-between", margin: "15px 0px"}}>
                 <div style={{float: 'left'}}>

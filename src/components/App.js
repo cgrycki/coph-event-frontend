@@ -10,9 +10,11 @@ import NavBar         from './common/NavBar/';
 import Page           from './common/Page';
 import ProtectedRoute from './common/ProtectedRoute';
 import Home           from './Home';
+import About          from './About';
 import EventPage      from './EventPage/';
 import Dashboard      from './Dashboard/';
 import Calendar       from './Calendar/';
+import Footer         from './common/Footer';
 
 // Form + Steps
 import Form           from './Form/';
@@ -20,9 +22,6 @@ import StepOne        from './Form/StepOne';
 import StepTwo        from './Form/StepTwo';
 import StepThree      from './Form/StepThree';
 import StepFour       from './Form/StepFour';
-
-import StepSix        from './Form/StepSix';
-
 
 
 // Container -- Holds our application data store and sets routes up
@@ -37,10 +36,10 @@ const App = ({ store, history }) => (
             <Page>
               
               <Switch>
-                <Route path="/form/search" exact component={StepSix} />
+                <Route path="/" exact                     component={Home} />
+                <Route path="/about" exact                component={About} />
                 <Route path="/calendar" exact component={Calendar} />
 
-                <Route path="/" exact                     component={Home} />
                 <ProtectedRoute path="/dashboard"         Component={Dashboard} />
                 <ProtectedRoute 
                   path="/event/:package_id/:signature_id?" Component={EventPage} />
@@ -56,6 +55,7 @@ const App = ({ store, history }) => (
           </div>
         </div>
 
+        <Footer/>
       </Fabric>
     </ConnectedRouter>
   </Provider>

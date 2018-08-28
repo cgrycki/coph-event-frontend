@@ -36,7 +36,6 @@ export default class NavPage extends React.PureComponent {
     return cal_pg_props;
   }
 
-
   /**
    * Returns an object describing the properties of a EventPage breadcrumb.
    * @param {Object} props Properties passed from page calling NavPage.
@@ -46,7 +45,6 @@ export default class NavPage extends React.PureComponent {
     const evt_pg_props = this.createProps('EvtPgCrumb', `Event #${package_id}`, true);
     return evt_pg_props;
   }
-
 
   /**
    * Returns an object describing the properties of the Dashboard breadcrumb.
@@ -63,7 +61,6 @@ export default class NavPage extends React.PureComponent {
     return dash_props;
   }
 
-
   /**
    * Returns an object describing the properties of the Home breadcrumb.
    * @returns {Object} home_props
@@ -79,6 +76,14 @@ export default class NavPage extends React.PureComponent {
     return home_props;
   }
 
+  getAboutBreadcrumb() {
+    const { history: { location: { pathname }}} = this.props;
+    const path = "/about";
+    
+    // Props
+    const about_props = this.createProps('aboutCrumb', 'About', true, path);
+    return about_props;
+  }
 
   /**
    * Returns an object describing the properties of the Form breadcrumb.
@@ -88,7 +93,6 @@ export default class NavPage extends React.PureComponent {
     const form_props = this.createProps('formCrumb', 'Create an Event', true);
     return form_props;
   }
-
 
   /**
    * Higher Order Function creating all of the breadcrumbs given our history
@@ -103,6 +107,9 @@ export default class NavPage extends React.PureComponent {
     let crumbs = [this.getHomeBreadcrumb()];
     
     // But we rely on our location for any other breadcrumbs...
+    // Check if we're on About page
+    if (pathname === "/about") crumbs.push(this.getAboutBreadcrumb());
+
     // Check if we're on the calendar
     if (pathname === "/calendar") crumbs.push(this.getCalendarBreadcrumb());
 
@@ -120,7 +127,6 @@ export default class NavPage extends React.PureComponent {
 
     return crumbs;
   }
-
 
   render() {
     return (
