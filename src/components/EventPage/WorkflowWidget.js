@@ -1,6 +1,5 @@
 /* Dependencies -------------------------------------------------------------*/
 import React from 'react';
-import WorkflowService from './WorkflowService';
 
 
 export default class WorkflowWidgetComponent extends React.Component {
@@ -21,21 +20,7 @@ export default class WorkflowWidgetComponent extends React.Component {
   }
 
   async loadWorkflowScript() {
-    await WorkflowService(this.state.packageId, this.state.signatureId)
-      .then((script) => {
-        console.log(script, window.WorkflowWidget);
-
-        var WorkflowWidget              = window.WorkflowWidget || {};
-          WorkflowWidget.form_id      = 6025;
-          WorkflowWidget.package_id   = this.state.packageId;
-          WorkflowWidget.signature_id = this.state.signatureId;
-          WorkflowWidget.scope        = 'workflow.api.cphb-events';
-          WorkflowWidget.client_id    = 'cphb-events';
-          WorkflowWidget.environment  = process.env.REACT_APP_WF_ENV;
-
-        this.setState({ loaded: true });
-        this.forceUpdate();
-      });
+    
   };
 
 
