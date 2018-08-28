@@ -9,6 +9,7 @@ import {
 import NavPage      from '../common/NavPage';
 import EventList    from './EventList';
 import AdminTools   from './AdminTools';
+import DashCalendar from '../Calendar/DashCalendar';
 import './Dashboard.css';
 
 
@@ -72,8 +73,12 @@ class DashboardComponent extends React.Component {
               key="MySchedule"
               linkText="Schedule"
               itemIcon="CalendarAgenda"
-              disabled
-            />
+            >
+              <br/>
+              <DashCalendar
+                events={this.props.events}
+              />
+            </PivotItem>
             {this.state.is_admin && 
               <PivotItem
                 key="AdminTools"
