@@ -3,6 +3,10 @@ import moment                             from 'moment';
 import { connect }                        from 'react-redux';
 import { fetchRooms, 
   fetchCalendarSchedule }                 from '../../actions/room.actions';
+import {
+  minTime,
+  maxTime
+}                                         from './shared';
 import { getDateISO }                     from '../../utils/date.utils';
 import Panel                              from './Panel';
 import Toolbar                            from './Toolbar';
@@ -75,8 +79,8 @@ class Calendar extends React.Component {
     let currentDate  = date;
 
     // Take the max/mins
-    //if (field === 'start_date') date = Math.min(currentStart, currentDate);
-    //else date = Math.min(currentEnd, currentDate);
+    //if (field === 'start_date') date = Math.min(currentStart.getTime(), currentDate.getTime());
+    //else date = Math.min(currentEnd.getTime(), currentDate.getTime());
 
     // Set the state
     this.setState({ [field]: date });
@@ -113,7 +117,9 @@ class Calendar extends React.Component {
             defaultDate={new Date()}
             defaultView="month"
             style={{ height: '600px' }}
-
+            min={minTime}
+            max={maxTime}
+            
             formats={formats}
             components={components}
 

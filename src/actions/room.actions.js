@@ -79,29 +79,6 @@ const fetchScheduleFailure = (error) => ({
 /**
  * Wraps the loading/success/error state dispatches for async room schedule fetches.
  */
-export function fetchRoomSchedule(room_number, date) {
-  return (dispatch) => {
-    // Notify the store we're making an async call
-    dispatch(fetchScheduleLoading());
-
-    // Create the URL for our API call
-    let uri = `${URI}/maui/rooms/${room_number}/${date}`;
-    let options = {
-      method: 'GET',
-      withCredentials: true,
-      headers: {
-        'Accept': 'application/json'
-      }
-    };
-
-    rp(uri, options)
-      .then(res => JSON.parse(res))
-      .then(data => dispatch(fetchScheduleSuccess(data)))
-      .catch(err => dispatch(fetchScheduleFailure(err)))
-      .finally(() => dispatch(updateForm(undefined, undefined)));
-  }
-}
-
 export function fetchCalendarSchedule(room_number, start, end) {
   return (dispatch) => {
     // Notify the store we're making an async call
@@ -122,6 +99,7 @@ export function fetchCalendarSchedule(room_number, start, end) {
 
     rp(uri, options)
       .then(data => dispatch(fetchScheduleSuccess(data)))
-      .catch(err => dispatch(fetchScheduleFailure(err)));
+      .catch(err => dispatch(fetchScheduleFailure(err)))
+      .finally(() => dispatch(updateForm(undefined, undefined)));
   }
 }

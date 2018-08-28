@@ -6,7 +6,7 @@ import { connect }    from 'react-redux';
 import {updateForm}  from '../../actions/field.actions';
 import { 
   fetchRooms,
-  fetchRoomSchedule 
+  fetchCalendarSchedule 
 }                     from '../../actions/room.actions';
 
 
@@ -21,6 +21,7 @@ import DateTime       from './fields/DateTime';
 import EventComments  from './fields/EventComments';
 import RoomList       from './fields/RoomList';
 import RoomSchedule   from '../Scheduler/';
+import FormCalendar   from '../Calendar/FormCalendar';
 
 
 // Component
@@ -90,7 +91,9 @@ class StepTwo extends React.Component {
     let { room_number, date } = info;
 
     // Only make the API call if we have both a time and space selected.
-    if ((room_number !== '') && (date !== '')) dispatch(fetchRoomSchedule(room_number, date));
+    if ((room_number !== '') && (date !== '')) {
+      dispatch(fetchCalendarSchedule(room_number, date, date));
+    };
   }
 
   render() {
@@ -145,7 +148,7 @@ class StepTwo extends React.Component {
             />
           </div>
 
-          <RoomSchedule
+          <FormCalendar
             room_number={info['room_number']}
             room_schedule={room_schedule}
             event_name={info['event_name']}

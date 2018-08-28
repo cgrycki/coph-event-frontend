@@ -5,6 +5,18 @@
   margin: 5px 0;
 }
 
+/* Event scheduling */
+.CalendarEvent--overlap {
+  background-color: #e81123 !important;
+}
+.CalendarEvent--nooverlap {
+  background-color: #107c10 !important;
+}
+.rbc-event.CalendarEvent--nooverlap,
+.rbc-event.CalendarEvent--overlap {
+  border: 1px solid #333333 !important;
+}
+
 
 
 /* Unbold headers */

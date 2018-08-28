@@ -67,12 +67,12 @@ class EventPage extends React.Component {
     };
   }
 
-
   /** Alters component state, and hides the popup after a rerender. */
   hidePopup() { 
     this.setState({ popupHidden: true }); 
   }
 
+  /** Sets our popup's state and callback */
   renderPopup(popupType) {
     // Gather dispatch functions from react-redux's connect
     const { event, editEvent, deleteEventFromServer, navigate } = this.props;
@@ -94,7 +94,8 @@ class EventPage extends React.Component {
 
   render() {
     let { 
-      history,  match: { params: { package_id, signature_id }},                            
+      history,  match: { params: { package_id }},
+      permissions: { signatureId },                        
       permissions, event, event_loading
     } = this.props;
 
@@ -120,7 +121,11 @@ class EventPage extends React.Component {
           btnClickNo={() => this.hidePopup()}
         />
 
-        {signature_id && <WorkflowWidget signature_id={signature_id} />}
+        {signatureId && 
+          <WorkflowWidget
+            packageId={package_id}
+            signatureId={signatureId} 
+          />}
       </div>
     );
   }
