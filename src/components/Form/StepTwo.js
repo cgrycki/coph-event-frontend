@@ -20,7 +20,6 @@ import EventName      from './fields/EventName';
 import DateTime       from './fields/DateTime';
 import EventComments  from './fields/EventComments';
 import RoomList       from './fields/RoomList';
-import RoomSchedule   from '../Scheduler/';
 import FormCalendar   from '../Calendar/FormCalendar';
 
 

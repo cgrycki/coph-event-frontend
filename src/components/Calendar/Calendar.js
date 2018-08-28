@@ -19,10 +19,6 @@ import './Calendar.css';
 
 // Setup localizer
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
-// Calendar components
-const components = {
-  toolbar: Toolbar
-}
 
 
 
@@ -43,6 +39,7 @@ class Calendar extends React.Component {
 
   /** Fetches rooms on mount if we don't have them loaded. */
   componentDidMount() {
+    document.title = "Room Schedule @ CPHB";
     if (this.props.rooms.length === 0) this.props.fetchRooms();
   }
 
@@ -126,7 +123,7 @@ class Calendar extends React.Component {
                 max={maxTime}
                 
                 formats={formats}
-                components={components}
+                components={{ toolbar: Toolbar }}
 
                 events={this.props.room_schedule}
                 titleAccessor="event_name"
