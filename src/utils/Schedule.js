@@ -13,9 +13,9 @@ class Schedule {
   formatEventMAUI(evt) {
     /* Formats an object returned by the MAUI room schedule API */ 
     const formatted_evt = {
-      start_time : moment(evt.startTime.trim(), "hh:mmA"),
-      end_time   : moment(evt.endTime.trim(), "hh:mmA"),
-      event_title: evt.title,
+      start_time : moment(evt.start_time),
+      end_time   : moment(evt.end_time),
+      event_title: evt.event_name,
       date       : evt.date,
       new_event  : false
     };
@@ -57,8 +57,13 @@ class Schedule {
     for (var i = 0; i < n-1; i++) {
       let current = all_events[i], 
           next    = all_events[i+1];
-      
-      if (current.end_time.isSameOrAfter(next.start_time)) return true;
+      console.log(current, next);
+
+      // Some events have shared rooms, and will flag the overlap as true
+      // even when the events are not in the same room at the same time.
+      // Ensure overlap AND one of the overlapping events is new.
+      if ((current.new_event || next.new_event) &&
+        (current.end_time.isSameOrAfter(next.start_time))) return true;
     };
 
     // No overlaps detected!

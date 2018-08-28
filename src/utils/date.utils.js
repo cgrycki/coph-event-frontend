@@ -28,6 +28,12 @@ const parseDynamo = (event) => {
   return filt_evt;
 }
 
+const getDateTime = (date, time) => {
+  const fmt = 'YYYY-MM-DD h:mmA';
+  const formattedDateTime = moment(`${date} ${time}`, fmt).local().format();
+  return new Date(formattedDateTime);
+}
+
 
 
 const sixMonthsFromToday = () => {
@@ -137,6 +143,7 @@ module.exports = {
   validTimes,
   getDateISO,
   getDateFromISO,
+  getDateTime,
   parseDynamo,
   getTimeAfterStart,
   nextWeek,
