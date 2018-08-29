@@ -22,6 +22,7 @@ import StepOne        from './Form/StepOne';
 import StepTwo        from './Form/StepTwo';
 import StepThree      from './Form/StepThree';
 import StepFour       from './Form/StepFour';
+import StepFive       from './Form/StepFive';
 
 
 // Container -- Holds our application data store and sets routes up
@@ -36,13 +37,18 @@ const App = ({ store, history }) => (
             <Page>
               
               <Switch>
-                <Route path="/" exact                     component={Home} />
-                <Route path="/about" exact                component={About} />
-                <Route path="/calendar" exact component={Calendar} />
+                {/** Testing routes ****************************************/}
+                <Route path="/testing"          component={StepFive} />
+                
+                {/** Public Routes, no login required. ********************/}
+                <Route path="/"         exact   component={Home} />
+                <Route path="/about"    exact   component={About} />
+                <Route path="/calendar" exact   component={Calendar} />
 
-                <ProtectedRoute path="/dashboard"         Component={Dashboard} />
-                <ProtectedRoute 
-                  path="/event/:package_id/:signature_id?" Component={EventPage} />
+                {/** Protected Routes, login required. **************************/}
+                <ProtectedRoute path="/dashboard"     Component={Dashboard} />
+                <ProtectedRoute path="/event/:package_id/:signature_id?" 
+                                                      Component={EventPage} />
                 <Form>
                   <ProtectedRoute path="/form/user"   Component={StepOne} />
                   <ProtectedRoute path="/form/event"  Component={StepTwo} />
