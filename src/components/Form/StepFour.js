@@ -82,7 +82,10 @@ class StepFour extends React.Component {
   }
 
   render() {
-    let { form_loading, form_success } = this.props;
+    let { form_loading, form_success, info: { package_id }} = this.props;
+
+    // Conditionally set submit button text
+    const submitBtnText = (package_id !== null) ? "Submit Revisions" : "Submit for Approval";
 
     return (
       <FormStep>
@@ -102,7 +105,7 @@ class StepFour extends React.Component {
           nextPage={() => this.renderPopup("submit")}
           prevDisabled={false}
           nextDisabled={form_loading || form_success}
-          nextText={"Submit for approval"}
+          nextText={submitBtnText}
         />
       </FormStep>
     );

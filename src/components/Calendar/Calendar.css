@@ -7,10 +7,10 @@
 
 /* Event scheduling */
 .CalendarEvent--overlap {
-  background-color: #e81123 !important;
+  background-color: #e34a33 !important;
 }
 .CalendarEvent--nooverlap {
-  background-color: #107c10 !important;
+  background-color: #2ca25f !important;
 }
 .rbc-event.CalendarEvent--nooverlap,
 .rbc-event.CalendarEvent--overlap {
@@ -31,6 +31,19 @@
 /* Match week and month day headings to command bar background */
 .rbc-month-header, .rbc-time-header-cell {
   background-color: rgb(244, 244, 244) !important;
+}
+
+/* Remove empty header cell above scrollbar in day view */
+.rbc-time-header .rbc-overflowing {
+  margin-right: unset;
+}
+/* Remove border in day view */
+.rbc-time-view {
+  border: unset;
+}
+/* Remove header border in day view */
+.rbc-time-content {
+  border-top: 1px solid #dddddd;
 }
 
 

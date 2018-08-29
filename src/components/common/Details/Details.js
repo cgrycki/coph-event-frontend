@@ -50,8 +50,8 @@ export default class Details extends React.PureComponent {
               <TextField label={"Starts - Ends"} value={`${start} - ${end}`} disabled required />
             </div>
 
-            {!coph &&  <div className="ms-Grid-col ms-sm12 ms-md7 ms-mdPush5 ms-lg4 ms-lgPush2 ms-xl5 ms-xlPush2">
-                <TextField label={"College of Public Health Employee"} value={"example@email.com"} disabled  required/>
+            {coph && <div className="ms-Grid-col ms-sm12 ms-md7 ms-mdPush5 ms-lg4 ms-lgPush2 ms-xl5 ms-xlPush2">
+                <TextField label={"College of Public Health Employee"} value={coph} disabled  required/>
               </div>}
           </div>
 
@@ -84,9 +84,10 @@ export default class Details extends React.PureComponent {
               />
             </div>
 
-            <div className="ms-Grid-col ms-sm11 ms-smPush1 ms-md7 ms-lg8 ms-lgPush1 ms-xl5 ms-xlPush4">
-              {!mfk && <TextField label={"MFK"} value={'1234556789'} disabled />}
-            </div>
+            {mfk && 
+              <div className="ms-Grid-col ms-sm11 ms-smPush1 ms-md7 ms-lg8 ms-lgPush1 ms-xl5 ms-xlPush4">
+                <TextField label={"MFK"} value={'1234556789'} disabled />
+              </div>}
           </div>
 
           <div className="ms-Grid-row">
@@ -100,12 +101,12 @@ export default class Details extends React.PureComponent {
               />
             </div>
 
-            <div className="ms-Grid-col ms-sm11 ms-smPush1 ms-md7 ms-lg8 ms-lgPush1 ms-xl6 ms-xlPush3">
-              {<TextField label={"Course"} value={course || ''} disabled />}
-            </div>
+            {course &&
+              <div className="ms-Grid-col ms-sm11 ms-smPush1 ms-md7 ms-lg8 ms-lgPush1 ms-xl6 ms-xlPush3">
+                <TextField label={"Course"} value={course || ''} disabled />
+              </div>}
           </div>
             
-          
           <div className="ms-Grid-row">
             <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg9 ms-xl8 ms-xxl6">
               <TextField label={"Comments"} multiline={true} value={comments || ''} disabled />

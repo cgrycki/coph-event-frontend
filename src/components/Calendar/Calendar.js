@@ -100,8 +100,9 @@ class Calendar extends React.Component {
       <div className="ms-Grid-row">
         <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12 ms-xl12 ms-xxl12">
 
-          <div className="ms-Grid-row">
+          <div>
             <NavPage history={this.props.history} />
+            <br/>
           </div>
 
           <div className="ms-Grid-row">

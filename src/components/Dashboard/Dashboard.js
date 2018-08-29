@@ -37,7 +37,8 @@ class DashboardComponent extends React.Component {
   /** Fetches event list on load and alters web page title */
   componentDidMount() {
     document.title = "My Dashboard";
-    if (this.props.events.length === 0) this.props.getEventsFromServer();
+    //if (this.props.events.length === 0) 
+    this.props.getEventsFromServer();
   }
 
   render() {
@@ -60,7 +61,6 @@ class DashboardComponent extends React.Component {
             >
               <br/>
               <EventList
-                is_admin={this.props.is_admin}
                 items={this.props.events}
                 loading={this.props.event_loading}
                 error={this.props.event_error}
@@ -113,7 +113,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  populateEventAndPush: (package_id) => dispatch(populateEventAndPush(package_id)),
+  populateEventAndPush : (package_id) => dispatch(populateEventAndPush(package_id)),
   populateFormAndPush  : (info) => dispatch(populateFormAndPush(info)),
   getEventsFromServer  : () => dispatch(getEvents()),
   deleteEventFromServer: (package_id) => dispatch(deleteEvent(package_id)),
