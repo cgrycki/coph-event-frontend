@@ -1,7 +1,6 @@
 /* Dependencies -------------------------------------------------------------*/
 import React from 'react';
 
-
 export default class WorkflowWidgetComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -12,7 +11,7 @@ export default class WorkflowWidgetComponent extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.loadScript(this.state.packageId, this.state.signatureId);
     this.setState({ loaded: true });
   }
@@ -23,6 +22,7 @@ export default class WorkflowWidgetComponent extends React.Component {
     var WorkflowWidget = window.WorkflowWidget || {};
 
     // Assign variables per https://workflow.uiowa.edu/help/article/36/6
+    WorkflowWidget.location     = encodeURIComponent(document.location);
     WorkflowWidget.package_id   = pid;
     WorkflowWidget.signature_id = sid;
     WorkflowWidget.form_id      = process.env.REACT_APP_FORM_ID;
@@ -32,7 +32,7 @@ export default class WorkflowWidgetComponent extends React.Component {
     //WorkflowWidget.post_sign_void = '{url - optional}';
     //WorkflowWidget.post_version_mismatch = '{url - optional}';
 
-    // !IMPORTANT -- Assign the object to the window so our callback can pick it up
+    // !IMPORTANT -- Assign the object to the window so loaded script can pick up credentials
     window.WorkflowWidget = WorkflowWidget;
 
     // Create the script 
@@ -49,7 +49,7 @@ export default class WorkflowWidgetComponent extends React.Component {
   render() {
     return (
       <div>
-        <div id="workflowWidgetContainer" style={{border: '1 px solid black'}}></div>
+        <div id='workflowWidgetContainer' style={{border: '1 px solid black'}}></div>
       </div>
     );
   }
