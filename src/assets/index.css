@@ -31,6 +31,7 @@ body {
   -webkit-transition: 750ms;
   -moz-transition: 750ms;
   min-height: 50vh;
+  overflow: overlay;
 }
 
 
