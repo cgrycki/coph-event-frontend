@@ -118,9 +118,7 @@ export function deleteEvent(package_id) {
     };
 
     rp(options)
-      .then(res => (res.error) ?
-        dispatch(fetchEventFailure(res)) :
-        dispatch(deleteEventSuccess(res)))
+      .then(res => dispatch(deleteEventSuccess(res)))
       .catch(err => dispatch(fetchEventFailure(err)));
   }
 }
