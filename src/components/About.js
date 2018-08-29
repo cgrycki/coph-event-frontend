@@ -1,12 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import NavPage from './common/NavPage';
-import {
-  DocumentCard,
-  DocumentCardTitle,
-  DocumentCardPreview,
-  DocumentCardType
-} from 'office-ui-fabric-react';
 
 
 class About extends React.PureComponent {
