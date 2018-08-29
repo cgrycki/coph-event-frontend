@@ -93,7 +93,7 @@ class Home extends React.Component {
     let { login_loading, login_error } = this.props;
 
     const status_style = {
-      "minHeight" : "250px",
+      "minHeight" : "125px",
       "display"   : "flex",
       "alignItems": "center",
       display: (login_loading || login_error ) ? '' : 'hidden'

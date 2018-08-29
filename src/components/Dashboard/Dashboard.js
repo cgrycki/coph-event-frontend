@@ -61,7 +61,6 @@ class DashboardComponent extends React.Component {
             >
               <br/>
               <EventList
-                is_admin={this.props.is_admin}
                 items={this.props.events}
                 loading={this.props.event_loading}
                 error={this.props.event_error}
