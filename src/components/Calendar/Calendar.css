@@ -7,10 +7,10 @@
 
 /* Event scheduling */
 .CalendarEvent--overlap {
-  background-color: #e81123 !important;
+  background-color: #e34a33 !important;
 }
 .CalendarEvent--nooverlap {
-  background-color: #107c10 !important;
+  background-color: #2ca25f !important;
 }
 .rbc-event.CalendarEvent--nooverlap,
 .rbc-event.CalendarEvent--overlap {
