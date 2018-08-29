@@ -57,7 +57,6 @@ class Schedule {
     for (var i = 0; i < n-1; i++) {
       let current = all_events[i], 
           next    = all_events[i+1];
-      console.log(current, next);
 
       // Some events have shared rooms, and will flag the overlap as true
       // even when the events are not in the same room at the same time.

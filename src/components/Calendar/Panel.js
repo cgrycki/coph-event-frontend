@@ -29,33 +29,30 @@ export default class Panel extends React.Component {
     
     return (
       <div className="ms-Grid-col ms-sm4 ms-md4 ms-lg4 ms-xl4 ms-xxl4">
-      
-        <div className="ms-Grid-row">
-          <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12 ms-xl12 ms-xxl12">
-            <h2>Filters</h2>
-          </div>
-        </div>
         
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12 ms-xl12 ms-xxl12">
             <DatePicker
               label={"Start"}
+              isRequired={true}
               isMonthPickerVisible={false}
               value={this.props.start_date}
               onSelectDate={(evt) => this.props.onDateChange(evt, 'start_date')}
             />
             <DatePicker
               label={"End"}
+              isRequired={true}
               isMonthPickerVisible={false}
               value={this.props.end_date}
               onSelectDate={(evt) => this.props.onDateChange(evt, 'end_date')}
             />
+            <br/>
           </div>
         </div>
         
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12 ms-xl12 ms-xxl12">
-            <Label>Rooms</Label>
+            <Label required={true}>Rooms</Label>
             {this.props.rooms && this.props.rooms.map(this.createCheckbox)}
           </div>
         </div>

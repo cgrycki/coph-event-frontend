@@ -33,6 +33,19 @@
   background-color: rgb(244, 244, 244) !important;
 }
 
+/* Remove empty header cell above scrollbar in day view */
+.rbc-time-header .rbc-overflowing {
+  margin-right: unset;
+}
+/* Remove border in day view */
+.rbc-time-view {
+  border: unset;
+}
+/* Remove header border in day view */
+.rbc-time-content {
+  border-top: 1px solid #dddddd;
+}
+
 
 /* Change todays color */
 .rbc-today {
