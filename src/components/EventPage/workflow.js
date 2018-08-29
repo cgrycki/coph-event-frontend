@@ -92,8 +92,14 @@ export default function(window, undefined) {
       remoteHost = 'https://apps.its.uiowa.edu/workflow-widget/'+WorkflowWidget.scope+'/'+WorkflowWidget.client_id+'/widget';
     }
     
-    remote = remoteHost+'?location='+encodeURIComponent('https://dev.cphb-events.api.public-health.uiowa.edu/')+'&environment='+WorkflowWidget.environment+'&scope='+WorkflowWidget.scope+'&form_id='+WorkflowWidget.form_id+'&package_id='+WorkflowWidget.package_id+'&signature_id='+WorkflowWidget.signature_id+signVoid+versionMismatch+widgetFiles+widgetServer;
-    var easyXDM = window.easyXDM;
+
+    /** ADDED AND HACKY */
+    const location = process.env.REACT_APP_REDIRECT_URI;
+    var easyXDM    = window.easyXDM;
+
+    remote = remoteHost+'?location='+encodeURIComponent(location)+'&environment='+WorkflowWidget.environment+'&scope='+WorkflowWidget.scope+'&form_id='+WorkflowWidget.form_id+'&package_id='+WorkflowWidget.package_id+'&signature_id='+WorkflowWidget.signature_id+signVoid+versionMismatch+widgetFiles+widgetServer;
+    
+    
     easyXDM.Socket({
       remote: remote,
       container: "workflowWidgetContainer",
