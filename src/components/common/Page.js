@@ -25,10 +25,12 @@ class Page extends React.PureComponent {
 
     return (
       <div 
-        className="ms-borderBase ms-Grid-col ms-sm12 ms-md12 ms-lg10 ms-lgPush1 ms-xl8 ms-xlPush2 ms-xxl6 ms-xxlPush3 ms-fadeIn10 Page"
+        className="ms-Grid-col ms-sm12 ms-md12 ms-lg12 ms-xl10 ms-xlPush1 ms-xxl8 ms-xxlPush2 ms-fadeIn10"
         //style={page_style}
       >
-        {this.props.children}
+        <div className="ms-borderBase Page">
+          {this.props.children}
+        </div>
       </div>
     );
   }
