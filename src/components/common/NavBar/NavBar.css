@@ -45,19 +45,3 @@
   color: #7f7f7f !important;
 }
 
-
-
-/* OLD FABRIC STYLES */
-.ms-CommandBarItem-commandText,
-.ms-CommandBarItem-icon,
-.ms-CommandBarItem > button,
-.ms-CommandBarItem > a {}
-
-.ms-CommandBarItem:hover .ms-CommandBarItem-commandText,
-.ms-CommandBarItem:hover .ms-CommandBarItem-icon,
-.ms-CommandBarItem:hover > button,
-.ms-CommandBarItem:hover > a {}
-
-.ms-CommandBarItem > button:disabled > .ms-CommandBarItem-commandText, 
-.ms-CommandBarItem > button:disabled > .ms-CommandBarItem-icon {}
-
