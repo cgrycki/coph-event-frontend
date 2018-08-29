@@ -4,6 +4,7 @@ import {
   Label, 
   TextField,
   FocusZone,
+  FocusZoneDirection,
   FocusZoneTabbableElements as TabTypes
 } from 'office-ui-fabric-react';
 
@@ -12,6 +13,11 @@ import {
  * Renders the HTML field to input U. Iowa MFK number if setup is required
  */
 export default class Setup extends React.Component {
+  constructor(props) {
+    super();
+    this.state = {}
+  }
+  
   /* Fields 
     FUND
     ORG
@@ -48,20 +54,24 @@ export default class Setup extends React.Component {
     };
 
     return (
-      <div 
-        className="ms-slideRightIn20 ms-slideLeftOut20"
-        style={flex_styles}
-      >
-        {this.renderField('FUND    ', 3)}
-        {this.renderField('ORG      ', 3)}
-        {this.renderField('DEPT     ', 3)}
-        {this.renderField('SUB DEPT ', 3)}
-        {this.renderField('GRANT    ', 3)}
-        {this.renderField('INST ACCT', 3)}
-        {this.renderField('ORG ACCT ', 3)}
-        {this.renderField('DEPT ACCT', 3)}
-        {this.renderField('COST CNTR', 3)}
-      </div>
+      <FocusZone 
+        direction={FocusZoneDirection.horizontal}
+        handleTabKey={TabTypes.inputOnly}
+        isCircularNavigation={false}>
+        <div 
+          className="ms-slideRightIn20 ms-slideLeftOut20"
+          style={flex_styles}>
+          {this.renderField('FUND    ', 3)}
+          {this.renderField('ORG      ', 3)}
+          {this.renderField('DEPT     ', 3)}
+          {this.renderField('SUB DEPT ', 3)}
+          {this.renderField('GRANT    ', 3)}
+          {this.renderField('INST ACCT', 3)}
+          {this.renderField('ORG ACCT ', 3)}
+          {this.renderField('DEPT ACCT', 3)}
+          {this.renderField('COST CNTR', 3)}
+        </div>
+      </FocusZone>
     );
   }
 
@@ -78,16 +88,16 @@ export default class Setup extends React.Component {
     }
 
     return (
-      <div className="ms-Grid-row" style={setup_styles}>
-        <Toggle
-          defaultChecked={false}
-          label={"Furniture and setup required?"}
-          onText="Yes"
-          offText="No"
-          onChanged={(evt) => this.props.onChange('setup_required', evt)}
-        />
-        {this.props.setup_required && this.renderFieldRow()}
-      </div>
+        <div className="ms-Grid-row" style={setup_styles}>
+          <Toggle
+            defaultChecked={false}
+            label={"Furniture and setup required?"}
+            onText="Yes"
+            offText="No"
+            onChanged={(evt) => this.props.onChange('setup_required', evt)}
+          />
+          {this.props.setup_required && this.renderFieldRow()}
+        </div>
     );
   }
 }

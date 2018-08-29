@@ -27,8 +27,9 @@ class StepFive extends React.Component {
         
         <div className="ms-Grid-row">
           <Setup
-            setup_required={this.props.info['setup_required']}
-            mfk={this.props.info}
+            setup_required={this.props.info.setup_required}
+            setup_mfk={this.props.info.setup_mfk}
+            error={this.props.errors.setup_mfk}
             onChange={this.props.onChange}
           />
         </div>
