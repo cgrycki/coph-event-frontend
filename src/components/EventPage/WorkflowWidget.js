@@ -10,19 +10,7 @@ export default class WorkflowWidgetComponent extends React.Component {
       signatureId: props.signatureId,
       packageId  : props.packageId
     };
-
-    this.loadWorkflowScript = this.loadWorkflowScript.bind(this);
   }
-
-  componentDidMount() {
-    if (!window.WorkflowWidget) this.loadWorkflowScript();
-    else this.setState({ loaded: true });
-  }
-
-  async loadWorkflowScript() {
-    
-  };
-
 
   render() {
     return (
