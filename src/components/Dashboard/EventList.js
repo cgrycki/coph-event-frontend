@@ -167,7 +167,7 @@ export default class EventList extends React.Component {
     // Create a mapping of 'state' => function
     const clickCallback = {
       edit    : () => onEdit(event),
-      delete  : () => onDelete(event),
+      delete  : () => onDelete(event.package_id),
       deleting: () => console.log("Patience... I've sent the delete request to the server"),
       error   : () => this.hidePopup()
     };
@@ -179,7 +179,6 @@ export default class EventList extends React.Component {
     });
   }
   
-
   render() {
     const loading = this.props.loading || true;
 
@@ -190,7 +189,7 @@ export default class EventList extends React.Component {
           columns={this.createColumns()}
           onActiveItemChanged={(item) => this.setState({ 
             event: item.evt, 
-            permissions: item.permissions 
+            permissions: item.permissions
           })}
           //enableSimmer={loading}
           //onRenderMissingItem={(index, rowProps) => this.renderMissingItem(index, rowProps)}
