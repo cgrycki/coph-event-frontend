@@ -19,7 +19,7 @@ const fetchLoginLoading = () => ({
  * @param {*} response 
  */
 const fetchLoginSuccess = (response) => ({
-  type: appActions.LOGIN_SUCCESS,
+  type   : appActions.LOGIN_SUCCESS,
   payload: response
 })
 
@@ -29,7 +29,7 @@ const fetchLoginSuccess = (response) => ({
  * @param {*} error 
  */
 const fetchLoginFailure = (error) => ({
-  type: appActions.LOGIN_FAILURE,
+  type   : appActions.LOGIN_FAILURE,
   payload: error
 })
 

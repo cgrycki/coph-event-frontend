@@ -9,6 +9,7 @@ import {
 import NavPage      from '../common/NavPage';
 import EventList    from './EventList';
 import AdminTools   from './AdminTools';
+import DashCalendar from '../Calendar/DashCalendar';
 import './Dashboard.css';
 
 
@@ -35,7 +36,8 @@ class DashboardComponent extends React.Component {
 
   /** Fetches event list on load and alters web page title */
   componentDidMount() {
-    document.title = "My Events @ CPHB";
+    document.title = "My Dashboard";
+    //if (this.props.events.length === 0) 
     this.props.getEventsFromServer();
   }
 
@@ -59,7 +61,6 @@ class DashboardComponent extends React.Component {
             >
               <br/>
               <EventList
-                is_admin={this.props.is_admin}
                 items={this.props.events}
                 loading={this.props.event_loading}
                 error={this.props.event_error}
@@ -70,10 +71,14 @@ class DashboardComponent extends React.Component {
             </PivotItem>
             <PivotItem
               key="MySchedule"
-              linkText="Schedule"
+              linkText="My Schedule"
               itemIcon="CalendarAgenda"
-              disabled
-            />
+            >
+              <br/>
+              <DashCalendar
+                events={this.props.events}
+              />
+            </PivotItem>
             {this.state.is_admin && 
               <PivotItem
                 key="AdminTools"
@@ -108,7 +113,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  populateEventAndPush: (package_id) => dispatch(populateEventAndPush(package_id)),
+  populateEventAndPush : (package_id) => dispatch(populateEventAndPush(package_id)),
   populateFormAndPush  : (info) => dispatch(populateFormAndPush(info)),
   getEventsFromServer  : () => dispatch(getEvents()),
   deleteEventFromServer: (package_id) => dispatch(deleteEvent(package_id)),
