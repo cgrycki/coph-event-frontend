@@ -121,10 +121,10 @@ class EventPage extends React.Component {
           btnClickNo={() => this.hidePopup()}
         />
 
-        {signatureId && 
+        {(signatureId !== null) && 
           <WorkflowWidget
             packageId={package_id}
-            signatureId={signatureId} 
+            signatureId={signatureId}
           />}
       </div>
     );
