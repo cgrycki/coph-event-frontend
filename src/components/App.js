@@ -1,16 +1,20 @@
 // Dependencies
-import React        from 'react';
-import { Provider } from 'react-redux'
-import { Fabric }   from 'office-ui-fabric-react';
-import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
+import React                from 'react';
+import { Provider }         from 'react-redux'
+import { Fabric }           from 'office-ui-fabric-react';
+import { ConnectedRouter }  from 'connected-react-router';
+import { Route, Switch }    from 'react-router';
 
 // Site components
-import Navbar         from './common/NavBar';
+import NavBar         from './common/NavBar/';
 import Page           from './common/Page';
 import ProtectedRoute from './common/ProtectedRoute';
 import Home           from './Home';
-import EventPage      from './EventPage/EventPage';
-import Dashboard      from './Dashboard/Dashboard';
+import About          from './About';
+import EventPage      from './EventPage/';
+import Dashboard      from './Dashboard/';
+import Calendar       from './Calendar/';
+import Footer         from './common/Footer';
 
 // Form + Steps
 import Form           from './Form/';
@@ -20,24 +24,25 @@ import StepThree      from './Form/StepThree';
 import StepFour       from './Form/StepFour';
 
 
-// Container
-// Holds our application data store and sets routes up
-const App = ({ store }) => (
+// Container -- Holds our application data store and sets routes up
+const App = ({ store, history }) => (
   <Provider store={store}>
-    <Fabric>
-      <Router>
+    <ConnectedRouter history={history}>
+      <Fabric dir="ltr">
+        <NavBar />
 
         <div className="ms-Grid App">
           <div className="ms-Grid-row">
             <Page>
               
-              <Navbar />
               <Switch>
                 <Route path="/" exact                     component={Home} />
+                <Route path="/about" exact                component={About} />
+                <Route path="/calendar" exact component={Calendar} />
+
                 <ProtectedRoute path="/dashboard"         Component={Dashboard} />
                 <ProtectedRoute 
-                  path="/event/:package_id/:signature_id?" 
-                                                          Component={EventPage} />
+                  path="/event/:package_id/:signature_id?" Component={EventPage} />
                 <Form>
                   <ProtectedRoute path="/form/user"   Component={StepOne} />
                   <ProtectedRoute path="/form/event"  Component={StepTwo} />
@@ -50,8 +55,10 @@ const App = ({ store }) => (
           </div>
         </div>
 
-      </Router>
-    </Fabric>
+        <Footer/>
+      </Fabric>
+    </ConnectedRouter>
   </Provider>
 );
+
 export default App;

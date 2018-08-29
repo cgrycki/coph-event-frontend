@@ -1,0 +1,12 @@
+/* Styling for Modal Popup */
+
+/* Main Dialog div styling */
+.ms-Dialog-main {
+  max-width: 600px;
+  min-width: 300px;
+}
+
+/* More legible dialog subText */
+.ms-Dialog-subText {
+  font-size: 14px;
+}

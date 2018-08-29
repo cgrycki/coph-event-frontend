@@ -27,6 +27,11 @@ class StepOne extends React.Component {
     this.validate = this.validate.bind(this);
   }
 
+  componentDidMount() {
+    /* Set web page title on mount. */
+    document.title = "Create Event: User";
+  }
+
   prevPage() {
     this.props.history.goBack(-1);
   }
@@ -63,46 +68,46 @@ class StepOne extends React.Component {
 
     return (
       <FormStep>
-        <FormTitle page={"User Information"} />
+        <FormTitle page={"User Information"} progress={0.25} />
 
-        <div className="ms-slideRightIn40">
-        <UserEmail value={info['user_email']} />
-        
-        <ContactEmail
-          value={info['contact_email']}
-          error={errors['contact_email']}
-          onChange={this.onChange}
-        />
+        <div className="ms-slideRightIn40 FormFields">
+          <UserEmail value={info['user_email']} />
+          
+          <ContactEmail
+            value={info['contact_email']}
+            error={errors['contact_email']}
+            onChange={this.onChange}
+          />
 
-        <Attendance
-          value={info['num_people']}
-          error={errors['num_people']}
-          onChange={this.onChange}
-        />
+          <Attendance
+            value={info['num_people']}
+            error={errors['num_people']}
+            onChange={this.onChange}
+          />
 
-        <Setup
-          setup_required={info['setup_required']}
-          setup_mfk={info['setup_mfk']}
-          setup_error={errors['setup_mfk']}
-          onChange={this.onChange}
-        />
+          <Setup
+            setup_required={info['setup_required']}
+            setup_mfk={info['setup_mfk']}
+            setup_error={errors['setup_mfk']}
+            onChange={this.onChange}
+          />
 
-        <Course
-          references_course={info['references_course']}
-          referenced_course={info['referenced_course']}
-          error={errors['referenced_course']}
-          onChange={this.onChange}
-        />
+          <Course
+            references_course={info['references_course']}
+            referenced_course={info['referenced_course']}
+            error={errors['referenced_course']}
+            onChange={this.onChange}
+          />
 
-        <FoodDrink
-          food_drink_required={info['food_drink_required']}
-          food_provider={info['food_provider']}
-          alcohol_provider={info['alcohol_provider']}
-          food_drink_error={errors['food_drink_provider']}
-          food_provider_error={errors['food_provider_error']}
-          alcohol_provider_error={errors['alcohol_provider_error']}
-          onChange={this.onChange}
-        />
+          <FoodDrink
+            food_drink_required={info['food_drink_required']}
+            food_provider={info['food_provider']}
+            alcohol_provider={info['alcohol_provider']}
+            food_drink_error={errors['food_drink_provider']}
+            food_provider_error={errors['food_provider_error']}
+            alcohol_provider_error={errors['alcohol_provider_error']}
+            onChange={this.onChange}
+          />
         </div>
 
         <FormButtons

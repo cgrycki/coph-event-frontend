@@ -1,36 +1,57 @@
 /**
  * Action creators for our events
  */
-import * as rp from 'request-promise';
-import FormData from 'form-data';
+import * as rp          from 'request-promise';
+import { push }         from 'connected-react-router';
 import { eventActions } from '../constants/actionTypes';
+import { parseDynamo }  from '../utils/date.utils';
+const URI               = process.env.REACT_APP_REDIRECT_URI;
 
 
-// Base URI for our API
-const URI = process.env.REACT_APP_REDIRECT_URI;
-
-
+/** Reuasable action create for intiating REST calls involving events. */
 export const fetchEventLoading = () => ({
   type: eventActions.EVENT_LOADING
 })
 
-export const fetchEventSucess = (response) => ({
-  type: eventActions.EVENT_SUCESS,
-  payload: response
-})
-
-export const fetchEventsSucess = (response) => ({
-  type: eventActions.EVENTS_SUCESS,
-  payload: response
-})
-
+/** Reusable action for REST call failures involving events. */
 export const fetchEventFailure = (error) => ({
   type: eventActions.EVENT_ERROR,
   payload: error
 })
 
+/** Reusable action to reset REST status */
+export const fetchEventReset = () => ({
+  type: eventActions.EVENT_RESET
+})
+
+/** Notify store that we've successfully fetched an event from server */
+export const fetchEventSuccess = (response) => ({
+  type: eventActions.GET_EVENT_SUCCESS,
+  payload: response
+})
+
+/** Notify store we've loaded a list of events from the server */
+export const fetchEventsSuccess = (response) => ({
+  type: eventActions.GET_EVENTS_SUCCESS,
+  payload: response
+})
+
+/** Notify store of a successful event deletion */
+export const deleteEventSuccess = (response) => ({
+  type   : eventActions.DELETE_EVENT_SUCCESS,
+  payload: response
+})
+
+/** Sets our store attribute controlling fetch behavior on Event Page load. */
+export const setEventFetch = (shouldFetch) => ({
+  type: eventActions.SET_FETCH_EVENT,
+  payload: shouldFetch
+});
+
+
 /**
  * GET call our API to retrieve information on an single event
+ * @param {number} package_id HashKey of event to GET from API. 
  */
 export function getEvent(package_id) {
   return (dispatch) => {
@@ -38,16 +59,16 @@ export function getEvent(package_id) {
     dispatch(fetchEventLoading());
 
     // Set up options for the API request
-    let uri = `${URI}/events?package_id=${package_id}`;
+    let uri = `${URI}/events/${package_id}`;
     let options = {
-      method: 'GET',
+      method         : 'GET',
+      json           : true,
       withCredentials: true
     };
 
     // Make the call, and resolve the promise
     rp(uri, options)
-      .then(res => JSON.parse(res)[0])
-      .then(data => dispatch(fetchEventSucess(data)))
+      .then(data => dispatch(fetchEventSuccess(data)))
       .catch(err => dispatch(fetchEventFailure(err)));
   }
 }
@@ -65,86 +86,107 @@ export function getEvents() {
     dispatch(fetchEventLoading());
 
     // URI + options for API call
-    let uri = `${URI}/events`;
+    let uri = `${URI}/events/my`;
     let options = {
-      method: 'GET',
+      method         : 'GET',
+      json           : true,
       withCredentials: true
     };
 
     // Resolve the promise
     rp(uri, options)
-      .then(res => JSON.parse(res))
-      .then(data => dispatch(fetchEventsSucess(data)))
+      .then(data => dispatch(fetchEventsSuccess(data)))
       .catch(err => dispatch(fetchEventFailure(err)));
   }
 }
 
 
 /**
- * Posts an event to our API
- * @param {object} eventInfo Object containing our store's validated field.info data
+ * Dispatches the delete event sequence.
+ * @param {number} package_id Primary key of an event
  */
-export function postEvents(eventInfo) {
-  return (dispatch) => {
-    // Create a form containing our event info
-    let form_submission = new FormData();
-    for (var key in eventInfo) form_submission.append(key, eventInfo[key]);
-    
-    // Notify application we're making a request
-    dispatch(fetchEventLoading());
-
-    // URI + options for API call
-    let uri = `${URI}/events`;
-    let options = {
-      method: 'POST',
-      withCredentials: true,
-      body: form_submission
-    };
-
-    // Resolve the promise
-    rp(uri, options)
-      .then(res => res.json())
-      .then(data => dispatch(fetchEventsSucess(data)))
-      .catch(err => dispatch(fetchEventFailure(err)));
-  }
-}
-
-// TO DO
-export function patchEvent(eventInfo) {
-  return (dispatch) => {
-    // Get info
-
-    // Create form
-
-    // Notify application of HTTP request
-
-    // URI + options
-
-    // Resolve request
-  }
-}
-
-
-// TO DO
 export function deleteEvent(package_id) {
   return (dispatch) => {
     dispatch(fetchEventLoading());
 
-    let uri = `${URI}/workflow/`;
+    let uri = `${URI}/events/${package_id}`;
     let options = {
       method         : 'DELETE',
       uri            : uri,
       withCredentials: true,
-      json           : true,
-      body           : JSON.stringify({ "package_id": package_id })
+      json           : true
     };
 
     rp(options)
-      .then(res => console.log(res))
-      .then(res => {
-        if (res.error) dispatch(fetchEventFailure(res))
-        else dispatch(fetchEventSucess(res));
-      })
+      .then(res => dispatch(deleteEventSuccess(res)))
       .catch(err => dispatch(fetchEventFailure(err)));
   }
+}
+
+/**
+ * Dispatches the delete event FOR WORKFLOW ONLY.
+ * @param {number} package_id Primary key of an event
+ */
+export function deleteWorkflowEvent(package_id) {
+  return (dispatch) => {
+    dispatch(fetchEventLoading());
+
+    let uri = `${URI}/utils/workflow/${package_id}`;
+    let options = {
+      method         : 'DELETE',
+      uri            : uri,
+      withCredentials: true,
+      json           : true
+    };
+
+    rp(options)
+      .then(res => (res.error) ?
+        dispatch(fetchEventFailure(res)) :
+        dispatch(deleteEventSuccess(res)))
+      .catch(err => dispatch(fetchEventFailure(err)));
+  }
+}
+
+/**
+ * Dispatches the delete event FOR WORKFLOW ONLY.
+ * @param {number} package_id Primary key of an event
+ */
+export function deleteDynamoEvent(package_id) {
+  return (dispatch) => {
+    dispatch(fetchEventLoading());
+
+    let uri = `${URI}/utils/dynamo/${package_id}`;
+    let options = {
+      method         : 'DELETE',
+      uri            : uri,
+      withCredentials: true,
+      json           : true
+    };
+
+    rp(options)
+      .then(res => (res.error) ?
+        dispatch(fetchEventFailure(res)) :
+        dispatch(deleteEventSuccess(res)))
+      .catch(err => dispatch(fetchEventFailure(err)));
+  }
+}
+
+/** Populate event from our events list. */
+export const populateEventInfo = (evt, permissions) => ({
+  type: eventActions.POPULATE_EVENT_INFO,
+  payload: { evt, permissions }
+});
+
+/** 
+ * Populates an event and then dispatches navigation to the event page for viewing.
+ * @param {Object} item Event and permissions object from our store's events [].
+ * @param [item.evt] {Object} - Event information submitted by user.
+ * @param [item.permissions] {Object} - Event permissions from Workflow. 
+ */
+export const populateEventAndPush = ({evt, permissions}) => (dispatch) => {
+  const formattedInfo = parseDynamo(evt);                   // Format Dynamo object
+  dispatch(populateEventInfo(formattedInfo, permissions));  // Populate Event Page info
+  dispatch(fetchEventReset());                              // Reset event page loading+error+success
+  dispatch(setEventFetch(false));                           // Disable retrieving event because we've loaded it
+  dispatch(push(`/event/${evt.package_id}`));               // Route to the event so user can view
 }

@@ -1,0 +1,47 @@
+/* Navigation Bar Styling */
+
+/* Div wrapping CommandBar component. Set position to fixed to escape container*/
+.NavBarWrapper {
+  margin-bottom: 10px;
+}
+
+/* Override CommandBar background color */
+.NavBar {
+  background-color: #000000 !important;
+}
+
+/* prevent mouse over shading on U. Iowa Logo */
+.NavLogo {
+  pointer-events: none;
+}
+
+/* Show full Iowa logo by preventing height collapse */
+.NavLogo .ms-Icon-imageContainer.ms-Button-icon {
+  height: 33px !important;
+}
+
+/* Smoother transitions */
+.NavBar .ms-Button--commandBar,
+.NavBar .ms-Button--commandBar i {
+  transition: color 250ms;
+}
+
+/* Sets default CommandBarItem text, icon, and button to U Iowa styles. */
+.NavBar .ms-Button--commandBar,
+.NavBar .ms-Button--commandBar i {
+  color: #fdfdfd !important;
+  background-color: #000000 !important;
+}
+
+/* Sets CommandBarItems to yellow on hover */
+.NavBar .ms-Button--commandBar:hover,
+.NavBar .ms-Button--commandBar:hover i {
+  color: #fcd116 !important;
+}
+
+/* Sets CommandBarItems color to grey when disabled */
+.NavBar .is-disabled,
+.NavBar .is-disabled i {
+  color: #7f7f7f !important;
+}
+

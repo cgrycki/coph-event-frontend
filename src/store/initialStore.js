@@ -6,6 +6,7 @@
 
 // Fields: Object holding our user data entered into HTML fields
 const info = {
+  package_id         : null,
   user_email         : '',
   contact_email      : '',
   coph_email         : '',
@@ -23,7 +24,7 @@ const info = {
   food_provider      : '',
   alcohol_provider   : '',
   num_people         : 1
-}
+};
 
 
 // Errors: Stores field level validation errors
@@ -41,7 +42,7 @@ const furniture = {
   num_cocktails    : 0,
   num_trashs       : 0,
   items            : []
-}
+};
 
 
 // IDs: ID Counters to increment when user creates furniture
@@ -53,7 +54,7 @@ const ids = {
   rects     : 0,
   cocktails : 0,
   num_trashs: 0
-}
+};
 
 
 // Layout: Stores editor UI configuration data
@@ -64,22 +65,17 @@ const layout = {
   xy           : [0, 0],
   scaleXY      : [1, 1],
   offsetXY     : [0, 0]
-}
+};
 
 
 // Application: Stores application data about our user's session
 const app = {
-  path         : '/',
-
-  loggedIn     : false,
+  logged_in     : false,
   login_loading: false,
   login_error  : null,
-
   user_email   : '',
-  isAdmin      : false,
-  user_loading : false,
-  user_error   : null
-}
+  is_admin     : false
+};
 
 
 // Rooms: Stores our API room data
@@ -90,16 +86,25 @@ const rooms = {
   room_schedule   : [],
   schedule_loading: false,
   schedule_error  : null
-}
+};
 
 
 // Events: Stores event(s) data. Singular for users and list for admins
 const events = {
   event: {},
-  events: [],
+  permissions: {
+    canEdit         : false,
+    canInitiatorVoid: false,
+    canVoid         : false,
+    canVoidAfter    : false,
+    canSign         : false,
+    signatureId     : null
+  },
+  events       : [],
   event_loading: false,
-  event_error: null
-}
+  event_error  : null,
+  should_fetch : true
+};
 
 
 
@@ -120,5 +125,5 @@ const initialStore = {
   },
   rooms,
   events
-}
+};
 export default initialStore;

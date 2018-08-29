@@ -10,38 +10,24 @@ export const appReducer = (state=initialStore.app, action) => {
   let type = action.type;
   
   switch (type) {
-    // TO FINISH
-    case (appActions.UPDATE_PATH):
-      return {...state, path: action.path };
-
     // Login validation cases
-    case (appActions.LOGIN_LOADING):
+    case appActions.LOGIN_LOADING:
       return { ...state, login_loading: true };
 
-    case (appActions.LOGIN_SUCESS):
-      var { loggedIn, hawkid } = action.payload;
+    case appActions.LOGIN_SUCCESS:
+      var { loggedIn: logged_in, hawkid, isAdmin: is_admin } = action.payload;
       return {
         ...state, 
-        loggedIn: loggedIn, 
-        user_email: `${hawkid}@uiowa.edu`, 
-        login_loading: false
+        logged_in    : logged_in,
+        user_email   : `${hawkid}@uiowa.edu`,
+        login_loading: false,
+        is_admin     : is_admin
       };
 
-    case (appActions.LOGIN_FAILURE):
+    case appActions.LOGIN_FAILURE:
       error = action.payload;
       login_error = error.message;
       return {...state, login_loading: false, login_error };
-
-    // User information cases
-    case (appActions.USER_LOADING):
-      return { ...state, user_loading: true };
-
-    case (appActions.USER_ERROR):
-      return { ...state, user_loading: false, user_error: action.payload };
-
-    case (appActions.USER_SUCCESS):
-      let { isAdmin, user_email } = action.payload;
-      return { ...state, user_loading: false, user_email, isAdmin };
        
     default:
       return state;

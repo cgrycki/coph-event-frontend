@@ -6,8 +6,9 @@ import { connect }    from 'react-redux';
 import {updateForm}  from '../../actions/field.actions';
 import { 
   fetchRooms,
-  fetchRoomSchedule 
+  fetchCalendarSchedule 
 }                     from '../../actions/room.actions';
+
 
 // Form components
 import FormTitle      from './shared/FormTitle';
@@ -19,7 +20,7 @@ import EventName      from './fields/EventName';
 import DateTime       from './fields/DateTime';
 import EventComments  from './fields/EventComments';
 import RoomList       from './fields/RoomList';
-import RoomSchedule   from '../Schedule/Schedule';
+import FormCalendar   from '../Calendar/FormCalendar';
 
 
 // Component
@@ -33,6 +34,9 @@ class StepTwo extends React.Component {
   }
 
   componentDidMount() {
+    // Set web page title on mount.
+    document.title = "Create Event: Event";
+    
     // Only load the rooms from our API if we haven't yet before
     if (this.props.rooms.length === 0) this.props.dispatch(fetchRooms());
   }
@@ -86,7 +90,9 @@ class StepTwo extends React.Component {
     let { room_number, date } = info;
 
     // Only make the API call if we have both a time and space selected.
-    if ((room_number !== '') && (date !== '')) dispatch(fetchRoomSchedule(room_number, date));
+    if ((room_number !== '') && (date !== '')) {
+      dispatch(fetchCalendarSchedule(room_number, date, date));
+    };
   }
 
   render() {
@@ -98,23 +104,28 @@ class StepTwo extends React.Component {
 
     return (
       <FormStep>
-        <FormTitle page={"Event Information"} />
+        <FormTitle page={"Event Information"} progress={0.5} />
 
-        <div
-          className="ms-slideRightIn40" 
-          style={{
-            display: 'flex',
-            flexGrow: '1'
-          }}>
+        <div className="ms-slideRightIn40 FormFields">
+        <div style={{ height: "100%", display: "flex"}}>
           <div style={{
             width: '70%',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between'
+            flexGrow: "1",
+            justifyContent: "space-between"
           }}>
             <EventName
               value={info['event_name']}
               error={errors['event_name']}
+              onChange={this.onChange}
+            />
+
+            <RoomList
+              rooms={rooms}
+              rooms_loading={rooms_loading}
+              rooms_error={rooms_error}
+              value={info['room_number']}
               onChange={this.onChange}
             />
 
@@ -128,14 +139,6 @@ class StepTwo extends React.Component {
               coph_email_error={errors['coph_email']}
               onChange={this.onChange}
             />
-
-            <RoomList
-              rooms={rooms}
-              rooms_loading={rooms_loading}
-              rooms_error={rooms_error}
-              value={info['room_number']}
-              onChange={this.onChange}
-            />
             
             <EventComments
               value={info['comments']}
@@ -144,14 +147,17 @@ class StepTwo extends React.Component {
             />
           </div>
 
-          <RoomSchedule
+          <FormCalendar
+            room_number={info['room_number']}
             room_schedule={room_schedule}
+            event_name={info['event_name']}
+            date={info['date']}
             start_time={info['start_time']}
             end_time={info['end_time']}
-            event_name={info['event_name']}
             schedule_overlap={errors['schedule_overlap']}
+            onChange={this.onChange}
           />
-
+        </div>
         </div>
 
         <FormButtons

@@ -1,14 +1,20 @@
-import React         from 'react';
-import { connect }   from 'react-redux';
+import React          from 'react';
+import { connect }    from 'react-redux';
+import { fetchLogin } from '../actions/app.actions';
 import { 
   CompoundButton, 
   Spinner, 
   SpinnerSize,
   MessageBar, 
-  MessageBarType 
+  MessageBarType,
+  DocumentCard,
+  DocumentCardPreview
 }                     from 'office-ui-fabric-react';
-import { error_style, hero_style } from '../constants/styles';
-import { fetchLogin } from '../actions/app.actions';
+import { 
+  error_style, 
+  hero_style, 
+  hero_sm_style 
+}                     from '../constants/styles';
 
 
 // Component
@@ -32,18 +38,18 @@ class Home extends React.Component {
  
   checkLogin(props) {
     /* Make an API call to our server to check if we are authenticated. */
-    let { loggedIn, login_loading, login_error, dispatch } = props;
+    let { logged_in, login_loading, login_error, dispatch } = props;
 
     // If we aren't logged in, and haven't yet recieved a response, dispatch
     // Also, don't make an API call if we have an error
-    if ((loggedIn === false) && (login_loading === false) && (login_error === null)) { 
+    if ((logged_in === false) && (login_loading === false) && (login_error === null)) { 
       dispatch(fetchLogin());
     }
   }
 
   redirect(props) {
     /* Checks login status and redirects to original page if appropriate. */
-    let { loggedIn, location, history } = props;
+    let { logged_in, location, history } = props;
 
     // Grab the redirect pathname if we were directed from a protected route
     let redirect_from = (location.state && location.state.from) ?
@@ -51,7 +57,7 @@ class Home extends React.Component {
       undefined;
 
     // Base case, we were redirected from a protected route
-    if ((redirect_from !== undefined) && (loggedIn === true)) history.push(redirect_from);
+    if ((redirect_from !== undefined) && (logged_in === true)) history.push(redirect_from);
   }
 
   nextPage() {
@@ -87,9 +93,10 @@ class Home extends React.Component {
     let { login_loading, login_error } = this.props;
 
     const status_style = {
-      "minHeight" : "250px",
+      "minHeight" : "125px",
       "display"   : "flex",
-      "alignItems": "center"
+      "alignItems": "center",
+      display: (login_loading || login_error ) ? '' : 'hidden'
     };
 
     return (
@@ -115,7 +122,7 @@ class Home extends React.Component {
     let hours = (new Date()).getHours();
 
     // 5am - 12pm: Morning
-    if (hours > 5 && hours < 13) return 'Good morning sunshine';
+    if (hours > 5 && hours < 13) return 'Good morning sunshine!';
     // 1pm - 5pm: Afternoon
     else if (hours > 12 && hours < 18) return 'Good afternoon.';
     // 6pm - 10pm: Evening
@@ -125,53 +132,101 @@ class Home extends React.Component {
   }
 
   render() {
-    let { loggedIn } = this.props;
+    const { logged_in, history } = this.props;
 
     return (
-      <div>
-
-        <div className="ms-Grid-row">
-          <div className="ms-Grid-col ms-sm12">
-            <h1 
-              className="ms-slideRightIn40"
-              style={hero_style}
-            >{this.renderGreeting()}</h1>
-            <h1 style={hero_style}>Can we help you with an event?</h1>
+      <div className="Home">
+        <div>
+          <div className="ms-Grid-row">
+            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12 ms-xl12 ms-xxl12">
+              <h1 
+                className="ms-slideRightIn40"
+                style={hero_style}
+              >{this.renderGreeting()}</h1>
+              <h1 style={hero_sm_style}>Can we help you with an event?</h1>
+            </div>
           </div>
         </div>
 
         {this.renderStatus()}
-
-        <hr/>
-        <br/>
-
+        
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12">
-
-            <div style={{"display": "flex", "justifyContent": "space-between", marginTop: "15px"}}>
-
-              <div style={{float: 'left'}}>
-                <CompoundButton
-                  primary={true}
-                  secondaryText="with your Iowa account."
-                  disabled={loggedIn}
-                  text={"Login"}
-                  title="Login to your University of Iowa account."
-                  href={`${process.env.REACT_APP_REDIRECT_URI}/auth`}
-                />
-              </div>
-              <div style={{float: 'right'}}>
-                <CompoundButton
-                  primary={true}
-                  text={"Create an Event"}
-                  disabled={!loggedIn}
-                  onClick={() => this.nextPage()}
-                />
-              </div>
-            </div>
-
+            <hr/>
+            <br/>
           </div>
         </div>
+
+
+          <div className="ms-Grid-row">
+            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg4">
+              <DocumentCard className="HomeCard">
+                <DocumentCardPreview 
+                  previewImages={[{
+                    previewIconProps: { iconName: 'UnlockSolid', styles: { root: { fontSize: 72, color: '#333333'}}},
+                    width: '100%',
+                    height: 100
+                  }]}
+                />
+                <div className="ms-DocumentCard-details">
+                  <CompoundButton
+                    style={{ width: '100%', maxWidth: 'unset' }}
+                    styles={{ label: { textAlign: 'center'}, description: { textAlign: 'center'}}}
+                    primary={true}
+                    secondaryText="with your Iowa account."
+                    disabled={logged_in}
+                    text={"Login"}
+                    title="Login to your University of Iowa account."
+                    href={`${process.env.REACT_APP_REDIRECT_URI}/auth`}
+                  />
+                </div>
+              </DocumentCard>
+            </div>
+
+            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg4">
+              <DocumentCard className="HomeCard">
+                <DocumentCardPreview 
+                  previewImages={[{
+                    previewIconProps: { iconName: 'Calendar', styles: { root: { fontSize: 72, color: '#333333'}}},
+                    width: '100%',
+                    height: 100
+                  }]}
+                />
+                <div className="ms-DocumentCard-details">
+                  <CompoundButton
+                    style={{ width: '100%', maxWidth: 'unset' }}
+                    styles={{ label: { textAlign: 'center'}}}
+                    text={"View Available Rooms"}
+                    title="View Room Calendars."
+                    onClick={() => history.push("/calendar")}
+                  />
+                </div>
+              </DocumentCard>
+            </div>
+
+            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg4">
+              <DocumentCard className="HomeCard">
+                <DocumentCardPreview 
+                  previewImages={[{
+                    previewIconProps: { iconName: 'AddEvent', styles: { root: { fontSize: 72, color: '#333333'}}},
+                    width: '100%',
+                    height: 100
+                  }]}
+                />
+                <div className="ms-DocumentCard-details">
+                  <CompoundButton
+                    style={{ width: '100%', maxWidth: 'unset' }}
+                    styles={{ label: { textAlign: 'center'}}}
+                    primary={true}
+                    text={"Create an Event"}
+                    disabled={!logged_in}
+                    onClick={() => this.nextPage()}
+                  />
+                </div>
+              </DocumentCard>
+            </div>
+          </div>
+
       </div>
     );
   }
@@ -180,7 +235,7 @@ class Home extends React.Component {
 
 // Container
 const mapStateToProps = state => ({ 
-  loggedIn     : state.app.loggedIn,
+  logged_in     : state.app.logged_in,
   login_loading: state.app.login_loading,
   login_error  : state.app.login_error
 })
