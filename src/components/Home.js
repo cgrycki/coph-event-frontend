@@ -6,7 +6,9 @@ import {
   Spinner, 
   SpinnerSize,
   MessageBar, 
-  MessageBarType 
+  MessageBarType,
+  DocumentCard,
+  DocumentCardPreview
 }                     from 'office-ui-fabric-react';
 import { 
   error_style, 
@@ -94,7 +96,7 @@ class Home extends React.Component {
       "minHeight" : "250px",
       "display"   : "flex",
       "alignItems": "center",
-      display: (login_loading || login_error ) ? '' : 'none'
+      display: (login_loading || login_error ) ? '' : 'hidden'
     };
 
     return (
@@ -130,33 +132,46 @@ class Home extends React.Component {
   }
 
   render() {
-    let { logged_in } = this.props;
+    const { logged_in, history } = this.props;
 
     return (
       <div className="Home">
-
-        <div className="ms-Grid-row">
-          <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg10 ms-lgPush1 ms-xl10 ms-xxl8 ms-xxlPush2">
-            <h1 
-              className="ms-slideRightIn40"
-              style={hero_style}
-            >{this.renderGreeting()}</h1>
-            <h1 style={hero_sm_style}>Can we help you with an event?</h1>
+        <div>
+          <div className="ms-Grid-row">
+            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12 ms-xl12 ms-xxl12">
+              <h1 
+                className="ms-slideRightIn40"
+                style={hero_style}
+              >{this.renderGreeting()}</h1>
+              <h1 style={hero_sm_style}>Can we help you with an event?</h1>
+            </div>
           </div>
         </div>
 
         {this.renderStatus()}
+        
+        <div className="ms-Grid-row">
+          <div className="ms-Grid-col ms-sm12">
+            <hr/>
+            <br/>
+          </div>
+        </div>
 
-        <hr/>
-        <br/>
 
-        <div>
           <div className="ms-Grid-row">
-            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg10 ms-lgPush1 ms-xl10 ms-xlPush1 ms-xxl8 ms-xxlPush2">
-
-              <div style={{"display": "flex", "justifyContent": "space-between", margin: "15px 0px"}}>
-                <div style={{float: 'left'}}>
+            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg4">
+              <DocumentCard className="HomeCard">
+                <DocumentCardPreview 
+                  previewImages={[{
+                    previewIconProps: { iconName: 'UnlockSolid', styles: { root: { fontSize: 72, color: '#333333'}}},
+                    width: '100%',
+                    height: 100
+                  }]}
+                />
+                <div className="ms-DocumentCard-details">
                   <CompoundButton
+                    style={{ width: '100%', maxWidth: 'unset' }}
+                    styles={{ label: { textAlign: 'center'}, description: { textAlign: 'center'}}}
                     primary={true}
                     secondaryText="with your Iowa account."
                     disabled={logged_in}
@@ -165,19 +180,52 @@ class Home extends React.Component {
                     href={`${process.env.REACT_APP_REDIRECT_URI}/auth`}
                   />
                 </div>
-                <div style={{float: 'right'}}>
+              </DocumentCard>
+            </div>
+
+            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg4">
+              <DocumentCard className="HomeCard">
+                <DocumentCardPreview 
+                  previewImages={[{
+                    previewIconProps: { iconName: 'Calendar', styles: { root: { fontSize: 72, color: '#333333'}}},
+                    width: '100%',
+                    height: 100
+                  }]}
+                />
+                <div className="ms-DocumentCard-details">
                   <CompoundButton
+                    style={{ width: '100%', maxWidth: 'unset' }}
+                    styles={{ label: { textAlign: 'center'}}}
+                    text={"View Available Rooms"}
+                    title="View Room Calendars."
+                    onClick={() => history.push("/calendar")}
+                  />
+                </div>
+              </DocumentCard>
+            </div>
+
+            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg4">
+              <DocumentCard className="HomeCard">
+                <DocumentCardPreview 
+                  previewImages={[{
+                    previewIconProps: { iconName: 'AddEvent', styles: { root: { fontSize: 72, color: '#333333'}}},
+                    width: '100%',
+                    height: 100
+                  }]}
+                />
+                <div className="ms-DocumentCard-details">
+                  <CompoundButton
+                    style={{ width: '100%', maxWidth: 'unset' }}
+                    styles={{ label: { textAlign: 'center'}}}
                     primary={true}
                     text={"Create an Event"}
                     disabled={!logged_in}
                     onClick={() => this.nextPage()}
                   />
                 </div>
-              </div>
-
+              </DocumentCard>
             </div>
           </div>
-        </div>
 
       </div>
     );
