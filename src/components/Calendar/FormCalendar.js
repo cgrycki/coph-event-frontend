@@ -87,6 +87,7 @@ export default class FormCalendar extends React.PureComponent {
           eventPropGetter={this.eventPropGetter}
 
           components={{ toolbar: FormToolbar }}
+          formats={formats}
         />
       </div>      
     );

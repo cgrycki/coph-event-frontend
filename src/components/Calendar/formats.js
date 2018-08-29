@@ -7,8 +7,14 @@ const formats = {
   // Controls week day format in month view
   weekdayFormat: "dddd",
 
-  // Time format for day/agenda view 
-  timeGutterFormat: "h a",
+  // Time format for day/agenda view: 7:00 PM => 7p
+  timeGutterFormat: (date, culture, localizer) => {
+    const hr = ((moment(date).hour()) > 12) ? 
+      moment(date).hour() - 12 : moment(date).hour();
+    const AMPM = moment(date).format('a').slice(0, 1);
+
+    return `${hr}${AMPM}`;
+  },
 
   // Week header: 'July 29 - August 4, 2018'
   dayRangeHeaderFormat: ({ start, end }) => {
