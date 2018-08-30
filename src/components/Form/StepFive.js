@@ -21,6 +21,8 @@ class StepFive extends React.Component {
   }
 
   render() {
+    const { info, errors, updateForm } = this.props;
+
     return(
       <FormStep>
         <FormTitle page={'placeholder'} progress={0.5} />
