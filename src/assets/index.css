@@ -1,6 +1,7 @@
 /* Application Styling */
 body {
   background-color: rgb(248, 250, 252);
+  margin: unset;
 }
 
 .Home {

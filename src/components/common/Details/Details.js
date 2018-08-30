@@ -58,11 +58,11 @@ export default class Details extends React.PureComponent {
           <div className="ms-Grid-row">
             <div className="ms-Grid-col ms-sm9 ms-md4 ms-lg3 ms-xl3">
               <Toggle
-                label={"Serving food or drinks?"}
+                defaultChecked={refreshments}
+                disabled={true}
+                label="Serving food or drinks?"
                 onText="Yes"
                 offText="No"
-                value={refreshments}
-                disabled
               />
             </div>
 
@@ -76,11 +76,11 @@ export default class Details extends React.PureComponent {
           <div className="ms-Grid-row">
             <div className="ms-Grid-col ms-sm9 ms-md4 ms-lg3 ms-xl3">
               <Toggle
-                label={"Furniture or setup required?"}
+                defaultChecked={setupReq}
+                disabled={true}
+                label="Furniture or setup required?"
                 onText="Yes"
                 offText="No"
-                value={!setupReq}
-                disabled
               />
             </div>
 
@@ -93,11 +93,11 @@ export default class Details extends React.PureComponent {
           <div className="ms-Grid-row">
             <div className="ms-Grid-col ms-sm9 ms-md4 ms-lg3">
               <Toggle
-                label={"For an University of Iowa course?"}
+                defaultChecked={courseRef}
+                disabled={true}
+                label="For an University of Iowa course?"
                 onText="Yes"
                 offText="No"
-                value={courseRef}
-                disabled
               />
             </div>
 
