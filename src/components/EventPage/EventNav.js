@@ -20,7 +20,11 @@ const makeButton = (iconName, text, callback) => (
  */
 export default class EventNav extends React.PureComponent {
   render() {
-    let { history, permissions, onEdit, onRemove, package_id } = this.props;
+    let { 
+      history, permissions, 
+      onEdit, onRemove, onToggle,
+      package_id 
+    } = this.props;
 
     return (
       <div className="ms-Grid-row">
@@ -39,6 +43,7 @@ export default class EventNav extends React.PureComponent {
             <span style={{ float: 'right'}}>
               {makeButton('Edit', "Edit Event", onEdit)}
               {makeButton('removeEvent', "Cancel Event", onRemove)}
+              {(permissions.signatureId !== null) && makeButton('Settings', 'Workflow Widget', onToggle)}
             </span>
           </div>
         </div>

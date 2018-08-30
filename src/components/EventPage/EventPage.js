@@ -31,12 +31,15 @@ class EventPage extends React.Component {
     this.state     = { 
       popupHidden  : true,
       popupType    : 'edit',
-      popupYesClick: () => console.log('clicked!')
+      popupYesClick: () => console.log('clicked!'),
+      widgetHidden : false
     };
 
     // Bind popup functions
     this.hidePopup   = this.hidePopup.bind(this);
     this.renderPopup = this.renderPopup.bind(this);
+    // WF widget
+    this.toggleWidget= this.toggleWidget.bind(this);
   }
 
   /** Retrieves information from server about event */
@@ -92,6 +95,11 @@ class EventPage extends React.Component {
     });
   }
 
+  /** Sets our component Workflow Widget visibility */
+  toggleWidget() {
+    this.setState({ widgetHidden: !this.state.widgetHidden });
+  }
+
   render() {
     let { 
       history,  match: { params: { package_id }},
@@ -106,6 +114,7 @@ class EventPage extends React.Component {
           permissions={permissions}
           onEdit={() => this.renderPopup('edit')}
           onRemove={() => this.renderPopup('delete')}
+          onToggle={() => this.toggleWidget()}
           package_id={package_id}
         />
 
@@ -121,7 +130,7 @@ class EventPage extends React.Component {
           btnClickNo={() => this.hidePopup()}
         />
 
-        {(signatureId !== null) && 
+        {(signatureId !== null) && (!this.state.widgetHidden) &&
           <WorkflowWidget
             packageId={package_id}
             signatureId={signatureId}
