@@ -109,7 +109,13 @@ export default class Details extends React.PureComponent {
             
           <div className="ms-Grid-row">
             <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg9 ms-xl8 ms-xxl6">
-              <TextField label={"Comments"} multiline={true} value={comments || ''} disabled />
+              <TextField 
+                label="Comments" 
+                multiline={true} 
+                autoAdjustHeight={true}
+                value={comments || ''} 
+                disabled
+              />
             </div>
           </div>
           
