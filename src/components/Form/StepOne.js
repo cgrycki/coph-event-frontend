@@ -9,7 +9,7 @@ import FormStep         from './shared/FormStep';
 import FormButtons      from './shared/FormButtons';
 
 // Form fields
-import Setup            from './fields/Setup';
+import Setup            from './fields/Setup/';
 import Course           from './fields/Course';
 import Attendance       from './fields/Attendence';
 import UserEmail        from './fields/UserEmail';

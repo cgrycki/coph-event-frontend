@@ -11,7 +11,7 @@ import FormStep       from './shared/FormStep';
 import FormButtons    from './shared/FormButtons';
 
 // Form fields
-import Setup from './fields/Setup.1';
+import Setup from './fields/Setup/';
 
 
 class StepFive extends React.Component {
