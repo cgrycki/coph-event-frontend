@@ -38,17 +38,22 @@ export default class Setup extends React.Component {
     }
     
     return (
-      <div className="ms-Grid-row" style={setup_styles}>
-        <Toggle
-          defaultChecked={false}
-          label={"Furniture and setup required?"}
-          onText="Yes"
-          offText="No"
-          onChanged={(evt) => this.props.onChange('setup_required', evt)}/>
-        {!this.props.setup_required && 
-          <MFK 
-            setup_mfk={this.props.setup_mfk} 
-            onChange={this.props.onChange} />}
+      <div className="ms-Grid-row">
+        <div className="ms-Grid-col ms-sm3 ms-md3 ms-lg3 ms-xl3 ms-xxl3">
+          <Toggle
+            defaultChecked={false}
+            label={"Furniture and setup required?"}
+            onText="Yes"
+            offText="No"
+            onChanged={(evt) => this.props.onChange('setup_required', evt)}/>
+        </div>
+        <div className="ms-Grid-col ms-sm9 ms-md9 ms-lg9 ms-xl9 ms-xxl9">
+          {this.props.setup_required && 
+            <MFK 
+              setup_mfk={this.props.setup_mfk} 
+              onChange={this.props.onChange}
+            />}
+        </div>
       </div>
     );
   }
