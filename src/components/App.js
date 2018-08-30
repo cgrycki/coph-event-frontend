@@ -24,9 +24,6 @@ import StepThree      from './Form/StepThree';
 import StepFour       from './Form/StepFour';
 import StepFive       from './Form/StepFive';
 
-import StepFive       from './Form/StepFive';
-
-
 
 // Container -- Holds our application data store and sets routes up
 const App = ({ store, history }) => (
