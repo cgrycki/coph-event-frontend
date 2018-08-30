@@ -7,32 +7,36 @@ export default class WorkflowWidgetComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      signatureId: props.signatureId,
-      packageId  : props.packageId
+      signature_id: props.signature_id,
+      package_id  : props.package_id
     };
 
     this.loadScript = this.loadScript.bind(this);
   }
 
+  /** Loads the Workflow Widget src via an easyXDM Socket. */
   componentDidMount() {
     this.loadScript();
   }
 
   /** Dynamically loads the Workflow script into our React App */
   loadScript() {
-    const { packageId: pid, signatureId: sid} = this.state;
+    const { package_id, signature_id } = this.state;
+
+    // Convert backend URI to our frontend
+    const post_sign_void = `${process.env.REACT_APP_REDIRECT_URI.replace('api.', '')}/dashboard`;
 
     // Create an object holding our credentials 
     var WorkflowWidget = window.WorkflowWidget || {};
 
     // Assign variables per https://workflow.uiowa.edu/help/article/36/6
-    WorkflowWidget.package_id            = pid;
-    WorkflowWidget.signature_id          = sid;
+    WorkflowWidget.package_id            = package_id;
+    WorkflowWidget.signature_id          = signature_id;
     WorkflowWidget.form_id               = process.env.REACT_APP_FORM_ID;
     WorkflowWidget.client_id             = process.env.REACT_APP_UIOWA_ACCESS_KEY_ID;
     WorkflowWidget.scope                 = process.env.REACT_APP_UIOWA_SCOPES;
     WorkflowWidget.environment           = process.env.REACT_APP_WF_ENV;
-    WorkflowWidget.post_sign_void        = 'https://localhost:3000/dashboard';
+    WorkflowWidget.post_sign_void        = post_sign_void;
     //WorkflowWidget.post_version_mismatch = '';
 
     // !IMPORTANT -- Assign the object to the window so loaded script can pick up credentials
