@@ -132,8 +132,8 @@ class EventPage extends React.Component {
 
         {(signatureId !== null) && (!this.state.widgetHidden) &&
           <WorkflowWidget
-            packageId={package_id}
-            signatureId={signatureId}
+            package_id={package_id}
+            signature_id={signatureId}
           />}
       </div>
     );
