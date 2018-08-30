@@ -13,6 +13,9 @@
 		// Hide NPM install files
 		"package*.json": true,
 
+		// Hide ESLint configuration
+		".eslintrc.json": true,
+
 		// Hide environment files
 		".env": true,
 
