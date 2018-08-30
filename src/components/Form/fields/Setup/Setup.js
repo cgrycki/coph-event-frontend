@@ -27,16 +27,7 @@ export default class Setup extends React.Component {
     super();
   }
 
-  render() {
-    // Styles the row 
-    const setup_styles = {
-      "padding"       : "0px 8px",
-      "boxSizing"     : "border-box",
-      "display"       : "flex",
-      "justifyContent": "flex-start",
-      "flexDirection" : "row"
-    }
-    
+  render() {  
     return (
       <div className="ms-Grid-row">
         <div className="ms-Grid-col ms-sm3 ms-md3 ms-lg3 ms-xl3 ms-xxl3">
@@ -48,11 +39,11 @@ export default class Setup extends React.Component {
             onChanged={(evt) => this.props.onChange('setup_required', evt)}/>
         </div>
         <div className="ms-Grid-col ms-sm9 ms-md9 ms-lg9 ms-xl9 ms-xxl9">
-          {this.props.setup_required && 
-            <MFK 
-              setup_mfk={this.props.setup_mfk} 
-              onChange={this.props.onChange}
-            />}
+          <MFK
+            setup_mfk={this.props.setup_mfk} 
+            onChange={this.props.onChange}
+            disabled={!this.props.setup_required}
+          />
         </div>
       </div>
     );

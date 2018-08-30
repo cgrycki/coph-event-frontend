@@ -107,7 +107,7 @@ export default class MFK extends React.Component {
             return (
               <div key={idx}>
                 <TextField
-                  focusElement={el => console.log(el)}
+                  disabled={this.props.disabled}
                   label={field.label}
                   required={field.required}
                   id={`MFK--${field.field}`}
