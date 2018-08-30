@@ -166,7 +166,9 @@ export default class Course extends React.Component {
               resultsMaximumNumber : 20,
               showRemoveButtons    : true
             }}
-            inputProps={{ placeholder: "Start typing to search for a course" }}
+            inputProps={{ 
+              placeholder: (references_course) ? "Start typing to search for a course" : ''
+            }}
           />
           {/* Add in an error message */}
           <span style={error_style}>{error}</span>
