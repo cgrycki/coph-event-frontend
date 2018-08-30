@@ -48,8 +48,7 @@ export default class EventNav extends React.PureComponent {
             <span style={{ float: 'right'}}>
               {makeButton('Edit', "Edit Event", onEdit, editDisabled)}
               {makeButton('removeEvent', "Cancel Event", onRemove, cancelDisabled)}
-              {(permissions.signatureId !== null) && 
-                makeButton('Settings', 'Workflow Widget', onToggle, false)}
+              {makeButton('Settings', 'Workflow Widget', onToggle, false)}
             </span>
           </div>
         </div>

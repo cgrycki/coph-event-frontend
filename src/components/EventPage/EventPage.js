@@ -130,7 +130,9 @@ class EventPage extends React.Component {
           btnClickNo={() => this.hidePopup()}
         />
 
-        {(signatureId !== null) && (!this.state.widgetHidden) &&
+        <div><br/></div>
+
+        {(!this.state.widgetHidden) &&
           <WorkflowWidget
             package_id={package_id}
             signature_id={signatureId}
