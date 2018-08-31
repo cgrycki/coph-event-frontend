@@ -44,8 +44,8 @@ export const eventReducer = (state=initialStore.events, action) => {
 
     /** Successful DELETE request, filter event with matching Package ID */
     case eventActions.DELETE_EVENT_SUCCESS:
-      package_id = +action.payload.package_id;
-      const filtered_events = state.events.filter(e => e.package_id !== package_id);
+      let delPID = +action.payload['package_id'];
+      let filtered_events = state.events.filter(e => e.evt.package_id !== delPID);
 
       return { 
         ...state,

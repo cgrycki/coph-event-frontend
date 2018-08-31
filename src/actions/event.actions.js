@@ -96,6 +96,7 @@ export function getEvents() {
     // Resolve the promise
     rp(uri, options)
       .then(data => dispatch(fetchEventsSuccess(data)))
+      .then(() => dispatch(setEventFetch(false)))
       .catch(err => dispatch(fetchEventFailure(err)));
   }
 }

@@ -82,8 +82,8 @@ export default class Details extends React.PureComponent {
             </div>
 
             <div className="ms-Grid-col ms-sm6 ms-md6 ms-lg6 ms-xl6 ms-xxl6">
-              {labelWrapper('Primary Contact Email')}
-              {textFieldWrapper(contact, should_shimmer)}
+              {contact && labelWrapper('Primary Contact Email')}
+              {contact && textFieldWrapper(contact, should_shimmer)}
             </div>
           </div>
 
