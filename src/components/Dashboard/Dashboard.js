@@ -37,8 +37,7 @@ class DashboardComponent extends React.Component {
   /** Fetches event list on load and alters web page title */
   componentDidMount() {
     document.title = "My Dashboard";
-    //if (this.props.events.length === 0) 
-    this.props.getEventsFromServer();
+    if (this.props.should_fetch) this.props.getEventsFromServer();
   }
 
   render() {
@@ -57,12 +56,12 @@ class DashboardComponent extends React.Component {
               key="MyEvents"
               linkText="My Events"
               itemIcon="BulletedList"
-              itemCount={this.props.events.length}
-            >
+              itemCount={this.props.events.length}>
               <br/>
               <EventList
                 items={this.props.events}
                 loading={this.props.event_loading}
+                should_fetch={this.props.should_fetch}
                 error={this.props.event_error}
                 onView={this.props.populateEventAndPush}
                 onEdit={this.props.populateFormAndPush}
@@ -72,8 +71,7 @@ class DashboardComponent extends React.Component {
             <PivotItem
               key="MySchedule"
               linkText="My Schedule"
-              itemIcon="CalendarAgenda"
-            >
+              itemIcon="CalendarAgenda">
               <br/>
               <DashCalendar
                 events={this.props.events}
@@ -83,9 +81,7 @@ class DashboardComponent extends React.Component {
               <PivotItem
                 key="AdminTools"
                 linkText="Administrator Tools"
-                itemIcon="Settings"
-                
-              >
+                itemIcon="Settings">
                 <br/>
                 <AdminTools
                   workflowCallback={(package_id) => this.props.deleteWorkflowEvent(package_id)}
@@ -108,6 +104,7 @@ const mapStateToProps = state => ({
   events       : state.events.events,
   event_loading: state.events.event_loading,
   event_error  : state.events.event_error,
+  should_fetch : state.events.should_fetch,
   logged_in    : state.app.logged_in,
   is_admin     : state.app.is_admin
 });

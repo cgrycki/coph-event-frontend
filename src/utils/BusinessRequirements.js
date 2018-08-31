@@ -118,7 +118,24 @@ export default class BusinessRequirements {
   }
 
   validateMFK(setup_required, setup_mfk) {
-    return null;
+    const required_mfk_fields = ['FUND', 'ORG', 'DEPT', 'INSTACCT', 'FUNC'];
+    let error_found = false;
+    console.log(setup_required, setup_mfk);
+
+    if (setup_required === true) {
+      // Iterate through required MFK fields and create an error, exiting early
+      required_mfk_fields.forEach(field => {
+        if (setup_mfk[field] === '') error_found = true;
+      });
+
+      if (error_found) {
+        this.errors['setup_required'] = 'You must complete all required Account MFK fields.';
+        return;
+      };
+      // If we got through the required fields without returning then all fields present!
+      // Exit if statement and delete
+    }
+    delete this.errors['setup_required'];
   }
 
   validateSchedule(start_time, end_time, date, event_title, room_schedule) {
@@ -179,7 +196,7 @@ export default class BusinessRequirements {
     this.validateCourse(info.references_course, info.referenced_course);
 
     // Make sure Setup MFK is valid
-    //this.validateMFK(info.setup_required, info.setup_mfk);
+    this.validateMFK(info.setup_required, info.setup_mfk);
 
     // Make sure there are no overlaps in scheduling
     this.validateSchedule(info.start_time, info.end_time, info.date, info.event_title, schedule);

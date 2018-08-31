@@ -1,16 +1,16 @@
 /**
  * Event List Component
  */
-
 import React         from 'react';
 import { 
-  DetailsList,
   CheckboxVisibility,
   Icon,
   DefaultButton,
-  DirectionalHint,
-  Shimmer, ShimmerElementType as ElemType
+  DirectionalHint
 }                     from 'office-ui-fabric-react';
+import { 
+  ShimmeredDetailsList 
+}                     from 'office-ui-fabric-react/lib/ShimmeredDetailsList';
 import Popup          from '../common/Popup';
 import { getDateISO } from '../../utils/date.utils';
 
@@ -31,16 +31,22 @@ export default class EventList extends React.Component {
     this.renderPopup   = this.renderPopup.bind(this);
   }
 
-  /** Checks incoming props from state => handles popup state. */
-  componentWillUpdate(nextProps, prevProps) {
-    const { loading, error } = nextProps;
-    const { popupType } = this.state;
+  /** Checks incoming props and compares against previous props/state to hide popup */
+  componentWillReceiveProps(nextProps) {
+    let { loading: currentLoading, error: currentError } = this.props;
+    let { loading: nextLoading,    error: nextError }    = nextProps;
+    let { popupType } = this.state;
 
-    // If event deletion request was initiated
-    if (loading && popupType === "delete") this.renderPopup('deleting');
-    else if (popupType === "deleting" && !loading) {
-      // Check for errors, if none than the event was successfully deleted
-      if (error) this.renderPopup("error");
+    // If we clicked edit we would be pushed to the form
+    // So if we initiated DELETE, we would have popupType=delete and currentLoading false
+    if (popupType === 'delete' && !currentLoading && nextLoading) {
+      this.renderPopup('deleting');
+    }
+    // If we updated DELETE to deleting and we aren't loading then the request completed
+    else if (popupType === 'deleting' && currentLoading && !nextLoading) {
+      // Check for errors in result
+      if (nextError) this.renderPopup('error');
+      // Otherwise we successfully deleted event
       else this.hidePopup();
     };
   }
@@ -143,11 +149,6 @@ export default class EventList extends React.Component {
 
     return columns;
   }
-
-  /** Returns a Shimmer component for loading. */
-  renderMissingItem(idx, props) {
-    return (<Shimmer /> );
-  }
   
   /* Alters component state, and hides the popup after a rerender. */
   hidePopup() { 
@@ -179,23 +180,21 @@ export default class EventList extends React.Component {
   }
   
   render() {
-    const loading = this.props.loading || true;
+    let should_shimmer = (this.props.loading && this.props.should_fetch);
 
     return (
       <div className="Dashboard--EventsList">
-        <DetailsList
+        <ShimmeredDetailsList
           items={this.props.items}
           columns={this.createColumns()}
           onActiveItemChanged={(item) => this.setState({ 
             event: item.evt, 
             permissions: item.permissions
           })}
-          //enableSimmer={loading}
-          //onRenderMissingItem={(index, rowProps) => this.renderMissingItem(index, rowProps)}
+          enableShimmer={should_shimmer}
           checkboxVisibility={CheckboxVisibility.hidden}
-          listProps={{ renderedWindowsAhead: 0, renderedWindowsBehind: 0 }}
+          shimmerLines={10}
           style={{ display: 'flex', width: '100%' }}
-          width={'100%'}
         />
 
         <Popup

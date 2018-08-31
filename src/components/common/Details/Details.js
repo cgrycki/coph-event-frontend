@@ -1,16 +1,54 @@
 /**
  * Event Details Component. Responsible for rendering event information.
  */
-import React                 from 'react';
-import { Toggle, TextField } from 'office-ui-fabric-react';
+import React  from 'react';
+import { 
+  Label, 
+  Toggle, 
+  TextField 
+}             from 'office-ui-fabric-react';
+import { 
+  Shimmer, 
+  ShimmerElementType as ElemType 
+}             from 'office-ui-fabric-react/lib/Shimmer';
+import MFK from '../../Form/fields/Setup/MFK';
 import './Details.css';
-//import { Shimmer, ShimmerElementsGroup, ShimmerElementType as ElemType } from 'office-ui-fabric-react/lib/Shimmer';
 
+const labelWrapper = (label) => (
+  <Label required={true} disabled>{label}</Label>
+);
+
+const textFieldWrapper = (value, loaded) => (
+  <Shimmer 
+    isDataLoaded={loaded}
+    shimmerElements={[{type: ElemType.line, height: 30, width: '100%' }]}>
+    <TextField 
+      className={loaded ? "ms-slideRightIn20" : ''}
+      value={value} 
+      disabled />
+  </Shimmer>
+);
+
+const toggleWrapper = (value, loaded) => (
+  <Shimmer  
+    isDataLoaded={loaded}
+    shimmerElements={[
+      {type: ElemType.line, height: 20, width: 40},
+      {type: ElemType.gap, height: 20, width: 10},
+      {type: ElemType.line, height: 20, width: 10},
+    ]}>
+    <Toggle 
+      defaultChecked={value}
+      onText="Yes"
+      offText="No"
+      disabled={true} />
+  </Shimmer>
+);
 
 
 export default class Details extends React.PureComponent {
   render() {
-    const { loading, event } = this.props;
+    const { event } = this.props;
     const { 
       event_name: name, room_number: room, num_people: attendance,
       date, start_time: start, end_time: end,
@@ -21,6 +59,8 @@ export default class Details extends React.PureComponent {
       comments, 
     } = event;
 
+    let should_shimmer = (room !== undefined);
+
     return (
       <div className="ms-Grid-row">
         <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
@@ -28,94 +68,92 @@ export default class Details extends React.PureComponent {
 
           <div className="ms-Grid-row">
             <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg6 ms-xl6">
-              <TextField label={"Name"} value={name} disabled required />
+              {labelWrapper('Event Name')}
+              {textFieldWrapper(name, should_shimmer)}
             </div>
 
             <div className="ms-Grid-col ms-sm5 ms-md6 ms-lg2 ms-lgPush1 ms-xl2 ms-xxlPush1">
-              <TextField label={"Room"} value={room} disabled required />
+              {labelWrapper('Room')}
+              {textFieldWrapper(room, should_shimmer)}
             </div>
 
-            <div className="ms-Grid-col ms-sm4 ms-smPush1 ms-md3 ms-lg2 ms-lgPush2 ms-xxl2 ms-xxlPush2">
-              <TextField label={"Attendance"} value={attendance} disabled required />
+            <div className="ms-Grid-col ms-sm4 ms-smPush3 ms-md3 ms-lg2 ms-lgPush2 ms-xxl2 ms-xxlPush2">
+              {labelWrapper('Attendance')}
+              {textFieldWrapper(attendance, should_shimmer)}
             </div>
 
+            <div className="ms-Grid-col ms-sm6 ms-md6 ms-lg6 ms-xl6 ms-xxl6">
+              {contact && labelWrapper('Primary Contact Email')}
+              {contact && textFieldWrapper(contact, should_shimmer)}
+            </div>
           </div>
 
           <div className="ms-Grid-row">
             <div className="ms-Grid-col ms-sm5 ms-md4 ms-lg3 ms-xl2">
-              <TextField label={"Date"} value={date} disabled required />
+              {labelWrapper('Date')}
+              {textFieldWrapper(date, should_shimmer)}
             </div>
 
             <div className="ms-Grid-col ms-sm6 ms-smPush1 ms-md7 ms-lg3 ms-xl3 ms-xlPush1">
-              <TextField label={"Starts - Ends"} value={`${start} - ${end}`} disabled required />
+              {labelWrapper('Start - End')}
+              {textFieldWrapper(`${start} - ${end}`, should_shimmer)}
             </div>
 
-            {coph && <div className="ms-Grid-col ms-sm12 ms-md7 ms-mdPush5 ms-lg4 ms-lgPush2 ms-xl5 ms-xlPush2">
-                <TextField label={"College of Public Health Employee"} value={coph} disabled  required/>
-              </div>}
+            <div className="ms-Grid-col ms-sm12 ms-md7 ms-mdPush5 ms-lg4 ms-lgPush2 ms-xl5 ms-xlPush2">
+              {coph && labelWrapper('CoPH Employee')}
+              {coph && textFieldWrapper(coph, should_shimmer)}
+            </div>
           </div>
 
           <div className="ms-Grid-row">
             <div className="ms-Grid-col ms-sm9 ms-md4 ms-lg3 ms-xl3">
-              <Toggle
-                defaultChecked={refreshments}
-                disabled={true}
-                label="Serving food or drinks?"
-                onText="Yes"
-                offText="No"
-              />
+              {labelWrapper('Serving Food or Drinks?')}
+              {toggleWrapper(refreshments, should_shimmer)}
             </div>
 
-            {(food || drink) && 
-              <div className="ms-Grid-col ms-sm11 ms-smPush1 ms-md7 ms-lg8 ms-lgPush1 ms-xl5 ms-xlPush4">
-                {food && <TextField label={"Food Vendor"} value={food} disabled />}
-                {drink && <TextField label={"Drink Vendor"} value={drink} disabled />}
-              </div>}
+            <div className="ms-Grid-col ms-sm11 ms-smPush1 ms-md7 ms-lg8 ms-lgPush1 ms-xl5 ms-xlPush4">
+              {food && labelWrapper("Food Vendor")} 
+              {food && textFieldWrapper(food, should_shimmer)}
+              {drink && labelWrapper("Drink Vendor")}
+              {drink && textFieldWrapper(drink, should_shimmer)}
+            </div>
           </div>
 
           <div className="ms-Grid-row">
-            <div className="ms-Grid-col ms-sm9 ms-md4 ms-lg3 ms-xl3">
-              <Toggle
-                defaultChecked={setupReq}
-                disabled={true}
-                label="Furniture or setup required?"
-                onText="Yes"
-                offText="No"
-              />
+            <div className="ms-Grid-col ms-sm9 ms-md6 ms-lg4 ms-xxl3">
+              {labelWrapper("Furniture or Setup Required?")}
+              {toggleWrapper(setupReq, should_shimmer)}
             </div>
 
-            {mfk && 
-              <div className="ms-Grid-col ms-sm11 ms-smPush1 ms-md7 ms-lg8 ms-lgPush1 ms-xl5 ms-xlPush4">
-                <TextField label={"MFK"} value={'1234556789'} disabled />
-              </div>}
+            <div className="ms-Grid-col ms-sm12 ms-lg8 ms-xxl9">
+              {mfk && <MFK setup_mfk={mfk} disabled={true} />}
+            </div>
           </div>
 
           <div className="ms-Grid-row">
             <div className="ms-Grid-col ms-sm9 ms-md4 ms-lg3">
-              <Toggle
-                defaultChecked={courseRef}
-                disabled={true}
-                label="For an University of Iowa course?"
-                onText="Yes"
-                offText="No"
-              />
+              {labelWrapper("For an University Course?")}
+              {toggleWrapper(courseRef, should_shimmer)}
             </div>
-
-            {course &&
-              <div className="ms-Grid-col ms-sm11 ms-smPush1 ms-md7 ms-lg8 ms-lgPush1 ms-xl6 ms-xlPush3">
-                <TextField label={"Course"} value={course || ''} disabled />
-              </div>}
+            
+            <div className="ms-Grid-col ms-sm11 ms-smPush1 ms-md7 ms-lg8 ms-lgPush1 ms-xl6 ms-xlPush3">
+              {courseRef && labelWrapper("Course")}
+              {courseRef && textFieldWrapper(course, should_shimmer)}
+            </div>
           </div>
             
           <div className="ms-Grid-row">
-            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg9 ms-xl8 ms-xxl6">
-              <TextField 
-                label="Comments" 
-                multiline={true} 
-                autoAdjustHeight={true}
-                value={comments || ''} 
-                disabled
-              />
+            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg6 ms-xl6">
+              <Shimmer 
+                isDataLoaded={should_shimmer}
+                shimmerElements={[{type: ElemType.line, height: 60, width: '100px'}]}>
+                  <TextField 
+                    label="Comments" 
+                    multiline={true} 
+                    autoAdjustHeight={true}
+                    value={comments || ''} 
+                    disabled />
+              </Shimmer>
             </div>
           </div>
           

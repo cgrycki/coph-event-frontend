@@ -104,7 +104,7 @@ class EventPage extends React.Component {
     let { 
       history,  match: { params: { package_id }},
       permissions: { signatureId },                        
-      permissions, event, event_loading
+      permissions, event, event_loading, should_fetch
     } = this.props;
 
     return (

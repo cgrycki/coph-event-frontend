@@ -88,7 +88,7 @@ class StepOne extends React.Component {
           <Setup
             setup_required={info['setup_required']}
             setup_mfk={info['setup_mfk']}
-            setup_error={errors['setup_mfk']}
+            setup_error={errors['setup_required']}
             onChange={this.onChange}
           />
 

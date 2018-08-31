@@ -16,9 +16,7 @@ const courseStyle = { margin: '10px' };
 export default class Course extends React.Component {
   constructor() {
     super();
-    this.state = { 
-      query         : ''
-    };
+    this.state = { query: '' };
     
     this.resolveSuggestions = this.resolveSuggestions.bind(this);
     this.restCall           = this.restCall.bind(this);
@@ -134,15 +132,14 @@ export default class Course extends React.Component {
             offText="No"
             onChanged={() => onChange('references_course', !references_course)}
           />
+          {/* Add in an error message */}
+          <span style={error_style}>{error}</span>
         </div>
 
         <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg8 ms-xl7 ms-xlPush1 ms-slideRightIn20 ms-slideLeftOut20">
-          <Label 
-            disabled={!references_course} 
-            required={references_course}>
-            Course Name
-          </Label>
+          <Label required={references_course}>Course Name</Label>
           <BasePicker
+            className="CoursePicker"
             disabled={!references_course}
 
             itemLimit={1}
@@ -166,12 +163,11 @@ export default class Course extends React.Component {
               resultsMaximumNumber : 20,
               showRemoveButtons    : true
             }}
-            inputProps={{ 
+            inputProps={{
+              style: { backgroundColor: 'rgb(244, 244, 244)' },
               placeholder: (references_course) ? "Start typing to search for a course" : ''
             }}
           />
-          {/* Add in an error message */}
-          <span style={error_style}>{error}</span>
         </div>
       </div>
     );
