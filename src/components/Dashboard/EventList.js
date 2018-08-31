@@ -1,16 +1,16 @@
 /**
  * Event List Component
  */
-
 import React         from 'react';
 import { 
-  DetailsList,
   CheckboxVisibility,
   Icon,
   DefaultButton,
-  DirectionalHint,
-  Shimmer, ShimmerElementType as ElemType
+  DirectionalHint
 }                     from 'office-ui-fabric-react';
+import { 
+  ShimmeredDetailsList 
+}                     from 'office-ui-fabric-react/lib/ShimmeredDetailsList';
 import Popup          from '../common/Popup';
 import { getDateISO } from '../../utils/date.utils';
 
@@ -143,11 +143,6 @@ export default class EventList extends React.Component {
 
     return columns;
   }
-
-  /** Returns a Shimmer component for loading. */
-  renderMissingItem(idx, props) {
-    return (<Shimmer /> );
-  }
   
   /* Alters component state, and hides the popup after a rerender. */
   hidePopup() { 
@@ -179,23 +174,21 @@ export default class EventList extends React.Component {
   }
   
   render() {
-    const loading = this.props.loading || true;
+    const loading = this.props.loading;
 
     return (
       <div className="Dashboard--EventsList">
-        <DetailsList
+        <ShimmeredDetailsList
           items={this.props.items}
           columns={this.createColumns()}
           onActiveItemChanged={(item) => this.setState({ 
             event: item.evt, 
             permissions: item.permissions
           })}
-          //enableSimmer={loading}
-          //onRenderMissingItem={(index, rowProps) => this.renderMissingItem(index, rowProps)}
+          enableShimmer={loading}
           checkboxVisibility={CheckboxVisibility.hidden}
-          listProps={{ renderedWindowsAhead: 0, renderedWindowsBehind: 0 }}
+          shimmerLines={10}
           style={{ display: 'flex', width: '100%' }}
-          width={'100%'}
         />
 
         <Popup
