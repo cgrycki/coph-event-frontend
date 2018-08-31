@@ -60,3 +60,16 @@
   display: flex;
   justify-content: space-between;
 }
+
+/* Course Setup -- MS Fabric doesn't have styling for pickers yet */
+.CoursePicker .ms-BasePicker-text {
+  border: unset !important;
+}
+.CoursePicker .ms-BasePicker-input {
+  background: rgb(255, 255, 255) !important;
+  border: 1px solid rgb(166, 166, 166) !important;
+}
+.CoursePicker .ms-BasePicker-input:disabled {
+  background: rgb(244, 244, 244) !important;
+  border: 1px solid rgb(244, 244, 244) !important;
+}
