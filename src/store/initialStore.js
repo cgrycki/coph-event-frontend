@@ -29,7 +29,7 @@ const info = {
     ORGACCT : '',
     DEPTACCT: '',
     FUNC    : '',
-    CCNTR   : ''
+    COSTCNTR   : ''
   },
   food_drink_required: false,
   food_provider      : '',

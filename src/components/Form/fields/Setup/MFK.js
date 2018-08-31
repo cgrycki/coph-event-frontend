@@ -1,4 +1,5 @@
 import React from 'react';
+import { setup_mfk_fields } from '../../../../constants/fieldTypes';
 import { 
   TextField,
   FocusZone,
@@ -15,68 +16,8 @@ const row_style = {
   "alignItems"    : "flex-end"
 };
 
-const fields = [
-  {
-    label: 'FUND',
-    field: 'FUND',
-    maxLength: 3,
-    required: true
-  },
-  {
-    label: 'ORG',
-    field: 'ORG',
-    maxLength: 2,
-    required: true
-  },
-  {
-    label: 'DEPT',
-    field: 'DEPT',
-    maxLength: 4,
-    required: true
-  },
-  {
-    label: 'SUB DEPT',
-    field: 'SUBDEPT',
-    maxLength: 5,
-    required: false
-  },
-  {
-    label: 'GRANT',
-    field: 'GRANT',
-    maxLength: 8,
-    required: false
-  },
-  {
-    label: 'INST ACCT',
-    field: 'INSTACCT',
-    maxLength: 4,
-    required: true
-  },
-  {
-    label: 'ORG ACCT',
-    field: 'ORGACCT',
-    maxLength: 3,
-    required: false
-  },
-  {
-    label: 'DEPT ACCT',
-    field: 'DEPTACCT',
-    maxLength: 5,
-    required: false
-  },
-  {
-    label: 'FUNC',
-    field: 'FUNC',
-    maxLength: 2,
-    required: true
-  },
-  {
-    label: 'COST CNTR',
-    field: 'COSTCNTR',
-    maxLength: 4,
-    required: false
-  }
-];
+
+  
 
 
 export default class MFK extends React.Component {
@@ -103,7 +44,7 @@ export default class MFK extends React.Component {
           className="ms-slideRightIn20 ms-slideLeftOut20" 
           style={row_style}
           onBlur={this.onFieldsBlur}>
-          {fields.map((field, idx) => {
+          {setup_mfk_fields.map((field, idx) => {
             return (
               <div key={idx}>
                 <TextField
@@ -126,12 +67,12 @@ export default class MFK extends React.Component {
   /** Update component data and focus automagically */
   onFieldChange(idx, evt) {
     // Get field properties by looking up field in array via index.
-    const field = fields[idx];
+    const field = setup_mfk_fields[idx];
 
     // Check if we should advance inputs
-    if ((evt.target.value.length >= field.maxLength) && (idx+1 < fields.length)) {
+    if ((evt.target.value.length >= field.maxLength) && (idx+1 < setup_mfk_fields.length)) {
       // Create a ID selector for next input
-      let next_input_field = fields[idx+1].field;
+      let next_input_field = setup_mfk_fields[idx+1].field;
       let next_input_id    = `#MFK--${next_input_field}`;
       let next_input       = document.querySelector(next_input_id);
       next_input.focus();
