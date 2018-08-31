@@ -16,6 +16,7 @@ import {
   validEventComments,
   validDate,
   validTime,
+  validSetupMFK,
   validProvider,
   validNumberPeople
 }                     from './param.utils';
@@ -49,9 +50,8 @@ export default class BusinessRequirements {
     }
   }
 
+  /** Validates individual fields on update. */
   validField(field, value) {
-    /* Validates individual fields on update. */
-
     if ((value !== undefined) && (field in this.fieldMap)) {
       let validationFunc = this.fieldMap[field];
       let validVal = validationFunc(value);
@@ -63,9 +63,8 @@ export default class BusinessRequirements {
     };
   }
 
+  /** Ensures the proposed start time is before end time. */
   validateTimes(start_time, end_time) {
-    /* Ensures the proposed start time is before end time. */
-    
     // Make sure both times are valid and entered
     if ((start_time === "") || (end_time === "")) return null;
     
@@ -75,9 +74,8 @@ export default class BusinessRequirements {
     else delete this.errors['end_time'];
   }
 
+  /** Ensures if there is a food/drink flag that one of the forms are filled. */
   validateFoodDrink(food_drink_required, food_provider, drink_provider) {
-    /* Ensures if there is a food/drink flag that one of the forms are filled. */
-
     // Only validate if flag is true
     if (food_drink_required === true) {
 
@@ -108,8 +106,8 @@ export default class BusinessRequirements {
     };
   }
 
+  /** Ensures there is a course if the references_course toggle is true */
   validateCourse(references_course, referenced_course) {
-    /** Ensures there is a course if the references_course toggle is true */
     if ((references_course === true) && (referenced_course === '')) { 
         this.errors['referenced_course'] = "You must select a course before proceeding.";
     }
@@ -117,30 +115,23 @@ export default class BusinessRequirements {
     else delete this.errors['referenced_course'];
   }
 
+  /** Validates that an MFK accounting number satisfies all of it's requirements */
   validateMFK(setup_required, setup_mfk) {
-    const required_mfk_fields = ['FUND', 'ORG', 'DEPT', 'INSTACCT', 'FUNC'];
-    let error_found = false;
-    console.log(setup_required, setup_mfk);
-
     if (setup_required === true) {
-      // Iterate through required MFK fields and create an error, exiting early
-      required_mfk_fields.forEach(field => {
-        if (setup_mfk[field] === '') error_found = true;
-      });
+      // For each MFK portion, map it's field and value to the MFK validation function
+      let mfk_valid = Object.entries(setup_mfk).map(entry => validSetupMFK(entry[0], entry[1]));
 
-      if (error_found) {
-        this.errors['setup_required'] = 'You must complete all required Account MFK fields.';
+      // Check if we failed any failed// all MFK fields passed
+      if (!mfk_valid.every(mfk => mfk === true)) {
+        this.errors['setup_required'] = 'You must fill all required accounting fields.';
         return;
       };
-      // If we got through the required fields without returning then all fields present!
-      // Exit if statement and delete
     }
     delete this.errors['setup_required'];
   }
 
+  /** Validates there are no overlaps in proposed time. */
   validateSchedule(start_time, end_time, date, event_title, room_schedule) {
-    /* Validates there are no overlaps in proposed time. */
-
     // Make sure we have valid times/dates before we execute schedule validation
     if (validTimes(start_time, end_time) && validDate(date)) {
 
@@ -160,10 +151,11 @@ export default class BusinessRequirements {
     };
   }
 
+  /**
+   * Ensures that if the proposed date is on a weekend, that a 
+   * valid College of Public Health employee email is also entered.
+   */
   validWeekend(date, coph_email) {
-    /**  Ensures that if the event is on a weekend, that a valid CoPH email 
-     *   is also entered. 
-     */
     let isDateWeekend = isWeekend(date);
     let validCophEmail = validIowaEmail(coph_email);
 
@@ -177,9 +169,8 @@ export default class BusinessRequirements {
       'CoPH email must be a valid Iowa email address.';
   }
 
+  /** Runs all of our validation functions, returning an object holding errors. */
   validate(info, errors, schedule=[], field=undefined, value=undefined) {
-    /* Runs all of our validation functions, returning an object holding errors. */
-    
     // Set our errors to those from our state passed as param
     this.errors = errors;
 
