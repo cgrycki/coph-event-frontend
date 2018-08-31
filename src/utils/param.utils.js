@@ -2,13 +2,13 @@
  * Parameter validation
  */
 const {
-  isAfter,
   isAscii,
   isBefore,
   isIn,
   isInt,
   isISO8601,
   isEmail,
+  isEmpty,
   isLength,
   contains
 }                     = require('validator');
@@ -17,6 +17,8 @@ const {
   getDateISO
 }                     = require('./date.utils');
 const times           = require('../constants/time.constants').map(d => d.key);
+const {
+  setup_mfk_fields }  = require('../constants/fieldTypes');
 
 
 const validIowaEmail = email => {
@@ -56,7 +58,25 @@ const validRoomNumber = () => null;
 const validCourseReference = () => null;
 
 
-const validSetupMFK = () => null;
+/**
+ * Validates a portion of the MFK Accounting field
+ * @param {string} field Setup MFK field: Like FUND, ORGACCT, etc...
+ * @param {string} value User input returned from an onChange event
+ */
+const validSetupMFK = (field, value) => {
+  // Grab the MFK field specs from array 
+  let mfk_field = setup_mfk_fields.find(mfk => mfk.field === field);
+
+  // Most importantly, if this field is required and empty than not valid
+  if (mfk_field.required && isEmpty(value)) return false;
+
+  // So now the field is either not required or not empty
+  // So if its not required and empty it's valid
+  else if (!mfk_field.required && isEmpty(value)) return true;
+
+  // Otherwise it's either required or not empty
+  else return (isInt(value) && isLength(value, mfk_field.maxLength));
+};
 
 
 const validProvider = provider => 
@@ -76,5 +96,6 @@ module.exports = {
   validDate,
   validTime,
   validProvider,
+  validSetupMFK,
   validNumberPeople
 };

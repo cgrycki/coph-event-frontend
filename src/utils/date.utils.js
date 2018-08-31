@@ -79,7 +79,7 @@ const nextWeek = () => {
 const getTimeAfterStart = start_time => {
   const start_index = times.indexOf(start_time);
   const next_time = times[start_index+1];
-  console.log(`start: ${start_time}, index: ${start_index}, next: ${next_time}`);
+
   return next_time;
 };
 
