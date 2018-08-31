@@ -42,9 +42,6 @@ export default class MFK extends React.Component {
           style={row_style}
           onBlur={this.onFieldsBlur}>
           {setup_mfk_fields.map((field, idx) => {
-            // If field is disabled, hide the value from the user
-            let val = (this.props.disabled) ? '' : this.state.setup_mfk[field.field];
-
             return (
               <div key={idx}>
                 <TextField
@@ -54,7 +51,7 @@ export default class MFK extends React.Component {
                   id={`MFK--${field.field}`}
                   className='FormSetupInput'
                   maxLength={field.maxLength}
-                  value={val}
+                  value={this.state.setup_mfk[field.field]}
                   onChange={evt => this.onFieldChange(idx, evt)}
                 />
               </div>);
