@@ -22,21 +22,21 @@ import MFK        from './MFK';
  *  * FUNC COST CNTR
  *
  */
-export default class Setup extends React.Component {
-  constructor() {
-    super();
-  }
+export default class Setup extends React.PureComponent {
+  render() { 
+    let { setup_error } = this.props;
 
-  render() {  
     return (
       <div className="ms-Grid-row">
         <div className="ms-Grid-col ms-sm3 ms-md3 ms-lg3 ms-xl3 ms-xxl3">
           <Toggle
-            defaultChecked={false}
+            value={this.props.setup_required}
             label={"Furniture and setup required?"}
             onText="Yes"
             offText="No"
             onChanged={(evt) => this.props.onChange('setup_required', evt)}/>
+          {setup_error && 
+            <span style={{color: 'rgb(168, 0, 0)'}}>{setup_error}</span>}
         </div>
         <div className="ms-Grid-col ms-sm9 ms-md9 ms-lg9 ms-xl9 ms-xxl9">
           <MFK
