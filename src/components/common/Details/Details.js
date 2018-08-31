@@ -11,6 +11,7 @@ import {
   Shimmer, 
   ShimmerElementType as ElemType 
 }             from 'office-ui-fabric-react/lib/Shimmer';
+import MFK from '../../Form/fields/Setup/MFK';
 import './Details.css';
 
 const labelWrapper = (label) => (
@@ -119,13 +120,13 @@ export default class Details extends React.PureComponent {
           </div>
 
           <div className="ms-Grid-row">
-            <div className="ms-Grid-col ms-sm9 ms-md4 ms-lg3 ms-xl3">
+            <div className="ms-Grid-col ms-sm9 ms-md6 ms-lg4 ms-xxl3">
               {labelWrapper("Furniture or Setup Required?")}
               {toggleWrapper(setupReq, should_shimmer)}
             </div>
 
-            <div className="ms-Grid-col ms-sm11 ms-smPush1 ms-md7 ms-lg8 ms-lgPush1 ms-xl5 ms-xlPush4">
-              {mfk && <TextField label={"MFK"} value={'1234556789'} disabled />}
+            <div className="ms-Grid-col ms-sm12 ms-lg8 ms-xxl9">
+              {mfk && <MFK setup_mfk={mfk} disabled={true} />}
             </div>
           </div>
 
@@ -142,7 +143,7 @@ export default class Details extends React.PureComponent {
           </div>
             
           <div className="ms-Grid-row">
-            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg9 ms-xl8 ms-xxl6">
+            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg6 ms-xl6">
               <Shimmer 
                 isDataLoaded={should_shimmer}
                 shimmerElements={[{type: ElemType.line, height: 60, width: '100px'}]}>
