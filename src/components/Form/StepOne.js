@@ -53,7 +53,7 @@ class StepOne extends React.Component {
         'contact_email', 'num_people', 
         'food_drink_provider', 'food_provider_error', 'alcohol_provider_error', 
         'references_course_error', 'referenced_course_error',
-        'setup_required_error', 'setup_mfk_error'
+        'setup_required'
       ];
     needed.forEach(field => {
       if (errors.hasOwnProperty(field)) needed_flag = true;
