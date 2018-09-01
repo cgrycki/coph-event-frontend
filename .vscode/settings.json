@@ -10,8 +10,9 @@
 		"node_modules/": true,
 		"node_module.s/": true,
 
-		// Hide NPM install files
+		// Hide NPM + Yarn install files
 		"package*.json": true,
+		"yarn.lock": true,
 
 		// Hide ESLint configuration
 		".eslintrc.json": true,
@@ -26,7 +27,11 @@
 		".vscode/": true,
 		
 		// Hide old code until we intergrate
-		"old-src": true
+		"old-src": true,
+
+		// Hide unused file from Create react app
+		"src/registerServiceWorker.js": true,
+		"sample.env": true
 	},
 	// Tab settings for javascript
 	"editor.tabSize": 2,
