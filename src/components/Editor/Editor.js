@@ -9,18 +9,10 @@ import './assets/Editor.css';
 
 
 // React Component
-export default class Editor extends React.Component {
-  constructor(props) {
-    super();
-    this.state = {};
-  }
+const Editor = () => (
+  <div className="ms-borderBase">
+    <GUI />
+  </div>
+);
 
-  render() {
-    return (
-      <div className="ms-borderBase">
-        <GUI/>
-        
-      </div>
-    );
-  }
-}
+export default Editor;
