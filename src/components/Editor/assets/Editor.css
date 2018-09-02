@@ -1,0 +1,5 @@
+/* Center Konva Canvas within page */
+.konvajs-content {
+  margin-left: auto;
+  margin-right: auto;
+}
