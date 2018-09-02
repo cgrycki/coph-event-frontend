@@ -72,7 +72,7 @@ const ids = {
 const layout = {
   furn_type    : 'circle',
   selected_item: null,
-  wh           : [500, 500],
+  wh           : [960, 500],
   xy           : [0, 0],
   scaleXY      : [1, 1],
   offsetXY     : [0, 0]

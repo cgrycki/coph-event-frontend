@@ -23,7 +23,7 @@ export const editorReducer = (state=initialEditorStore, action) => {
   let { type } = action;
   
   switch (type) {
-    case (editorActions.ADD_ITEM):
+    case editorActions.ADD_ITEM:
       // Gather variables to add item to layout
       var { x, y } = action;
 
@@ -44,7 +44,7 @@ export const editorReducer = (state=initialEditorStore, action) => {
         // Business logic
       };
     
-    case (editorActions.UPDATE_ITEM):
+    case editorActions.UPDATE_ITEM:
       // Gather attributes of item to update
       var { furn_type, item_id, x, y } = action;
 
@@ -58,7 +58,7 @@ export const editorReducer = (state=initialEditorStore, action) => {
         furniture: {...state.furniture, items: item_added }
       };
     
-    case (editorActions.REMOVE_ITEM):
+    case editorActions.REMOVE_ITEM:
       // Gather ID of item to remove
       var item_id = action.item_id;
       
@@ -73,7 +73,7 @@ export const editorReducer = (state=initialEditorStore, action) => {
         // Business calc
       };
 
-    case (editorActions.SELECT_ITEM):
+    case editorActions.SELECT_ITEM:
       // Get item ID to place in editor portion
       var { item_id } = action;
 
@@ -82,13 +82,13 @@ export const editorReducer = (state=initialEditorStore, action) => {
         layout: {...state.layout, selected_item: item_id }
       };
 
+    /** Update our layouts object, assigning new configs to editor view. */
     case (editorActions.UPDATE_EDITOR):
-      // Get property and new value
-      var { field, value } = action;
-
+      let newLayout = { ...state.layout, ...action.payload }
+      
       return {
         ...state,
-        layout: {...state.layout, [field]: value }
+        layout: newLayout
       };
     
     default:
