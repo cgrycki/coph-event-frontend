@@ -21,11 +21,11 @@ class GUI extends React.Component {
     offsetXY: PropTypes.arrayOf(PropTypes.number),
     scaleXY : PropTypes.arrayOf(PropTypes.number),
     wh      : PropTypes.arrayOf(PropTypes.number),
-    xy      : PropTypes.arrayOf(PropTypes.number)
+    xy      : PropTypes.arrayOf(PropTypes.number),
+    matrix  : PropTypes.arrayOf(PropTypes.number)
   }
 
   konvaCanvas = React.createRef();
-
   onContentWheel = this.onContentWheel.bind(this);
 
   /**
@@ -37,22 +37,35 @@ class GUI extends React.Component {
     this.props.updateEditor(updatedEditorConfig);
   }
 
+
+
+
+
   render() {
     const {
-      scaleXY, wh, xy
+      scaleXY, wh, xy, matrix
     } = this.props;
 
 
     return (
       <Stage
+        // React HTML node reference
         ref={(ref) => { this.konvaCanvas = ref; }}
+
+        // Dimensions and configuration
         width={wh[0]}
         height={wh[1]}
         x={xy[0]}
         y={xy[1]}
         scaleX={scaleXY[0]}
         scaleY={scaleXY[1]}
+
+        // Stage panning
         draggable
+        dragBoundFunc={pos => pos}
+        
+
+        // Behavior
         onContentWheel={this.onContentWheel}
       >
         <Floorplan width={wh[0]} height={wh[1]} />
@@ -64,8 +77,7 @@ class GUI extends React.Component {
 
 // Redux Container
 const mapStateToProps = state => ({
-  ...state.editor.layout,
-
+  ...state.editor.layout
 });
 
 const mapDispatchToProps = dispatch => ({
