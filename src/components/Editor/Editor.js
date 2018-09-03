@@ -3,6 +3,7 @@ import React  from 'react';
 
 // Components
 import GUI    from './GUI';
+import ZoomSlider from './Surfaces/ZoomSlider';
 
 // Assets
 import './assets/Editor.css';
@@ -11,7 +12,10 @@ import './assets/Editor.css';
 // React Component
 const Editor = () => (
   <div className="ms-borderBase">
-    <GUI />
+    <div className="ms-Grid-row">
+      <GUI />
+      <ZoomSlider />
+    </div>
   </div>
 );
 
