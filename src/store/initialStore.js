@@ -75,7 +75,8 @@ const layout = {
   wh           : [960, 500],
   xy           : [0, 0],
   scaleXY      : [1, 1],
-  offsetXY     : [0, 0]
+  offsetXY     : [0, 0],
+  matrix       : [1, 0, 1, 1, 0, 0]
 };
 
 
