@@ -86,3 +86,8 @@ yarn-error.log*
 .env
 # Ignore image thumbnails
 **/Thumbs.db
+
+# Random docs
+docs/ms-fabric-examples
+docs/*.txt
+yarn.lock

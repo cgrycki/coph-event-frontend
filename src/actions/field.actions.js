@@ -185,3 +185,34 @@ export const populateFormAndPush = (info) => (dispatch) => {
   dispatch(submitFormReset());                // Reset the form submission loading+error+success
   dispatch(push("/form/user"));               // Route to form so user can edit
 }
+
+
+export function submitFormJSON(info, furniture) {
+  // Destructure and restructure furniture to split items and counts
+  let { items, ...count } = furniture;
+  let layout_info = { items, count };
+
+  // Create our payload
+  const body = { form: info, layout: layout_info };
+
+  // Assign REST method + URI depending on form submission status
+  const method = (info.package_id) ? 'PATCH' : 'POST';
+  const uri = `${URI}/events/${(info.package_id) ? info.package_id : ''}`;
+
+  // Create options for REST call
+  const options = {
+    method         : method,
+    uri            : uri,
+    withCredentials: true,
+    json           : true,
+    body           : body
+  };
+
+  return (dispatch) => {
+    dispatch(submitFormLoading());
+
+    rp(options)
+      .then(res => dispatch(submitFormSuccess(res)))
+      .catch(err => dispatch(submitFormFailure(err)));
+  }
+}

@@ -29,7 +29,7 @@ const info = {
     ORGACCT : '',
     DEPTACCT: '',
     FUNC    : '',
-    COSTCNTR   : ''
+    COSTCNTR: ''
   },
   food_drink_required: false,
   food_provider      : '',
@@ -44,15 +44,18 @@ const errors = {}
 
 // Furniture: Stores user data added furniture
 const furniture = {
-  chairs_per_table : 6,
-  num_chairs       : 0,
-  num_racks        : 0,
-  num_displays     : 0,
-  num_circles      : 0,
-  num_rects        : 0,
-  num_cocktails    : 0,
-  num_trashs       : 0,
-  items            : []
+  chairs_per_table  : 6,
+  num_chairs        : 0,
+  num_chair_racks   : 0,
+  num_circles       : 0,
+  num_circle_racks  : 0,
+  num_rects         : 0,
+  num_rect_racks    : 0,
+  num_cocktails     : 0,
+  num_cocktail_racks: 0,
+  num_displays      : 0,
+  num_trashs        : 0,
+  items             : []
 };
 
 
