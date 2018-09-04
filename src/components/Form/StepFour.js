@@ -12,6 +12,7 @@ import Popup          from '../common/Popup';
 // Actions
 import { 
   submitForm,
+  submitFormJSON,
   patchForm
 } from '../../actions/field.actions';
 
@@ -27,23 +28,25 @@ class StepFour extends React.Component {
       popupYesClick: this.submitForm
     };
 
-    this.prevPage        = this.prevPage.bind(this);
-    this.submitForm      = this.submitForm.bind(this);
-    this.hidePopup       = this.hidePopup.bind(this);
+    this.prevPage    = this.prevPage.bind(this);
+    this.submitForm  = this.submitForm.bind(this);
+    this.hidePopup   = this.hidePopup.bind(this);
     this.renderPopup = this.renderPopup.bind(this);
   }
 
+  /** Set web page title on mount. */
   componentDidMount() {
-    /* Set web page title on mount. */
     document.title = "Create Event: Review";
   }
 
+  /** Updates our component in response to form submission updates */
   componentWillReceiveProps(nextProps) {
-    /* Updates our component in response to form submission updates */
     // Check if there was a successful POST
     if (nextProps.form_success) this.renderPopup("success");
+
     // Check if we're loading
     else if (nextProps.form_loading) this.renderPopup("submitted");
+
     // Check for errors
     else if (nextProps.form_error) this.renderPopup("error");
   }
@@ -53,17 +56,16 @@ class StepFour extends React.Component {
   }
 
   submitForm() {
-    let { dispatch, info } = this.props;
-    // Does this form have a packageID? if it does, it needs to be 
-    // updated instead of created
-    if (info.package_id === null) dispatch(submitForm(info));
-    else dispatch(patchForm(info));
+    let { dispatch, info, furniture } = this.props;
+    dispatch(submitFormJSON(info, furniture));
   }
 
+  /** Hides popup by setting component state. */
   hidePopup() {
     this.setState({ popupHidden: true });
   }
 
+  /** Shows and sets popup's text and confirmation callback. */
   renderPopup(popupType) {
     // Really the only unique part of the popup is it's confirmation action
     const onConfirm = {
@@ -115,10 +117,11 @@ class StepFour extends React.Component {
 // Container
 const mapStateToProps = state => ({
   info        : state.fields.info,
-  errors      : state.fields.errors,
+  furniture   : state.editor.furniture,
   form_loading: state.fields.form_loading,
   form_success: state.fields.form_success,
   form_error  : state.fields.form_error
 });
+
 
 export default connect(mapStateToProps)(StepFour);
