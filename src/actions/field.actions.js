@@ -212,7 +212,7 @@ export function submitFormJSON(info, furniture) {
     dispatch(submitFormLoading());
 
     rp(options)
-      .then(res => console.log(res))
+      .then(res => dispatch(submitFormSuccess(res)))
       .catch(err => dispatch(submitFormFailure(err)));
   }
 }

@@ -10,11 +10,7 @@ import Details        from '../common/Details';
 import Popup          from '../common/Popup';
 
 // Actions
-import { 
-  submitForm,
-  submitFormJSON,
-  patchForm
-} from '../../actions/field.actions';
+import { submitFormJSON } from '../../actions/field.actions';
 
 
 // Component
