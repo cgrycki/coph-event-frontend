@@ -76,7 +76,14 @@ export const fieldReducer = (state=initialFieldStore, action) => {
 
     /** Users can edit events after they've been created and before they've been approved. */
     case fieldActions.POPULATE_FIELDS:
-      const hydrated_info = { ...state.info, ...action.payload };
+      const hydrated_info = { 
+        ...state.info, 
+        ...action.payload,
+        setup_mfk: { 
+          ...state.info.setup_mfk,
+          ...action.payload.setup_mfk
+        }
+      };
       return { ...state, info: hydrated_info };
 
     default:

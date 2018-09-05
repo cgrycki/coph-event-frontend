@@ -1,5 +1,5 @@
 import React      from 'react';
-import { Toggle } from 'office-ui-fabric-react';
+import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
 import MFK        from './MFK';
 
 
@@ -26,11 +26,12 @@ export default class Setup extends React.PureComponent {
   render() { 
     let { setup_error } = this.props;
 
+
     return (
       <div className="ms-Grid-row">
         <div className="ms-Grid-col ms-sm3 ms-md3 ms-lg3 ms-xl3 ms-xxl3">
           <Toggle
-            value={this.props.setup_required}
+            checked={this.props.setup_required}
             label={"Furniture and setup required?"}
             onText="Yes"
             offText="No"

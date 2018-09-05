@@ -46,6 +46,7 @@ export default class Floorplan extends React.Component {
           ref={node => this.floorplan = node}
           width={this.props.width}
           height={this.props.height}
+          name="Floorplan"
         />
       </Layer>
     );

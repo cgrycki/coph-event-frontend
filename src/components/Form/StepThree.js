@@ -7,28 +7,23 @@ import FormStep       from './shared/FormStep';
 import FormButtons    from './shared/FormButtons';
 
 // Editor
-import Editor         from './editor';
+import Editor         from '../Editor';
 
 
 
 // Component
 export default class StepThree extends React.Component {
-  constructor(props) {
-    super(props);
-    this.prevPage = this.prevPage.bind(this);
-    this.nextPage = this.nextPage.bind(this);
-  }
 
+  /** Set web page title on mount. */
   componentDidMount() {
-    /* Set web page title on mount. */
     document.title = "Create Event: Layout";
   }
 
-  prevPage() {
+  prevPage = () => {
     this.props.history.goBack(-1);
   }
 
-  nextPage() {
+  nextPage = () => {
     this.props.history.push("/form/review");
   }
 
