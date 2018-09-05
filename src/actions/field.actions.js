@@ -197,7 +197,7 @@ export function submitFormJSON(info, furniture) {
 
   // Assign REST method + URI depending on form submission status
   const method = (info.package_id) ? 'PATCH' : 'POST';
-  const uri = `${URI}/events/${(info.package_id) ? info.package_id : ''}`;
+  const uri    = `${URI}/events/${(info.package_id) ? info.package_id : ''}`;
 
   // Create options for REST call
   const options = {
