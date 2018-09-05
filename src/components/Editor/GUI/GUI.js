@@ -6,9 +6,13 @@ import PropTypes    from 'prop-types';
 
 // Components
 import Floorplan  from './Floorplan';
+import Furniture  from './Furniture';
 
 // Actions
-import { updateEditor } from '../../../actions/editor.actions';
+import { 
+  updateEditor,
+  addEditorItem
+} from '../../../actions/editor.actions';
 
 // Utility functions
 import EditorFunctions from '../utils/EditorFunctions';
@@ -25,27 +29,28 @@ class GUI extends React.Component {
     matrix  : PropTypes.arrayOf(PropTypes.number)
   }
 
+  // Canvas Reference
   konvaCanvas = React.createRef();
-  onContentWheel = this.onContentWheel.bind(this);
 
   /**
    * Handles canvas mousewheel event, setting new scale and position.
    * @param {event} event Mouse wheel triggered event
    */
-  onContentWheel(event) {
+  onContentWheel = event => {
     const updatedEditorConfig = EditorFunctions.handleZoomEvent(this.konvaCanvas, event);
     this.props.updateEditor(updatedEditorConfig);
   }
 
-
+  /** Conditionally adds a furniture item to store. */
+  onContentClick = event => {
+    const xy = EditorFunctions.handleClickEvent(this.konvaCanvas, event);
+    if (xy) this.props.addEditorItem(xy);
+  }
 
 
 
   render() {
-    const {
-      scaleXY, wh, xy, matrix
-    } = this.props;
-
+    const { scaleXY, wh, xy } = this.props;
 
     return (
       <Stage
@@ -67,8 +72,12 @@ class GUI extends React.Component {
 
         // Behavior
         onContentWheel={this.onContentWheel}
+        
+        onContentClick={this.onContentClick}
+        onContextMenu={this.onContentClick}
       >
         <Floorplan width={wh[0]} height={wh[1]} />
+        <Furniture items={this.props.items} />
       </Stage>
     );
   }
@@ -77,11 +86,13 @@ class GUI extends React.Component {
 
 // Redux Container
 const mapStateToProps = state => ({
-  ...state.editor.layout
+  ...state.editor.layout,
+  items: state.editor.furniture.items
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateEditor: (field, value) => dispatch(updateEditor(field, value))
+  updateEditor: (field, value) => dispatch(updateEditor(field, value)),
+  addEditorItem: (x, y) => dispatch(addEditorItem(x, y))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GUI);

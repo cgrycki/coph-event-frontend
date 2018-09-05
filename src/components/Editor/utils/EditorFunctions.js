@@ -30,6 +30,18 @@ class EditorFunctions {
     
     return { wh: [containerWidth, newHeight] };
   }
+
+  /**
+   * Returns the scaled (true) mouse position in case diagram is scaled, etc.
+   * @param {object} canvas Konva Canvas, from React reference' `getStage()`.
+   * @param {object} position Object denoting mouse position on canvas.
+   * @returns {object} Canvas' scaled mouse position.
+   */
+  static scalePosition(canvas, position) {
+    const x = (position.x - canvas.attrs.x) / canvas.attrs.scaleX;
+    const y = (position.y - canvas.attrs.y) / canvas.attrs.scaleY;
+    return { x, y };
+  }
   
   /**
    * Computes new scale and mouse position after user zooms in or out.
@@ -70,21 +82,26 @@ class EditorFunctions {
     return { xy: newPosition, scaleXY: [newScale, newScale] };
   }
 
-  static handleZoomMatrix(canvasRef, zoomEvt, matrix) {
-    zoomEvt.evt.preventDefault();
+  /** Handles left clicks diagram wide. */
+  static handleClickEvent(canvasRef, clickEvt) {
+    // Some interaction housekeeping: prevent bubble + ignore right click
+    clickEvt.evt.preventDefault();
+    clickEvt.cancelBubble = true;
+    if (clickEvt.evt.button === 2) return null;
+    
+    // Gather variables and scale (possibly zoomed) mouse position
+    const canvas        = canvasRef.getStage();
+    const rawPointerPos = canvas.getPointerPosition();
+    const pointerPos    = this.scalePosition(canvas, rawPointerPos);
 
 
+    // Check if mouse position is intersecting => returns node if true
+    const intersects = canvas.getIntersection(pointerPos);
+    if (intersects === null) return null;
 
-    const canvas = canvasRef.getStage();
-    const canvasAttrs = canvas.getAttrs();
-    const zoomScale = (zoomEvt.evt.deltaY < 0) ? 1.05 : 0.95;
-
-    for (var i=0; i < matrix.length; i++) matrix[i] *= zoomScale;
-
-    matrix[4] += (1 - zoomScale) * canvasAttrs.width / 2;
-    matrix[5] += (1 - zoomScale) * canvasAttrs.height / 2;
-
-    return { matrix };
+    // We hit something
+    const intersectName = intersects.getAttr('name');
+    return (intersectName === 'Floorplan') ? pointerPos : null;
   }
 }
 
