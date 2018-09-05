@@ -9,7 +9,7 @@ import { editorActions } from '../constants/actionTypes';
  * @param {float} x Item's horizontal position within layout
  * @param {float} y Item's vertical position within layout.
  */
-export const addEditorItem = (x, y) => ({
+export const addEditorItem = ({ x, y }) => ({
   type     : editorActions.ADD_ITEM,
   x,
   y

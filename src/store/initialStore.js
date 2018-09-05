@@ -61,13 +61,13 @@ const furniture = {
 
 // IDs: ID Counters to increment when user creates furniture
 const ids = {
-  chairs    : 0,
-  racks     : 0,
-  displays  : 0,
-  circles   : 0,
-  rects     : 0,
-  cocktails : 0,
-  num_trashs: 0
+  chair   : 0,
+  rack    : 0,
+  display : 0,
+  circle  : 0,
+  rect    : 0,
+  cocktail: 0,
+  trash   : 0
 };
 
 

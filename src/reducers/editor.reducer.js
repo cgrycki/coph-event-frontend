@@ -20,8 +20,9 @@ export const editorReducer = (state=initialEditorStore, action) => {
   let { type } = action;
   
   switch (type) {
+
+    /** Adds an furniture item to store */
     case editorActions.ADD_ITEM:
-      // Gather variables to add item to layout
       var { x, y } = action;
 
       // Infer furniture type from our state, inc ID, and create item
@@ -30,16 +31,17 @@ export const editorReducer = (state=initialEditorStore, action) => {
       var item_to_add = { id: item_id, furn, x, y };
 
       // Increment ID and add item to furniture array
-      var item_id_inc = furn + state.ids[furn] + 1;
-      var ids_added   = { ...state.ids, furn: item_id_inc };
+      var item_id_inc = state.ids[furn] + 1;
+      var ids_added   = { ...state.ids, [furn]: item_id_inc };
       var item_added  = [...state.furniture.items, item_to_add];
 
       return {
         ...state,
-        ids: ids_added,
+        ids      : ids_added,
         furniture: {...state.furniture, items: item_added}
         // Business logic
       };
+    
     
     case editorActions.UPDATE_ITEM:
       // Gather attributes of item to update
