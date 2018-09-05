@@ -46,9 +46,10 @@ export default class FormCalendar extends React.PureComponent {
 
   /** Adds the proposed event if we have it's date and times */
   addProposedEvent() {
-    let { room_schedule,
-      date, start_time, end_time, event_name } = this.props;
-    let schedule = room_schedule;
+    let { 
+      room_schedule, date, start_time, end_time, event_name
+    } = this.props;
+    let schedule      = room_schedule;
     let proposedEvent = undefined;
 
     if (start_time !== '' && end_time !== '') {
@@ -68,8 +69,9 @@ export default class FormCalendar extends React.PureComponent {
   render() {
     let { date, onChange } = this.props;
 
-    // Convert YYYY-MM-DD to JS Date
-    const jsDate = new Date(moment(date).local().format());
+    // Check if we have a valid date => convert YYYY-MM-DD to JS Date
+    const jsDate = (date !== '') ?
+      new Date(moment(date).local().format()) : new Date();
 
     return (
       <div style={{ width: '35%', marginLeft: '10%' }}>
