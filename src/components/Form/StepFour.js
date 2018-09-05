@@ -10,7 +10,7 @@ import Details        from '../common/Details';
 import Popup          from '../common/Popup';
 
 // Actions
-import { submitFormJSON } from '../../actions/field.actions';
+import { submitForm } from '../../actions/field.actions';
 
 
 // Component
@@ -53,7 +53,7 @@ class StepFour extends React.Component {
 
   submitForm() {
     let { dispatch, info, furniture } = this.props;
-    dispatch(submitFormJSON(info, furniture));
+    dispatch(submitForm(info, furniture));
   }
 
   /** Hides popup by setting component state. */
