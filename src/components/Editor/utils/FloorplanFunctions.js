@@ -4,8 +4,8 @@
  * the screen size. Relies on D3 for most of the scaling and mathemagic.
  */
 
-import { polygonContains }  from 'd3-polygon';
-import { scaleLinear }      from 'd3-scale';
+import { polygonContains }  from 'd3-polygon/src/contains';
+import { scaleLinear }      from 'd3-scale/src/linear';
 
 // Hand traced polygon in Illustrator
 export const goodPoly = [
@@ -31,19 +31,19 @@ export const goodPoly = [
 ];
 
 // Dimensions of our original floorplan image.
-const floorWidth = 2269,
-      floorHeight = 1225;
+const floorWidth = 2269;
+const floorHeight = 1225;
 
 
 
 export default class FloorplanFunctions {
   constructor(canvasWidth) {
     // OG dimensions
-    this.floorWidth = 2269;
-    this.floorHeight = 1225;
+    this.floorWidth  = floorWidth;
+    this.floorHeight = floorHeight;
 
     // Scaled dimensions
-    this.canvasWidth = canvasWidth
+    this.canvasWidth  = canvasWidth;
     this.canvasHeight = this.resizeFloorplanHeight(canvasWidth);
 
     // Scales

@@ -3,7 +3,6 @@
  */
 import initialStore from '../store/initialStore';
 import { editorActions } from '../constants/actionTypes';
-// Business logic
 
 
 /**
@@ -12,10 +11,7 @@ import { editorActions } from '../constants/actionTypes';
  * @param {*} id String ID of 
  * @returns A copy of arr without object w/ matching id.
  */
-const filterItem = (arr, id) => {
-  return arr.slice().filter(d => d.id !== id);
-}
-
+const filterItem = (arr, id) => arr.slice().filter(d => d.id !== id);
 const initialEditorStore = { ...initialStore.editor };
 
 
@@ -24,8 +20,9 @@ export const editorReducer = (state=initialEditorStore, action) => {
   let { type } = action;
   
   switch (type) {
-    case (editorActions.ADD_ITEM):
-      // Gather variables to add item to layout
+
+    /** Adds an furniture item to store */
+    case editorActions.ADD_ITEM:
       var { x, y } = action;
 
       // Infer furniture type from our state, inc ID, and create item
@@ -34,18 +31,19 @@ export const editorReducer = (state=initialEditorStore, action) => {
       var item_to_add = { id: item_id, furn, x, y };
 
       // Increment ID and add item to furniture array
-      var item_id_inc = furn + state.ids[furn] + 1;
-      var ids_added   = { ...state.ids, furn: item_id_inc };
+      var item_id_inc = state.ids[furn] + 1;
+      var ids_added   = { ...state.ids, [furn]: item_id_inc };
       var item_added  = [...state.furniture.items, item_to_add];
 
       return {
         ...state,
-        ids: ids_added,
+        ids      : ids_added,
         furniture: {...state.furniture, items: item_added}
         // Business logic
       };
     
-    case (editorActions.UPDATE_ITEM):
+    
+    case editorActions.UPDATE_ITEM:
       // Gather attributes of item to update
       let { furn, id, x, y } = action;
 
@@ -72,7 +70,7 @@ export const editorReducer = (state=initialEditorStore, action) => {
         // Business calc
       };
 
-    case (editorActions.SELECT_ITEM):
+    case editorActions.SELECT_ITEM:
       // Get item ID to place in editor portion
       id = action.id;
 
@@ -81,13 +79,13 @@ export const editorReducer = (state=initialEditorStore, action) => {
         layout: {...state.layout, selected_item: id }
       };
 
+    /** Update our layouts object, assigning new configs to editor view. */
     case (editorActions.UPDATE_EDITOR):
-      // Get property and new value
-      var { field, value } = action;
-
+      let newLayout = { ...state.layout, ...action.payload }
+      
       return {
         ...state,
-        layout: {...state.layout, [field]: value }
+        layout: newLayout
       };
     
     default:

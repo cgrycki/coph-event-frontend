@@ -3,24 +3,20 @@ import React  from 'react';
 
 // Components
 import GUI    from './GUI';
+import ZoomSlider from './Surfaces/ZoomSlider';
 
 // Assets
 import './assets/Editor.css';
 
 
 // React Component
-export default class Editor extends React.Component {
-  constructor(props) {
-    super();
-    this.state = {};
-  }
+const Editor = () => (
+  <div className="ms-borderBase">
+    <div className="ms-Grid-row">
+      <GUI />
+      <ZoomSlider />
+    </div>
+  </div>
+);
 
-  render() {
-    return (
-      <div className="ms-borderBase">
-        <GUI/>
-        
-      </div>
-    );
-  }
-}
+export default Editor;
