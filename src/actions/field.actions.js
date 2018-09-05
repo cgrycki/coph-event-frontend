@@ -102,64 +102,36 @@ export const submitFormReset = () => ({
 
 /**
  * Wraps our submission actions so that we can execute from our components.
+ * @param {object} info Contains our form field information
+ * @param {object} furniture Contains our form furniture/editor information
+ * @returns {Promise}
  */
-export function submitForm(info) {
+export function submitForm(info, furniture) {
+  // Destructure and restructure furniture to split items and counts
+  let { items, ...count } = furniture;
+  let layout_info = { items, count };
+
+  // Create our payload
+  const body = { form: info, layout: layout_info };
+
+  // Assign REST method + URI depending on form submission status
+  const method = (info.package_id) ? 'PATCH' : 'POST';
+  const uri    = `${URI}/events/${(info.package_id) ? info.package_id : ''}`;
+
+  // Create options for REST call
+  const options = {
+    method         : method,
+    uri            : uri,
+    withCredentials: true,
+    json           : true,
+    body           : body
+  };
+
   return (dispatch) => {
-    
-    // Notify store we're submitting
     dispatch(submitFormLoading());
-
-    // Create a new form to submit, and add each field key/value to it.
-    let form = new FormData();
-    Object.keys(info)
-      .filter(key => key !== 'package_id')
-      .forEach(key => { form.append(key, info[key]); });
-
-    // Set up URI and options for POST API call.
-    let uri = `${URI}/events`;
-    let options = {
-      method     : 'POST',
-      credentials: 'include',
-      body       : form
-    };
-
-    // Make the POST call
-    fetch(uri, options)
-      .then(res => res.json())
-      .then(res => {
-        if (res.error) dispatch(submitFormFailure(res));
-        else {    
-          dispatch(submitFormSuccess(res)); // successful submission!
-          dispatch(push("/dashboard"));     // Route to dashboard
-          dispatch(submitFormReset());      // Clear form status for future events
-      }})
-      .catch(err => dispatch(submitFormFailure(err)));
-  }
-}
-
-
-export function patchForm(info) {
-  return (dispatch) => {
-    // Notify store we're submitting
-    dispatch(submitFormLoading());
-    
-    // Create options for our PATCH
-    const options = {
-      method: 'PATCH',
-      uri: `${URI}/events/${info.package_id}`,
-      withCredentials: true,
-      json: true,
-      body: info
-    };
 
     rp(options)
-      .then(res => {
-        if (res.error) dispatch(submitFormFailure(res));
-        else {
-          dispatch(submitFormSuccess(res));
-          dispatch(push("/dashboard"));
-          dispatch(submitFormReset());
-      }})
+      .then(res => dispatch(submitFormSuccess(res)))
       .catch(err => dispatch(submitFormFailure(err)));
   }
 }
