@@ -10,7 +10,7 @@ import Details        from '../common/Details';
 import Popup          from '../common/Popup';
 
 // Actions
-import { submitForm } from '../../actions/field.actions';
+import { submitForm } from '../../actions/form.actions';
 
 
 // Component
@@ -112,11 +112,11 @@ class StepFour extends React.Component {
 
 // Container
 const mapStateToProps = state => ({
-  info        : state.fields.info,
+  info        : state.form.fields,
   items       : state.diagram.items,
-  form_loading: state.fields.form_loading,
-  form_success: state.fields.form_success,
-  form_error  : state.fields.form_error
+  form_loading: state.form.form_loading,
+  form_success: state.form.form_success,
+  form_error  : state.form.form_error
 });
 
 

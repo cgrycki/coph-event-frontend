@@ -3,7 +3,7 @@ import React          from 'react';
 import { connect }    from 'react-redux';
 
 // Form actions
-import {updateForm}   from '../../actions/field.actions';
+import {updateForm}   from '../../actions/form.actions';
 import {fetchRooms}   from '../../actions/room.actions';
 import {fetchCalendarSchedule} from '../../actions/schedule.actions';
 
@@ -171,8 +171,8 @@ class StepTwo extends React.Component {
 
 // Container
 const mapStateToProps = state => ({
-  info  : state.fields.info,
-  errors: state.fields.errors,
+  info  : state.form.fields,
+  errors: state.form.errors,
   ...state.rooms,
   ...state.schedules
 });

@@ -1,7 +1,13 @@
 /* Dependencies -------------------------------------------------------------*/
 import React          from 'react';
 import NavPage        from '../common/NavPage'
-import { ActionButton } from 'office-ui-fabric-react';
+import { ActionButton } from 'office-ui-fabric-react/lib/Button';
+import {
+  Pivot,
+  PivotItem,
+  PivotLinkFormat,
+  PivotLinkSize
+}                   from 'office-ui-fabric-react/lib/Pivot';
 
 
 const makeButton = (iconName, text, callback, disabled) => (
@@ -44,6 +50,19 @@ export default class EventNav extends React.PureComponent {
             <div className="EventNavHeading">
               <h2>Event Details</h2>
             </div>
+
+            <Pivot linkSize={PivotLinkSize.large} linkFormat={PivotLinkFormat.links}>
+              <PivotItem
+                key="FormInfo"
+                linkText="Form"
+                itemIcon="TextDocument"
+              />
+              <PivotItem
+                key="FormLayout"
+                linkText="Layout"
+                itemIcon="PivotChart"
+              />
+            </Pivot>
 
             <span style={{ float: 'right'}}>
               {makeButton('Edit', "Edit Event", onEdit, editDisabled)}

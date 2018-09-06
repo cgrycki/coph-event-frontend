@@ -1,10 +1,8 @@
 /**
  * Action Types for Redux
  */
-
-
-// Fields
-export const fieldActions = {
+// Form
+export const formActions = {
   SUBMIT_FORM_LOADING: 'SUBMIT_FORM_LOADING',
   SUBMIT_FORM_SUCCESS: 'SUBMIT_FORM_SUCCESS',
   SUBMIT_FORM_ERROR  : 'SUBMIT_FORM_ERROR',
@@ -16,8 +14,7 @@ export const fieldActions = {
 };
 
 
-
-// New Diagram
+// Diagram editor
 export const diagramActions = {
   DIAGRAM_ADD_ITEM     : 'DIAGRAM_ADD_ITEM',
   DIAGRAM_SELECT_ITEM  : 'DIAGRAM_SELECT_ITEM',
@@ -25,7 +22,6 @@ export const diagramActions = {
   DIAGRAM_REMOVE_ITEM  : 'DIAGRAM_REMOVE_ITEM',
   DIAGRAM_UPDATE_EDITOR: 'DIAGRAM_UPDATE_EDITOR'
 };
-
 
 // Rooms
 export const roomActions = {
@@ -43,7 +39,6 @@ export const scheduleActions = {
   FETCH_SCHEDULE_RESET  : 'FETCH_SCHEDULE_RESET'
 };
 
-
 // Events
 export const eventActions = {
   EVENT_RESET         : 'EVENT_RESET',
@@ -58,8 +53,6 @@ export const eventActions = {
   POPULATE_EVENT_INFO : 'POPULATE_EVENT_INFO',
   SET_FETCH_EVENT     : 'SET_FETCH_EVENT'
 };
-
-
 
 
 // Application

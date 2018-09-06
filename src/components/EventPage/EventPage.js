@@ -16,7 +16,7 @@ import {
   getEvent,
   deleteEvent 
 }                               from '../../actions/event.actions';
-import { populateFormAndPush }  from '../../actions/field.actions';
+import { populateFormAndPush }  from '../../actions/form.actions';
 
 
 /* React Component ----------------------------------------------------------*/
@@ -104,13 +104,14 @@ class EventPage extends React.Component {
     let { 
       history,  match: { params: { package_id }},
       permissions: { signatureId },                        
-      permissions, event, event_loading, should_fetch
+      permissions, event, items, event_loading, should_fetch
     } = this.props;
 
     return (
       <div className="EventPage">
         <EventNav
           history={history}
+          items={items}
           permissions={permissions}
           onEdit={() => this.renderPopup('edit')}
           onRemove={() => this.renderPopup('delete')}
@@ -148,6 +149,7 @@ const mapStateToProps = state => ({
   should_fetch : state.events.should_fetch,
   event        : state.events.event,
   permissions  : state.events.permissions,
+  items        : state.events.items,
   event_loading: state.events.event_loading,
   event_error  : state.events.event_error
 });

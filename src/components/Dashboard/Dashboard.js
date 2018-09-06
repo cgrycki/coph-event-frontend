@@ -21,7 +21,7 @@ import {
   deleteDynamoEvent,
   populateEventAndPush
 }                              from '../../actions/event.actions';
-import { populateFormAndPush } from '../../actions/field.actions';
+import { populateFormAndPush } from '../../actions/form.actions';
 
 
 // Component

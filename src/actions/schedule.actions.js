@@ -1,5 +1,5 @@
 import {scheduleActions}  from '../constants/actionTypes';
-import {updateForm}       from './field.actions';
+import {updateForm}       from './form.actions';
 import {stringify}        from 'querystring';
 import * as rp            from 'request-promise';
 const URI                 = process.env.REACT_APP_REDIRECT_URI;

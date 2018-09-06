@@ -4,7 +4,7 @@
 import initialStore from '../store/initialStore';
 import { 
   eventActions,
-  fieldActions
+  formActions
 }                   from '../constants/actionTypes';
 
 export const eventReducer = (state=initialStore.events, action) => {
@@ -56,7 +56,7 @@ export const eventReducer = (state=initialStore.events, action) => {
       };
 
     /** Successful POST request, add event to our events list */
-    case fieldActions.SUBMIT_FORM_SUCCESS:
+    case formActions.SUBMIT_FORM_SUCCESS:
       const events_plus_new = [...state.events, action.payload];
       return { ...state, events: events_plus_new, event: action.payload };
 

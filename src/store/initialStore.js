@@ -146,8 +146,15 @@ const initialStore = {
     count,
     layout
   },
-  fields: {
+  /*fields: {
     info,
+    errors,
+    form_loading: false,
+    form_error  : null,
+    form_success: false
+  },*/
+  form: {
+    fields: info,
     errors,
     form_loading: false,
     form_error  : null,
