@@ -5,7 +5,7 @@
 
 
 // Fields: Object holding our user data entered into HTML fields
-const info = {
+const fields = {
   package_id         : null,
   user_email         : '',
   contact_email      : '',
@@ -146,15 +146,8 @@ const initialStore = {
     count,
     layout
   },
-  /*fields: {
-    info,
-    errors,
-    form_loading: false,
-    form_error  : null,
-    form_success: false
-  },*/
   form: {
-    fields: info,
+    fields,
     errors,
     form_loading: false,
     form_error  : null,
