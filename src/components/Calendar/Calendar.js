@@ -1,8 +1,8 @@
 import React                              from 'react';
 import moment                             from 'moment';
 import { connect }                        from 'react-redux';
-import { fetchRooms, 
-  fetchCalendarSchedule }                 from '../../actions/room.actions';
+import {fetchRooms}             from '../../actions/room.actions'; 
+import {fetchCalendarSchedule}  from '../../actions/schedule.actions';
 import {
   minTime,
   maxTime
@@ -12,7 +12,7 @@ import NavPage                            from '../common/NavPage';
 import Panel                              from './Panel';
 import Toolbar                            from './Toolbar';
 import formats                            from './formats';
-import BigCalendar                        from 'react-big-calendar';
+import BigCalendar                        from 'react-big-calendar/lib/Calendar';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import './Calendar.css';
 
@@ -126,7 +126,7 @@ class Calendar extends React.Component {
                 formats={formats}
                 components={{ toolbar: Toolbar }}
 
-                events={this.props.room_schedule}
+                events={this.props.schedules}
                 titleAccessor="event_name"
                 startAccessor='start_time'
                 endAccessor='end_time'
@@ -144,7 +144,7 @@ class Calendar extends React.Component {
 
 const mapStateToProps = state => ({
   rooms        : state.rooms.rooms,
-  room_schedule: state.rooms.room_schedule
+  schedules: state.schedules.schedules
 })
 
 const mapDispatchToProps = dispatch => ({

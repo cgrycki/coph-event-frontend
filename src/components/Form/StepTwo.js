@@ -3,11 +3,9 @@ import React          from 'react';
 import { connect }    from 'react-redux';
 
 // Form actions
-import {updateForm}  from '../../actions/field.actions';
-import { 
-  fetchRooms,
-  fetchCalendarSchedule 
-}                     from '../../actions/room.actions';
+import {updateForm}   from '../../actions/field.actions';
+import {fetchRooms}   from '../../actions/room.actions';
+import {fetchCalendarSchedule} from '../../actions/schedule.actions';
 
 
 // Form components
@@ -99,7 +97,7 @@ class StepTwo extends React.Component {
     let { 
       info, errors,
       rooms, rooms_loading, rooms_error,
-      room_schedule
+      schedules
     } = this.props;
 
     return (
@@ -149,7 +147,7 @@ class StepTwo extends React.Component {
 
           <FormCalendar
             room_number={info['room_number']}
-            room_schedule={room_schedule}
+            schedules={schedules}
             event_name={info['event_name']}
             date={info['date']}
             start_time={info['start_time']}
@@ -175,7 +173,8 @@ class StepTwo extends React.Component {
 const mapStateToProps = state => ({
   info  : state.fields.info,
   errors: state.fields.errors,
-  ...state.rooms
+  ...state.rooms,
+  ...state.schedules
 });
 
 export default connect(mapStateToProps)(StepTwo);

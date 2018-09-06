@@ -2,10 +2,9 @@
  * Our application's initial store. Provides the shape of our applications data.
  * Each object holds a part of our application, and is combined during export.
  */
-
-
-// Fields: Object holding our user data entered into HTML fields
-const info = {
+/** FORM --------------------------------------------------------------------*/
+// holds our user data entered into HTML fields
+const fields = {
   package_id         : null,
   user_email         : '',
   contact_email      : '',
@@ -36,28 +35,11 @@ const info = {
   alcohol_provider   : '',
   num_people         : 1
 };
-
-
 // Errors: Stores field level validation errors
 const errors = {}
 
 
-// Furniture: Stores user data added furniture
-const furniture = {
-  chairs_per_table  : 6,
-  num_chairs        : 0,
-  num_chair_racks   : 0,
-  num_circles       : 0,
-  num_circle_racks  : 0,
-  num_rects         : 0,
-  num_rect_racks    : 0,
-  num_cocktails     : 0,
-  num_cocktail_racks: 0,
-  num_displays      : 0,
-  num_trashs        : 0,
-  items             : []
-};
-
+/** Diagram ------------------------------------------------------------------*/
 // Count: Get a count of furniture items
 const count = {
   chairs_per_table  : 6,
@@ -72,11 +54,9 @@ const count = {
   num_displays      : 0,
   num_trashs        : 0
 };
-
 // Hold our current furniture items
 const items = [];
-
-// IDs: ID Counters to increment when user creates furniture
+// IDs: ID Counters to increment when user creates furniture item
 const ids = {
   chair   : 0,
   rack    : 0,
@@ -86,20 +66,19 @@ const ids = {
   cocktail: 0,
   trash   : 0
 };
-
-
 // Layout: Stores editor UI configuration data
 const layout = {
   furn_type    : 'circle',
   selected_item: null,
-  wh           : [960, 540],
+  wh           : [960, 500],
   xy           : [0, 0],
   scaleXY      : [1, 1],
   offsetXY     : [0, 0]
 };
 
 
-// Application: Stores application data about our user's session
+/** APPLICATION -------------------------------------------------------------*/
+// Stores application data about our user's session
 const app = {
   logged_in     : false,
   login_loading: false,
@@ -109,29 +88,39 @@ const app = {
 };
 
 
-// Rooms: Stores our API room data
+/** ROOMS -------------------------------------------------------------------*/
+// Stores MAUI room data from our database
 const rooms = {
   rooms           : [],
   rooms_loading   : false,
-  room_error      : null,
-  room_schedule   : [],
+  room_error      : null
+};
+
+
+/** SCHEDULES ---------------------------------------------------------------*/
+// Stores room events from MAUI + Astra Room schedule
+const schedules = {
+  schedules       : [],
   schedule_loading: false,
   schedule_error  : null
 };
 
 
-// Events: Stores event(s) data. Singular for users and list for admins
+/** EVENTS ------------------------------------------------------------------*/
+// Stores event(s) data. Singular for users and list for admins
 const events = {
-  event: {},
-  permissions: {
-    canEdit         : false,
-    canInitiatorVoid: false,
-    canVoid         : false,
-    canVoidAfter    : false,
-    canSign         : false,
-    signatureId     : null
+  event: {
+    fields     : {},
+    items      : [],
+    permissions: {
+      canEdit         : false,
+      canInitiatorVoid: false,
+      canVoid         : false,
+      canVoidAfter    : false,
+      canSign         : false,
+      signatureId     : null
+    }
   },
-  items        : [],
   events       : [],
   event_loading: false,
   event_error  : null,
@@ -143,19 +132,21 @@ const events = {
 // Initial Store: Stores our application
 const initialStore = {
   app,
-  editor: {
-    layout,
-    furniture,
-    ids
+  diagram: {
+    items,
+    ids,
+    count,
+    layout
   },
-  fields: {
-    info,
+  events,
+  form: {
+    fields,
     errors,
     form_loading: false,
     form_error  : null,
     form_success: false
   },
   rooms,
-  events
+  schedules
 };
 export default initialStore;
