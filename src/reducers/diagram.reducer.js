@@ -56,6 +56,11 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
     case diagramActions.DIAGRAM_UPDATE_EDITOR:
       let new_layout = {...state.layout, ...action.payload};
       return {...state, layout: new_layout};
+
+    /** External actions ---------------------------------------------------------*/
+    case diagramActions.DIAGRAM_POPULATE_ITEMS:
+      let items = action.payload;
+      return {...state, items};
       
     default:
       return state;

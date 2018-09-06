@@ -64,6 +64,7 @@ export default class EventList extends React.Component {
         minWidth: 64,
         maxWidth: 64,
         onRender: (item) => {
+
           const approved = item.evt.approved
           const iconName = approved === 'true' ? 'EventAccepted' : 'EventDeclined';
           const iconColor = approved === 'true' ? '#107c10' : '#e81123';
@@ -185,11 +186,12 @@ export default class EventList extends React.Component {
     return (
       <div className="Dashboard--EventsList">
         <ShimmeredDetailsList
-          items={this.props.items}
+          items={this.props.events}
           columns={this.createColumns()}
           onActiveItemChanged={(item) => this.setState({ 
-            event: item.evt, 
-            permissions: item.permissions
+            event      : item.evt,
+            permissions: item.permissions,
+            items      : item.items
           })}
           enableShimmer={should_shimmer}
           checkboxVisibility={CheckboxVisibility.hidden}

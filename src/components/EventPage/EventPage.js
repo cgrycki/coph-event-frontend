@@ -78,11 +78,11 @@ class EventPage extends React.Component {
   /** Sets our popup's state and callback */
   renderPopup(popupType) {
     // Gather dispatch functions from react-redux's connect
-    const { event, editEvent, deleteEventFromServer, navigate } = this.props;
+    const { event, items, editEvent, deleteEventFromServer, navigate } = this.props;
 
     // Create a mapping of 'state' => function
     const clickCallback = {
-      edit    : () => editEvent(event),
+      edit    : () => editEvent(event, items),
       delete  : () => deleteEventFromServer(event.package_id),
       deleting: () => console.log("Patience... I've sent the delete request to the server"),
       error   : () => navigate("/dashboard")
@@ -104,7 +104,7 @@ class EventPage extends React.Component {
     let { 
       history,  match: { params: { package_id }},
       permissions: { signatureId },                        
-      permissions, event, items, event_loading, should_fetch
+      permissions, event, items, event_loading
     } = this.props;
 
     return (
@@ -136,7 +136,7 @@ class EventPage extends React.Component {
         {(!this.state.widgetHidden) &&
           <WorkflowWidget
             package_id={package_id}
-            signature_id={signatureId}
+            //signature_id={signatureId}
           />}
       </div>
     );
@@ -146,10 +146,8 @@ class EventPage extends React.Component {
 
 /* Redux Container ----------------------------------------------------------*/
 const mapStateToProps = state => ({
+  ...state.events.current,
   should_fetch : state.events.should_fetch,
-  event        : state.events.event,
-  permissions  : state.events.permissions,
-  items        : state.events.items,
   event_loading: state.events.event_loading,
   event_error  : state.events.event_error
 });
@@ -157,7 +155,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getEventFromServer   : package_id => dispatch(getEvent(package_id)),
   deleteEventFromServer: package_id => dispatch(deleteEvent(package_id)),
-  editEvent            : info => dispatch(populateFormAndPush(info)),
+  editEvent            : (info, items) => dispatch(populateFormAndPush(info, items)),
   navigate             : path => dispatch(push(path))
 });
 

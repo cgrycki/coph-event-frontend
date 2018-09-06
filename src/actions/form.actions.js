@@ -3,6 +3,7 @@
  */
 import {push}               from 'connected-react-router/lib/actions';
 import {formActions}        from '../constants/actionTypes';
+import {populateEditor}     from './diagram.actions';
 import * as rp              from 'request-promise';
 import BusinessRequirements from '../utils/BusinessRequirements';
 import { 
@@ -107,7 +108,7 @@ export const submitFormReset = () => ({
  */
 export function submitForm(info, items) {
   // Create our payload
-  const body = { form: info, layout: items };
+  const body = { form: info, layout: { items }};
 
   // Assign REST method + URI depending on form submission status
   const method = (info.package_id) ? 'PATCH' : 'POST';
@@ -146,9 +147,10 @@ export const populateFieldInfo = (info) => ({
 /**
  * Populates field information for an event and then dispatches a routing action.
  */
-export const populateFormAndPush = (info) => (dispatch) => {
+export const populateFormAndPush = (info, items=[]) => (dispatch) => {
   const formattedInfo = parseDynamo(info);    // Format Dynamo object
   dispatch(populateFieldInfo(formattedInfo)); // Populate form infomation
+  dispatch(populateEditor(items));            // Populate diagram items
   dispatch(submitFormReset());                // Reset the form submission loading+error+success
   dispatch(push("/form/user"));               // Route to form so user can edit
 }

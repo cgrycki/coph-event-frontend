@@ -61,3 +61,10 @@ export const updateEditor = fields => ({
   type   : diagramActions.DIAGRAM_UPDATE_EDITOR,
   payload: fields
 });
+
+
+// Ideally we'd reset the item IDs and create a count here
+export const populateEditor = items => ({
+  type   : diagramActions.DIAGRAM_POPULATE_ITEMS,
+  payload: items
+})

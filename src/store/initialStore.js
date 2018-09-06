@@ -119,7 +119,7 @@ const rooms = {
 
 // Events: Stores event(s) data. Singular for users and list for admins
 const events = {
-  event: {},
+  /*event: {},
   permissions: {
     canEdit         : false,
     canInitiatorVoid: false,
@@ -128,7 +128,19 @@ const events = {
     canSign         : false,
     signatureId     : null
   },
-  items        : [],
+  items        : [],*/
+  current: {
+    event: {},
+    items: [],
+    permissions: {
+      canEdit         : false,
+      canInitiatorVoid: false,
+      canVoid         : false,
+      canVoidAfter    : false,
+      canSign         : false,
+      signatureId     : null
+    }
+  },
   events       : [],
   event_loading: false,
   event_error  : null,
