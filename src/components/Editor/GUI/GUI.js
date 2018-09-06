@@ -12,7 +12,7 @@ import Furniture  from './Furniture';
 import { 
   updateEditor,
   addEditorItem
-} from '../../../actions/editor.actions';
+} from '../../../actions/diagram.actions';
 
 // Utility functions
 import EditorFunctions from '../utils/EditorFunctions';
@@ -26,7 +26,7 @@ class GUI extends React.Component {
     scaleXY : PropTypes.arrayOf(PropTypes.number),
     wh      : PropTypes.arrayOf(PropTypes.number),
     xy      : PropTypes.arrayOf(PropTypes.number),
-    matrix  : PropTypes.arrayOf(PropTypes.number)
+    items   : PropTypes.arrayOf(PropTypes.object)
   }
 
   // Canvas Reference
@@ -86,8 +86,8 @@ class GUI extends React.Component {
 
 // Redux Container
 const mapStateToProps = state => ({
-  ...state.editor.layout,
-  items: state.editor.furniture.items
+  ...state.diagram.layout,
+  items: state.diagram.items
 });
 
 const mapDispatchToProps = dispatch => ({

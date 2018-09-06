@@ -113,10 +113,7 @@ const app = {
 const rooms = {
   rooms           : [],
   rooms_loading   : false,
-  room_error      : null,
-  room_schedule   : [],
-  schedule_loading: false,
-  schedule_error  : null
+  room_error      : null
 };
 
 
@@ -143,10 +140,11 @@ const events = {
 // Initial Store: Stores our application
 const initialStore = {
   app,
-  editor: {
-    layout,
-    furniture,
-    ids
+  diagram: {
+    items,
+    ids,
+    count,
+    layout
   },
   fields: {
     info,

@@ -12,7 +12,7 @@ import {
 import {
   updateEditorItem,
   selectEditorItem
-} from '../../../../actions/editor.actions';
+} from '../../../../actions/diagram.actions';
 
 
 /**
