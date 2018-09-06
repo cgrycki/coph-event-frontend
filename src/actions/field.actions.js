@@ -1,7 +1,7 @@
 /**
  * Action creators for our fields
  */
-import { push }             from 'connected-react-router';
+import { push }             from 'connected-react-router/lib/actions';
 import { fieldActions }     from '../constants/actionTypes';
 import * as rp              from 'request-promise';
 import FormData             from 'form-data';
@@ -106,13 +106,9 @@ export const submitFormReset = () => ({
  * @param {object} furniture Contains our form furniture/editor information
  * @returns {Promise}
  */
-export function submitForm(info, furniture) {
-  // Destructure and restructure furniture to split items and counts
-  let { items, ...count } = furniture;
-  let layout_info = { items, count };
-
+export function submitForm(info, items) {
   // Create our payload
-  const body = { form: info, layout: layout_info };
+  const body = { form: info, layout: items };
 
   // Assign REST method + URI depending on form submission status
   const method = (info.package_id) ? 'PATCH' : 'POST';
