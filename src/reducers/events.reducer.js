@@ -29,8 +29,9 @@ export const eventReducer = (state=initialStore.events, action) => {
 
     /** Successful GET request, populate event page */
     case eventActions.GET_EVENT_SUCCESS:
-      var { evt, permissions } = action.payload;
-      return { ...state, event_loading: false, event: evt, permissions };
+      var { evt, permissions, layout } = action.payload;
+      var items = (layout && layout.items) ? layout.items : [];
+      return { ...state, event_loading: false, event: evt, permissions, items };
 
     /** Success GET request, populate events list. */
     case eventActions.GET_EVENTS_SUCCESS:
