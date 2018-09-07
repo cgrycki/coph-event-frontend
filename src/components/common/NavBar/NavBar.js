@@ -2,7 +2,7 @@
 import React          from 'react';
 import { connect }    from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { CommandBar } from 'office-ui-fabric-react';
+import { CommandBar } from 'office-ui-fabric-react/lib/CommandBar';
 
 // Navigation Bar buttons
 import Logo             from './Logo';

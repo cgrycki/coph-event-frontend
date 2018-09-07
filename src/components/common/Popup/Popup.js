@@ -1,13 +1,15 @@
 /* Dependencies -------------------------------------------------------------*/
-import React          from 'react';
+import React            from 'react';
 import {
   Dialog,
   DialogType,
-  DialogFooter,
-  DefaultButton,
+  DialogFooter
+}                       from 'office-ui-fabric-react/lib/Dialog';
+import {DefaultButton}  from 'office-ui-fabric-react/lib/Button';
+import {
   MessageBar,
   MessageBarType
-}                     from 'office-ui-fabric-react';
+}                     from 'office-ui-fabric-react/lib/MessageBar';
 import messages       from './messages';
 import './Popup.css';
 
