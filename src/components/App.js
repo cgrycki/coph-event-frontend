@@ -1,9 +1,10 @@
 // Dependencies
 import React                from 'react';
 import { Provider }         from 'react-redux'
-import { Fabric }           from 'office-ui-fabric-react';
+import { PersistGate }      from 'redux-persist/lib/integration/react';
 import { ConnectedRouter }  from 'connected-react-router';
 import { Route, Switch }    from 'react-router';
+import { Fabric }           from 'office-ui-fabric-react';
 
 // Site components
 import NavBar         from './common/NavBar/';
@@ -26,44 +27,46 @@ import StepFive       from './Form/StepFive';
 
 
 // Container -- Holds our application data store and sets routes up
-const App = ({ store, history }) => (
+const App = ({ store, persistor, history }) => (
   <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <Fabric dir="ltr">
-        <NavBar />
+    <PersistGate loading={null} persistor={persistor}>
+      <ConnectedRouter history={history}>
+        <Fabric dir="ltr">
+          <NavBar />
 
-        <div className="ms-Grid App">
-          <div className="ms-Grid-row">
-            <Page>
-              
-              <Switch>
-                {/** Testing routes ****************************************/}
-                <Route path="/testing"          component={StepFive} />
+          <div className="ms-Grid App">
+            <div className="ms-Grid-row">
+              <Page>
                 
-                {/** Public Routes, no login required. ********************/}
-                <Route path="/"         exact   component={Home} />
-                <Route path="/about"    exact   component={About} />
-                <Route path="/calendar" exact   component={Calendar} />
+                <Switch>
+                  {/** Testing routes ****************************************/}
+                  <Route path="/testing"          component={StepFive} />
+                  
+                  {/** Public Routes, no login required. ********************/}
+                  <Route path="/"         exact   component={Home} />
+                  <Route path="/about"    exact   component={About} />
+                  <Route path="/calendar" exact   component={Calendar} />
 
-                {/** Protected Routes, login required. **************************/}
-                <ProtectedRoute path="/dashboard"     Component={Dashboard} />
-                <ProtectedRoute path="/event/:package_id/:signature_id?" 
-                                                      Component={EventPage} />
-                <Form>
-                  <ProtectedRoute path="/form/user"   Component={StepOne} />
-                  <ProtectedRoute path="/form/event"  Component={StepTwo} />
-                  <ProtectedRoute path="/form/layout" Component={StepThree} />
-                  <ProtectedRoute path="/form/review" Component={StepFour} />
-                </Form>
-              </Switch>
+                  {/** Protected Routes, login required. **************************/}
+                  <ProtectedRoute path="/dashboard"     Component={Dashboard} />
+                  <ProtectedRoute path="/event/:package_id/:signature_id?" 
+                                                        Component={EventPage} />
+                  <Form>
+                    <ProtectedRoute path="/form/user"   Component={StepOne} />
+                    <ProtectedRoute path="/form/event"  Component={StepTwo} />
+                    <ProtectedRoute path="/form/layout" Component={StepThree} />
+                    <ProtectedRoute path="/form/review" Component={StepFour} />
+                  </Form>
+                </Switch>
 
-            </Page>
+              </Page>
+            </div>
           </div>
-        </div>
 
-        <Footer/>
-      </Fabric>
-    </ConnectedRouter>
+          <Footer/>
+        </Fabric>
+      </ConnectedRouter>
+    </PersistGate>
   </Provider>
 );
 

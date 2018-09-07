@@ -1,5 +1,5 @@
 import {scheduleActions} from '../constants/actionTypes';
-import initialStore      from '../store/newInitialStore';
+import initialStore      from '../store/initialStore';
 import moment            from 'moment';
 
 

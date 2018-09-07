@@ -1,4 +1,4 @@
-import initialStore     from '../store/newInitialStore';
+import initialStore     from '../store/initialStore';
 import {diagramActions} from '../constants/actionTypes';
 
 /**

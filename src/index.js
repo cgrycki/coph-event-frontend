@@ -23,11 +23,14 @@ initializeIcons();
 
 // Create the store
 const history = createBrowserHistory();
-const configuredStore = configureStore(initialStore, history);
+const {
+  store: configuredStore, 
+  persistedStore: persistor
+} = configureStore(initialStore, history);
 
 
 ReactDOM.render(
-  <App store={configuredStore} history={history} />,
+  <App store={configuredStore} persistor={persistor} history={history} />,
   document.getElementById('root')
 );
 registerServiceWorker();
