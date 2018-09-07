@@ -2,9 +2,9 @@
  * Action creators for our events
  */
 import * as rp          from 'request-promise';
-import { push }         from 'connected-react-router';
-import { eventActions } from '../constants/actionTypes';
-import { parseDynamo }  from '../utils/date.utils';
+import {push}           from 'connected-react-router/lib/actions';
+import {parseDynamo}    from '../utils/date.utils';
+import {eventActions}   from '../constants/actionTypes';
 const URI               = process.env.REACT_APP_REDIRECT_URI;
 
 
@@ -173,9 +173,9 @@ export function deleteDynamoEvent(package_id) {
 }
 
 /** Populate event from our events list. */
-export const populateEventInfo = (evt, permissions) => ({
+export const populateEventInfo = (event, permissions, items) => ({
   type: eventActions.POPULATE_EVENT_INFO,
-  payload: { evt, permissions }
+  payload: { event, permissions, items }
 });
 
 /** 
@@ -184,10 +184,10 @@ export const populateEventInfo = (evt, permissions) => ({
  * @param [item.evt] {Object} - Event information submitted by user.
  * @param [item.permissions] {Object} - Event permissions from Workflow. 
  */
-export const populateEventAndPush = ({evt, permissions}) => (dispatch) => {
-  const formattedInfo = parseDynamo(evt);                   // Format Dynamo object
-  dispatch(populateEventInfo(formattedInfo, permissions));  // Populate Event Page info
-  dispatch(fetchEventReset());                              // Reset event page loading+error+success
-  dispatch(setEventFetch(false));                           // Disable retrieving event because we've loaded it
-  dispatch(push(`/event/${evt.package_id}`));               // Route to the event so user can view
+export const populateEventAndPush = ({event, permissions, items=[]}) => (dispatch) => {
+  const formattedInfo = parseDynamo(event);                       // Format Dynamo object
+  dispatch(populateEventInfo(formattedInfo, permissions, items)); // Populate Event Page info
+  dispatch(fetchEventReset());                                    // Reset event page loading+error+success
+  dispatch(setEventFetch(false));                                 // Disable retrieving event because we've loaded it
+  dispatch(push(`/event/${event.package_id}`));                     // Route to the event so user can view
 }

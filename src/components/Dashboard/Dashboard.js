@@ -59,7 +59,7 @@ class DashboardComponent extends React.Component {
               itemCount={this.props.events.length}>
               <br/>
               <EventList
-                items={this.props.events}
+                events={this.props.events}
                 loading={this.props.event_loading}
                 should_fetch={this.props.should_fetch}
                 error={this.props.event_error}
@@ -110,8 +110,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  populateEventAndPush : (package_id) => dispatch(populateEventAndPush(package_id)),
-  populateFormAndPush  : (info) => dispatch(populateFormAndPush(info)),
+  populateEventAndPush : ({event, permissions, items}) => dispatch(populateEventAndPush({event, permissions, items})),
+  populateFormAndPush  : (fields, items) => dispatch(populateFormAndPush(fields, items)),
   getEventsFromServer  : () => dispatch(getEvents()),
   deleteEventFromServer: (package_id) => dispatch(deleteEvent(package_id)),
   deleteWorkflowEvent  : (package_id) => dispatch(deleteWorkflowEvent(package_id)),

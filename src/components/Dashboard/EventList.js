@@ -65,7 +65,7 @@ export default class EventList extends React.Component {
         maxWidth: 64,
         onRender: (item) => {
 
-          const approved = item.evt.approved
+          const approved = item.event.approved
           const iconName = approved === 'true' ? 'EventAccepted' : 'EventDeclined';
           const iconColor = approved === 'true' ? '#107c10' : '#e81123';
           return (<Icon
@@ -86,28 +86,28 @@ export default class EventList extends React.Component {
         arialLabel: 'Title of the event',
         minWidth: 128,
         maxWidth: 300,
-        onRender: (item) => item.evt.event_name
+        onRender: (item) => item.event.event_name
       },
       {
         key: 'attendance',
         name: 'Attendance',
         minWidth: 62,
         maxWidth: 62,
-        onRender: (item) => <span style={{float: 'right'}}>{item.evt.num_people}</span>
+        onRender: (item) => <span style={{float: 'right'}}>{item.event.num_people}</span>
       },
       {
         key: 'date',
         name: 'Date',
         minWidth: 80,
         maxWidth: 80,
-        onRender: (item) => getDateISO(item.evt.date)
+        onRender: (item) => getDateISO(item.event.date)
       },
       {
         key: 'contact_email',
         name: 'Alt. contact email',
         ariaLabel: 'Event Planner or alternative contact',
         minWidth: 100,
-        onRender: (item) => item.evt.contact_email
+        onRender: (item) => item.event.contact_email
       },
       {
         key: 'package_id',
@@ -117,7 +117,7 @@ export default class EventList extends React.Component {
         minWidth: 150,
         maxWidth: 200,
         onRender: (item) => {
-          item.date = getDateISO(item.evt.date);
+          item.date = getDateISO(item.event.date);
           return (<DefaultButton
             onClick={() => onView(item)}
             text="View event"
@@ -162,12 +162,12 @@ export default class EventList extends React.Component {
     const { onEdit, onDelete } = this.props;
 
     // Get the currently selected event and parse it's date
-    let { event } = this.state;
+    let { event, items } = this.state;
     event.date = getDateISO(event.date);
 
     // Create a mapping of 'state' => function
     const clickCallback = {
-      edit    : () => onEdit(event),
+      edit    : () => onEdit(event, items),
       delete  : () => onDelete(event.package_id),
       deleting: () => console.log("Patience... I've sent the delete request to the server"),
       error   : () => this.hidePopup()
@@ -189,7 +189,7 @@ export default class EventList extends React.Component {
           items={this.props.events}
           columns={this.createColumns()}
           onActiveItemChanged={(item) => this.setState({ 
-            event      : item.evt,
+            event      : item.event,
             permissions: item.permissions,
             items      : item.items
           })}

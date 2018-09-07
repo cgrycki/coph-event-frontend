@@ -1,11 +1,11 @@
 /**
  * Field Reducers 
  */
-import initialStore         from '../store/initialStore';
+import initialStore   from '../store/initialStore';
 import { 
   formActions,
   appActions
-}     from '../constants/actionTypes';
+}                     from '../constants/actionTypes';
 
 
 // Create the shape of our store to match reducers
