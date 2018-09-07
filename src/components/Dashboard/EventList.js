@@ -8,9 +8,7 @@ import {
   DefaultButton,
   DirectionalHint
 }                     from 'office-ui-fabric-react';
-import { 
-  ShimmeredDetailsList 
-}                     from 'office-ui-fabric-react/lib/ShimmeredDetailsList';
+import {ShimmeredDetailsList} from 'office-ui-fabric-react/lib/ShimmeredDetailsList';
 import Popup          from '../common/Popup';
 import { getDateISO } from '../../utils/date.utils';
 
@@ -71,14 +69,30 @@ export default class EventList extends React.Component {
           return (<Icon
             title={approved.toString()}
             iconName={iconName}
-            className="ms-textAlignRight"
             style={{ 
               color      : iconColor,
               fontSize   : '18px',
-              marginRight: '1em',
+              marginRight: '2em',
               float      : 'right'
             }}
         />)}
+      },
+      {
+        key: 'layout',
+        name: 'Layout',
+        ariaLabel: 'Event has a furniture layout',
+        minWidth: 64,
+        maxWidth: 64,
+        onRender: item => {
+          const hasFurniture = item.items.length > 0;
+
+          return ((hasFurniture) ?
+            <Icon
+              iconName="CheckMark"
+              style={{fontSize: '18px', marginRight: '2em', float: 'right'}}
+            /> : <span></span> 
+          );
+        }
       },
       {
         key: 'event_name',
