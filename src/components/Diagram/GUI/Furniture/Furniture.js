@@ -12,7 +12,7 @@ import {
 import {
   updateEditorItem,
   selectEditorItem
-} from '../../../../actions/editor.actions';
+} from '../../../../actions/diagram.actions';
 
 
 /**
@@ -92,14 +92,15 @@ class Furniture extends React.Component {
 
 
   render() {
+    let {x, y, id, furn, draggable} = this.props;
     return (
       <Group
         ref={node => { this.node = node; }}
-        draggable
-        x={this.props.x}
-        y={this.props.y}
-        id={this.props.id}
-        name={this.props.furn}
+        draggable={draggable}
+        x={x}
+        y={y}
+        id={id}
+        name={furn}
         
         // Update position on move
         onDragMove={this.handleMove}

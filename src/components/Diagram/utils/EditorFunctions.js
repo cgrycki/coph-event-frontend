@@ -5,8 +5,8 @@
 import { polygonContains }  from 'd3-polygon/src/contains';
 import { scaleLinear }      from 'd3-scale/src/linear';
 
-const floorplanWidth = 2269;
-const floorplanHeight= 1225;
+const floorplanWidth = 3840;
+const floorplanHeight= 3000;
 
 
 class EditorFunctions {

@@ -4,12 +4,12 @@
 import initialStore from '../store/initialStore';
 import { 
   eventActions,
-  fieldActions
+  formActions
 }                   from '../constants/actionTypes';
 
 export const eventReducer = (state=initialStore.events, action) => {
   const type = action.type;
-  var evt, evts, package_id, permissions, error;
+  var event, package_id, permissions, error;
 
   switch (type) {
     /** Initiated a REST call */
@@ -29,23 +29,29 @@ export const eventReducer = (state=initialStore.events, action) => {
 
     /** Successful GET request, populate event page */
     case eventActions.GET_EVENT_SUCCESS:
-      var { evt, permissions } = action.payload;
-      return { ...state, event_loading: false, event: evt, permissions };
+      var { event, permissions, items } = action.payload;
+
+      return { 
+        ...state,
+        event_loading: false,
+        event_error  : null,
+        current      : {event, permissions, items}
+      };
 
     /** Success GET request, populate events list. */
     case eventActions.GET_EVENTS_SUCCESS:
-      evts = action.payload;
+      let events = action.payload;
       return { 
         ...state, 
         event_loading: false,
         event_error  : null,
-        events       : evts
+        events
       };
 
     /** Successful DELETE request, filter event with matching Package ID */
     case eventActions.DELETE_EVENT_SUCCESS:
       let delPID = +action.payload['package_id'];
-      let filtered_events = state.events.filter(e => e.evt.package_id !== delPID);
+      let filtered_events = state.events.filter(e => e.event.package_id !== delPID);
 
       return { 
         ...state,
@@ -55,14 +61,20 @@ export const eventReducer = (state=initialStore.events, action) => {
       };
 
     /** Successful POST request, add event to our events list */
-    case fieldActions.SUBMIT_FORM_SUCCESS:
-      const events_plus_new = [...state.events, action.payload];
-      return { ...state, events: events_plus_new, event: action.payload };
+    case formActions.SUBMIT_FORM_SUCCESS:
+      var { event, permissions, items } = action.payload;
+
+      // Create event obj and add to list of events
+      var created_event = {event, permissions, items};
+      const events_plus_new = [...state.events, created_event];
+
+      // Update events list and set current to created event
+      return { ...state, events: events_plus_new, current: created_event};
 
     /** Populate event page information */
     case eventActions.POPULATE_EVENT_INFO:
-      var { evt, permissions } = action.payload;
-      return { ...state, event: evt, permissions };
+      var { event, permissions, items } = action.payload;
+      return {...state, current: {event, permissions, items}};
 
     default:
       return state;

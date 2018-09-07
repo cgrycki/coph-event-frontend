@@ -4,7 +4,7 @@ import PropTypes        from 'prop-types';
 import { Layer, Image } from 'react-konva';
 
 // Assets
-import floorplan        from '../assets/floorplan-lg-opaque.png';
+import floorplan        from '../assets/first-floor@2x.png';
 
 
 /**

@@ -16,13 +16,14 @@ export const loadStore = () => {
 
 export const saveStore = (state) => {
   // We only want a subset of our data
-  const form_info = state.fields.info;
+  const form_info = state.form.fields;
   const room_info = state.rooms.rooms;
-  //const furn_info = state.editor.
+  const furn_info = state.diagram.items;
 
   const store = {
-    'fields': form_info,
-    'rooms': room_info
+    fields: form_info,
+    item  : furn_info,
+    rooms : room_info
   };
 
   try {

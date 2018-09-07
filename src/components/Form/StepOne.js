@@ -1,7 +1,7 @@
 // Dependecies
 import React            from 'react';
 import { connect }      from 'react-redux';
-import { updateForm }   from '../../actions/field.actions';
+import { updateForm }   from '../../actions/form.actions';
 
 // Form components
 import FormTitle        from './shared/FormTitle';
@@ -123,8 +123,8 @@ class StepOne extends React.Component {
 
 // Container
 const mapStateToProps = state => ({
-  info      : state.fields.info,
-  errors    : state.fields.errors
+  info      : state.form.fields,
+  errors    : state.form.errors
 });
 
 export default connect(mapStateToProps)(StepOne);

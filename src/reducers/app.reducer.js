@@ -16,10 +16,12 @@ export const appReducer = (state=initialStore.app, action) => {
 
     case appActions.LOGIN_SUCCESS:
       var { loggedIn: logged_in, hawkid, isAdmin: is_admin } = action.payload;
+      const user_email = (logged_in) ? `${hawkid}@uiowa.edu` : '';
+
       return {
         ...state, 
         logged_in    : logged_in,
-        user_email   : `${hawkid}@uiowa.edu`,
+        user_email   : user_email,
         login_loading: false,
         is_admin     : is_admin
       };

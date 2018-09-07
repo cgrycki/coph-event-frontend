@@ -1,17 +1,11 @@
 // Dependecies
 import React          from 'react';
-import { connect }    from 'react-redux';
-
-// Actions
 
 // Components
 import FormTitle      from './shared/FormTitle';
 import FormStep       from './shared/FormStep';
 import FormButtons    from './shared/FormButtons';
-
-
-
-import Editor from '../Editor';
+import Editor         from '../Diagram';
 
 
 
@@ -40,15 +34,3 @@ export default class StepFive extends React.Component {
     );
   }
 }
-
-
-// Redux Container
-const mapStateToProps = state => ({
-
-})
-
-const mapDispatchToProps = dispatch => ({
-
-})
-
-//export default connect(mapStateToProps, mapDispatchToProps)(StepFive);

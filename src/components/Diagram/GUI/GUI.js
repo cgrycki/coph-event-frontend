@@ -12,7 +12,7 @@ import Furniture  from './Furniture';
 import { 
   updateEditor,
   addEditorItem
-} from '../../../actions/editor.actions';
+} from '../../../actions/diagram.actions';
 
 // Utility functions
 import EditorFunctions from '../utils/EditorFunctions';
@@ -20,13 +20,23 @@ import EditorFunctions from '../utils/EditorFunctions';
 
 
 // React (Konva) Component
-class GUI extends React.Component {
+export default class GUI extends React.Component {
   static propTypes = {
-    offsetXY: PropTypes.arrayOf(PropTypes.number),
-    scaleXY : PropTypes.arrayOf(PropTypes.number),
-    wh      : PropTypes.arrayOf(PropTypes.number),
-    xy      : PropTypes.arrayOf(PropTypes.number),
-    matrix  : PropTypes.arrayOf(PropTypes.number)
+    offsetXY : PropTypes.arrayOf(PropTypes.number),
+    scaleXY  : PropTypes.arrayOf(PropTypes.number),
+    wh       : PropTypes.arrayOf(PropTypes.number),
+    xy       : PropTypes.arrayOf(PropTypes.number),
+    items    : PropTypes.arrayOf(PropTypes.object),
+    draggable: PropTypes.bool
+  }
+
+  static defaultProps = {
+    offsetXY : [0, 0],
+    scaleXY  : [1, 1],
+    wh       : [960, 500],
+    xy       : [0, 0],
+    items    : [],
+    draggable: true
   }
 
   // Canvas Reference
@@ -50,7 +60,7 @@ class GUI extends React.Component {
 
 
   render() {
-    const { scaleXY, wh, xy } = this.props;
+    const { scaleXY, wh, xy, draggable } = this.props;
 
     return (
       <Stage
@@ -72,12 +82,11 @@ class GUI extends React.Component {
 
         // Behavior
         onContentWheel={this.onContentWheel}
-        
         onContentClick={this.onContentClick}
         onContextMenu={this.onContentClick}
       >
         <Floorplan width={wh[0]} height={wh[1]} />
-        <Furniture items={this.props.items} />
+        <Furniture items={this.props.items} draggable={draggable} />
       </Stage>
     );
   }
@@ -85,9 +94,10 @@ class GUI extends React.Component {
 
 
 // Redux Container
+/*
 const mapStateToProps = state => ({
-  ...state.editor.layout,
-  items: state.editor.furniture.items
+  ...state.diagram.layout,
+  items: state.diagram.items
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -96,3 +106,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GUI);
+*/
