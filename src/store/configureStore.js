@@ -2,10 +2,11 @@
  * Application Store configuration
  */
 import { createStore, applyMiddleware, compose }  from 'redux/dist/redux';
+import { persistStore }                           from 'redux-persist';
+import persistedReducer                           from './persistConfig';
 import { connectRouter, routerMiddleware }        from 'connected-react-router';
 import thunkMiddleware                            from 'redux-thunk/dist/redux-thunk';
 import { createLogger }                           from 'redux-logger/dist/redux-logger';
-import rootReducer                                from '../reducers';
 import { getDateISO }                             from '../utils/date.utils.js';
 
 
@@ -25,18 +26,24 @@ export function configureStore(preloadedState, browserHistory) {
 
   // Create the store
   const store = createStore(
-    connectRouter(browserHistory)(rootReducer),
+    connectRouter(browserHistory)(persistedReducer),
     preloadedState,
     composeEnhancers(
       applyMiddleware(
         routerMiddleware(browserHistory),
         thunkMiddleware,
-        loggerMiddleware)));
+        loggerMiddleware
+      )
+    )
+  );
+
+  // Wrap our store in Redux-Persist's function to hydrate/flush
+  const persistedStore = persistStore(store);
     
-  // Dispatch the current date to the store
+  // Dispatch the current date to the store in case the hydration is stale
   store.dispatch({ type: 'UPDATE_FIELD', field: 'date', value: getDateISO(new Date())});
 
-  return store;
+  return {store, persistedStore};
 }
 
 
