@@ -1,6 +1,6 @@
 /* Dependencies -------------------------------------------------------------*/
 import React          from 'react';
-import { Breadcrumb } from 'office-ui-fabric-react';
+import { Breadcrumb } from 'office-ui-fabric-react/lib/Breadcrumb';
 
 
 

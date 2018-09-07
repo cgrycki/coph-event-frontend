@@ -5,7 +5,7 @@ import {
   PivotItem,
   PivotLinkFormat,
   PivotLinkSize
-}                   from 'office-ui-fabric-react';
+}                   from 'office-ui-fabric-react/lib/Pivot';
 import NavPage      from '../common/NavPage';
 import EventList    from './EventList';
 import AdminTools   from './AdminTools';
@@ -21,7 +21,7 @@ import {
   deleteDynamoEvent,
   populateEventAndPush
 }                              from '../../actions/event.actions';
-import { populateFormAndPush } from '../../actions/field.actions';
+import { populateFormAndPush } from '../../actions/form.actions';
 
 
 // Component
@@ -59,7 +59,7 @@ class DashboardComponent extends React.Component {
               itemCount={this.props.events.length}>
               <br/>
               <EventList
-                items={this.props.events}
+                events={this.props.events}
                 loading={this.props.event_loading}
                 should_fetch={this.props.should_fetch}
                 error={this.props.event_error}
@@ -110,8 +110,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  populateEventAndPush : (package_id) => dispatch(populateEventAndPush(package_id)),
-  populateFormAndPush  : (info) => dispatch(populateFormAndPush(info)),
+  populateEventAndPush : ({event, permissions, items}) => dispatch(populateEventAndPush({event, permissions, items})),
+  populateFormAndPush  : (fields, items) => dispatch(populateFormAndPush(fields, items)),
   getEventsFromServer  : () => dispatch(getEvents()),
   deleteEventFromServer: (package_id) => dispatch(deleteEvent(package_id)),
   deleteWorkflowEvent  : (package_id) => dispatch(deleteWorkflowEvent(package_id)),

@@ -10,7 +10,7 @@ import Details        from '../common/Details';
 import Popup          from '../common/Popup';
 
 // Actions
-import { submitForm } from '../../actions/field.actions';
+import { submitForm } from '../../actions/form.actions';
 
 
 // Component
@@ -52,8 +52,8 @@ class StepFour extends React.Component {
   }
 
   submitForm() {
-    let { dispatch, info, furniture } = this.props;
-    dispatch(submitForm(info, furniture));
+    let { dispatch, info, items } = this.props;
+    dispatch(submitForm(info, items));
   }
 
   /** Hides popup by setting component state. */
@@ -112,11 +112,11 @@ class StepFour extends React.Component {
 
 // Container
 const mapStateToProps = state => ({
-  info        : state.fields.info,
-  furniture   : state.editor.furniture,
-  form_loading: state.fields.form_loading,
-  form_success: state.fields.form_success,
-  form_error  : state.fields.form_error
+  info        : state.form.fields,
+  items       : state.diagram.items,
+  form_loading: state.form.form_loading,
+  form_success: state.form.form_success,
+  form_error  : state.form.form_error
 });
 
 

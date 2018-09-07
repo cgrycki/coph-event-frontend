@@ -1,10 +1,10 @@
 /**
  * Action creators for our fields
  */
-import { push }             from 'connected-react-router';
-import { fieldActions }     from '../constants/actionTypes';
+import {push}               from 'connected-react-router/lib/actions';
+import {formActions}        from '../constants/actionTypes';
+import {populateEditor}     from './diagram.actions';
 import * as rp              from 'request-promise';
-import FormData             from 'form-data';
 import BusinessRequirements from '../utils/BusinessRequirements';
 import { 
   getTimeAfterStart,
@@ -21,7 +21,7 @@ const URI = process.env.REACT_APP_REDIRECT_URI;
  * @param {} value User HTML data
  */
 export const updateField = (field, value) => ({
-  type: fieldActions.UPDATE_FIELD,
+  type: formActions.UPDATE_FIELD,
   field: field,
   value: value
 })
@@ -32,7 +32,7 @@ export const updateField = (field, value) => ({
  * @param {object} errors Object containing our validation errors from BusinessReqs.
  */
 const updateErrors = (errors) => ({
-  type: fieldActions.UPDATE_ERRORS,
+  type: formActions.UPDATE_ERRORS,
   errors
 });
 
@@ -50,14 +50,14 @@ export const updateForm = (field, value) => {
     if (field !== undefined) dispatch(updateField(field, value));
 
     // Set end_time 'automagically' if not already entered
-    if (field === "start_time" && getState().fields.info.end_time === "")
+    if (field === "start_time" && getState().form.fields.end_time === "")
       dispatch(updateField("end_time", getTimeAfterStart(value)));
 
     // Get the store after update
     const current_state = getState();
-    const info          = current_state.fields.info;
-    const errors        = current_state.fields.errors;
-    const schedule      = current_state.rooms.room_schedule;
+    const info          = current_state.form.fields;
+    const errors        = current_state.form.errors;
+    const schedule      = current_state.schedules.schedules;
 
     // Validate the forms new info and update the store
     const new_errors = businessReqs.validate(info, errors, schedule, field, value);
@@ -70,7 +70,7 @@ export const updateForm = (field, value) => {
  * Notifies store that we've initiated a POST request. Blocks other POSTs
  */
 export const submitFormLoading = () => ({
-  type: fieldActions.SUBMIT_FORM_LOADING
+  type: formActions.SUBMIT_FORM_LOADING
 })
 
 
@@ -79,7 +79,7 @@ export const submitFormLoading = () => ({
  * @param {*} response HTTP response from our server
  */
 export const submitFormSuccess = (response) => ({
-  type   : fieldActions.SUBMIT_FORM_SUCCESS,
+  type   : formActions.SUBMIT_FORM_SUCCESS,
   payload: response
 })
 
@@ -89,14 +89,14 @@ export const submitFormSuccess = (response) => ({
  * @param {*} payload HTTP response with error from our server.
  */
 export const submitFormFailure = (payload) => ({
-  type: fieldActions.SUBMIT_FORM_ERROR,
+  type: formActions.SUBMIT_FORM_ERROR,
   payload
 })
 
 
 /** Notifies that we've navigated away from the submission page and can reset. */
 export const submitFormReset = () => ({
-  type: fieldActions.SUBMIT_FORM_RESET
+  type: formActions.SUBMIT_FORM_RESET
 })
 
 
@@ -106,13 +106,9 @@ export const submitFormReset = () => ({
  * @param {object} furniture Contains our form furniture/editor information
  * @returns {Promise}
  */
-export function submitForm(info, furniture) {
-  // Destructure and restructure furniture to split items and counts
-  let { items, ...count } = furniture;
-  let layout_info = { items, count };
-
+export function submitForm(info, items) {
   // Create our payload
-  const body = { form: info, layout: layout_info };
+  const body = { form: info, layout: { items }};
 
   // Assign REST method + URI depending on form submission status
   const method = (info.package_id) ? 'PATCH' : 'POST';
@@ -143,7 +139,7 @@ export function submitForm(info, furniture) {
  * @returns {Object} Action for redux
  */
 export const populateFieldInfo = (info) => ({
-  type   : fieldActions.POPULATE_FIELDS,
+  type   : formActions.POPULATE_FIELDS,
   payload: info
 });
 
@@ -151,9 +147,10 @@ export const populateFieldInfo = (info) => ({
 /**
  * Populates field information for an event and then dispatches a routing action.
  */
-export const populateFormAndPush = (info) => (dispatch) => {
+export const populateFormAndPush = (info, items=[]) => (dispatch) => {
   const formattedInfo = parseDynamo(info);    // Format Dynamo object
   dispatch(populateFieldInfo(formattedInfo)); // Populate form infomation
+  dispatch(populateEditor(items));            // Populate diagram items
   dispatch(submitFormReset());                // Reset the form submission loading+error+success
   dispatch(push("/form/user"));               // Route to form so user can edit
 }

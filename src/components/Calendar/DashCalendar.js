@@ -22,9 +22,9 @@ export default class DashCalendar extends React.Component {
   /** Formats a user's events by converting string formatted times into JS date.*/
   formatEvent(evt) {
     return {
-      ...evt.evt,
-      start_time: getDateTime(evt.evt.date, evt.evt.start_time),
-      end_time: getDateTime(evt.evt.date, evt.evt.end_time)
+      ...evt.event,
+      start_time: getDateTime(evt.event.date, evt.event.start_time),
+      end_time: getDateTime(evt.event.date, evt.event.end_time)
     };
   }
 

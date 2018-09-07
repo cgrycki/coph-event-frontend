@@ -1,12 +1,10 @@
 /**
  * Application Store configuration
  */
-import { createStore, applyMiddleware, compose }  from 'redux'
+import { createStore, applyMiddleware, compose }  from 'redux/dist/redux';
 import { connectRouter, routerMiddleware }        from 'connected-react-router';
-import thunkMiddleware                            from 'redux-thunk'
-import { createLogger }                           from 'redux-logger'
-import initialStore                               from './initialStore';
-import { createBrowserHistory }                   from 'history';
+import thunkMiddleware                            from 'redux-thunk/dist/redux-thunk';
+import { createLogger }                           from 'redux-logger/dist/redux-logger';
 import rootReducer                                from '../reducers';
 import { getDateISO }                             from '../utils/date.utils.js';
 
