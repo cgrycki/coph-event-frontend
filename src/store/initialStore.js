@@ -117,18 +117,16 @@ const rooms = {
 };
 
 
+// Schedules: Stores room events from MAUI + Astra 
+const schedules = {
+  schedules       : [],
+  schedule_loading: false,
+  schedule_error  : null
+};
+
+
 // Events: Stores event(s) data. Singular for users and list for admins
 const events = {
-  /*event: {},
-  permissions: {
-    canEdit         : false,
-    canInitiatorVoid: false,
-    canVoid         : false,
-    canVoidAfter    : false,
-    canSign         : false,
-    signatureId     : null
-  },
-  items        : [],*/
   current: {
     event: {},
     items: [],
@@ -166,6 +164,7 @@ const initialStore = {
     form_success: false
   },
   rooms,
+  schedules,
   events
 };
 export default initialStore;
