@@ -5,7 +5,7 @@ import {
   PivotItem,
   PivotLinkFormat,
   PivotLinkSize
-}                   from 'office-ui-fabric-react';
+}                   from 'office-ui-fabric-react/lib/Pivot';
 import NavPage      from '../common/NavPage';
 import EventList    from './EventList';
 import AdminTools   from './AdminTools';

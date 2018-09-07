@@ -2,12 +2,11 @@
 import React          from 'react';
 import { connect }    from 'react-redux';
 import { push }       from 'connected-react-router';
-
 import EventNav       from './EventNav';
+import Details        from '../common/Details';
+import {Viewer}       from '../Diagram';
 import WorkflowWidget from './WorkflowWidget';
 import Popup          from '../common/Popup';
-import Details        from '../common/Details';
-
 import './EventPage.css';
 
 
@@ -26,21 +25,13 @@ import { populateFormAndPush }  from '../../actions/form.actions';
  * loaded already and `package_id` does not match it's last passed `package_id`.
  */
 class EventPage extends React.Component {
-  constructor() {
-    super();
-    this.state     = { 
-      popupHidden  : true,
-      popupType    : 'edit',
-      popupYesClick: () => console.log('clicked!'),
-      widgetHidden : false
-    };
+  state = {
+    pivot        : "Form", // One of "Form", "Layout", "Workflow"
+    popupHidden  : true,
+    popupType    : 'edit',
+    popupYesClick: () => console.log('clicked!')
+  };
 
-    // Bind popup functions
-    this.hidePopup   = this.hidePopup.bind(this);
-    this.renderPopup = this.renderPopup.bind(this);
-    // WF widget
-    this.toggleWidget= this.toggleWidget.bind(this);
-  }
 
   /** Retrieves information from server about event */
   componentDidMount()   {
@@ -71,12 +62,12 @@ class EventPage extends React.Component {
   }
 
   /** Alters component state, and hides the popup after a rerender. */
-  hidePopup() { 
+  hidePopup = () => { 
     this.setState({ popupHidden: true }); 
   }
 
   /** Sets our popup's state and callback */
-  renderPopup(popupType) {
+  renderPopup = popupType => {
     // Gather dispatch functions from react-redux's connect
     const { event, items, editEvent, deleteEventFromServer, navigate } = this.props;
 
@@ -95,10 +86,11 @@ class EventPage extends React.Component {
     });
   }
 
-  /** Sets our component Workflow Widget visibility */
-  toggleWidget() {
-    this.setState({ widgetHidden: !this.state.widgetHidden });
+  /** Sets our component display */
+  pivotClick = (pivotKey) => {
+    this.setState({ pivot: pivotKey.key.substring(2) });
   }
+
 
   render() {
     let { 
@@ -107,22 +99,30 @@ class EventPage extends React.Component {
       permissions, event, items, event_loading
     } = this.props;
 
+    let {pivot} = this.state;
+
     return (
       <div className="EventPage">
         <EventNav
           history={history}
-          items={items}
+          selectedPivot={this.state.pivot}
+          onToggle={this.pivotClick}
+          showLayout={items.length !== 0}
           permissions={permissions}
           onEdit={() => this.renderPopup('edit')}
           onRemove={() => this.renderPopup('delete')}
-          onToggle={() => this.toggleWidget()}
           package_id={package_id}
         />
 
+        <br />
 
-        <br/>
-        {' '}
-        <Details event={event} loading={event_loading} />
+        {(pivot === "Form") && 
+          <Details event={event} loading={event_loading} />}
+
+        {(pivot === "Layout") && <Viewer/>}
+
+        {(pivot === "Workflow") &&
+          <WorkflowWidget package_id={package_id} signature_id={signatureId}/>}
 
         <Popup
           popupHidden={this.state.popupHidden}
@@ -130,21 +130,13 @@ class EventPage extends React.Component {
           btnClickYes={() => this.state.popupYesClick()}
           btnClickNo={() => this.hidePopup()}
         />
-
-        <div><br/></div>
-
-        {(!this.state.widgetHidden) &&
-          <WorkflowWidget
-            package_id={package_id}
-            //signature_id={signatureId}
-          />}
       </div>
     );
   }
 }
 
 
-/* Redux Container ----------------------------------------------------------*/
+/** Redux Container ----------------------------------------------------------*/
 const mapStateToProps = state => ({
   ...state.events.current,
   should_fetch : state.events.should_fetch,

@@ -68,3 +68,44 @@ export const populateEditor = items => ({
   type   : diagramActions.DIAGRAM_POPULATE_ITEMS,
   payload: items
 })
+
+
+
+export function computeFurnitureCounts(items) {
+  // Get a list of unique furn types from furniture items
+  const furn_types = [...new Set(items.map(item => item.furn))];
+
+  // Reduce array into an object, with furn type as a key for the count of items
+  const furn_counts = furn_types.reduce((countObj, furn) => {
+    countObj[furn] = items.filter(item => item.furn === furn).length;
+    return countObj;
+  }, {});
+
+
+  return furn_counts;
+}
+
+function countFurnitureItems(items) {
+  let new_id;
+  let counts = {};
+
+  // Assign new id and count furn types in one go
+  items.forEach(item => {
+    let {furn} = item;
+
+    // Check inclusion
+    if (!(furn in counts)) {
+      new_id = furn + 0;
+      item.id = new_id;
+      counts[furn] = 1;
+    } else {
+      new_id = furn + counts[furn];
+      item.id = new_id;
+      counts[furn] += 1
+    };
+  });
+
+  return { items, counts };
+}
+
+

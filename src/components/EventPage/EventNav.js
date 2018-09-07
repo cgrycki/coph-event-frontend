@@ -18,6 +18,11 @@ const makeButton = (iconName, text, callback, disabled) => (
     disabled={disabled}
   />);
 
+const makePivot = (key, text, icon) => (
+  <PivotItem key={key} linkText={text} iconName={icon} />
+);
+
+
 
 
 /* React Component ----------------------------------------------------------*/
@@ -25,17 +30,33 @@ const makeButton = (iconName, text, callback, disabled) => (
  * Displays an Event Page heading, consisting of PageNav breadcrumbs and action
  * buttons to dispatch events.
  */
-export default class EventNav extends React.PureComponent {
+export default class EventNav extends React.Component {
+
+  getPivotArray = () => {
+    let pivotArray = [makePivot("Form", "Event Details", "TextDocument")];
+    
+    if (this.props.showLayout) 
+      pivotArray.push(makePivot("Layout", "Layout", "PivotChart"));
+
+    pivotArray.push(makePivot("Workflow", "Workflow Widget", "Settings"));
+
+    return pivotArray;
+  }
+
+
   render() {
     let { 
-      history, permissions, 
-      onEdit, onRemove, onToggle,
-      package_id 
+      history, package_id,            // For nav bar
+      onEdit, onRemove, permissions,  // For action buttons
+      selectedPivot, onToggle         // For pivot
     } = this.props;
 
     // Parse the permissions to set button active or not
     const editDisabled = !permissions.canEdit;
     const cancelDisabled = (!permissions.canInitatorVoid && !permissions.canVoid);
+
+    // Get a list of pivot items
+    const pivotArray = this.getPivotArray();
 
     return (
       <div className="ms-Grid-row">
@@ -46,30 +67,28 @@ export default class EventNav extends React.PureComponent {
             package_id={package_id}
           />
 
-          <div className="EventNav">
-            <div className="EventNavHeading">
-              <h2>Event Details</h2>
-            </div>
+          <br />
 
-            <Pivot linkSize={PivotLinkSize.large} linkFormat={PivotLinkFormat.links}>
-              <PivotItem
-                key="FormInfo"
-                linkText="Form"
-                itemIcon="TextDocument"
-              />
-              <PivotItem
-                key="FormLayout"
-                linkText="Layout"
-                itemIcon="PivotChart"
-              />
+
+        <div className="ms-Grid-row">
+          <span style={{display: 'inline-block'}}>
+            <Pivot
+              linkSize={PivotLinkSize.large}
+              linkFormat={PivotLinkFormat.links}
+              selectedKey={selectedPivot}
+              onLinkClick={onToggle}
+              headersOnly
+            >
+              {pivotArray}
             </Pivot>
+          </span>
 
-            <span style={{ float: 'right'}}>
-              {makeButton('Edit', "Edit Event", onEdit, editDisabled)}
-              {makeButton('removeEvent', "Cancel Event", onRemove, cancelDisabled)}
-              {makeButton('Settings', 'Workflow Widget', onToggle, false)}
-            </span>
-          </div>
+          <span style={{ float: 'right'}}>
+            {makeButton('Edit', "Edit Event", onEdit, editDisabled)}
+            {makeButton('removeEvent', "Cancel Event", onRemove, cancelDisabled)}
+          </span>
+        </div>
+
         </div>
       </div>
     );
