@@ -79,11 +79,12 @@ function assignFurnitureIDs(items, counts) {
   let copyCounts = Object.assign({}, counts);
 
   const reassignedIDs = items.map(item => {
-    let newID = item.furn + copyCounts[item.furn];
-    item.id = newID;
-
     // Decrement counter
     copyCounts[item.furn] -= 1;
+
+    // Assign new ID
+    let newID = item.furn + copyCounts[item.furn];
+    item.id = newID;
 
     return item;
   });
@@ -91,16 +92,19 @@ function assignFurnitureIDs(items, counts) {
   return reassignedIDs;
 }
 export function countAndAssignFurnitureItems(items) {
-  let counts = countFurniture(items);
+  let counts        = countFurniture(items);
   let reassignedIDs = assignFurnitureIDs(items, counts);
-  return { items: reassignedIDs, counts: counts };
+
+  return { items: reassignedIDs, counts };
 }
 
 
 export const populateEditor = savedItems => {
   const { items, counts } = countAndAssignFurnitureItems(savedItems);
+  let ids           = Object.assign({}, counts);
+
   return {
     type   : diagramActions.DIAGRAM_POPULATE_ITEMS,
-    payload: { items, counts }
+    payload: { items, counts, ids }
   };
 }

@@ -70,8 +70,8 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
 
     /** External actions ---------------------------------------------------------*/
     case diagramActions.DIAGRAM_POPULATE_ITEMS:
-      let { items, counts } = action.payload;
-      return {...state, items, counts };
+      let { items, counts, ids } = action.payload;
+      return {...state, items, counts, ids };
       
     default:
       return state;

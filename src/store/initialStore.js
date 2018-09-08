@@ -67,6 +67,7 @@ const ids = {
   circle  : 0,
   rect    : 0,
   cocktail: 0,
+  display : 0,
   trash   : 0
 };
 
