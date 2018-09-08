@@ -37,6 +37,14 @@ class Calendar extends React.Component {
     this.onCheck      = this.onCheck.bind(this);
   }
 
+  /** Sets range of dates to expand to the date - last of the month */
+  componentWillMount() {
+    const today = new Date();
+    const lastDayOfMonth = moment().endOf('month').toDate();
+
+    this.setState({ start_date: today, end_date: lastDayOfMonth });
+  }
+
   /** Fetches rooms on mount if we don't have them loaded. */
   componentDidMount() {
     document.title = "Room Schedule @ CPHB";

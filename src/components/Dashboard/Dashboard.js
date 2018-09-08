@@ -18,10 +18,12 @@ import {
   getEvents,
   deleteEvent,
   deleteWorkflowEvent,
-  deleteDynamoEvent,
-  populateEventAndPush
+  deleteDynamoEvent
 }                              from '../../actions/event.actions';
-import { populateFormAndPush } from '../../actions/form.actions';
+import { 
+  populateFormAndPush,
+  populateEventAndPush
+}                              from '../../actions/nav.actions';
 
 
 // Component
