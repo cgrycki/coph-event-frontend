@@ -29,7 +29,15 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
       let furn_ids    = {...state.ids, [furn]: furn_id_inc};
       let new_items   = [...state.items, new_item];
 
-      return {...state, ids: furn_ids, items: new_items};
+      // Increment counter for furniture type
+      let new_counts = {...state.counts, [furn]: state.counts[furn] + 1};
+
+      return {
+        ...state,
+        ids   : furn_ids,
+        items : new_items,
+        counts: new_counts
+      };
 
     case diagramActions.DIAGRAM_UPDATE_ITEM:
       // Desconstruct arguments and reconstruct new obj.
@@ -42,7 +50,10 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
 
     case diagramActions.DIAGRAM_REMOVE_ITEM:
       var {id} = action;
-      let removed_items = filterItem(state.items, id);
+      let removed_items = [...filterItem(state.items, id)];
+
+      // Decrement counter
+      //let dec_counts = {...state.counts, action.furn}
       return {...state, items: removed_items};
 
     /** Diagram Settings ---------------------------------------------------------*/
@@ -59,8 +70,8 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
 
     /** External actions ---------------------------------------------------------*/
     case diagramActions.DIAGRAM_POPULATE_ITEMS:
-      let items = action.payload;
-      return {...state, items};
+      let { items, counts } = action.payload;
+      return {...state, items, counts };
       
     default:
       return state;

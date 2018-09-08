@@ -63,49 +63,44 @@ export const updateEditor = fields => ({
 });
 
 
-// Ideally we'd reset the item IDs and create a count here
-export const populateEditor = items => ({
-  type   : diagramActions.DIAGRAM_POPULATE_ITEMS,
-  payload: items
-})
-
-
-
-export function computeFurnitureCounts(items) {
-  // Get a list of unique furn types from furniture items
-  const furn_types = [...new Set(items.map(item => item.furn))];
-
-  // Reduce array into an object, with furn type as a key for the count of items
-  const furn_counts = furn_types.reduce((countObj, furn) => {
-    countObj[furn] = items.filter(item => item.furn === furn).length;
-    return countObj;
-  }, {});
-
-
-  return furn_counts;
-}
-
-function countFurnitureItems(items) {
-  let new_id;
+function countFurniture(items) {
   let counts = {};
-
-  // Assign new id and count furn types in one go
   items.forEach(item => {
-    let {furn} = item;
-
-    // Check inclusion
-    if (!(furn in counts)) {
-      new_id = furn + 0;
-      item.id = new_id;
-      counts[furn] = 1;
-    } else {
-      new_id = furn + counts[furn];
-      item.id = new_id;
-      counts[furn] += 1
-    };
+    if (!(item.furn in counts)) counts[item.furn] = 1;
+    else counts[item.furn] += 1;
   });
 
-  return { items, counts };
+  // Assign rack numbers???
+
+  return counts;
+}
+function assignFurnitureIDs(items, counts) {
+  // Create a copy because we'll be 'destroying' counter obj while decrementing
+  let copyCounts = Object.assign({}, counts);
+
+  const reassignedIDs = items.map(item => {
+    let newID = item.furn + copyCounts[item.furn];
+    item.id = newID;
+
+    // Decrement counter
+    copyCounts[item.furn] -= 1;
+
+    return item;
+  });
+
+  return reassignedIDs;
+}
+export function countAndAssignFurnitureItems(items) {
+  let counts = countFurniture(items);
+  let reassignedIDs = assignFurnitureIDs(items, counts);
+  return { items: reassignedIDs, counts: counts };
 }
 
 
+export const populateEditor = savedItems => {
+  const { items, counts } = countAndAssignFurnitureItems(savedItems);
+  return {
+    type   : diagramActions.DIAGRAM_POPULATE_ITEMS,
+    payload: { items, counts }
+  };
+}
