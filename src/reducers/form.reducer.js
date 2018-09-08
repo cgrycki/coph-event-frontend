@@ -84,13 +84,8 @@ export const formReducer = (state=initialFormStore, action) => {
           ...action.payload.setup_mfk
         }
       };
-      return {
-        ...state, 
-        fields      : hydrated_info,
-        form_loading: false,
-        form_error  : null,
-        form_success: false
-      };
+      
+      return {...state, fields: hydrated_info};
 
     default:
       return state;
