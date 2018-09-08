@@ -11,36 +11,36 @@ import FormStep       from './shared/FormStep';
 import FormButtons    from './shared/FormButtons';
 
 // Form fields
-import Course         from './fields/Course';
+import EventComments  from './fields/EventComments';
 
 
 class StepSix extends React.Component {
-  constructor() {
-    super();
-    this.state = {};
+
+  validate = () => {
+    if (this.props.errors['comments']) return true;
+    else return false;
   }
 
   render() {
     return(
       <FormStep>
-        <FormTitle page={'placeholder'} progress={0.5} />
+        <FormTitle page={'Comments'} progress={0.9} />
         
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12 ms-xl12 ms-xxl12">
-            <Course
-              references_course={this.props.info.references_course}
-              referenced_course={this.props.info.referenced_course}
-              error={this.props.errors['referenced_course']}
-              onChange={this.props.updateForm}
-            />
+            <EventComments
+                value={this.props.info['comments']}
+                error={this.props.errors['comments']}
+                onChange={this.props.updateForm}
+              />
           </div>
         </div>
 
         <FormButtons
-          prevPage={undefined}
-          nextPage={undefined}
+          prevPage={() => this.props.history.goBack(-1)}
+          nextPage={() => this.props.history.push("/form/review")}
           prevDisabled={false}
-          nextDisabled={false}
+          nextDisabled={this.validate()}
         />
       </FormStep>
     );

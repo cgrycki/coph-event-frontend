@@ -56,7 +56,7 @@ class StepTwo extends React.Component {
 
   nextPage() {
     if (this.props.info['room_number'] === 'XC100') this.props.history.push("/form/layout");
-    else this.props.history.push("/form/review");
+    else this.props.history.push("/form/misc");
   }
 
   validate() {
@@ -135,12 +135,6 @@ class StepTwo extends React.Component {
               end_time_error={errors['end_time']}
               coph_email={info['coph_email']}
               coph_email_error={errors['coph_email']}
-              onChange={this.onChange}
-            />
-            
-            <EventComments
-              value={info['comments']}
-              error={errors['comments']}
               onChange={this.onChange}
             />
           </div>

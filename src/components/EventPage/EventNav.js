@@ -1,6 +1,5 @@
 /* Dependencies -------------------------------------------------------------*/
 import React          from 'react';
-import NavPage        from '../common/NavPage'
 import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 import {
   Pivot,
@@ -45,8 +44,7 @@ export default class EventNav extends React.Component {
 
 
   render() {
-    let { 
-      history, package_id,            // For nav bar
+    let {
       onEdit, onRemove, permissions,  // For action buttons
       selectedPivot, onToggle         // For pivot
     } = this.props;
@@ -59,35 +57,26 @@ export default class EventNav extends React.Component {
     const pivotArray = this.getPivotArray();
 
     return (
-      <div className="ms-Grid-row">
+      <div className="ms-Grid-row EventNav">
         <div className="ms-Grid-col ms-sm12 ms-lg12 ms-xxl12">
 
-          <NavPage
-            history={history}
-            package_id={package_id}
-          />
+            <span style={{display: 'inline-block'}}>
+              <Pivot
+                linkSize={PivotLinkSize.large}
+                linkFormat={PivotLinkFormat.links}
+                selectedKey={selectedPivot}
+                onLinkClick={onToggle}
+                headersOnly
+              >
+                {pivotArray}
+              </Pivot>
+            </span>
 
-          <br />
-
-
-        <div className="ms-Grid-row">
-          <span style={{display: 'inline-block'}}>
-            <Pivot
-              linkSize={PivotLinkSize.large}
-              linkFormat={PivotLinkFormat.links}
-              selectedKey={selectedPivot}
-              onLinkClick={onToggle}
-              headersOnly
-            >
-              {pivotArray}
-            </Pivot>
-          </span>
-
-          <span style={{ float: 'right'}}>
-            {makeButton('Edit', "Edit Event", onEdit, editDisabled)}
-            {makeButton('removeEvent', "Cancel Event", onRemove, cancelDisabled)}
-          </span>
-        </div>
+            <span style={{ float: 'right'}}>
+              {makeButton('Edit', "Edit Event", onEdit, editDisabled)}
+              {makeButton('removeEvent', "Cancel Event", onRemove, cancelDisabled)}
+            </span>
+          
 
         </div>
       </div>

@@ -114,15 +114,15 @@ class EventPage extends React.Component {
           package_id={package_id}
         />
 
-        <br />
+        <div className="ms-Grid-col">
+          {(pivot === "Form") && 
+            <Details event={event} loading={event_loading} />}
 
-        {(pivot === "Form") && 
-          <Details event={event} loading={event_loading} />}
+          {(pivot === "Layout") && <Viewer/>}
 
-        {(pivot === "Layout") && <Viewer/>}
-
-        {(pivot === "Workflow") &&
-          <WorkflowWidget package_id={package_id} signature_id={signatureId}/>}
+          {(pivot === "Workflow") &&
+            <WorkflowWidget package_id={package_id} signature_id={signatureId}/>}
+        </div>
 
         <Popup
           popupHidden={this.state.popupHidden}

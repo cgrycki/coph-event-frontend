@@ -4,6 +4,13 @@
   margin-right: auto;
 }
 
+.DiagramContainer {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+}
+
 /* Zoom Slider container */
 #ZoomSliderDiv {
   box-sizing: border-box;

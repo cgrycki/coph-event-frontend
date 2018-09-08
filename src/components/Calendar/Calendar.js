@@ -1,14 +1,13 @@
 import React                              from 'react';
 import moment                             from 'moment';
 import { connect }                        from 'react-redux';
-import {fetchRooms}             from '../../actions/room.actions'; 
-import {fetchCalendarSchedule}  from '../../actions/schedule.actions';
+import {fetchRooms}                       from '../../actions/room.actions'; 
+import {fetchCalendarSchedule}            from '../../actions/schedule.actions';
 import {
   minTime,
   maxTime
 }                                         from './shared';
 import { getDateISO }                     from '../../utils/date.utils';
-import NavPage                            from '../common/NavPage';
 import Panel                              from './Panel';
 import Toolbar                            from './Toolbar';
 import formats                            from './formats';
@@ -97,23 +96,17 @@ class Calendar extends React.Component {
 
   render() {
     return (
-      <div className="ms-Grid-row">
+      <div className="ms-Grid-row Calendar">
         <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12 ms-xl12 ms-xxl12">
 
-          <div>
-            <NavPage history={this.props.history} />
-            <br/>
-          </div>
-
-          <div className="ms-Grid-row">
-            <Panel
-              rooms={this.props.rooms}
-              checkedRooms={this.state.checkedRooms}
-              start_date={this.state.start_date}
-              end_date={this.state.end_date}
-              onDateChange={this.onDateChange}
-              onCheck={this.onCheck}
-            />
+          <Panel
+            rooms={this.props.rooms}
+            checkedRooms={this.state.checkedRooms}
+            start_date={this.state.start_date}
+            end_date={this.state.end_date}
+            onDateChange={this.onDateChange}
+            onCheck={this.onCheck}
+          />
 
             <div className="ms-Grid-col ms-lg8 ms-xl8 ms-xxl8">
               <BigCalendar
@@ -134,7 +127,7 @@ class Calendar extends React.Component {
               />
             </div>
         
-        </div>
+
       </div>
     </div>
     );

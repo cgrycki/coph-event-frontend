@@ -26,9 +26,10 @@ class NavBar extends React.PureComponent {
     return (
       <div className="NavBarWrapper">
         <CommandBar
-          className="NavBar"
+          className="NavBar ms-font-l"
           items={[Logo, ButtonCal(this.props)]}
-          farItems={far_items} 
+          farItems={far_items}
+          styles={{ root: {height: '50px'}}}
         />
       </div>
     );

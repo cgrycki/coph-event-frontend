@@ -2,7 +2,8 @@
 
 /* Div wrapping CommandBar component. Set position to fixed to escape container*/
 .NavBarWrapper {
-  margin-bottom: 10px;
+  border-bottom: 1px solid 	#3c3c3c;
+  box-shadow: 0 1px 1px 0 hsla(0, 0%, 0%, 0.2);
 }
 
 /* Override CommandBar background color */
@@ -17,7 +18,13 @@
 
 /* Show full Iowa logo by preventing height collapse */
 .NavLogo .ms-Icon-imageContainer.ms-Button-icon {
-  height: 33px !important;
+  height: 28px !important;
+  padding-bottom: 14px;
+}
+
+.NavBar .ms-Button-label {
+  font-size: 15px;
+  font-weight: 300;
 }
 
 /* Smoother transitions */

@@ -9,7 +9,7 @@ import { Breadcrumb } from 'office-ui-fabric-react/lib/Breadcrumb';
  * Renders breadcrumbs for our single page application. By default it disables
  * the current page.
  */
-export default class NavPage extends React.PureComponent {
+export default class NavPage extends React.Component {
   /**
    * Creates an object for creating a MS Fabric Breadcrumb item.
    * @param {string} key Unique key for breadcrumb. Required by React.
@@ -18,7 +18,7 @@ export default class NavPage extends React.PureComponent {
    * @param {(string|boolean)} path Route to navigate when breadcrumb `onClick`.
    * @returns {Object} breadcrumb Options for breadcrumb item.
    */
-  createProps(key, text, current, path=false) {
+  createProps = (key, text, current, path=false) => {
     const { history } = this.props;
     const breadcrumb = {
       key          : key,
@@ -30,7 +30,7 @@ export default class NavPage extends React.PureComponent {
   }
 
 
-  getCalendarBreadcrumb() {
+  getCalendarBreadcrumb = () => {
     const { history: { location: { pathname }}} = this.props;
     const cal_pg_props = this.createProps('CalCrumb', 'Room Calendar', "/calendar");
     return cal_pg_props;
@@ -41,7 +41,7 @@ export default class NavPage extends React.PureComponent {
    * @param {Object} props Properties passed from page calling NavPage.
    * @returns {Object} evt_pg_props
    */
-  getEventPageBreadcrumb(package_id) {
+  getEventPageBreadcrumb = package_id => {
     const evt_pg_props = this.createProps('EvtPgCrumb', `Event #${package_id}`, true);
     return evt_pg_props;
   }
@@ -50,7 +50,7 @@ export default class NavPage extends React.PureComponent {
    * Returns an object describing the properties of the Dashboard breadcrumb.
    * @returns {Object} dash_props
    */
-  getDashboardBreadcrumb() {
+  getDashboardBreadcrumb = () => {
     // Find our current location
     const { history: { location: { pathname }}} = this.props;
     const path      = "/dashboard";
@@ -65,7 +65,7 @@ export default class NavPage extends React.PureComponent {
    * Returns an object describing the properties of the Home breadcrumb.
    * @returns {Object} home_props
    */
-  getHomeBreadcrumb() {
+  getHomeBreadcrumb = () => {
     // Find our current location
     const { history: { location: { pathname }}} = this.props;
     const path      = "/";
@@ -76,7 +76,7 @@ export default class NavPage extends React.PureComponent {
     return home_props;
   }
 
-  getAboutBreadcrumb() {
+  getAboutBreadcrumb = () => {
     const { history: { location: { pathname }}} = this.props;
     const path = "/about";
     
@@ -89,7 +89,7 @@ export default class NavPage extends React.PureComponent {
    * Returns an object describing the properties of the Form breadcrumb.
    * @returns {Object} home_props
    */
-  getFormBreadcrumb() {
+  getFormBreadcrumb = () => {
     const form_props = this.createProps('formCrumb', 'Create an Event', true);
     return form_props;
   }
@@ -100,8 +100,8 @@ export default class NavPage extends React.PureComponent {
    * @param {Object} Properties
    * @returns {Array[Object]} crumbs A list of Breadcrumb prop objects.
    */
-  createCrumbs(props) {
-    const { history: { location: { pathname }}, package_id } = props;
+  createCrumbs = () => {
+    const { history: { location: { pathname }}} = this.props;
     
     // By default we should be able to see the home page
     let crumbs = [this.getHomeBreadcrumb()];
@@ -117,7 +117,11 @@ export default class NavPage extends React.PureComponent {
     if (pathname === "/dashboard") crumbs.push(this.getDashboardBreadcrumb());
 
     // Check if we're viewing specific event
-    if (package_id) {
+    if (pathname.startsWith("/event/")) {
+      // Infer package_id from pathname. Usually like => /event/1111
+      // With signature_id it's => /event/111/222
+      let splitPath  = pathname.split("/");
+      let package_id = splitPath[2]; 
       crumbs.push(this.getDashboardBreadcrumb());
       crumbs.push(this.getEventPageBreadcrumb(package_id));
     };
@@ -130,15 +134,15 @@ export default class NavPage extends React.PureComponent {
 
   render() {
     return (
-      <div className="ms-Grid-row">
-        <div 
-          className="ms-Grid-col ms-sm12 ms-lg12 ms-xxl12"
-          style={{ paddingLeft: 'unset' }}
-        >
-          <Breadcrumb
-            maxDisplayedItems={2}
-            items={this.createCrumbs(this.props)}
-          />
+      <div className="NavPage">
+        <div className="ms-Grid-row">
+          <div className="ms-Grid-col ms-sm12 ms-lg12 ms-xxl12">
+            {/*style={{ paddingLeft: 'unset' }}>*/}
+            <Breadcrumb
+              maxDisplayedItems={3}
+              items={this.createCrumbs()}
+            />
+          </div>
         </div>
       </div>
     );

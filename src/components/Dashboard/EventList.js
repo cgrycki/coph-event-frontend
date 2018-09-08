@@ -198,7 +198,7 @@ export default class EventList extends React.Component {
     let should_shimmer = (this.props.loading && this.props.should_fetch);
 
     return (
-      <div className="Dashboard--EventsList">
+      <div className="Dashboard--EventList">
         <ShimmeredDetailsList
           items={this.props.events}
           columns={this.createColumns()}

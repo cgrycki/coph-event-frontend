@@ -5,6 +5,14 @@
   margin: 5px 0;
 }
 
+.Calendar {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-top: 1rem;
+}
+
+
 /* Event scheduling */
 .CalendarEvent--overlap {
   background-color: #e34a33 !important;
@@ -32,6 +40,11 @@
 .rbc-month-header, .rbc-time-header-cell {
   background-color: rgb(244, 244, 244) !important;
 }
+
+/* Remove top border from month view 
+.rbc-month-view {
+  border-top: unset;
+}*/
 
 /* Remove empty header cell above scrollbar in day view */
 .rbc-time-header .rbc-overflowing {

@@ -30,7 +30,7 @@ export default class DashCalendar extends React.Component {
 
   render() {
     return (
-      <div className="DashCalendar">
+      <div className="Dashboard--Calendar">
         <BigCalendar
           components={{ toolbar: Toolbar }}
           min={minTime}

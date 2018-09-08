@@ -35,7 +35,7 @@ class Editor extends React.Component {
 
   render() {
     return (
-      <div className="ms-borderBase">
+      <div className="ms-borderBase DiagramContainer">
         <GUI {...this.props} draggable={true} />
       </div>
     );

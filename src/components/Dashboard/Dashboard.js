@@ -6,7 +6,6 @@ import {
   PivotLinkFormat,
   PivotLinkSize
 }                   from 'office-ui-fabric-react/lib/Pivot';
-import NavPage      from '../common/NavPage';
 import EventList    from './EventList';
 import AdminTools   from './AdminTools';
 import DashCalendar from '../Calendar/DashCalendar';
@@ -43,21 +42,20 @@ class DashboardComponent extends React.Component {
   render() {
     return (
       <div className="ms-Grid-col ms-sm12 Dashboard">
-      
-        <div className="ms-Grid-row">
-          <NavPage history={this.props.history} />
-        </div>
-        
-        <br/>
 
-        <div className="ms-Grid-row">
-          <Pivot linkSize={PivotLinkSize.Large} linkFormat={PivotLinkFormat.links}>
+
+        <div className="ms-Grid-row fullHeight">
+          <Pivot 
+            linkSize={PivotLinkSize.Large}
+            linkFormat={PivotLinkFormat.links}
+            className="fullHeight"
+          >
             <PivotItem
               key="MyEvents"
               linkText="My Events"
               itemIcon="BulletedList"
               itemCount={this.props.events.length}>
-              <br/>
+              
               <EventList
                 events={this.props.events}
                 loading={this.props.event_loading}
@@ -71,18 +69,16 @@ class DashboardComponent extends React.Component {
             <PivotItem
               key="MySchedule"
               linkText="My Schedule"
-              itemIcon="CalendarAgenda">
-              <br/>
-              <DashCalendar
-                events={this.props.events}
-              />
+              itemIcon="CalendarAgenda"
+            >
+              <DashCalendar events={this.props.events} />
             </PivotItem>
             {this.state.is_admin && 
               <PivotItem
                 key="AdminTools"
                 linkText="Administrator Tools"
-                itemIcon="Settings">
-                <br/>
+                itemIcon="Settings"
+              >
                 <AdminTools
                   workflowCallback={(package_id) => this.props.deleteWorkflowEvent(package_id)}
                   dynamoCallback={(package_id) => this.props.deleteDynamoEvent(package_id)}
