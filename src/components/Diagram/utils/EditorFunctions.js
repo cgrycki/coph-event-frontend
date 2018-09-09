@@ -54,12 +54,12 @@ class EditorFunctions {
     newScale = Math.max(Math.min(newScale, 8), 1);
 
     // Update new XY position 
-    const newPosition = [
-      -(mousePoint.x - pointerPos.x / newScale) * newScale,
-      -(mousePoint.y - pointerPos.y / newScale) * newScale
-    ];
+    const newPosition = {
+      x: -(mousePoint.x - pointerPos.x / newScale) * newScale,
+      y: -(mousePoint.y - pointerPos.y / newScale) * newScale
+    };
 
-    return { xy: newPosition, scaleXY: [newScale, newScale] };
+    return { ...newPosition, scaleX: newScale, scaleY: newScale };
   }
 
   /** Handles left clicks diagram wide. */

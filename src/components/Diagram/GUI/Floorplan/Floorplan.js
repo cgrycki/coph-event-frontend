@@ -2,9 +2,12 @@
 import React            from 'react';
 import PropTypes        from 'prop-types';
 import { Layer, Image } from 'react-konva';
+import FloorplanFunctions from './FloorplanFunctions';
 
 // Assets
-import floorplan        from '../assets/ai/Artboard 1.svg';
+import floorplan        from '../../assets/ai/Artboard 1.svg';
+const FLOOR_WIDTH = 1920;
+const FLOOR_HEIGHT= 1500;
 
 
 /**
@@ -18,9 +21,12 @@ import floorplan        from '../assets/ai/Artboard 1.svg';
 export default class Floorplan extends React.Component {
   static propTypes = {
     width : PropTypes.number,
-    height: PropTypes.number,
-    scaleX: PropTypes.number,
-    scaleY: PropTypes.number
+    height: PropTypes.number
+  }
+
+  static defaultProps = {
+    width : 960,
+    height: 500
   }
 
   state = { 
@@ -36,21 +42,25 @@ export default class Floorplan extends React.Component {
         this.floorplan.cache();
         this.floorplan.getLayer().draw();
       });
-    }
+    };
   }
 
+
   /** Renders the floorplan image at `width * height` dimensions. */
-  render() {
-    
+  render = () => {
+    const { img }            = this.state;
+    const { width, height }  = this.props;
+    const { scaleX, scaleY } = FloorplanFunctions.resizeImageDimensionsToCanvas(width, height);
+
     return (
       <Layer>
-        <Image 
-          image={this.state.img}
-          ref={node => this.floorplan = node}
-          width={this.props.width}
-          height={this.props.height}
-          //scaleX={this.props.scaleX}
-          //scaleY={this.props.scaleY}
+        <Image
+          image={img}
+          ref={(node) => { this.floorplan = node; }}
+          width={FLOOR_WIDTH}
+          height={FLOOR_HEIGHT}
+          scaleX={scaleX}
+          scaleY={scaleY}
           name="Floorplan"
         />
       </Layer>

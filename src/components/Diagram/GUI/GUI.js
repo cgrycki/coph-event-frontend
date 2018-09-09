@@ -5,7 +5,7 @@ import { Stage }    from 'react-konva';
 import PropTypes    from 'prop-types';
 
 // Components
-import Floorplan  from './Floorplan';
+import Floorplan  from './Floorplan/';
 import Furniture  from './Furniture';
 
 // Actions
@@ -22,20 +22,24 @@ import EditorFunctions from '../utils/EditorFunctions';
 // React (Konva) Component
 export default class GUI extends React.Component {
   static propTypes = {
-    offsetXY : PropTypes.arrayOf(PropTypes.number),
-    scaleXY  : PropTypes.arrayOf(PropTypes.number),
-    wh       : PropTypes.arrayOf(PropTypes.number),
-    xy       : PropTypes.arrayOf(PropTypes.number),
+    width    : PropTypes.number,
+    height   : PropTypes.number,
+    x        : PropTypes.number,
+    y        : PropTypes.number,
+    scaleX   : PropTypes.number,
+    scaleY   : PropTypes.number,
     items    : PropTypes.arrayOf(PropTypes.object),
     draggable: PropTypes.bool
   }
 
   static defaultProps = {
-    offsetXY : [0, 0],
-    scaleXY  : [1, 1],
-    wh       : [960, 500],
-    xy       : [0, 0],
-    items    : [],
+    width: 960,
+    height: 960,
+    x: 0,
+    y: 0,
+    scaleX: 1,
+    scaleY: 1,
+    items        : [],
     draggable: true
   }
 
@@ -72,10 +76,10 @@ export default class GUI extends React.Component {
     }
   }
 
-
-
   render() {
-    const { scaleXY, wh, xy, draggable } = this.props;
+    const {
+      width, height, x, y, scaleX, scaleY, draggable
+    } = this.props;
 
     return (
       <Stage
@@ -83,18 +87,17 @@ export default class GUI extends React.Component {
         ref={(ref) => { this.konvaCanvas = ref; }}
 
         // Dimensions and configuration
-        width={wh[0]}
-        height={wh[1]}
-        x={xy[0]}
-        y={xy[1]}
-        scaleX={scaleXY[0]}
-        scaleY={scaleXY[1]}
+        width={width}
+        height={height}
+        x={x}
+        y={y}
+        scaleX={scaleX}
+        scaleY={scaleY}
 
         // Stage panning
         draggable
-        dragBoundFunc={pos => {
-          //console.log(pos);
-          //this.props.updateEditor({ xy: [pos.x, pos.y]})
+        dragBoundFunc={(pos) => {
+          this.props.updateEditor({ x: pos.x, y: pos.y})
           return pos;
         }}
         onDragEnd={this.onDragEnd}
@@ -106,10 +109,10 @@ export default class GUI extends React.Component {
         onContextMenu={this.onContentClick}
       >
         <Floorplan
-          width={wh[0]}
-          height={wh[1]}
-          scaleX={scaleXY[0]}
-          scaleY={scaleXY[1]}
+          width={width}
+          height={height}
+          scaleX={scaleX}
+          scaleY={scaleY}
         />
         <Furniture
           items={this.props.items}
@@ -119,19 +122,3 @@ export default class GUI extends React.Component {
     );
   }
 }
-
-
-// Redux Container
-/*
-const mapStateToProps = state => ({
-  ...state.diagram.layout,
-  items: state.diagram.items
-});
-
-const mapDispatchToProps = dispatch => ({
-  updateEditor: (field, value) => dispatch(updateEditor(field, value)),
-  addEditorItem: (x, y) => dispatch(addEditorItem(x, y))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(GUI);
-*/
