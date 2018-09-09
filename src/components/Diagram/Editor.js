@@ -4,7 +4,8 @@ import PropTypes  from 'prop-types';
 import {connect}  from 'react-redux';
 import {
   updateEditor,
-  addEditorItem
+  addEditorItem,
+  selectEditorItem
 }                 from '../../actions/';
 import GUI        from './GUI';
 import ZoomSlider from './Surfaces/ZoomSlider';
@@ -46,12 +47,13 @@ class Editor extends React.Component {
 // Redux Container
 const mapStateToProps = state => ({
   ...state.diagram.layout,
-  items: state.diagram.items
+  items: state.diagram.items 
 })
 
 const mapDispatchToProps = dispatch => ({
-  updateEditor: (field, value) => dispatch(updateEditor(field, value)),
-  addEditorItem: (x, y) => dispatch(addEditorItem(x, y))
+  updateEditor    : (field, value) => dispatch(updateEditor(field, value)),
+  addEditorItem   : (x, y) => dispatch(addEditorItem(x, y)),
+  selectEditorItem: id => dispatch(selectEditorItem(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Editor);

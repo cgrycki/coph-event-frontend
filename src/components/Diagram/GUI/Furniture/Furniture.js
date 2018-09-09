@@ -49,11 +49,20 @@ function pointDistance(x1, y1, x2, y2) {
 
 class Furniture extends React.Component {
 
+  handleDragStart = event => {
+    if (!this.node) return;
+    this.node.moveToTop();
+  }
+
   /** Updates item's position in store. */
   handleMove = event => {
     if (!this.node) return;
     let intersectFlag = false;
-    let target = event.target;
+    let target = this.node;
+
+    let stage = target.getStage();
+    //console.log(stage.getLayers());
+
 
     // Highlight intersections: collect pointers to drag item and encapsulating layer
     let { x: targetX, y: targetY } = target.attrs;
@@ -65,18 +74,18 @@ class Furniture extends React.Component {
       // Dont compare against self
       if (group === event.target) return true;
 
+
       // Check distance between group/target centers
       let { x: otherX, y: otherY } = group.attrs;
       let dist = pointDistance(targetX, targetY, otherX, otherY);
       // If the distance is greather than intersect possible, unflag shape and continue
-      if (dist > 50) {
-        target.findOne('.boundsHint').stroke('rgba(0,0,0,0)');
-        return true;
-      }
-      else {
-        target.findOne('.boundsHint').stroke('red');
+      console.log(dist);
+      if (dist < 50) {
+        target.findOne('.boundsHint').stroke('rgba(255, 0, 0, 1)');
         intersectFlag = true;
       }
+      //else target.findOne('.boundsHint').stroke('rgba(0, 0, 0, 0)');
+      
 
       // Otherwise check for the intersection
       //if (haveIntersection(group.getClientRect(), targetBounds))
@@ -84,6 +93,7 @@ class Furniture extends React.Component {
       //else
         //group.findOne('.boundsHint').stroke('rgba(0,0,0,0)');
     });
+    if (!intersectFlag) target.findOne('.boundsHint').stroke('rgba(0, 0, 0, 0)');
 
     // Update position
     let {id, x, y, name: furn } = this.node.attrs;
@@ -92,11 +102,15 @@ class Furniture extends React.Component {
 
 
   render() {
-    let {x, y, id, furn, draggable} = this.props;
+    let {x, y, id, furn, draggable, selected_item} = this.props;
+
+    // Dont allow dragging unless item is selected
+    let draggableMaster = ((id === selected_item) && draggable);
+    
     return (
       <Group
         ref={node => { this.node = node; }}
-        draggable={draggable}
+        draggable={draggableMaster}
         x={x}
         y={y}
         id={id}
@@ -114,7 +128,7 @@ class Furniture extends React.Component {
         <Circle
           radius={9}
           fill='#ffffff'
-          stroke='#333333'
+          stroke={(id === selected_item) ? '#0078d4' : '#333333'}
           strokeWidth={1.5}
           //shadowColor
           //shadowBlur
@@ -139,11 +153,15 @@ class Furniture extends React.Component {
 
 
 // Redux Container
+const mapStateToProps = state => ({
+  selected_item: state.diagram.layout.selected_item
+})
+
 const mapDispatchToProps = dispatch => ({
   updateEditorItem: (furn, id, x, y) => dispatch(updateEditorItem(furn, id, x, y))
 });
 
-export default connect(null, mapDispatchToProps)(Furniture);
+export default connect(mapStateToProps, mapDispatchToProps)(Furniture);
 
 
 

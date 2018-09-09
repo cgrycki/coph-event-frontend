@@ -53,8 +53,23 @@ export default class GUI extends React.Component {
 
   /** Conditionally adds a furniture item to store. */
   onContentClick = event => {
-    const xy = EditorFunctions.handleClickEvent(this.konvaCanvas, event);
-    if (xy) this.props.addEditorItem(xy);
+    const { action, payload } = EditorFunctions.handleClickEvent(this.konvaCanvas, event);
+    //if (xy) this.props.addEditorItem(xy);
+    if (action === 'addItem') this.props.addEditorItem(payload);
+    if (action === 'selectItem') this.props.selectEditorItem(payload);
+  }
+
+  onDragEnd = event => {
+    // Interaction housekeeping
+    //event.cancelBubble = true;
+    //event.evt.preventDefault();
+    //event.evt.stopPropagation();
+
+    const {nodeType} = event.target;
+    if (nodeType === 'Stage') {
+      let xy = [event.target.attrs.x, event.target.attrs.y];
+      this.props.updateEditor({ xy });
+    }
   }
 
 
@@ -77,7 +92,12 @@ export default class GUI extends React.Component {
 
         // Stage panning
         draggable
-        dragBoundFunc={pos => pos}
+        dragBoundFunc={pos => {
+          //console.log(pos);
+          //this.props.updateEditor({ xy: [pos.x, pos.y]})
+          return pos;
+        }}
+        onDragEnd={this.onDragEnd}
         
 
         // Behavior
@@ -85,8 +105,16 @@ export default class GUI extends React.Component {
         onContentClick={this.onContentClick}
         onContextMenu={this.onContentClick}
       >
-        <Floorplan width={wh[0]} height={wh[1]} />
-        <Furniture items={this.props.items} draggable={draggable} />
+        <Floorplan
+          width={wh[0]}
+          height={wh[1]}
+          scaleX={scaleXY[0]}
+          scaleY={scaleXY[1]}
+        />
+        <Furniture
+          items={this.props.items}
+          draggable={draggable}
+        />
       </Stage>
     );
   }

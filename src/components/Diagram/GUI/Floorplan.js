@@ -4,7 +4,7 @@ import PropTypes        from 'prop-types';
 import { Layer, Image } from 'react-konva';
 
 // Assets
-import floorplan        from '../assets/first-floor@2x.png';
+import floorplan        from '../assets/ai/Artboard 1.svg';
 
 
 /**
@@ -18,7 +18,9 @@ import floorplan        from '../assets/first-floor@2x.png';
 export default class Floorplan extends React.Component {
   static propTypes = {
     width : PropTypes.number,
-    height: PropTypes.number
+    height: PropTypes.number,
+    scaleX: PropTypes.number,
+    scaleY: PropTypes.number
   }
 
   state = { 
@@ -39,6 +41,7 @@ export default class Floorplan extends React.Component {
 
   /** Renders the floorplan image at `width * height` dimensions. */
   render() {
+    
     return (
       <Layer>
         <Image 
@@ -46,6 +49,8 @@ export default class Floorplan extends React.Component {
           ref={node => this.floorplan = node}
           width={this.props.width}
           height={this.props.height}
+          //scaleX={this.props.scaleX}
+          //scaleY={this.props.scaleY}
           name="Floorplan"
         />
       </Layer>

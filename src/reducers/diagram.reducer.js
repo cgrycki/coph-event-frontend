@@ -36,7 +36,10 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
         ...state,
         ids   : furn_ids,
         items : new_items,
-        counts: new_counts
+        counts: new_counts,
+        layout: {
+          ...state.layout, selected_item: id
+        }
       };
 
     case diagramActions.DIAGRAM_UPDATE_ITEM:

@@ -91,7 +91,7 @@ function assignFurnitureIDs(items, counts) {
 
   return reassignedIDs;
 }
-export function countAndAssignFurnitureItems(items) {
+function countAndAssignFurnitureItems(items) {
   let counts        = countFurniture(items);
   let reassignedIDs = assignFurnitureIDs(items, counts);
 
