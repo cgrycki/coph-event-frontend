@@ -8,6 +8,7 @@ import {
   Circle,
   Text
 } from 'react-konva';
+import { Easings } from 'konva';
 import { updateEditorItem } from '../../../../actions/diagram.actions';
 
 
@@ -80,14 +81,13 @@ class Furniture extends React.Component {
   /** Updates group collision attribute and sets position in app store. */
   handleDragMove = () => {
     if (!this.node) return;
-    const target = this.node;
-    // const stage = target.getStage();
-
-
-    // Highlight intersections: collect pointers to drag item and encapsulating layer
-    const { x: targetX, y: targetY } = target.attrs;
+    const target                     = this.node;
     // const targetBounds               = target.getClientRect();
+    const { x: targetX, y: targetY } = target.attrs;
     const furnitureLayer             = target.parent;
+
+    let   intersectFlag = false;
+    
 
     // Check intersections with each furniture item in layout
     furnitureLayer.children.each((group) => {
@@ -100,10 +100,12 @@ class Furniture extends React.Component {
 
       // If the distance is greather than intersect possible,
       // then flag node attribute and continue
-      if (dist < 50) target.setAttr('collision', true);
+      if (dist < 40) intersectFlag = true;
     });
+    // Use the flag to set our collision status on the node
+    target.setAttr('collision', intersectFlag);
 
-    // Update position
+    // Update position regardless
     const { id, x, y, name: furn } = this.node.attrs;
     this.props.updateEditorItem(furn, id, x, y);
   }
@@ -111,6 +113,7 @@ class Furniture extends React.Component {
   /** Resets a furniture item if it's out of bounds or colliding */
   handleDragEnd = () => {
     if (!this.node) return;
+    let resetFlag = false;
 
     // Check for intersections
     const { updateEditorItem } = this.props;
@@ -119,15 +122,30 @@ class Furniture extends React.Component {
       id,
       name: furn,
       dragStartX: x,
-      dragStartY: y
+      dragStartY: y,
+      x: currentX,
+      y: currentY
     } = this.node.getAttrs();
 
-    // If we find a collision then we move the group to it's starting
-    // drag position. In addition we set the collision to false to
-    // reset its styling.
-    if (collision === true) {
+    // If we find a collision then we move the group to it's starting drag
+    // position. In addition we set the collision to false to reset node style.
+    if (collision) resetFlag = true;
+    else {
+      // Check if we're in the good furniture area via intersection
+      const stage = this.node.getStage();
+      const intersection = stage.getIntersection({ x: currentX, y: currentY }, '.FloorGood');
+      if (intersection === null) resetFlag = true;
+    }
+
+    if (resetFlag) {
+      // Reset and move node back to starting position
       this.node.setAttr('collision', false);
-      updateEditorItem(furn, id, x, y);
+      return this.node.to({
+        x, y,
+        duration: 0.2,
+        easing  : Easings.StrongEaseInOut,
+        onFinish: () => updateEditorItem(furn, id, x, y)
+      });
     }
   }
 
@@ -172,18 +190,18 @@ class Furniture extends React.Component {
         onDragEnd={this.handleDragEnd}
 
         // Cursors
-        onMouseMove={this.handleMouseOver}
-        onMouseOut={this.handleMouseOut}
+        // onMouseMove={this.handleMouseOver}
+        // onMouseOut={this.handleMouseOut}
         
       >
         <Circle
-          radius={16}
+          radius={10}
           fill="#f4f4f4"
           name="boundsHint"
           stroke={collision ? 'rgba(255, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0)'}
         />
         <Circle
-          radius={9}
+          radius={5}
           fill="#ffffff"
           stroke={(id === selected_item) ? '#0078d4' : '#333333'}
           strokeWidth={1.5}
@@ -197,7 +215,7 @@ class Furniture extends React.Component {
             let height = this.height();
             
             context.beginPath();
-            context.rect(-20, -20, width+40, height+40);
+            context.rect(-10, -10, width+20, height+20);
             //context.arc(0, 0, this.getOuterRadius()+20, 0, Math.PI * 2, true)
             context.closePath();
             context.fillStrokeShape(this);
