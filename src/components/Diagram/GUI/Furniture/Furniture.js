@@ -3,16 +3,13 @@
  */
 import React      from 'react';
 import PropTypes  from 'prop-types';
-import {connect}  from 'react-redux';
+import { connect }  from 'react-redux';
 import { 
   Group, 
   Circle,
-  Rect
+  Text
 }  from 'react-konva';
-import {
-  updateEditorItem,
-  selectEditorItem
-} from '../../../../actions/diagram.actions';
+import { updateEditorItem } from '../../../../actions/diagram.actions';
 
 
 /**
@@ -46,95 +43,133 @@ function pointDistance(x1, y1, x2, y2) {
 }
 
 
-
 class Furniture extends React.Component {
-
-  handleDragStart = event => {
+  /** Sets dragStart coords in case we need to revert to starting position. */
+  handleDragStart = () => {
     if (!this.node) return;
+    // Move node to top of layer (possibly hit layer?)
     this.node.moveToTop();
+
+    // Set collision to false
+    this.node.setAttr('collision', false);
+
+    // Set position in case of collisions
+    const { x, y } = this.props;
+    this.node.setAttr('dragStartX', x);
+    this.node.setAttr('dragStartY', y);
   }
 
-  /** Updates item's position in store. */
-  handleMove = event => {
+  /** Updates group collision attribute and sets position in app store. */
+  handleDragMove = () => {
     if (!this.node) return;
-    let intersectFlag = false;
-    let target = this.node;
-
-    let stage = target.getStage();
-    //console.log(stage.getLayers());
+    const target = this.node;
+    // const stage = target.getStage();
 
 
     // Highlight intersections: collect pointers to drag item and encapsulating layer
-    let { x: targetX, y: targetY } = target.attrs;
-    let targetBounds               = target.getClientRect();
-    let furnitureLayer             = target.parent;
+    const { x: targetX, y: targetY } = target.attrs;
+    // const targetBounds               = target.getClientRect();
+    const furnitureLayer             = target.parent;
 
     // Check intersections with each furniture item in layout
-    furnitureLayer.children.forEach(function(group) {
+    furnitureLayer.children.each((group) => {
       // Dont compare against self
-      if (group === event.target) return true;
-
+      if (group === target) return true;
 
       // Check distance between group/target centers
-      let { x: otherX, y: otherY } = group.attrs;
-      let dist = pointDistance(targetX, targetY, otherX, otherY);
-      // If the distance is greather than intersect possible, unflag shape and continue
-      console.log(dist);
-      if (dist < 50) {
-        target.findOne('.boundsHint').stroke('rgba(255, 0, 0, 1)');
-        intersectFlag = true;
-      }
-      //else target.findOne('.boundsHint').stroke('rgba(0, 0, 0, 0)');
-      
+      const { x: otherX, y: otherY } = group.attrs;
+      const dist = pointDistance(targetX, targetY, otherX, otherY);
 
-      // Otherwise check for the intersection
-      //if (haveIntersection(group.getClientRect(), targetBounds))
-        //group.findOne('.boundsHint').stroke('red');
-      //else
-        //group.findOne('.boundsHint').stroke('rgba(0,0,0,0)');
+      // If the distance is greather than intersect possible,
+      // then flag node attribute and continue
+      if (dist < 50) target.setAttr('collision', true);
     });
-    if (!intersectFlag) target.findOne('.boundsHint').stroke('rgba(0, 0, 0, 0)');
 
     // Update position
-    let {id, x, y, name: furn } = this.node.attrs;
+    const { id, x, y, name: furn } = this.node.attrs;
     this.props.updateEditorItem(furn, id, x, y);
   }
 
+  /** Resets a furniture item if it's out of bounds or colliding */
+  handleDragEnd = () => {
+    if (!this.node) return;
+
+    // Check for intersections
+    const { updateEditorItem } = this.props;
+    const {
+      collision,
+      id,
+      name: furn,
+      dragStartX: x,
+      dragStartY: y
+    } = this.node.getAttrs();
+
+    // If we find a collision then we move the group to it's starting
+    // drag position. In addition we set the collision to false to
+    // reset its styling.
+    if (collision === true) {
+      this.node.setAttr('collision', false);
+      updateEditorItem(furn, id, x, y);
+    }
+  }
+
+  /** Renders an 'X' button when the group is selected. */
+  renderDeleteButton = () => {
+    return (
+      <Text
+        text={"✖"}
+        fontSize={18}
+        offsetX={-15}
+        offsetY={25}
+        name="closeButton"
+      />
+    );
+  }
 
   render() {
-    let {x, y, id, furn, draggable, selected_item} = this.props;
+    const { x, y, id, furn, draggable, selected_item } = this.props;
 
     // Dont allow dragging unless item is selected
-    let draggableMaster = ((id === selected_item) && draggable);
-    
+    const draggableMaster = ((id === selected_item) && draggable);
+
+    // Get collision status
+    const collision = (this.node) ? this.node.getAttr('collision') : false;
+
     return (
       <Group
-        ref={node => { this.node = node; }}
+        ref={(node) => { this.node = node; }}
         draggable={draggableMaster}
         x={x}
         y={y}
         id={id}
         name={furn}
-        
-        // Update position on move
-        onDragMove={this.handleMove}
-        onTouchMove={this.handleMove}
+
+        // Set OG position on drag start
+        onDragStart={this.handleDragStart}
+
+        // Update position + collisions on move
+        onDragMove={this.handleDragMove}
+        onTouchMove={this.handleDragMove}
+
+        // Check for collisions
+        onDragEnd={this.handleDragEnd}
       >
-        <Circle 
+        <Circle
           radius={16}
-          fill='#f4f4f4'
-          name='boundsHint'
+          fill="#f4f4f4"
+          name="boundsHint"
+          stroke={collision ? 'rgba(255, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0)'}
         />
         <Circle
           radius={9}
-          fill='#ffffff'
+          fill="#ffffff"
           stroke={(id === selected_item) ? '#0078d4' : '#333333'}
           strokeWidth={1.5}
-          //shadowColor
-          //shadowBlur
-          //shadowOpacity
-          //shadowOffset
-          name='furnItem'
+          // shadowColor
+          // shadowBlur
+          // shadowOpacity
+          // shadowOffset
+          name="furnItem"
           hitFunc={function(context) {
             let width = this.width();
             let height = this.height();
@@ -146,6 +181,7 @@ class Furniture extends React.Component {
             context.fillStrokeShape(this);
           }}
         />
+        {draggableMaster && this.renderDeleteButton()}
       </Group>
     );
   }
@@ -162,15 +198,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Furniture);
-
-
-
-
-/*
-  static propTypes = {
-    x: PropTypes.number,
-    y: PropTypes.number,
-    id: PropTypes.string,
-    furn: PropTypes.string
-  }
-  */

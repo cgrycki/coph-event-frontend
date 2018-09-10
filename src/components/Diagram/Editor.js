@@ -5,7 +5,8 @@ import { connect }  from 'react-redux';
 import {
   updateEditor,
   addEditorItem,
-  selectEditorItem
+  selectEditorItem,
+  removeEditorItem
 }                 from '../../actions';
 import GUI        from './GUI';
 // import ZoomSlider from './Surfaces/ZoomSlider';
@@ -59,7 +60,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   updateEditor    : (field, value) => dispatch(updateEditor(field, value)),
   addEditorItem   : (x, y) => dispatch(addEditorItem(x, y)),
-  selectEditorItem: id => dispatch(selectEditorItem(id))
+  selectEditorItem: id => dispatch(selectEditorItem(id)),
+  removeEditorItem: id => dispatch(removeEditorItem(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Editor);

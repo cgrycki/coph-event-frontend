@@ -1,6 +1,5 @@
 // Dependencies
 import React        from 'react';
-import { connect }  from 'react-redux';
 import { Stage }    from 'react-konva';
 import PropTypes    from 'prop-types';
 
@@ -8,15 +7,8 @@ import PropTypes    from 'prop-types';
 import Floorplan  from './Floorplan';
 import Furniture  from './Furniture';
 
-// Actions
-import { 
-  updateEditor,
-  addEditorItem
-} from '../../../actions/diagram.actions';
-
 // Utility functions
 import EditorFunctions from '../utils/EditorFunctions';
-
 
 
 // React (Konva) Component
@@ -58,18 +50,15 @@ export default class GUI extends React.Component {
   /** Conditionally adds a furniture item to store. */
   onContentClick = event => {
     const { action, payload } = EditorFunctions.handleClickEvent(this.konvaCanvas, event);
-    //if (xy) this.props.addEditorItem(xy);
-    if (action === 'addItem') this.props.addEditorItem(payload);
+    if (action === 'addItem')    this.props.addEditorItem(payload);
     if (action === 'selectItem') this.props.selectEditorItem(payload);
+    if (action === 'removeItem') this.props.removeEditorItem(payload);
   }
 
   onDragEnd = event => {
-    // Interaction housekeeping
-    //event.cancelBubble = true;
-    //event.evt.preventDefault();
-    //event.evt.stopPropagation();
 
     const {nodeType} = event.target;
+    
     if (nodeType === 'Stage') {
       let xy = [event.target.attrs.x, event.target.attrs.y];
       this.props.updateEditor({ xy });
