@@ -6,8 +6,9 @@ import FloorplanFunctions from './FloorplanFunctions';
 
 // Assets
 import floorplan        from '../../assets/ai/Artboard 1.svg';
-const FLOOR_WIDTH = 1920;
-const FLOOR_HEIGHT= 1500;
+
+const FLOOR_WIDTH  = 1920;
+const FLOOR_HEIGHT = 1500;
 
 
 /**
@@ -33,6 +34,9 @@ export default class Floorplan extends React.Component {
     img: null
   }
 
+  // Stores Konva reference
+  floorplan = React.createRef();
+
   /** Loads image on mount, setting the data and *then* drawing to rendered canvas layer. */
   componentDidMount() {
     const img   = new window.Image();
@@ -45,6 +49,17 @@ export default class Floorplan extends React.Component {
     };
   }
 
+  /** Displays a cursor with a '+' */
+  handleMouseOver = () => {
+    if (!this.floorplan) return;
+    this.floorplan.getStage().container().style.cursor = 'copy';
+  }
+
+  /** Displays a 'not-allowed' cursor on mouse out. */
+  handleMouseOut = () => {
+    if (!this.floorplan) return;
+    this.floorplan.getStage().container().style.cursor = 'not-allowed';
+  }
 
   /** Renders the floorplan image at `width * height` dimensions. */
   render = () => {
@@ -62,6 +77,10 @@ export default class Floorplan extends React.Component {
           scaleX={scaleX}
           scaleY={scaleY}
           name="Floorplan"
+
+          // Cursors
+          onMouseMove={this.handleMouseOver}
+          onMouseOut={this.handleMouseOut}
         />
       </Layer>
     );

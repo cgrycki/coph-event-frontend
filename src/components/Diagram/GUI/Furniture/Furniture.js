@@ -43,6 +43,25 @@ function pointDistance(x1, y1, x2, y2) {
 
 
 class Furniture extends React.Component {
+  /** Renders an 'X' button when the group is selected. */
+  renderDeleteButton = () => {
+    return (
+      <Text
+        text={"✖"}
+        fontSize={18}
+        offsetX={-15}
+        offsetY={25}
+        name="closeButton"
+      />
+    );
+  }
+
+  /** Returns true IFF node ID is the diagram's selected item ID and GUI is editor */
+  getDragStatus = () => {
+    const { id, selected_item, draggable } = this.props;
+    return ((id === selected_item) && draggable);
+  }
+
   /** Sets dragStart coords in case we need to revert to starting position. */
   handleDragStart = () => {
     if (!this.node) return;
@@ -112,24 +131,21 @@ class Furniture extends React.Component {
     }
   }
 
-  /** Renders an 'X' button when the group is selected. */
-  renderDeleteButton = () => {
-    return (
-      <Text
-        text={"✖"}
-        fontSize={18}
-        offsetX={-15}
-        offsetY={25}
-        name="closeButton"
-      />
-    );
+  /** Sets the cursor to emphasize interaction affordances. */
+  handleMouseOver = () => {
+    if (!this.node) return;
+    if (this.getDragStatus()) this.node.getStage().container().style.cursor = 'move';
+    else this.node.getStage().container().style.cursor = 'pointer';
+  }
+
+  /** Sets the cursor to default. */
+  handleMouseOut = () => {
+    if (!this.node) return;
+    this.node.getStage().container().style.cursor = 'default';
   }
 
   render() {
-    const { x, y, id, furn, draggable, selected_item } = this.props;
-
-    // Dont allow dragging unless item is selected
-    const draggableMaster = ((id === selected_item) && draggable);
+    const { x, y, id, furn, selected_item } = this.props;
 
     // Get collision status
     const collision = (this.node) ? this.node.getAttr('collision') : false;
@@ -137,7 +153,7 @@ class Furniture extends React.Component {
     return (
       <Group
         ref={(node) => { this.node = node; }}
-        draggable={draggableMaster}
+        draggable={this.getDragStatus()}
         x={x}
         y={y}
         id={id}
@@ -152,6 +168,11 @@ class Furniture extends React.Component {
 
         // Check for collisions
         onDragEnd={this.handleDragEnd}
+
+        // Cursors
+        onMouseMove={this.handleMouseOver}
+        onMouseOut={this.handleMouseOut}
+        
       >
         <Circle
           radius={16}
@@ -180,7 +201,7 @@ class Furniture extends React.Component {
             context.fillStrokeShape(this);
           }}
         />
-        {draggableMaster && this.renderDeleteButton()}
+        {this.getDragStatus() && this.renderDeleteButton()}
       </Group>
     );
   }
