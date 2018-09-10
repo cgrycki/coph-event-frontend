@@ -75,7 +75,7 @@ const layout = {
   furn_type       : 'circle',
   selected_item   : null,
   width           : 960,
-  height          : 500,
+  height          : 750,
   x               : 0,
   y               : 0,
   scaleX          : 1,

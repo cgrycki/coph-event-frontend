@@ -4,8 +4,16 @@ import { Stage }    from 'react-konva';
 import PropTypes    from 'prop-types';
 
 // Components
-import Floorplan  from './Floorplan';
-import Furniture  from './Furniture';
+import ExteriorWalls  from './Floorplan/ExteriorWalls';
+import FloorGood      from './Floorplan/FloorGood';
+import ClassAndCafe   from './Floorplan/ClassAndCafe';
+import IT             from './Floorplan/IT';
+import StudentServices from './Floorplan/StudentServices';
+import N120           from './Floorplan/N120';
+import N110           from './Floorplan/N110';
+import Stairs         from './Floorplan/Stairs';
+import Admin          from './Floorplan/Admin';
+import Furniture      from './Furniture';
 
 // Utility functions
 import EditorFunctions from '../utils/EditorFunctions';
@@ -101,7 +109,55 @@ export default class GUI extends React.Component {
         onContentClick={this.onContentClick}
         onContextMenu={this.onContentClick}
       >
-        <Floorplan
+        <FloorGood
+          width={width}
+          height={height}
+          scaleX={scaleX}
+          scaleY={scaleY}
+        />
+        <ClassAndCafe
+          width={width}
+          height={height}
+          scaleX={scaleX}
+          scaleY={scaleY}
+        />
+        <StudentServices
+          width={width}
+          height={height}
+          scaleX={scaleX}
+          scaleY={scaleY}
+        />
+        <IT
+          width={width}
+          height={height}
+          scaleX={scaleX}
+          scaleY={scaleY}
+        />
+        <N120
+          width={width}
+          height={height}
+          scaleX={scaleX}
+          scaleY={scaleY}
+        />
+        <N110
+          width={width}
+          height={height}
+          scaleX={scaleX}
+          scaleY={scaleY}
+        />
+        <Admin
+          width={width}
+          height={height}
+          scaleX={scaleX}
+          scaleY={scaleY}
+        />
+        <Stairs
+          width={width}
+          height={height}
+          scaleX={scaleX}
+          scaleY={scaleY}
+        />     
+        <ExteriorWalls
           width={width}
           height={height}
           scaleX={scaleX}
