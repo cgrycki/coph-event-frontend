@@ -72,7 +72,7 @@ export default class GUI extends React.Component {
 
   render() {
     const {
-      width, height, x, y, scaleX, scaleY, draggable
+      width, height, x, y, scaleX, scaleY, draggable, items, updateEditor
     } = this.props;
 
     return (
@@ -91,13 +91,12 @@ export default class GUI extends React.Component {
         // Stage panning
         draggable
         dragBoundFunc={(pos) => {
-          this.props.updateEditor({ x: pos.x, y: pos.y})
+          updateEditor({ x: pos.x, y: pos.y});
           return pos;
         }}
         onDragEnd={this.onDragEnd}
-        
 
-        // Behavior
+        // Interaction behavior
         onContentWheel={this.onContentWheel}
         onContentClick={this.onContentClick}
         onContextMenu={this.onContentClick}
@@ -109,7 +108,7 @@ export default class GUI extends React.Component {
           scaleY={scaleY}
         />
         <Furniture
-          items={this.props.items}
+          items={items}
           draggable={draggable}
         />
       </Stage>

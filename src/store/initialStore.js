@@ -43,7 +43,6 @@ const errors = {}
 
 // Count: Get a count of furniture items
 const counts = {
-  chairs_per_table: 6,
   chair           : 0,
   chair_racks     : 0,
   circle          : 0,
@@ -67,22 +66,22 @@ const ids = {
   circle  : 0,
   rect    : 0,
   cocktail: 0,
-  display : 0,
   trash   : 0
 };
 
 // Layout: Stores editor UI configuration data
 const layout = {
-  furn_type    : 'circle',
-  selected_item: null,
-  width: 960,
-  height: 500,
-  x: 0,
-  y: 0,
-  scaleX: 1,
-  scaleY: 1,
-  offsetX: 0,
-  offsetY: 0
+  chairs_per_table: 6,
+  furn_type       : 'circle',
+  selected_item   : null,
+  width           : 960,
+  height          : 500,
+  x               : 0,
+  y               : 0,
+  scaleX          : 1,
+  scaleY          : 1,
+  offsetX         : 0,
+  offsetY         : 0
 };
 
 

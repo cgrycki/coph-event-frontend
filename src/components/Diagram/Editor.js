@@ -10,6 +10,8 @@ import {
 }                 from '../../actions';
 import GUI        from './GUI';
 // import ZoomSlider from './Surfaces/ZoomSlider';
+import Toolbar from './Surfaces/Toolbar';
+import HUD from './Surfaces/HUD';
 import './assets/Diagram.css';
 
 
@@ -44,7 +46,9 @@ class Editor extends React.Component {
   render() {
     return (
       <div className="ms-borderBase">
+        <Toolbar />
         <GUI {...this.props} draggable={true} />
+        <HUD />
       </div>
     );
   }
@@ -55,13 +59,13 @@ class Editor extends React.Component {
 const mapStateToProps = state => ({
   ...state.diagram.layout,
   items: state.diagram.items
-})
+});
 
 const mapDispatchToProps = dispatch => ({
   updateEditor    : (field, value) => dispatch(updateEditor(field, value)),
   addEditorItem   : (x, y) => dispatch(addEditorItem(x, y)),
   selectEditorItem: id => dispatch(selectEditorItem(id)),
   removeEditorItem: id => dispatch(removeEditorItem(id))
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Editor);
