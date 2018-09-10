@@ -4,8 +4,10 @@ import { Stage }    from 'react-konva';
 import PropTypes    from 'prop-types';
 
 // Components
-import Floorplan  from './Floorplan';
-import Furniture  from './Furniture';
+import ExteriorWalls  from './Floorplan/ExteriorWalls';
+import FloorGood      from './Floorplan/FloorGood';
+import ClassAndCafe   from './Floorplan/ClassAndCafe';
+import Furniture      from './Furniture';
 
 // Utility functions
 import EditorFunctions from '../utils/EditorFunctions';
@@ -101,7 +103,19 @@ export default class GUI extends React.Component {
         onContentClick={this.onContentClick}
         onContextMenu={this.onContentClick}
       >
-        <Floorplan
+        <FloorGood
+          width={width}
+          height={height}
+          scaleX={scaleX}
+          scaleY={scaleY}
+        />
+        <ClassAndCafe
+          width={width}
+          height={height}
+          scaleX={scaleX}
+          scaleY={scaleY}
+        />
+        <ExteriorWalls
           width={width}
           height={height}
           scaleX={scaleX}
