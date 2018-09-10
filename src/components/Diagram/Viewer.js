@@ -32,6 +32,8 @@ class Viewer extends React.Component {
           {...this.props}
           draggable={false}
           addEditorItem={() => null}
+          selectEditorItem={() => null}
+          removeEditorItem={() => null}
         />
       </div>
     );

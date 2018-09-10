@@ -1,5 +1,5 @@
-import initialStore     from '../store/initialStore';
-import {diagramActions} from '../constants/actionTypes';
+import initialStore       from '../store/initialStore';
+import { diagramActions } from '../constants/actionTypes';
 
 /**
  * Utility function to filter an array of objects based on an ID.
@@ -29,7 +29,18 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
       let furn_ids    = {...state.ids, [furn]: furn_id_inc};
       let new_items   = [...state.items, new_item];
 
-      return {...state, ids: furn_ids, items: new_items};
+      // Increment counter for furniture type
+      let new_counts = {...state.counts, [furn]: state.counts[furn] + 1};
+
+      return {
+        ...state,
+        ids   : furn_ids,
+        items : new_items,
+        counts: new_counts,
+        layout: {
+          ...state.layout, selected_item: id
+        }
+      };
 
     case diagramActions.DIAGRAM_UPDATE_ITEM:
       // Desconstruct arguments and reconstruct new obj.
@@ -41,9 +52,12 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
       return {...state, items: updated_items};
 
     case diagramActions.DIAGRAM_REMOVE_ITEM:
-      var {id} = action;
-      let removed_items = filterItem(state.items, id);
-      return {...state, items: removed_items};
+      var { id, furn } = action;
+      const removed_items = [...filterItem(state.items, id)];
+
+      // Decrement furniture counts
+      const decremented_counts = {...state.counts, [furn]: state.counts[furn] - 1 };
+      return {...state, items: removed_items, counts: decremented_counts };
 
     /** Diagram Settings ---------------------------------------------------------*/
     case diagramActions.DIAGRAM_SELECT_ITEM:
@@ -59,8 +73,9 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
 
     /** External actions ---------------------------------------------------------*/
     case diagramActions.DIAGRAM_POPULATE_ITEMS:
-      let items = action.payload;
-      return {...state, items};
+      let { items, counts, ids } = action.payload;
+      const populated_counts = { ...initialDiagramStore.counts, ...counts };
+      return { ...state, items, counts: populated_counts, ids };
       
     default:
       return state;

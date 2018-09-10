@@ -1,7 +1,7 @@
 /**
  * diagram Actions
  */
-import {diagramActions} from '../constants/actionTypes';
+import { diagramActions } from '../constants/actionTypes';
 
 
 /**
@@ -23,7 +23,7 @@ export const addEditorItem = ({ x, y }) => ({
 export const selectEditorItem = id => ({
   type   : diagramActions.DIAGRAM_SELECT_ITEM,
   id
-})
+});
 
 
 /**
@@ -46,10 +46,11 @@ export const updateEditorItem = (furn, id, x, y) => ({
  * Removes an item from our editor.
  * @param {string} id ID of item we're removing
  */
-export const removeEditorItem = id => ({
+export const removeEditorItem = ({ id, furn }) => ({
   type: diagramActions.DIAGRAM_REMOVE_ITEM,
-  id
-})
+  id,
+  furn
+});
 
 
 /**
@@ -63,49 +64,48 @@ export const updateEditor = fields => ({
 });
 
 
-// Ideally we'd reset the item IDs and create a count here
-export const populateEditor = items => ({
-  type   : diagramActions.DIAGRAM_POPULATE_ITEMS,
-  payload: items
-})
-
-
-
-export function computeFurnitureCounts(items) {
-  // Get a list of unique furn types from furniture items
-  const furn_types = [...new Set(items.map(item => item.furn))];
-
-  // Reduce array into an object, with furn type as a key for the count of items
-  const furn_counts = furn_types.reduce((countObj, furn) => {
-    countObj[furn] = items.filter(item => item.furn === furn).length;
-    return countObj;
-  }, {});
-
-
-  return furn_counts;
-}
-
-function countFurnitureItems(items) {
-  let new_id;
+function countFurniture(items) {
   let counts = {};
-
-  // Assign new id and count furn types in one go
   items.forEach(item => {
-    let {furn} = item;
-
-    // Check inclusion
-    if (!(furn in counts)) {
-      new_id = furn + 0;
-      item.id = new_id;
-      counts[furn] = 1;
-    } else {
-      new_id = furn + counts[furn];
-      item.id = new_id;
-      counts[furn] += 1
-    };
+    if (!(item.furn in counts)) counts[item.furn] = 1;
+    else counts[item.furn] += 1;
   });
 
-  return { items, counts };
+  // Assign rack numbers???
+
+  return counts;
+}
+function assignFurnitureIDs(items, counts) {
+  // Create a copy because we'll be 'destroying' counter obj while decrementing
+  let copyCounts = Object.assign({}, counts);
+
+  const reassignedIDs = items.map(item => {
+    // Decrement counter
+    copyCounts[item.furn] -= 1;
+
+    // Assign new ID
+    let newID = item.furn + copyCounts[item.furn];
+    item.id = newID;
+
+    return item;
+  });
+
+  return reassignedIDs;
+}
+function countAndAssignFurnitureItems(items) {
+  const counts        = countFurniture(items);
+  const reassignedIDs = assignFurnitureIDs(items, counts);
+
+  return { items: reassignedIDs, counts };
 }
 
 
+export const populateEditor = (savedItems) => {
+  const { items, counts } = countAndAssignFurnitureItems(savedItems);
+  const ids               = Object.assign({}, counts);
+
+  return {
+    type   : diagramActions.DIAGRAM_POPULATE_ITEMS,
+    payload: { items, counts, ids }
+  };
+};

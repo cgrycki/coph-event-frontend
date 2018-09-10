@@ -22,10 +22,9 @@ import MFK        from './MFK';
  *  * FUNC COST CNTR
  *
  */
-export default class Setup extends React.PureComponent {
+export default class Setup extends React.Component {
   render() { 
-    let { setup_error } = this.props;
-
+    const { setup_error } = this.props;
 
     return (
       <div className="ms-Grid-row">

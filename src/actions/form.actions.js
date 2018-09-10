@@ -6,6 +6,7 @@ import {formActions}        from '../constants/actionTypes';
 import {populateEditor}     from './diagram.actions';
 import * as rp              from 'request-promise';
 import BusinessRequirements from '../utils/BusinessRequirements';
+import {populateEventAndPush} from './nav.actions';
 import { 
   getTimeAfterStart,
   parseDynamo
@@ -126,8 +127,22 @@ export function submitForm(info, items) {
   return (dispatch) => {
     dispatch(submitFormLoading());
 
+    let package_id;
     rp(options)
-      .then(res => dispatch(submitFormSuccess(res)))
+      .then(res => {
+        // Remove dynamo keys
+        delete res.event.createdAt;
+        delete res.event.updatedAt;
+
+        // Save package_id to push after submitting for success
+        package_id = res.event.package_id;
+
+        return res;
+      })
+      .then(res => {
+        dispatch(submitFormSuccess(res));
+        dispatch(populateEventAndPush(res));
+      })
       .catch(err => dispatch(submitFormFailure(err)));
   }
 }
@@ -143,14 +158,3 @@ export const populateFieldInfo = (info) => ({
   payload: info
 });
 
-
-/**
- * Populates field information for an event and then dispatches a routing action.
- */
-export const populateFormAndPush = (info, items=[]) => (dispatch) => {
-  const formattedInfo = parseDynamo(info);    // Format Dynamo object
-  dispatch(populateFieldInfo(formattedInfo)); // Populate form infomation
-  dispatch(populateEditor(items));            // Populate diagram items
-  dispatch(submitFormReset());                // Reset the form submission loading+error+success
-  dispatch(push("/form/user"));               // Route to form so user can edit
-}

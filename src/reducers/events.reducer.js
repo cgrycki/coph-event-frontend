@@ -42,10 +42,11 @@ export const eventReducer = (state=initialStore.events, action) => {
     case eventActions.GET_EVENTS_SUCCESS:
       let events = action.payload;
       return { 
-        ...state, 
+        ...state,
+        events,
+        should_fetch : false,
         event_loading: false,
-        event_error  : null,
-        events
+        event_error  : null
       };
 
     /** Successful DELETE request, filter event with matching Package ID */
@@ -62,14 +63,21 @@ export const eventReducer = (state=initialStore.events, action) => {
 
     /** Successful POST request, add event to our events list */
     case formActions.SUBMIT_FORM_SUCCESS:
+      // Create event object from successful POST/PATCH response
       var { event, permissions, items } = action.payload;
-
-      // Create event obj and add to list of events
       var created_event = {event, permissions, items};
-      const events_plus_new = [...state.events, created_event];
+      const oldPID = event.package_id;
+
+      // Filter events in case this was a PATCH
+      const events_without_new = state.events.filter(e => e.event.package_id !== oldPID);
+      const events_plus_new = [created_event, ...events_without_new];
 
       // Update events list and set current to created event
-      return { ...state, events: events_plus_new, current: created_event};
+      return {
+        ...state,
+        events: events_plus_new,
+        current: created_event
+      };
 
     /** Populate event page information */
     case eventActions.POPULATE_EVENT_INFO:

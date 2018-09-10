@@ -6,11 +6,6 @@
   margin-top: 1rem;
 }
 
-/* AdminTools button in Dashboard header */
-[name="Administrator Tools"] {
-  /*float: right !important;*/
-}
-
 /* Increase padding between pivots and content */
 .Dashboard--EventList,
 .Dashboard--Calendar {

@@ -15,7 +15,7 @@ import {
   getEvent,
   deleteEvent 
 }                               from '../../actions/event.actions';
-import { populateFormAndPush }  from '../../actions/form.actions';
+import { populateFormAndPush }  from '../../actions/nav.actions';
 
 
 /* React Component ----------------------------------------------------------*/

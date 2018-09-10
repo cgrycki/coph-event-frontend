@@ -1,6 +1,5 @@
 // Dependencies
 import React        from 'react';
-import { connect }  from 'react-redux';
 import { Stage }    from 'react-konva';
 import PropTypes    from 'prop-types';
 
@@ -8,34 +7,35 @@ import PropTypes    from 'prop-types';
 import Floorplan  from './Floorplan';
 import Furniture  from './Furniture';
 
-// Actions
-import { 
-  updateEditor,
-  addEditorItem
-} from '../../../actions/diagram.actions';
-
 // Utility functions
 import EditorFunctions from '../utils/EditorFunctions';
-
 
 
 // React (Konva) Component
 export default class GUI extends React.Component {
   static propTypes = {
-    offsetXY : PropTypes.arrayOf(PropTypes.number),
-    scaleXY  : PropTypes.arrayOf(PropTypes.number),
-    wh       : PropTypes.arrayOf(PropTypes.number),
-    xy       : PropTypes.arrayOf(PropTypes.number),
-    items    : PropTypes.arrayOf(PropTypes.object),
-    draggable: PropTypes.bool
+    width           : PropTypes.number,
+    height          : PropTypes.number,
+    x               : PropTypes.number,
+    y               : PropTypes.number,
+    scaleX          : PropTypes.number,
+    scaleY          : PropTypes.number,
+    items           : PropTypes.arrayOf(PropTypes.object),
+    draggable       : PropTypes.bool,
+    addEditorItem   : PropTypes.func,
+    selectEditorItem: PropTypes.func,
+    removeEditorItem: PropTypes.func,
+    updateEditor    : PropTypes.func
   }
 
   static defaultProps = {
-    offsetXY : [0, 0],
-    scaleXY  : [1, 1],
-    wh       : [960, 500],
-    xy       : [0, 0],
-    items    : [],
+    width: 960,
+    height: 960,
+    x: 0,
+    y: 0,
+    scaleX: 1,
+    scaleY: 1,
+    items        : [],
     draggable: true
   }
 
@@ -46,21 +46,34 @@ export default class GUI extends React.Component {
    * Handles canvas mousewheel event, setting new scale and position.
    * @param {event} event Mouse wheel triggered event
    */
-  onContentWheel = event => {
+  onContentWheel = (event) => {
+    const { updateEditor } = this.props;
     const updatedEditorConfig = EditorFunctions.handleZoomEvent(this.konvaCanvas, event);
-    this.props.updateEditor(updatedEditorConfig);
+    updateEditor(updatedEditorConfig);
   }
 
-  /** Conditionally adds a furniture item to store. */
-  onContentClick = event => {
-    const xy = EditorFunctions.handleClickEvent(this.konvaCanvas, event);
-    if (xy) this.props.addEditorItem(xy);
+  /** Dispatches the appropriate action, if any, to store in response to a canvas click. */
+  onContentClick = (event) => {
+    const { addEditorItem, selectEditorItem, removeEditorItem } = this.props;
+    const { action, payload } = EditorFunctions.handleClickEvent(this.konvaCanvas, event);
+
+    if (action === null)         return;
+    if (action === 'addItem')    addEditorItem(payload);
+    if (action === 'selectItem') selectEditorItem(payload);
+    if (action === 'removeItem') removeEditorItem(payload);
   }
 
-
+  /** Listener that dispatches an editor config update. */
+  onDragEnd = (event) => {
+    const { updateEditor } = this.props;
+    const updatedEditorConfig = EditorFunctions.handleDragEnd(event);
+    if (updatedEditorConfig) updateEditor(updatedEditorConfig);
+  }
 
   render() {
-    const { scaleXY, wh, xy, draggable } = this.props;
+    const {
+      width, height, x, y, scaleX, scaleY, draggable, items, updateEditor
+    } = this.props;
 
     return (
       <Stage
@@ -68,42 +81,37 @@ export default class GUI extends React.Component {
         ref={(ref) => { this.konvaCanvas = ref; }}
 
         // Dimensions and configuration
-        width={wh[0]}
-        height={wh[1]}
-        x={xy[0]}
-        y={xy[1]}
-        scaleX={scaleXY[0]}
-        scaleY={scaleXY[1]}
+        width={width}
+        height={height}
+        x={x}
+        y={y}
+        scaleX={scaleX}
+        scaleY={scaleY}
 
         // Stage panning
         draggable
-        dragBoundFunc={pos => pos}
-        
+        dragBoundFunc={(pos) => {
+          updateEditor({ x: pos.x, y: pos.y});
+          return pos;
+        }}
+        onDragEnd={this.onDragEnd}
 
-        // Behavior
+        // Interaction behavior
         onContentWheel={this.onContentWheel}
         onContentClick={this.onContentClick}
         onContextMenu={this.onContentClick}
       >
-        <Floorplan width={wh[0]} height={wh[1]} />
-        <Furniture items={this.props.items} draggable={draggable} />
+        <Floorplan
+          width={width}
+          height={height}
+          scaleX={scaleX}
+          scaleY={scaleY}
+        />
+        <Furniture
+          items={items}
+          draggable={draggable}
+        />
       </Stage>
     );
   }
 }
-
-
-// Redux Container
-/*
-const mapStateToProps = state => ({
-  ...state.diagram.layout,
-  items: state.diagram.items
-});
-
-const mapDispatchToProps = dispatch => ({
-  updateEditor: (field, value) => dispatch(updateEditor(field, value)),
-  addEditorItem: (x, y) => dispatch(addEditorItem(x, y))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(GUI);
-*/

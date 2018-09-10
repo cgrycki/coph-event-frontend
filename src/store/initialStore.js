@@ -37,40 +37,22 @@ const fields = {
   num_people         : 1
 };
 
-
 // Errors: Stores field level validation errors
 const errors = {}
 
 
-// Furniture: Stores user data added furniture
-const furniture = {
-  chairs_per_table  : 6,
-  num_chairs        : 0,
-  num_chair_racks   : 0,
-  num_circles       : 0,
-  num_circle_racks  : 0,
-  num_rects         : 0,
-  num_rect_racks    : 0,
-  num_cocktails     : 0,
-  num_cocktail_racks: 0,
-  num_displays      : 0,
-  num_trashs        : 0,
-  items             : []
-};
-
 // Count: Get a count of furniture items
-const count = {
-  chairs_per_table  : 6,
-  num_chairs        : 0,
-  num_chair_racks   : 0,
-  num_circles       : 0,
-  num_circle_racks  : 0,
-  num_rects         : 0,
-  num_rect_racks    : 0,
-  num_cocktails     : 0,
-  num_cocktail_racks: 0,
-  num_displays      : 0,
-  num_trashs        : 0
+const counts = {
+  chair           : 0,
+  chair_racks     : 0,
+  circle          : 0,
+  circle_racks    : 0,
+  rect            : 0,
+  rect_racks      : 0,
+  cocktail        : 0,
+  cocktail_racks  : 0,
+  display         : 0,
+  trash           : 0
 };
 
 // Hold our current furniture items
@@ -87,15 +69,19 @@ const ids = {
   trash   : 0
 };
 
-
 // Layout: Stores editor UI configuration data
 const layout = {
-  furn_type    : 'circle',
-  selected_item: null,
-  wh           : [960, 540],
-  xy           : [0, 0],
-  scaleXY      : [1, 1],
-  offsetXY     : [0, 0]
+  chairs_per_table: 6,
+  furn_type       : 'circle',
+  selected_item   : null,
+  width           : 960,
+  height          : 500,
+  x               : 0,
+  y               : 0,
+  scaleX          : 1,
+  scaleY          : 1,
+  offsetX         : 0,
+  offsetY         : 0
 };
 
 
@@ -153,7 +139,7 @@ const initialStore = {
   diagram: {
     items,
     ids,
-    count,
+    counts,
     layout
   },
   form: {
