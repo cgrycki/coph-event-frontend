@@ -5,7 +5,7 @@ import { Stage }    from 'react-konva';
 import PropTypes    from 'prop-types';
 
 // Components
-import Floorplan  from './Floorplan/';
+import Floorplan  from './Floorplan';
 import Furniture  from './Furniture';
 
 // Actions

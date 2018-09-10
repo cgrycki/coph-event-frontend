@@ -6,9 +6,9 @@ import {
   updateEditor,
   addEditorItem,
   selectEditorItem
-}                 from '../../actions/';
+}                 from '../../actions';
 import GUI        from './GUI';
-import ZoomSlider from './Surfaces/ZoomSlider';
+// import ZoomSlider from './Surfaces/ZoomSlider';
 import './assets/Diagram.css';
 
 
