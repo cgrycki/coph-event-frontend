@@ -133,14 +133,16 @@ class Furniture extends React.Component {
 
   /** Sets the cursor to emphasize interaction affordances. */
   handleMouseOver = () => {
-    if (!this.node) return;
+    const { draggable } = this.props;
+    if (!this.node || !draggable) return;
     if (this.getDragStatus()) this.node.getStage().container().style.cursor = 'move';
     else this.node.getStage().container().style.cursor = 'pointer';
   }
 
   /** Sets the cursor to default. */
   handleMouseOut = () => {
-    if (!this.node) return;
+    const { draggable } = this.props;
+    if (!this.node || !draggable) return;
     this.node.getStage().container().style.cursor = 'default';
   }
 
