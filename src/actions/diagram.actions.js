@@ -1,7 +1,7 @@
 /**
  * diagram Actions
  */
-import {diagramActions} from '../constants/actionTypes';
+import { diagramActions } from '../constants/actionTypes';
 
 
 /**
@@ -23,7 +23,7 @@ export const addEditorItem = ({ x, y }) => ({
 export const selectEditorItem = id => ({
   type   : diagramActions.DIAGRAM_SELECT_ITEM,
   id
-})
+});
 
 
 /**
@@ -46,10 +46,11 @@ export const updateEditorItem = (furn, id, x, y) => ({
  * Removes an item from our editor.
  * @param {string} id ID of item we're removing
  */
-export const removeEditorItem = id => ({
+export const removeEditorItem = ({ id, furn }) => ({
   type: diagramActions.DIAGRAM_REMOVE_ITEM,
-  id
-})
+  id,
+  furn
+});
 
 
 /**
@@ -91,20 +92,20 @@ function assignFurnitureIDs(items, counts) {
 
   return reassignedIDs;
 }
-export function countAndAssignFurnitureItems(items) {
-  let counts        = countFurniture(items);
-  let reassignedIDs = assignFurnitureIDs(items, counts);
+function countAndAssignFurnitureItems(items) {
+  const counts        = countFurniture(items);
+  const reassignedIDs = assignFurnitureIDs(items, counts);
 
   return { items: reassignedIDs, counts };
 }
 
 
-export const populateEditor = savedItems => {
+export const populateEditor = (savedItems) => {
   const { items, counts } = countAndAssignFurnitureItems(savedItems);
-  let ids           = Object.assign({}, counts);
+  const ids               = Object.assign({}, counts);
 
   return {
     type   : diagramActions.DIAGRAM_POPULATE_ITEMS,
     payload: { items, counts, ids }
   };
-}
+};

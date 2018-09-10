@@ -73,10 +73,10 @@ export default class MFK extends React.Component {
       let next_input_id    = `#MFK--${next_input_field}`;
       let next_input       = document.querySelector(next_input_id);
       next_input.focus();
-    };
+    }
 
     // Update the field regardless
-    let new_setup = { ...this.state.setup_mfk, [field.field]: evt.target.value };
+    const new_setup = { ...this.state.setup_mfk, [field.field]: evt.target.value };
     this.setState({ setup_mfk: new_setup });
   }
 
