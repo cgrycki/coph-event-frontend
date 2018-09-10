@@ -1,14 +1,13 @@
 /**
  * Furniture Component
  */
-import React      from 'react';
-import PropTypes  from 'prop-types';
-import { connect }  from 'react-redux';
-import { 
-  Group, 
+import React       from 'react';
+import { connect } from 'react-redux';
+import {
+  Group,
   Circle,
   Text
-}  from 'react-konva';
+} from 'react-konva';
 import { updateEditorItem } from '../../../../actions/diagram.actions';
 
 
@@ -191,7 +190,7 @@ class Furniture extends React.Component {
 // Redux Container
 const mapStateToProps = state => ({
   selected_item: state.diagram.layout.selected_item
-})
+});
 
 const mapDispatchToProps = dispatch => ({
   updateEditorItem: (furn, id, x, y) => dispatch(updateEditorItem(furn, id, x, y))

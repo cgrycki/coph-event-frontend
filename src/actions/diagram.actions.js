@@ -46,9 +46,10 @@ export const updateEditorItem = (furn, id, x, y) => ({
  * Removes an item from our editor.
  * @param {string} id ID of item we're removing
  */
-export const removeEditorItem = id => ({
+export const removeEditorItem = ({ id, furn }) => ({
   type: diagramActions.DIAGRAM_REMOVE_ITEM,
-  id
+  id,
+  furn
 });
 
 

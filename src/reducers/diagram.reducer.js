@@ -1,5 +1,5 @@
-import initialStore     from '../store/initialStore';
-import {diagramActions} from '../constants/actionTypes';
+import initialStore       from '../store/initialStore';
+import { diagramActions } from '../constants/actionTypes';
 
 /**
  * Utility function to filter an array of objects based on an ID.
@@ -52,12 +52,12 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
       return {...state, items: updated_items};
 
     case diagramActions.DIAGRAM_REMOVE_ITEM:
-      var {id} = action;
-      let removed_items = [...filterItem(state.items, id)];
+      var { id, furn } = action;
+      const removed_items = [...filterItem(state.items, id)];
 
-      // Decrement counter
-      //let dec_counts = {...state.counts, action.furn}
-      return {...state, items: removed_items};
+      // Decrement furniture counts
+      const decremented_counts = {...state.counts, [furn]: state.counts[furn] - 1 };
+      return {...state, items: removed_items, counts: decremented_counts };
 
     /** Diagram Settings ---------------------------------------------------------*/
     case diagramActions.DIAGRAM_SELECT_ITEM:

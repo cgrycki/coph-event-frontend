@@ -57,12 +57,14 @@ class EditorFunctions {
     return { ...newPosition, scaleX: newScale, scaleY: newScale };
   }
 
-  /** Handles left clicks diagram wide. */
+  /** Handles canvas clicks, called for *every* click. */
   static handleClickEvent(canvasRef, clickEvt) {
+    const nullAction = { action: null };
+
     // Some interaction housekeeping: prevent bubble + ignore right click
     clickEvt.evt.preventDefault();
     clickEvt.cancelBubble = true;
-    if (clickEvt.evt.button === 2) return null;
+    if (clickEvt.evt.button === 2) return nullAction;
 
     
     // Gather variables and scale (possibly zoomed) mouse position
@@ -72,8 +74,8 @@ class EditorFunctions {
 
 
     // Check if mouse position is intersecting => returns node if true
-    const intersects = canvas.getIntersection(rawPointerPos); // was scaledPos
-    if (intersects === null) return null;
+    const intersects = canvas.getIntersection(rawPointerPos);
+    if (intersects === null) return nullAction;
 
     // Get intersection node and return the appropriate action
     const intersectName = intersects.getAttr('name');
@@ -83,11 +85,24 @@ class EditorFunctions {
       return { action: 'selectItem', payload: intersects.getParent().id()};
     }
     else if (intersectName === 'closeButton') {
-      return { action: 'removeItem', payload: intersects.getParent().id()};
+      const { name: furn, id } = intersects.getParent().getAttrs();
+      return { action: 'removeItem', payload: { id, furn }};
     } 
     else { 
-      return { action: null, payload: null };
+      return nullAction;
     };
+  }
+
+  static handleDragEnd(dragEvt) {
+    if (dragEvt === null) return null;
+
+    const { nodeType } = dragEvt.target;
+    if (nodeType === 'Stage') {
+      return {
+        x: dragEvt.target.getAttr('x'),
+        y: dragEvt.target.getAttr('y')
+      };
+    } else return null;
   }
 }
 
