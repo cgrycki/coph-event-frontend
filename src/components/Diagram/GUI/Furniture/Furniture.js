@@ -10,7 +10,8 @@ import {
 } from 'react-konva';
 import {
   CircleFurn,
-  ChairPath
+  ChairPath,
+  table8
 } from './CircleFurn';
 import { Easings } from 'konva';
 import { updateEditorItem } from '../../../../actions/diagram.actions';
@@ -173,6 +174,7 @@ class Furniture extends React.Component {
     const { furn, id, selected_item } = this.props;
     switch (furn) {
       case 'circle': return CircleFurn(id, selected_item);
+      // case 'circle': return table8(id, selected_item);
       case 'chair' : return ChairPath(id, selected_item);
       default      : return;
     }
