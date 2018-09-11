@@ -127,7 +127,7 @@ export default class Course extends React.Component {
         <div className="ms-Grid-col ms-sm8 ms-md8 ms-lg4 ms-xl4 ms-xxl4">
           <Toggle
             defaultChecked={false}
-            label={"Is this for an university course?"}
+            label={"Is this for a University course?"}
             onText="Yes"
             offText="No"
             onChanged={() => onChange('references_course', !references_course)}
