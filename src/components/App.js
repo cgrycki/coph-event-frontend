@@ -8,6 +8,7 @@ import { Fabric }           from 'office-ui-fabric-react';
 
 // Site components
 import NavBar         from './common/NavBar/';
+//import NavPage        from './common/NavPage/';
 import Page           from './common/Page';
 import ProtectedRoute from './common/ProtectedRoute';
 import Home           from './Home';
@@ -24,6 +25,7 @@ import StepTwo        from './Form/StepTwo';
 import StepThree      from './Form/StepThree';
 import StepFour       from './Form/StepFour';
 import StepFive       from './Form/StepFive';
+import StepSix        from './Form/StepSix';
 
 
 // Container -- Holds our application data store and sets routes up
@@ -31,12 +33,14 @@ const App = ({ store, persistor, history }) => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <ConnectedRouter history={history}>
-        <Fabric dir="ltr">
+        <Fabric dir="ltr" className='fullHeight'>
+          
           <NavBar />
-
-          <div className="ms-Grid App">
-            <div className="ms-Grid-row">
+          <div className="ms-Grid fullHeight">
+            <div className="ms-Grid-row fullHeight">
+            
               <Page>
+                {/*<NavPage history={history} />*/}
                 
                 <Switch>
                   {/** Testing routes ****************************************/}
@@ -55,15 +59,17 @@ const App = ({ store, persistor, history }) => (
                     <ProtectedRoute path="/form/user"   Component={StepOne} />
                     <ProtectedRoute path="/form/event"  Component={StepTwo} />
                     <ProtectedRoute path="/form/layout" Component={StepThree} />
+                    <ProtectedRoute path="/form/misc"   Component={StepSix} />
                     <ProtectedRoute path="/form/review" Component={StepFour} />
                   </Form>
                 </Switch>
 
+                <Footer/>
               </Page>
             </div>
           </div>
 
-          <Footer/>
+          
         </Fabric>
       </ConnectedRouter>
     </PersistGate>

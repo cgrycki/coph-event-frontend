@@ -79,9 +79,7 @@ const layout = {
   x               : 0,
   y               : 0,
   scaleX          : 1,
-  scaleY          : 1,
-  offsetX         : 0,
-  offsetY         : 0
+  scaleY          : 1
 };
 
 

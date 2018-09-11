@@ -1,7 +1,7 @@
 import React from 'react';
 import TextField from '../../common/TextField';
 
-export default class EventComments extends React.PureComponent {
+export default class EventComments extends React.Component {
   render() {
     let { value, error, onChange } = this.props;
 

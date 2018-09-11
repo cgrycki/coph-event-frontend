@@ -147,14 +147,14 @@ class Home extends React.Component {
           </div>
         </div>
 
-        {this.renderStatus()}
+        {/*this.renderStatus()
         
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12">
             <hr/>
             <br/>
           </div>
-        </div>
+        </div>*/}
 
 
           <div className="ms-Grid-row">

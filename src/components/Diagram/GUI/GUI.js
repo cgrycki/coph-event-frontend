@@ -4,16 +4,9 @@ import { Stage }    from 'react-konva';
 import PropTypes    from 'prop-types';
 
 // Components
-import ExteriorWalls  from './Floorplan/ExteriorWalls';
-import FloorGood      from './Floorplan/FloorGood';
-import ClassAndCafe   from './Floorplan/ClassAndCafe';
-import IT             from './Floorplan/IT';
-import StudentServices from './Floorplan/StudentServices';
-import N120           from './Floorplan/N120';
-import N110           from './Floorplan/N110';
-import Stairs         from './Floorplan/Stairs';
-import Admin          from './Floorplan/Admin';
 import Furniture      from './Furniture';
+import Floorplan      from './Floorplan';
+
 
 // Utility functions
 import EditorFunctions from '../utils/EditorFunctions';
@@ -80,7 +73,10 @@ export default class GUI extends React.Component {
 
   render() {
     const {
-      width, height, x, y, scaleX, scaleY, draggable, items, updateEditor
+      width, height,
+      x, y,
+      scaleX, scaleY,
+      draggable, items, updateEditor, selected_item
     } = this.props;
 
     return (
@@ -109,63 +105,11 @@ export default class GUI extends React.Component {
         onContentClick={this.onContentClick}
         onContextMenu={this.onContentClick}
       >
-        <FloorGood
-          width={width}
-          height={height}
-          scaleX={scaleX}
-          scaleY={scaleY}
-        />
-        <ClassAndCafe
-          width={width}
-          height={height}
-          scaleX={scaleX}
-          scaleY={scaleY}
-        />
-        <StudentServices
-          width={width}
-          height={height}
-          scaleX={scaleX}
-          scaleY={scaleY}
-        />
-        <IT
-          width={width}
-          height={height}
-          scaleX={scaleX}
-          scaleY={scaleY}
-        />
-        <N120
-          width={width}
-          height={height}
-          scaleX={scaleX}
-          scaleY={scaleY}
-        />
-        <N110
-          width={width}
-          height={height}
-          scaleX={scaleX}
-          scaleY={scaleY}
-        />
-        <Admin
-          width={width}
-          height={height}
-          scaleX={scaleX}
-          scaleY={scaleY}
-        />
-        <Stairs
-          width={width}
-          height={height}
-          scaleX={scaleX}
-          scaleY={scaleY}
-        />     
-        <ExteriorWalls
-          width={width}
-          height={height}
-          scaleX={scaleX}
-          scaleY={scaleY}
-        />
+        <Floorplan width={width} height={height} />
         <Furniture
           items={items}
           draggable={draggable}
+          selected_item={selected_item}
         />
       </Stage>
     );

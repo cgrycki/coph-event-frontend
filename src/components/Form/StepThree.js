@@ -24,7 +24,7 @@ export default class StepThree extends React.Component {
   }
 
   nextPage = () => {
-    this.props.history.push("/form/review");
+    this.props.history.push("/form/misc");
   }
 
   render() {

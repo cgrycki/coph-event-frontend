@@ -2,6 +2,8 @@
 .EventPage {
   display: flex;
   flex-direction: column;
+  align-self: flex-start;
+  flex-grow: 1;
   width: 100%;
 }
 
@@ -20,14 +22,8 @@
   -ms-flex-align: center;
   align-items: center;
   flex-direction: row;
-}
-
-/* Event Page title */
-.EventNavHeading {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 /* Widen action buttons */

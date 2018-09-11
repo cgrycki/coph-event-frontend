@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 
 export default class Footer extends React.PureComponent {
@@ -7,7 +7,7 @@ export default class Footer extends React.PureComponent {
     return (
       <div className="FooterWrapper">
         <div className="Footer">
-          <Link to="/about">About Us</Link>
+          <NavLink to="/about">About</NavLink>
         </div>
       </div>
     );

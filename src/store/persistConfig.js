@@ -13,15 +13,15 @@ const configApp = {
 
 // Form configuration
 const configForm = {
-  key: 'form',
-  storage: storage,
-  whitelist: ['fields', 'errors']
+  key      : 'form',
+  storage  : storage,
+  whitelist: ['errors']
 }
 
 // Room configuation
 const configRooms = {
-  key: 'rooms',
-  storage: storage,
+  key      : 'rooms',
+  storage  : storage,
   whitelist: ['rooms']
 }
 
@@ -39,9 +39,9 @@ const rootReducer = combineReducers({
 
 // Create a persising root reducer  
 const persistConfig = {
-  key    : 'root',
-  storage: storage,
-  whitelist: ['form', 'diagram', 'rooms']
+  key      : 'root',
+  storage  : storage,
+  whitelist: []
 }
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

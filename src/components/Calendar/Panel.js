@@ -28,10 +28,10 @@ export default class Panel extends React.Component {
   render() {
     
     return (
-      <div className="ms-Grid-col ms-sm4 ms-md4 ms-lg4 ms-xl4 ms-xxl4">
+      <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg4 ms-xl4">
         
         <div className="ms-Grid-row">
-          <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12 ms-xl12 ms-xxl12">
+          <div className="ms-Grid-col ms-sm12">
             <DatePicker
               label={"Start"}
               isRequired={true}
