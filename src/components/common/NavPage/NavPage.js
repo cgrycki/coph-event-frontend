@@ -133,15 +133,15 @@ export default class NavPage extends React.Component {
   }
 
   render() {
+    const { history: { location: { pathname }}} = this.props;
+    const display = pathname !== "/";
+
     return (
       <div className="NavPage">
         <div className="ms-Grid-row">
-          <div className="ms-Grid-col ms-sm12 ms-lg12 ms-xxl12">
+          <div className="ms-Grid-col ms-sm12 ms-fadeIn20">
             {/*style={{ paddingLeft: 'unset' }}>*/}
-            <Breadcrumb
-              maxDisplayedItems={3}
-              items={this.createCrumbs()}
-            />
+            { display && <Breadcrumb maxDisplayedItems={3} items={this.createCrumbs()} />}
           </div>
         </div>
       </div>

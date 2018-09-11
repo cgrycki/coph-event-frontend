@@ -4,17 +4,15 @@
 body {
   background-color: rgb(248, 250, 252);
   margin: unset;
-  height: 100vh;
-}
-
-#root {
   height: 100%;
 }
+/* Takes up the web page, minus the navigation bar */
 .screenHeight {
   height: calc(100vh - 52px);
 }
+/* Takes up the entire vertical space */
 .fullHeight {
-  height: calc(100vh - 52px);
+  height: 100%;
 }
 
 
@@ -47,6 +45,7 @@ body {
   -webkit-transition: 250ms;
   -moz-transition: 250ms;
   height: 100%;
+  max-height: calc(100vh - 75px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -54,27 +53,27 @@ body {
 
 @media only screen and (min-width: 479px) {
   .Page {
-    padding: 1rem 25px 0;
+    padding: 0 1rem;
   }
 }
 @media only screen and (min-width: 639px) {
   .Page {
-    padding: 1.125rem 35px 0;
+    padding: 0 1.25rem;
   }
 }
 @media only screen and (min-width: 1023px) {
   .Page {
-    padding: 1.25rem 60px 0;
+    padding: 0 1.25rem;
   }
 }
 @media only screen and (min-width: 1365px) {
   .Page {
-    padding: 1.5rem 80px 0;
+    padding: 0 1.5rem;
   }
 }
 @media only screen and (min-width: 1920px) {
   .Page {
-    padding: 2rem 100px 0;
+    padding: 0 2rem;
   }
 }
 

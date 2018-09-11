@@ -37,7 +37,7 @@ const App = ({ store, persistor, history }) => (
           
           <NavBar />
           <div className="ms-Grid fullHeight">
-            <div className="ms-Grid-row fullHeight">
+            <div className="ms-Grid-row screenHeight">
             
               <Page>
                 {/*<NavPage history={history} />*/}
