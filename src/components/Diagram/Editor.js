@@ -14,6 +14,9 @@ import Toolbar from './Surfaces/Toolbar';
 import HUD from './Surfaces/HUD';
 import './assets/Diagram.css';
 
+const FLOOR_WIDTH = 1920;
+const FLOOR_HEIGHT = 1500;
+
 
 // React Component
 class Editor extends React.Component {
@@ -43,9 +46,41 @@ class Editor extends React.Component {
     addEditorItem: () => null
   }
 
+  /** Resizes canvas and adds an event listener for a responsive diagram. */
+  componentDidMount() {
+    this.scaleContainer();
+    window.addEventListener('resize', this.scaleContainer);
+
+    // Set pixel ratio
+    window.Konva.pixelRatio = 1;
+  }
+
+  /** Removes resize canvas listener */
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.scaleContainer);
+  }
+
+  scaleContainer = () => {
+    const { updateEditor, width } = this.props;
+
+    // Get a handle on our container
+    const canvasContainer = document.querySelector('.DiagramContainer');
+    const containerBounds = canvasContainer.getBoundingClientRect();
+
+    // Get the canvas height using the Floorplan's original dimension ratio.
+    const containerWidth    = containerBounds.width;
+    const constrainedHeight = (containerWidth * FLOOR_HEIGHT) / FLOOR_WIDTH;
+
+    // Dispatch the new dimensions
+    if (containerWidth !== width) {
+      updateEditor({ width: containerWidth, height: constrainedHeight });
+    }
+  }
+
   render() {
     return (
       <div className="ms-borderBase DiagramContainer">
+        <Toolbar />
         <GUI {...this.props} draggable={true} />
         <HUD />
       </div>

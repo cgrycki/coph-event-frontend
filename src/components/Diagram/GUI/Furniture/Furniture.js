@@ -8,8 +8,13 @@ import {
   Circle,
   Text
 } from 'react-konva';
+import {
+  CircleFurn,
+  ChairPath
+} from './CircleFurn';
 import { Easings } from 'konva';
 import { updateEditorItem } from '../../../../actions/diagram.actions';
+
 
 
 /**
@@ -49,9 +54,9 @@ class Furniture extends React.Component {
     return (
       <Text
         text={"✖"}
-        fontSize={18}
-        offsetX={-15}
-        offsetY={25}
+        fontSize={11}
+        offsetX={-10}
+        offsetY={10}
         name="closeButton"
       />
     );
@@ -164,6 +169,15 @@ class Furniture extends React.Component {
     this.node.getStage().container().style.cursor = 'default';
   }
 
+  renderItem = () => {
+    const { furn, id, selected_item } = this.props;
+    switch (furn) {
+      case 'circle': return CircleFurn(id, selected_item);
+      case 'chair' : return ChairPath(id, selected_item);
+      default      : return;
+    }
+  }
+
   render() {
     const { x, y, id, furn, selected_item } = this.props;
 
@@ -196,31 +210,11 @@ class Furniture extends React.Component {
       >
         <Circle
           radius={10}
-          fill="#f4f4f4"
+          fillEnabled={false}
           name="boundsHint"
           stroke={collision ? 'rgba(255, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0)'}
         />
-        <Circle
-          radius={5}
-          fill="#ffffff"
-          stroke={(id === selected_item) ? '#0078d4' : '#333333'}
-          strokeWidth={1.5}
-          // shadowColor
-          // shadowBlur
-          // shadowOpacity
-          // shadowOffset
-          name="furnItem"
-          hitFunc={function(context) {
-            let width = this.width();
-            let height = this.height();
-            
-            context.beginPath();
-            context.rect(-10, -10, width+20, height+20);
-            //context.arc(0, 0, this.getOuterRadius()+20, 0, Math.PI * 2, true)
-            context.closePath();
-            context.fillStrokeShape(this);
-          }}
-        />
+        {this.renderItem()}
         {this.getDragStatus() && this.renderDeleteButton()}
       </Group>
     );

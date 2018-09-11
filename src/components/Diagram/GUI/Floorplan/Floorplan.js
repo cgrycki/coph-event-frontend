@@ -141,6 +141,7 @@ export default class Floorplan extends React.Component {
               stroke={stroke}
               strokeWidth={strokeWidth}
               dash={dash}
+              listening={name === 'FloorGood'}
             />
           );
         })} 

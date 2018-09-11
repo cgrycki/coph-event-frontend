@@ -59,7 +59,7 @@ class EditorFunctions {
 
   /** Handles canvas clicks, called for *every* click. */
   static handleClickEvent(canvasRef, clickEvt) {
-    const nullAction = { action: null };
+    const nullAction = { action: 'selectItem', payload: null };
 
     // Some interaction housekeeping: prevent bubble + ignore right click
     clickEvt.evt.preventDefault();
@@ -79,6 +79,7 @@ class EditorFunctions {
 
     // Get intersection node and return the appropriate action
     const intersectName = intersects.getAttr('name');
+    console.log(intersectName, intersects);
     if (intersectName === 'FloorGood') {
       return { action: 'addItem', payload: pointerPos };
     } else if (intersectName === 'furnItem') {
