@@ -26,7 +26,10 @@ export default class MFK extends React.Component {
     };
 
     this.onFieldChange = this.onFieldChange.bind(this);
-    this.onFieldsBlur  = this.onFieldsBlur.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ setup_mfk: nextProps.setup_mfk });
   }
 
   /** Renders the Text Fields with autotabbing */
@@ -39,8 +42,7 @@ export default class MFK extends React.Component {
         allowFocusRoot={false}>
         <div 
           className="ms-slideRightIn20 ms-slideLeftOut20" 
-          style={row_style}
-          onBlur={this.onFieldsBlur}>
+          style={row_style}>
           {setup_mfk_fields.map((field, idx) => {
             return (
               <div key={idx}>
@@ -66,6 +68,10 @@ export default class MFK extends React.Component {
     // Get field properties by looking up field in array via index.
     const field = setup_mfk_fields[idx];
 
+    // Update the store: component will recieve props
+    const new_setup = { ...this.state.setup_mfk, [field.field]: evt.target.value };
+    this.props.onChange('setup_mfk', new_setup);
+
     // Check if we should advance inputs
     if ((evt.target.value.length >= field.maxLength) && (idx+1 < setup_mfk_fields.length)) {
       // Create a ID selector for next input
@@ -74,27 +80,5 @@ export default class MFK extends React.Component {
       let next_input       = document.querySelector(next_input_id);
       next_input.focus();
     }
-
-    // Update the field regardless
-    const new_setup = { ...this.state.setup_mfk, [field.field]: evt.target.value };
-    this.setState({ setup_mfk: new_setup });
-  }
-
-  /** Event listener that updates our store when the fields row loses focus */
-  onFieldsBlur(evt) {
-    evt.preventDefault();
-
-    // Get the reference to our focus zone
-    let currentTarget = evt.currentTarget;
-
-    // Keep a reference to the component while in timeout function
-    let component = this;
-
-    // Check if our focus zone contains the active element
-    setTimeout(function() {
-      if (!currentTarget.contains(document.activeElement)) {
-        // If it doesn't then we should update our store
-        component.props.onChange('setup_mfk', component.state.setup_mfk);
-      }}, 1);
   }
 }
