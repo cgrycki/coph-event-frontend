@@ -15,14 +15,14 @@ const messages = {
   submit: {
     title: "Event Submission",
     subText: "After you submit your form, it will be entered in the University of Iowa Workflow system for approval by an administrator.",
-    btnTextYes: "Submit",
-    btnTextNo: "Edit Event"
+    btnTextYes: "Submit Event",
+    btnTextNo: "Go Back"
   },
   submitted: {
     title: "Event Submission ⏳ ",
     subText: "",
-    btnTextYes: "Submit",
-    btnTextNo: "Edit Event",
+    btnTextYes: "Submitting...",
+    btnTextNo: "Go Back",
     message: "Submitting..."
   },
   success: {
@@ -40,29 +40,29 @@ const messages = {
     message: "There was an error while processing your request."
   },
   edit  : {
-    title: "Are you sure you want to edit this event?",
-    subText: "This will clear any unsaved progress in the Event Creation form.",
-    btnTextYes: "Edit Event",
-    btnTextNo: "Cancel"
+    title: "Are you sure?",
+    subText: "Editing an event will clear any unsaved progress in the Event Creation form.",
+    btnTextYes: "Yes, edit this event",
+    btnTextNo: "Go Back"
   },
   delete: {
-    title: "Delete Event",
-    subText: "Are you sure you want to delete this event? This will remove the event from Workflow, and can not be undone.",
+    title: "Are you sure?",
+    subText: "Are you sure you want to delete this event? Deleting an event will remove the event from Workflow, and can not be undone.",
     btnTextYes: "Yes, delete this event",
-    btnTextNo: "Cancel"
+    btnTextNo: "Go Back"
   },
   deleting: {
     title: "Delete Event ⏳",
     subText: "",
     btnTextYes: "Yes, delete this event",
-    btnTextNo: "Cancel",
+    btnTextNo: "Go Back",
     message: "Deleting..."
   },
   deleted: {
     title: "Delete Event ✔️",
     subText: "",
     btnTextYes: "Yes, cancel this event",
-    btnTextNo: "Cancel",
+    btnTextNo: "Go Back",
     message: "Event deleted!"
   }
 };
