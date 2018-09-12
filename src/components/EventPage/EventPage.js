@@ -118,7 +118,7 @@ class EventPage extends React.Component {
           {(pivot === "Form") && 
             <Details event={event} loading={event_loading} />}
 
-          {(pivot === "Layout") && <Viewer/>}
+          {(pivot === "Layout") && <Viewer items={this.props.items} />}
 
           {(pivot === "Workflow") &&
             <WorkflowWidget package_id={package_id} signature_id={signatureId}/>}
