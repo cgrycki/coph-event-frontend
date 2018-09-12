@@ -28,10 +28,10 @@ export default class FoodDrink extends React.PureComponent {
     return (
       <TextField
         onRenderLabel={() => this.renderLabel(label, info, food_drink_required)}
-        placeholder={food_drink_required ? "Jimmy Johns" : ""}
+        placeholder={food_drink_required ? "e.g. Jimmy Johns" : ""}
         value={food_provider}
         onChange={evt => onChange('food_provider', evt.target.value)}
-        error={food_provider_error}
+        errorMessage={food_provider_error}
         disabled={!food_drink_required}
       />
     );
@@ -45,7 +45,7 @@ export default class FoodDrink extends React.PureComponent {
     } = this.props;
 
     // Label information
-    const label = 'Drink Provider';
+    const label = 'Alcohol Provider';
     const info2  = 'If you will be requesting that alcohol be served at your event, please note that a liquor approval form must be filled out and approved by the Vice President of Student Services.' +
     "\n\n" +
     'The form is started with a Catering Coordinator in 154 IMU or by calling (319) 335-3116. For additional information regarding policies on serving alcohol ';
@@ -57,10 +57,10 @@ export default class FoodDrink extends React.PureComponent {
     return (
       <TextField
         onRenderLabel={() => this.renderLabel(label, info, food_drink_required)}
-        placeholder={food_drink_required ? "Liquor Downtown" : ""}
+        placeholder={food_drink_required ? "e.g. IMU" : ""}
         value={alcohol_provider}
         onChange={evt => onChange('alcohol_provider', evt.target.value)}
-        error={alcohol_provider_error}
+        errorMessage={alcohol_provider_error}
         disabled={!food_drink_required}
       />
     );
