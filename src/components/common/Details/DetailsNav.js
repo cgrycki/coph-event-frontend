@@ -37,7 +37,7 @@ export default class DetailsNav extends React.Component {
     const pivotArray = this.getReviewPivots();
 
     return (
-      <div className="ms-Grid-row">
+      <div className="ms-Grid-row DetailsNav">
         <div className="ms-Grid-col ms-sm12">
           <Pivot
             linkSize={PivotLinkSize.large}
