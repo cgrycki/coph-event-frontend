@@ -1,12 +1,12 @@
 import React from 'react';
 import { setup_mfk_fields } from '../../../../constants/fieldTypes';
 import { 
-  TextField,
   FocusZone,
   FocusZoneDirection,
   FocusZoneTabbableElements as TabTypes
-} from 'office-ui-fabric-react';
-
+} from 'office-ui-fabric-react/lib/FocusZone';
+import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import LabelRender from '../../../common/LabelRender';
 
 
 const row_style = {
@@ -34,12 +34,18 @@ export default class MFK extends React.Component {
 
   /** Renders the Text Fields with autotabbing */
   render() {
+    const info = 'In the unlikely event that extra maintenance or repairs are required following an event, any costs will be assessed along to the event sponsor.\n';
     return (
       <FocusZone
         direction={FocusZoneDirection.horizontal}
         handleTabKey={TabTypes.inputOnly}
         isCircularNavigation={false}
         allowFocusRoot={false}>
+        <LabelRender
+          label="MFK Number"
+          info={info}
+          required={!this.props.disabled}
+        />
         <div 
           className="ms-slideRightIn20 ms-slideLeftOut20" 
           style={row_style}>

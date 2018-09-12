@@ -1,11 +1,13 @@
 import React            from 'react';
 import { error_style }  from '../../../constants/styles';
 import * as rp          from 'request-promise';
+import LabelRender      from '../../common/LabelRender';
 import { 
   Toggle, 
   BasePicker,
   Icon,
-  Label
+  Label,
+  Link
 }                       from 'office-ui-fabric-react';
 const courseStyle = { margin: '10px' };
 
@@ -121,13 +123,18 @@ export default class Course extends React.Component {
     // If we have a course text then create a list
     const selectedCourse = (referenced_course !== '') ? 
       [{ key: "selected", text: referenced_course }] : [];
+
+    // Label information
+    const label = "Course Name";
+    const info2 = " our Reservation Policy regarding space use for Non-Course use.";
+    const info  = <p><Link href='https://www.public-health.uiowa.edu/classroomauditorium-reservation-policy-for-non-course-use/'>Please read</Link>{info2}</p>;
     
     return (
       <div className="ms-Grid-row">
         <div className="ms-Grid-col ms-sm8 ms-md8 ms-lg4 ms-xl4 ms-xxl4">
           <Toggle
+            label="Is this for a University Course?"
             defaultChecked={false}
-            label={"Is this for a University course?"}
             onText="Yes"
             offText="No"
             onChanged={() => onChange('references_course', !references_course)}
@@ -137,7 +144,7 @@ export default class Course extends React.Component {
         </div>
 
         <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg8 ms-xl7 ms-xlPush1 ms-slideRightIn20 ms-slideLeftOut20">
-          <Label required={references_course}>Course Name</Label>
+          <LabelRender label={label} info={info} required={references_course} />
           <BasePicker
             className="CoursePicker"
             disabled={!references_course}

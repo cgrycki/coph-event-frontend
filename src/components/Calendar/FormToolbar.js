@@ -12,7 +12,7 @@ export default class FormToolbar extends React.Component {
   }
   
   render() {
-    let { label, view } = this.props;
+    let { label } = this.props;
     return (
       <CommandBar
         items={[
