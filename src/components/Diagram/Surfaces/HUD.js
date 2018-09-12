@@ -4,7 +4,6 @@ import {
   DetailsList,
   CheckboxVisibility
 } from 'office-ui-fabric-react/lib/DetailsList';
-import { computeFurnitureCounts } from '../utils/computeFurnitureCounts';
 
 
 class HUD extends React.Component {

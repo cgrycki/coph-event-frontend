@@ -76,7 +76,7 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
       let new_selected = (id !== current_selected) ? id : null;
       return {...state, layout: {...state.layout, selected_item: new_selected}};
 
-    case diagramActions.DIAGRAM_UPDATE_EDITOR:
+    case diagramActions.DIAGRAM_UPDATE_LAYOUT:
       let new_layout = {...state.layout, ...action.payload};
       return {...state, layout: new_layout};
 
