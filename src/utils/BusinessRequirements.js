@@ -118,16 +118,21 @@ export default class BusinessRequirements {
   /** Validates that an MFK accounting number satisfies all of it's requirements */
   validateMFK(setup_required, setup_mfk) {
     if (setup_required === true) {
-      // For each MFK portion, map it's field and value to the MFK validation function
-      let mfk_valid = Object.entries(setup_mfk).map(entry => validSetupMFK(entry[0], entry[1]));
+      let errorFlag = false;
 
-      // Check if we failed any failed// all MFK fields passed
-      if (!mfk_valid.every(mfk => mfk === true)) {
-        this.errors['setup_required'] = 'You must fill all required accounting fields.';
-        return;
-      };
+      // For each MFK portion, map it's field and value to the MFK validation function
+      Object
+        .entries(setup_mfk)
+        .map(entry => validSetupMFK(entry[0], entry[1]))
+        .forEach(mfkValidation => {
+          // Check if we failed any failed// all MFK fields passed
+          if (mfkValidation !== true) errorFlag = mfkValidation;
+        });
+
+      if (errorFlag !== false) this.errors['setup_required'] = errorFlag;
+      else delete this.errors['setup_required'];
     }
-    delete this.errors['setup_required'];
+    else { delete this.errors['setup_required']; }
   }
 
   /** Validates there are no overlaps in proposed time. */

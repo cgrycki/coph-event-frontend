@@ -68,14 +68,21 @@ const validSetupMFK = (field, value) => {
   let mfk_field = setup_mfk_fields.find(mfk => mfk.field === field);
 
   // Most importantly, if this field is required and empty than not valid
-  if (mfk_field.required && isEmpty(value)) return false;
+  if (mfk_field.required && isEmpty(value)) return 'You must fill all required MFK fields.';
 
   // So now the field is either not required or not empty
   // So if its not required and empty it's valid
   else if (!mfk_field.required && isEmpty(value)) return true;
 
   // Otherwise it's either required or not empty
-  else return (isInt(value) && isLength(value, mfk_field.maxLength));
+  // Check the value is a number
+  else if (!isInt(value)) return 'MFK fields must be numbers.';
+
+  // Check the value is the correct length
+  else if (!isLength(value, mfk_field.maxLength)) return 'A MFK field is not the required length.';
+
+  // Checks out! Validate this field
+  else return true;
 };
 
 

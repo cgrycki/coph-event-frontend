@@ -7,6 +7,8 @@ import FormTitle      from './shared/FormTitle';
 import FormStep       from './shared/FormStep';
 import FormButtons    from './shared/FormButtons';
 import Details        from '../common/Details';
+import DetailsNav     from '../common/Details/DetailsNav';
+import { Viewer }     from '../Diagram';
 import Popup          from '../common/Popup';
 
 // Actions
@@ -19,14 +21,13 @@ class StepFour extends React.Component {
     super(props);
 
     this.state = {
+      pivot: "Form",
       popupHidden  : true,
       popupType    : 'submit',
       popupYesClick: this.submitForm
     };
 
-    this.prevPage    = this.prevPage.bind(this);
     this.submitForm  = this.submitForm.bind(this);
-    this.hidePopup   = this.hidePopup.bind(this);
     this.renderPopup = this.renderPopup.bind(this);
   }
 
@@ -47,8 +48,10 @@ class StepFour extends React.Component {
     else if (nextProps.form_error) this.renderPopup("error");
   }
 
-  prevPage() {
-    this.props.history.goBack(-1);
+  /** Go back 1 page in our history stack */
+  prevPage = () => {
+    const { history } = this.props;
+    history.goBack(-1);
   }
 
   submitForm() {
@@ -57,7 +60,7 @@ class StepFour extends React.Component {
   }
 
   /** Hides popup by setting component state. */
-  hidePopup() {
+  hidePopup = () => {
     this.setState({ popupHidden: true });
   }
 
@@ -79,24 +82,34 @@ class StepFour extends React.Component {
     });
   }
 
+  setPivot = pivotKey => this.setState({ pivot: pivotKey.key.substring(2) });
+
   render() {
-    let { form_loading, form_success, info: { package_id }} = this.props;
+    const { form_loading, form_success, info: { package_id }, items } = this.props;
+    const { pivot: selectedPivot } = this.state;
 
     // Conditionally set submit button text
     const submitBtnText = (package_id !== null) ? "Submit Revisions" : "Submit for Approval";
+
+    // Conditionally show Layout pivot
+    const showLayout = items.length > 0;
 
     return (
       <FormStep>
         <FormTitle page={"Review & Submit"} progress={1} />
 
-        <Popup
-          popupHidden={this.state.popupHidden}
-          popupType={this.state.popupType}
-          btnClickYes={() => this.state.popupYesClick()}
-          btnClickNo={() => this.hidePopup()}
-        />
-
-        <Details event={this.props.info} />
+        <div className="ms-Grid-row FormAlignStart">
+          <DetailsNav
+            selectedPivot={selectedPivot}
+            onToggle={this.setPivot}
+            showLayout={showLayout}
+          />
+          
+          <div className="ms-Grid-col">
+            {(selectedPivot === 'Form') && <Details event={this.props.info} />}
+            {(selectedPivot === 'Layout') && <Viewer items={items}/>}
+          </div>
+        </div>
 
         <FormButtons
           prevPage={this.prevPage}
@@ -104,6 +117,13 @@ class StepFour extends React.Component {
           prevDisabled={false}
           nextDisabled={form_loading || form_success}
           nextText={submitBtnText}
+        />
+
+        <Popup
+          popupHidden={this.state.popupHidden}
+          popupType={this.state.popupType}
+          btnClickYes={() => this.state.popupYesClick()}
+          btnClickNo={() => this.hidePopup()}
         />
       </FormStep>
     );

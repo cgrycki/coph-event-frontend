@@ -26,13 +26,13 @@ class StepSix extends React.Component {
       <FormStep>
         <FormTitle page={'Comments'} progress={0.9} />
         
-        <div className="ms-Grid-row">
-          <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12 ms-xl12 ms-xxl12">
+        <div className="ms-Grid-row FormAlignStart">
+          <div className="ms-Grid-col ms-sm12">
             <EventComments
-                value={this.props.info['comments']}
-                error={this.props.errors['comments']}
-                onChange={this.props.updateForm}
-              />
+              value={this.props.info['comments']}
+              error={this.props.errors['comments']}
+              onChange={this.props.updateForm}
+            />
           </div>
         </div>
 

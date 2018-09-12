@@ -21,18 +21,17 @@ import {
 class Home extends React.Component {
   constructor(props) {
     super();
-    this.nextPage   = this.nextPage.bind(this);
     this.checkLogin = this.checkLogin.bind(this);
     this.redirect   = this.redirect.bind(this);
   }
 
+  /** Set document title on Mount */
   componentDidMount() {
-    /* Kick off login check when the component mounts. */
-    this.checkLogin(this.props);
+    document.title = "CPHB Events";
   }
 
+  /** Dispatches a redirect function if applicable. */
   componentWillReceiveProps(nextProps) {
-    /* Updated login status? => Redirect */
     this.redirect(nextProps);
   }
  
@@ -60,9 +59,10 @@ class Home extends React.Component {
     if ((redirect_from !== undefined) && (logged_in === true)) history.push(redirect_from);
   }
 
-  nextPage() {
-    /* Takes user to create event form. */
-    this.props.history.push('/form/user');
+  /** Takes user to create event form. */
+  nextPage = () => {
+    const { history } = this.props;
+    history.push('/form/user');
   }
 
   renderLoad() {
@@ -147,84 +147,74 @@ class Home extends React.Component {
           </div>
         </div>
 
-        {/*this.renderStatus()
-        
         <div className="ms-Grid-row">
-          <div className="ms-Grid-col ms-sm12">
-            <hr/>
-            <br/>
+          <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg4">
+            <DocumentCard className="HomeCard">
+              <DocumentCardPreview 
+                previewImages={[{
+                  previewIconProps: { iconName: 'UnlockSolid', styles: { root: { fontSize: 72, color: '#333333'}}},
+                  width: '100%',
+                  height: 100
+                }]}
+              />
+              <div className="ms-DocumentCard-details">
+                <CompoundButton
+                  style={{ width: '100%', maxWidth: 'unset' }}
+                  styles={{ label: { textAlign: 'center'}, description: { textAlign: 'center'}}}
+                  primary={true}
+                  secondaryText="with your Iowa account."
+                  disabled={logged_in}
+                  text={"Login"}
+                  title="Login to your University of Iowa account."
+                  href={`${process.env.REACT_APP_REDIRECT_URI}/auth`}
+                />
+              </div>
+            </DocumentCard>
           </div>
-        </div>*/}
 
-
-          <div className="ms-Grid-row">
-            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg4">
-              <DocumentCard className="HomeCard">
-                <DocumentCardPreview 
-                  previewImages={[{
-                    previewIconProps: { iconName: 'UnlockSolid', styles: { root: { fontSize: 72, color: '#333333'}}},
-                    width: '100%',
-                    height: 100
-                  }]}
+          <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg4">
+            <DocumentCard className="HomeCard">
+              <DocumentCardPreview 
+                previewImages={[{
+                  previewIconProps: { iconName: 'Calendar', styles: { root: { fontSize: 72, color: '#333333'}}},
+                  width: '100%',
+                  height: 100
+                }]}
+              />
+              <div className="ms-DocumentCard-details">
+                <CompoundButton
+                  style={{ width: '100%', maxWidth: 'unset' }}
+                  styles={{ label: { textAlign: 'center'}}}
+                  text={"View Available Rooms"}
+                  title="View Room Calendars."
+                  onClick={() => history.push("/calendar")}
                 />
-                <div className="ms-DocumentCard-details">
-                  <CompoundButton
-                    style={{ width: '100%', maxWidth: 'unset' }}
-                    styles={{ label: { textAlign: 'center'}, description: { textAlign: 'center'}}}
-                    primary={true}
-                    secondaryText="with your Iowa account."
-                    disabled={logged_in}
-                    text={"Login"}
-                    title="Login to your University of Iowa account."
-                    href={`${process.env.REACT_APP_REDIRECT_URI}/auth`}
-                  />
-                </div>
-              </DocumentCard>
-            </div>
-
-            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg4">
-              <DocumentCard className="HomeCard">
-                <DocumentCardPreview 
-                  previewImages={[{
-                    previewIconProps: { iconName: 'Calendar', styles: { root: { fontSize: 72, color: '#333333'}}},
-                    width: '100%',
-                    height: 100
-                  }]}
-                />
-                <div className="ms-DocumentCard-details">
-                  <CompoundButton
-                    style={{ width: '100%', maxWidth: 'unset' }}
-                    styles={{ label: { textAlign: 'center'}}}
-                    text={"View Available Rooms"}
-                    title="View Room Calendars."
-                    onClick={() => history.push("/calendar")}
-                  />
-                </div>
-              </DocumentCard>
-            </div>
-
-            <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg4">
-              <DocumentCard className="HomeCard">
-                <DocumentCardPreview 
-                  previewImages={[{
-                    previewIconProps: { iconName: 'AddEvent', styles: { root: { fontSize: 72, color: '#333333'}}},
-                    width: '100%',
-                    height: 100
-                  }]}
-                />
-                <div className="ms-DocumentCard-details">
-                  <CompoundButton
-                    style={{ width: '100%', maxWidth: 'unset' }}
-                    styles={{ label: { textAlign: 'center'}}}
-                    primary={true}
-                    text={"Create an Event"}
-                    disabled={!logged_in}
-                    onClick={() => this.nextPage()}
-                  />
-                </div>
-              </DocumentCard>
-            </div>
+              </div>
+            </DocumentCard>
           </div>
+
+          <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg4">
+            <DocumentCard className="HomeCard">
+              <DocumentCardPreview 
+                previewImages={[{
+                  previewIconProps: { iconName: 'AddEvent', styles: { root: { fontSize: 72, color: '#333333'}}},
+                  width: '100%',
+                  height: 100
+                }]}
+              />
+              <div className="ms-DocumentCard-details">
+                <CompoundButton
+                  style={{ width: '100%', maxWidth: 'unset' }}
+                  styles={{ label: { textAlign: 'center'}}}
+                  primary={true}
+                  text={"Create an Event"}
+                  disabled={!logged_in}
+                  onClick={() => this.nextPage()}
+                />
+              </div>
+            </DocumentCard>
+          </div>
+        </div>
 
       </div>
     );
