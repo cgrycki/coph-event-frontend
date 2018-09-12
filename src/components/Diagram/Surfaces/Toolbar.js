@@ -24,7 +24,7 @@ class Toolbar extends React.Component {
 
     return (
       <div className="ms-Grid-row Diagram--Toolbar">
-        <div className="ms-Grid-col ms-sm12">
+        <div className="ms-Grid-col ms-sm4">
           <Toggle
             label="Chairs Per Table"
             offText="6"
@@ -32,6 +32,8 @@ class Toolbar extends React.Component {
             checked={(chairs_per_table === 8)}
             onChanged={this.chairCallback}
           />
+        </div>
+        <div className="ms-Grid-col ms-sm8">
           <ChoiceGroup
             label="Furniture Type"
             selectedKey={furn_type}

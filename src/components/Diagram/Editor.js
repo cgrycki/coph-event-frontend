@@ -11,6 +11,7 @@ import {
 import GUI        from './GUI';
 // import ZoomSlider from './Surfaces/ZoomSlider';
 import Toolbar from './Surfaces/Toolbar';
+//import NewToolbar from './Surfaces/NewToolbar';
 import HUD from './Surfaces/HUD';
 import './assets/Diagram.css';
 
