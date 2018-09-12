@@ -8,7 +8,6 @@ import { Fabric }           from 'office-ui-fabric-react';
 
 // Site components
 import NavBar         from './common/NavBar/';
-//import NavPage        from './common/NavPage/';
 import Page           from './common/Page';
 import ProtectedRoute from './common/ProtectedRoute';
 import Home           from './Home';
@@ -40,8 +39,6 @@ const App = ({ store, persistor, history }) => (
             <div className="ms-Grid-row screenHeight">
             
               <Page>
-                {/*<NavPage history={history} />*/}
-                
                 <Switch>
                   {/** Testing routes ****************************************/}
                   <Route path="/testing"          component={StepFive} />

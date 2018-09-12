@@ -6,11 +6,6 @@ body {
   margin: unset;
   height: 100%;
 }
-/* Takes up the web page, minus the navigation bar */
-.screenHeight {
-  height: calc(100vh - 52px);
-}
-/* Takes up the entire vertical space */
 .fullHeight {
   height: 100%;
 }
@@ -44,8 +39,7 @@ body {
   transition: 250ms;
   -webkit-transition: 250ms;
   -moz-transition: 250ms;
-  height: 100%;
-  max-height: calc(100vh - 75px);
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

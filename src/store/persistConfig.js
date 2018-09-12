@@ -15,7 +15,7 @@ const configApp = {
 const configForm = {
   key      : 'form',
   storage  : storage,
-  whitelist: ['errors']
+  whitelist: []
 }
 
 // Room configuation

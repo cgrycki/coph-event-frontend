@@ -45,7 +45,7 @@ class EditorFunctions {
     };
 
     // Compute the new scale, adjusting for under and over-zooming.
-    let newScale = (zoomEvt.evt.deltaY < 0) ? oldScale * 1.05 : oldScale / 1.05;
+    let newScale = (zoomEvt.evt.deltaY < 0) ? oldScale * 1.0375 : oldScale / 1.0375;
     newScale = Math.max(Math.min(newScale, 8), 1);
 
     // Update new XY position
