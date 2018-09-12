@@ -39,14 +39,9 @@ class Toolbar extends React.Component {
             selectedKey={furn_type}
             onChange={this.furnCallback}
             options={[
-              {
-                key: 'circle',
-                text: 'Circular Table'
-              },
-              {
-                key: 'chair',
-                text: 'Chair'
-              }
+              {key: 'circle', text: 'Circular Table'},
+              {key: 'chair', text: 'Chair'},
+              {key: 'rect', text: 'Rectangular Table'}
             ]}
           />
         </div>

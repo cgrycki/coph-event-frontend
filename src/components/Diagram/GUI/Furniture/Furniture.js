@@ -9,8 +9,10 @@ import {
   Text
 } from 'react-konva';
 import {
-  CircleFurn,
-  ChairPath
+  ChairPath,
+  table8,
+  table6,
+  RectTable
 } from './CircleFurn';
 import { Easings } from 'konva';
 import { updateEditorItem } from '../../../../actions/diagram.actions';
@@ -116,7 +118,7 @@ class Furniture extends React.Component {
   }
 
   /** Resets a furniture item if it's out of bounds or colliding */
-  handleDragEnd = () => {
+  handleDragEnd = () => setTimeout(() => {
     if (!this.node) return;
     let resetFlag = false;
 
@@ -152,7 +154,7 @@ class Furniture extends React.Component {
         onFinish: () => updateEditorItem(furn, id, x, y)
       });
     }
-  }
+  }, 10);
 
   /** Sets the cursor to emphasize interaction affordances. */
   handleMouseOver = () => {
@@ -170,10 +172,13 @@ class Furniture extends React.Component {
   }
 
   renderItem = () => {
-    const { furn, id, selected_item } = this.props;
+    const { furn, id, selected_item, chairs_per_table } = this.props;
+    const circleTable = (chairs_per_table === 6) ? table6 : table8;
+
     switch (furn) {
-      case 'circle': return CircleFurn(id, selected_item);
+      case 'circle': return circleTable(id, selected_item);
       case 'chair' : return ChairPath(id, selected_item);
+      case 'rect': return RectTable(id, selected_item);
       default      : return;
     }
   }
@@ -208,13 +213,16 @@ class Furniture extends React.Component {
         // onMouseOut={this.handleMouseOut}
         
       >
+        <Group name="furnItemWrapper">
+          {this.renderItem()}
+        </Group>
         <Circle
-          radius={10}
+          radius={15}
           fillEnabled={false}
           name="boundsHint"
+          listening={false}
           stroke={collision ? 'rgba(255, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0)'}
         />
-        {this.renderItem()}
         {this.getDragStatus() && this.renderDeleteButton()}
       </Group>
     );
@@ -224,7 +232,8 @@ class Furniture extends React.Component {
 
 // Redux Container
 const mapStateToProps = state => ({
-  selected_item: state.diagram.layout.selected_item
+  selected_item: state.diagram.layout.selected_item,
+  chairs_per_table: state.diagram.layout.chairs_per_table
 });
 
 const mapDispatchToProps = dispatch => ({

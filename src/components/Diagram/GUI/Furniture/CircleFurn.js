@@ -1,43 +1,40 @@
 import React from 'react';
-import { Circle, Group, Rect, Path } from 'react-konva';
+import { Group, Rect, Path } from 'react-konva';
 
-export function CircleFurn(id, selected_item=null) {
+
+const FURN_PATHS = {
+  TABLE_8_CHAIRS: "M-10.86-7.53l3.61,3.61,3.61-3.61-3.61-3.61-3.61,3.61.74.74,3.61-3.61M-13,2.36h5.11V-2.75H-13V2.36h1V-2.75m4.43,13.61,3.61-3.61L-7.53,3.63l-3.61,3.61,3.61,3.61.74-.74L-10.4,6.51M2.36,13V7.89H-2.75V13H2.36V12H-2.75M10.86,7.53,7.25,3.91,3.63,7.53l3.61,3.61,3.61-3.61-.74-.74L6.51,10.4M13-2.36H7.89V2.75H13V-2.36H12V2.75M7.53-10.86,3.91-7.25,7.53-3.63l3.61-3.61L7.53-10.86l-.74.74L10.4-6.51M-2.36-13v5.11H2.75V-13H-2.36v1H2.75M-6.39,0A6.39,6.39,0,0,0,0,6.39,6.39,6.39,0,0,0,6.39,0,6.39,6.39,0,0,0,0-6.39,6.39,6.39,0,0,0-6.39,0Zm4.13,1.54,5-5M-4.63,3.37,2.84-4.1m-7.57,6L2.19-5M-1.62,5.44,4.2-.38",
+  TABLE_6_CHAIRS: "M-2.43-13.25V-8H2.83v-5.26H-2.43v1.07H2.83M-12.8-4.46l4.55,2.63,2.63-4.55L-10.17-9-12.8-4.46l.93.54,2.63-4.55M-10.37,8.91l4.55-2.63L-8.45,1.73-13,4.36l2.63,4.55.93-.54-2.63-4.55M2.43,13.5V8.24H-2.83V13.5H2.43V12.43H-2.83M12.8,4.71,8.24,2.08,5.62,6.64l4.55,2.63L12.8,4.71l-.93-.54L9.24,8.73M10.37-8.67,5.82-6,8.45-1.48,13-4.11,10.37-8.67l-.93.54,2.63,4.55M-6.57.12A6.57,6.57,0,0,0,0,6.69,6.57,6.57,0,0,0,6.57.12,6.57,6.57,0,0,0,0-6.45,6.57,6.57,0,0,0-6.57.12Zm4.25,3.4L2.8-1.6M-4.77,3.59,2.92-4.09M-4.87,2.09,2.26-5M-1.67,5.72l6-6",
+  CHAIR: "M16.24,14.79A1.08,1.08,0,0,1,15.61,16a11.67,11.67,0,0,1-4.89.11A1.08,1.08,0,0,1,10,14.93l-.52-.83-.06.6a.18.18,0,0,0,.17.19l.4,0a.18.18,0,0,0,.19-.17l0-1.08.09-2.08a.18.18,0,0,0-.17-.19l-.2,0a.18.18,0,0,0-.19.16l-.28,2.54.62-3.26c0,.06,0,.11.19.08l0,0a.63.63,0,0,1,.28-.2A9,9,0,0,1,13,10.31a9,9,0,0,1,2.46.32.63.63,0,0,1,.29.19l0,0s.1.06.19-.09v0a.63.63,0,0,0-.44-.53A9,9,0,0,0,13,9.88a9,9,0,0,0-2.47.44.63.63,0,0,0-.41.55l.12.56h0a.63.63,0,0,1,.43-.56,8.66,8.66,0,0,1,4.73-.11.63.63,0,0,1,.45.54h0l.07,0a.18.18,0,0,0-.16.19L16,13.55l.1,1.08a.18.18,0,0,0,.2.16l.4,0a.18.18,0,0,0,.16-.2l-.09-.59-.39-2.53a.18.18,0,0,0-.2-.15l-.2,0"
+}
+
+
+
+
+export function table8(id, selected_item) {
   return (
-    <Circle
+    <Path
       name="furnItem"
-      radius={5}
-      fill="#ebebeb"
-      stroke={(id === selected_item) ? '#0078d4' : '#333333'}
-      strokeWidth={1.5}
-      //offsetX={-2.5}
-      //offsetY={-2.5}
+      data={FURN_PATHS['TABLE_8_CHAIRS']}
+      fill="#ffffff"
+      stroke={(id === selected_item) ? '#0078d4' : "#333"}
+      strokeWidth={0.5}
     />
   );
 }
 
-
-export function ChairFurn(id, selected_item) {
+export function table6(id, selected_item) {
   return (
-    <Group
+    <Path
       name="furnItem"
-      offsetX={1.5}
-      offsetY={1.5}
-    >
-      <Rect
-        width={3}
-        height={3}
-        fill="#805716"
-        stroke={(id === selected_item) ? '#0078d4' : "#805716"}
-        strokeScaleEnabled={false}
-      />
-      <Rect
-        width={3}
-        height={1}
-        fill="#D4A985"
-      />
-    </Group>
+      data={FURN_PATHS['TABLE_6_CHAIRS']}
+      fill="#ffffff"
+      stroke={(id === selected_item) ? '#0078d4' : "#333"}
+      strokeWidth={0.5}
+    />
   );
 }
+
 
 export function ChairPath(id, selected_item) {
   return (
@@ -52,3 +49,17 @@ export function ChairPath(id, selected_item) {
 }
 
 
+export function RectTable(id, selected_item) {
+  return (
+    <Rect
+      name="furnItem"
+      width={15}
+      height={7}
+      offsetX={-7.5}
+      offsetY={-3.5}
+      fill="#ffffff"
+      stroke={(id === selected_item) ? '#0078d4' : "#333"}
+      strokeWidth={0.5}
+    />
+  );
+}

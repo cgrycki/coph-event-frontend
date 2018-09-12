@@ -47,7 +47,7 @@ export default class TransformerComponent extends Component {
       <Transformer
         ref={(node) => { this.transformer = node; }}
         resizeEnabled={false}
-        //borderEnabled={false}
+        borderEnabled={false}
         rotateAnchorOffset={15}
       />
     );
