@@ -9,6 +9,7 @@ import thunkMiddleware                            from 'redux-thunk/dist/redux-t
 import { createLogger }                           from 'redux-logger/dist/redux-logger';
 import { getDateISO }                             from '../utils/date.utils.js';
 import { fetchLogin }                             from '../actions/app.actions';
+import { appSetup } from '../actions/nav.actions';
 
 // Logging middleware
 const loggerMiddleware = createLogger({ collapsed: true });
@@ -39,11 +40,11 @@ export function configureStore(preloadedState, browserHistory) {
 
   // Wrap our store in Redux-Persist's function to hydrate/flush
   const persistedStore = persistStore(store, null, () => {
-    store.dispatch(fetchLogin());
+    store.dispatch(appSetup());
   });
     
   // Dispatch the current date to the store in case the hydration is stale
-  store.dispatch({ type: 'UPDATE_FIELD', field: 'date', value: getDateISO(new Date())});
+  //store.dispatch({ type: 'UPDATE_FIELD', field: 'date', value: getDateISO(new Date())});
 
   return {store, persistedStore};
 }
