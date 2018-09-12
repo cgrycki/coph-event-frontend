@@ -4,49 +4,63 @@ import {
   DetailsList,
   CheckboxVisibility
 } from 'office-ui-fabric-react/lib/DetailsList';
+import { computeFurnitureCounts } from '../utils/computeFurnitureCounts';
 
 
 class HUD extends React.Component {
   /** Transforms our furniture counts objects into a list of items */
-  createItems = (counts) => {
+  createListItems = (counts) => {
+    const labels = {
+      chair   : 'Chairs',
+      circle  : 'Circular Tables',
+      rect    : 'Rectangular Tables',
+      cocktail: 'Bar Top (cocktail style) Tables',
+      display : 'Display Boards',
+      trash   : 'Trash Cans'
+    };
+
     const items = Object
       .entries(counts)
       .filter(([key, val]) => key.endsWith('_racks') === false)
       .map(([key, val]) => ({
-        furn: key,
+        furn: labels[key],
         count: val
       }));
     return items;
   }
 
   /** Returns a list of objects denoting column config */
-  createColumns = () => {
+  createListColumns = () => {
     return [
       {
         key: 'furn',
         fieldName: 'furn',
         name: 'Furniture Type',
-        minWidth: 80
+        minWidth: 80,
+        headerClassName: 'ms-fontWeight-semibold'
       },
       {
         key: 'count',
         fieldName: 'count',
         name: 'Count',
-        minWidth: 40
+        minWidth: 40,
+        headerClassName: 'ms-fontWeight-semibold'
       }
     ];
   }
 
   render() {
-    const { counts } = this.props;
+    const { counts, chairs_per_table } = this.props;
+    const computed = computeFurnitureCounts(counts, chairs_per_table);
 
     return (
       <div className="ms-Grid-row Diagram--HUD">
         <div className="ms-Grid-col ms-sm6">
           <DetailsList
-            columns={this.createColumns()}
-            items={this.createItems(counts)}
+            columns={this.createListColumns()}
+            items={this.createListItems(computed)}
             checkboxVisibility={CheckboxVisibility.hidden}
+            compact
           />
         </div>
       </div>
