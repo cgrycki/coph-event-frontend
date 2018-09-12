@@ -94,9 +94,14 @@ export default class BusinessRequirements {
 
         // Continue to validate providers regardless
         if (!fd_empty && !validProvider(food_provider))
-          this.errors['food_provider_error'] = 'Invalid format.';
+          this.errors['food_provider_error'] = 'Invalid length.';
+        else if (!fd_empty && validProvider(food_provider))
+          delete this.errors['food_provider_error'];
+        
         if (!dr_empty && !validProvider(drink_provider))
-          this.errors['alcohol_provider_error'] = 'Invalid format';
+          this.errors['alcohol_provider_error'] = 'Invalid length';
+        else if (!dr_empty && validProvider(drink_provider))
+          delete this.errors['alcohol_provider_error'];
       }
     } else {
       // Clear the error if user isn't having food

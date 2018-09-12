@@ -87,8 +87,7 @@ const validSetupMFK = (field, value) => {
 
 
 const validProvider = provider => 
-  isLength(provider, { min: 5, max: 50 }) &&
-  isAscii(provider);
+  isLength(provider, { min: 5, max: 50 });
 
 
 const validNumberPeople = num_people => 
