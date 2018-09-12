@@ -36,7 +36,7 @@ const App = ({ store, persistor, history }) => (
           
           <NavBar />
           <div className="ms-Grid fullHeight">
-            <div className="ms-Grid-row screenHeight">
+            <div className="ms-Grid-row fullHeight">
             
               <Page>
                 <Switch>
@@ -63,10 +63,9 @@ const App = ({ store, persistor, history }) => (
 
                 <Footer/>
               </Page>
-            </div>
-          </div>
+              </div>
+              </div>
 
-          
         </Fabric>
       </ConnectedRouter>
     </PersistGate>
