@@ -10,11 +10,9 @@ body {
 #root {
   height: 100%;
 }
-.screenHeight {
-  height: calc(100vh - 52px);
-}
+
 .fullHeight {
-  height: calc(100vh - 52px);
+  height: 100%;
 }
 
 
@@ -46,7 +44,7 @@ body {
   transition: 250ms;
   -webkit-transition: 250ms;
   -moz-transition: 250ms;
-  height: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
