@@ -2,7 +2,7 @@ import React      from 'react';
 import PropTypes  from 'prop-types';
 import { Layer }  from 'react-konva';
 import Furniture  from './Furniture';
-//import TransformerComponent from '../TransformerComponent';
+import TransformerComponent from '../TransformerComponent';
 
 
 
@@ -24,7 +24,7 @@ export default class FurnitureLayer extends React.Component {
 
     return (
       <Layer>
-        {/*<TransformerComponent selected_item={selected_item} />*/}
+        <TransformerComponent selected_item={selected_item} />
         {items.map(d => (
           <Furniture key={d.id} {...d} draggable={draggable} />
         ))}
