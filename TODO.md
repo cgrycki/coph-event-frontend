@@ -30,6 +30,9 @@ actions/creators/reducers, and REST POST to include the rotation and chairs per 
 - submit a test post
 
 
+***** getEvents() action creator
+add an is_admin flag and conditionally change the URI
+
 ========================================================================
 == Nice to have
 ========================================================================
