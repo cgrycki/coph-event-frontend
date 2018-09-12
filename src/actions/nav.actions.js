@@ -6,6 +6,7 @@
 import {push}               from 'connected-react-router/lib/actions';
 import {parseDynamo}        from '../utils/date.utils';
 import {
+  getEvents,
   populateEventInfo,
   setEventFetch,
   fetchEventReset
@@ -14,7 +15,10 @@ import {
   populateFieldInfo,
   submitFormReset
 }  from './form.actions';
-import {populateEditor}     from './diagram.actions';
+import { populateEditor }   from './diagram.actions';
+import {
+  fetchLogin
+} from './app.actions';
 
 
 /** 
@@ -41,9 +45,44 @@ export const populateFormAndPush = (info, items=[]) => (dispatch) => {
   dispatch(populateFieldInfo(formattedInfo)); // Populate form infomation
 
   // Layout information
+  // @todo diagram actions
   dispatch(populateEditor(items));            // Populate diagram items
 
   // Form REST
   dispatch(submitFormReset());                // Reset the form submission loading+error+success
   dispatch(push("/form/user"));               // Route to form so user can edit
+}
+
+
+/**
+ * Populated form information for an event and then dispatches a route to the
+ * diagram page.
+ * @param {object} info Event field information object.
+ * @param {object[]} items Event furniture item array. 
+ */
+export const populateDiagramAndPush = (info, items) => (dispatch) => {
+  const formattedInfo = parseDynamo(info);
+  dispatch(populateFieldInfo(formattedInfo));
+
+  // @todo diagram actions
+  dispatch(populateEditor(items));
+
+  dispatch(submitFormReset());
+  // @todo diagram reset
+
+  dispatch(push("/form/layout"));
+}
+
+/**
+ * Dispatches actions upon page start. This takes advantage of our
+ * 'thunks', or Promises for the Redux store. Our REST actions return a Promise
+ * which resolves with a dispatching action depending on the REST call status.
+ * We can chain these together to create 'higher order actions'. 
+ */
+export const appSetup = () => (dispatch, getState) => {
+  // Authenticate users session first
+  dispatch(fetchLogin())
+    .then(resolvedAction => {
+      if (resolvedAction.payload.loggedIn) dispatch(getEvents());
+    });
 }
