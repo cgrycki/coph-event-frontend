@@ -15,7 +15,10 @@ import {
   getEvent,
   deleteEvent 
 }                               from '../../actions/event.actions';
-import { populateFormAndPush }  from '../../actions/nav.actions';
+import {
+  populateFormAndPush,
+  populateDiagramAndPush
+}  from '../../actions/nav.actions';
 
 
 /* React Component ----------------------------------------------------------*/
@@ -69,11 +72,11 @@ class EventPage extends React.Component {
   /** Sets our popup's state and callback */
   renderPopup = popupType => {
     // Gather dispatch functions from react-redux's connect
-    const { event, items, editEvent, deleteEventFromServer, navigate } = this.props;
+    const { event, items, editEvent, populateDiagramAndPush, deleteEventFromServer, navigate } = this.props;
 
     // Create a mapping of 'state' => function
     const clickCallback = {
-      edit    : () => editEvent(event, items),
+      edit    : () => populateDiagramAndPush(event, items),
       delete  : () => deleteEventFromServer(event.package_id),
       deleting: () => console.log("Patience... I've sent the delete request to the server"),
       error   : () => navigate("/dashboard")
@@ -148,6 +151,7 @@ const mapDispatchToProps = dispatch => ({
   getEventFromServer   : package_id => dispatch(getEvent(package_id)),
   deleteEventFromServer: package_id => dispatch(deleteEvent(package_id)),
   editEvent            : (info, items) => dispatch(populateFormAndPush(info, items)),
+  populateDiagramAndPush: (info, items) => dispatch(populateDiagramAndPush(info, items)),
   navigate             : path => dispatch(push(path))
 });
 

@@ -43,7 +43,7 @@ export const deleteEventSuccess = (response) => ({
 })
 
 /** Sets our store attribute controlling fetch behavior on Event Page load. */
-export const setEventFetch = (shouldFetch) => ({
+export const setFetchEvents = (shouldFetch) => ({
   type: eventActions.SET_FETCH_EVENT,
   payload: shouldFetch
 });

@@ -8,7 +8,7 @@ import {parseDynamo}        from '../utils/date.utils';
 import {
   getEvents,
   populateEventInfo,
-  setEventFetch,
+  setFetchEvents,
   fetchEventReset
 }  from './event.actions';
 import {
@@ -31,7 +31,7 @@ export const populateEventAndPush = ({event, permissions, items=[]}) => (dispatc
   const formattedInfo = parseDynamo(event);                       // Format Dynamo object
   dispatch(populateEventInfo(formattedInfo, permissions, items)); // Populate Event Page info
   dispatch(fetchEventReset());                                    // Reset event page loading+error+success
-  dispatch(setEventFetch(false));                                 // Disable retrieving event because we've loaded it
+  dispatch(setFetchEvents(false));                                 // Disable retrieving event because we've loaded it
   dispatch(push(`/event/${event.package_id}`));                   // Route to the event so user can view
 }
 
@@ -61,6 +61,7 @@ export const populateFormAndPush = (info, items=[]) => (dispatch) => {
  * @param {object[]} items Event furniture item array. 
  */
 export const populateDiagramAndPush = (info, items) => (dispatch) => {
+  // Populate the form
   const formattedInfo = parseDynamo(info);
   dispatch(populateFieldInfo(formattedInfo));
 
@@ -83,6 +84,7 @@ export const appSetup = () => (dispatch, getState) => {
   // Authenticate users session first
   dispatch(fetchLogin())
     .then(resolvedAction => {
-      if (resolvedAction.payload.loggedIn) dispatch(getEvents());
+      if (resolvedAction.type === 'LOGIN_SUCCESS' &&
+          resolvedAction.payload.loggedIn) dispatch(getEvents());
     });
 }
