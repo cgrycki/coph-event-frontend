@@ -8,7 +8,7 @@ export default class EventComments extends React.Component {
     return (
       <TextField
         label={"Comments"}
-        placeholder="Enter any additional notes."
+        placeholder="Enter additional notes, or anything we might have missed."
         field={"comments"}
         value={value}
         onChange={onChange}

@@ -1,49 +1,67 @@
 // Dependencies
-import React        from 'react';
-import { Toggle }   from 'office-ui-fabric-react';
-import TextField    from '../../common/TextField';
+import React          from 'react';
+import { Toggle }     from 'office-ui-fabric-react/lib/Toggle';
+import { Link }       from 'office-ui-fabric-react/lib/Link';
+import { TextField }  from 'office-ui-fabric-react/lib/TextField';
+import LabelRender    from '../../common/LabelRender';
 
 
 /**
  * Renders the Food/Alcohol form row and inputs
  */
 export default class FoodDrink extends React.PureComponent {
+  renderLabel = (label, info, required) => {
+    return (<LabelRender label={label} info={info} required={required} />);
+  }
+
   renderFood() {
     // Renders the text input field for food providers
-    let { 
+    const { 
       food_provider, food_provider_error, 
-      food_drink_required, onChange } = this.props;
+      food_drink_required, onChange
+    } = this.props;
+
+    // Information callout
+    const label = 'Food Provider';
+    const info  = 'Please note, food is not allowed in CPHB classrooms or computer labs. If you are planning an event that includes food, please reserve C217 or the Atrium when completing your event request.';
 
     return (
       <TextField
-        label={"Food Provider"}
+        onRenderLabel={() => this.renderLabel(label, info, food_drink_required)}
         placeholder={food_drink_required ? "Jimmy Johns" : ""}
-        field={"food_provider"}
         value={food_provider}
-        onChange={onChange}
+        onChange={evt => onChange('food_provider', evt.target.value)}
         error={food_provider_error}
         disabled={!food_drink_required}
-        required={food_drink_required}
       />
     );
   }
 
   renderDrink() {
     // Renders the text input field for alcohol providers
-    let { 
+    const { 
       alcohol_provider, alcohol_provider_error, 
-      food_drink_required, onChange } = this.props;
+      food_drink_required, onChange
+    } = this.props;
+
+    // Label information
+    const label = 'Drink Provider';
+    const info2  = 'If you will be requesting that alcohol be served at your event, please note that a liquor approval form must be filled out and approved by the Vice President of Student Services.' +
+    "\n\n" +
+    'The form is started with a Catering Coordinator in 154 IMU or by calling (319) 335-3116. For additional information regarding policies on serving alcohol ';
+    
+    const alink = <Link href='https://opsmanual.uiowa.edu/administrative-financial-and-facilities-policies/alcoholic-beverage-service-guidelines-and'>please see here.</Link>
+    const info = (<p>{info2}{alink}</p>);
+
 
     return (
       <TextField
-        label={"Drink Provider"}
+        onRenderLabel={() => this.renderLabel(label, info, food_drink_required)}
         placeholder={food_drink_required ? "Liquor Downtown" : ""}
-        field={"alcohol_provider"}
         value={alcohol_provider}
-        onChange={onChange}
+        onChange={evt => onChange('alcohol_provider', evt.target.value)}
         error={alcohol_provider_error}
         disabled={!food_drink_required}
-        required={food_drink_required}
       />
     );
   }

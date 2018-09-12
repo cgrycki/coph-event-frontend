@@ -61,7 +61,7 @@ export default class Popup extends React.Component {
         hidden={popupHidden}
         onDismiss={btnClickNo}
         dialogContentProps={{
-          type   : DialogType.normal,
+          type   : DialogType.largeHeader,
           title  : title,
           subText: subText
         }}

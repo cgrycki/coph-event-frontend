@@ -132,7 +132,7 @@ export default class Details extends React.PureComponent {
 
           <div className="ms-Grid-row">
             <div className="ms-Grid-col ms-sm9 ms-md4 ms-lg3">
-              {labelWrapper("For an University Course?")}
+              {labelWrapper("Is this for a University Course?")}
               {toggleWrapper(courseRef, should_shimmer)}
             </div>
             

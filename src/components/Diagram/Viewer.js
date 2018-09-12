@@ -43,8 +43,7 @@ class Viewer extends React.Component {
 
 // Redux Container: take items from current *event* instead of form
 const mapStateToProps = state => ({
-  ...state.diagram.layout,
-  items: state.events.current.items
+  ...state.diagram.layout
 })
 
 const mapDispatchToProps = dispatch => ({

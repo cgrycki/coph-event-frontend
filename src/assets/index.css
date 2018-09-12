@@ -104,15 +104,9 @@ body {
 }
 
 
-
-
-
-
-/* Form field: Setup required? 
-.FormSetup {
-  max-width: 25px;
+.About {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding-top: 1rem;
 }
-.FormSetupInput {
-  margin-left: 10px;
-  max-width: 80px;
-}*/
