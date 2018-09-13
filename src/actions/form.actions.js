@@ -105,11 +105,17 @@ export const submitFormReset = () => ({
  * Wraps our submission actions so that we can execute from our components.
  * @param {object} info Contains our form field information
  * @param {object} furniture Contains our form furniture/editor information
+ * @param {number} chairs_per_table Number of chairs per table
  * @returns {Promise}
  */
-export function submitForm(info, items) {
+export function submitForm(info, items, chairs_per_table) {
   // Create our payload
-  const body = { form: info, layout: { items }};
+  const body = {
+    form: info,
+    layout: {
+      items,
+      chairs_per_table
+    }};
 
   // Assign REST method + URI depending on form submission status
   const method = (info.package_id) ? 'PATCH' : 'POST';
