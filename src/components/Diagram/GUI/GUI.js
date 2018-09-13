@@ -76,7 +76,8 @@ export default class GUI extends React.Component {
       width, height,
       x, y,
       scaleX, scaleY,
-      draggable, items, updateEditor, selected_item
+      draggable, items, selected_item,
+      updateEditor, updateEditorItem
     } = this.props;
 
     return (
@@ -110,6 +111,7 @@ export default class GUI extends React.Component {
           items={items}
           draggable={draggable}
           selected_item={selected_item}
+          updateEditorItem={updateEditorItem}
         />
       </Stage>
     );

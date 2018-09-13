@@ -114,7 +114,7 @@ class Furniture extends React.Component {
 
     // Update position regardless
     const { id, x, y, name: furn } = this.node.attrs;
-    this.props.updateEditorItem(furn, id, x, y);
+    this.props.updateEditorItem({furn, id, x, y});
   }
 
   /** Resets a furniture item if it's out of bounds or colliding */
@@ -184,7 +184,7 @@ class Furniture extends React.Component {
   }
 
   render() {
-    const { x, y, id, furn, selected_item } = this.props;
+    const { x, y, id, furn, rot } = this.props;
 
     // Get collision status
     const collision = (this.node) ? this.node.getAttr('collision') : false;
@@ -195,6 +195,7 @@ class Furniture extends React.Component {
         draggable={this.getDragStatus()}
         x={x}
         y={y}
+        rotation={rot}
         id={id}
         name={furn}
 
@@ -237,7 +238,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateEditorItem: (furn, id, x, y) => dispatch(updateEditorItem(furn, id, x, y))
+  updateEditorItem: ({furn, id, x, y}) => dispatch(updateEditorItem({furn, id, x, y}))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Furniture);

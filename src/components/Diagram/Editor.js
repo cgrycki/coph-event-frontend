@@ -6,6 +6,7 @@ import {
   addItemAndUpdateDiagram,
   removeItemAndUpdateDiagram,
   updateEditor,
+  updateEditorItem,
   selectEditorItem,
 }                 from '../../actions';
 import GUI        from './GUI';
@@ -103,6 +104,7 @@ const mapDispatchToProps = dispatch => ({
   updateEditor    : (field, value) => dispatch(updateEditor(field, value)),
   addEditorItem   : (x, y) => dispatch(addItemAndUpdateDiagram(x, y)),
   selectEditorItem: id => dispatch(selectEditorItem(id)),
+  updateEditorItem: ({id, furn, x, y, rot}) => dispatch(updateEditorItem({id, furn, x, y, rot})),
   removeEditorItem: id => dispatch(removeItemAndUpdateDiagram(id))
 });
 

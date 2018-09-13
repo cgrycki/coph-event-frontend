@@ -24,12 +24,13 @@ const addEditorItem = ({ x, y }) => ({
  * @param {float} x Item's horizontal position within layout
  * @param {float} y Item's vertical position within layout.
  */
-export const updateEditorItem = (furn, id, x, y) => ({
+export const updateEditorItem = ({ furn, id, x, y, rot=0 }) => ({
   type     : diagramActions.DIAGRAM_UPDATE_ITEM,
   furn,
   id,
   x,
-  y
+  y,
+  rot
 });
 
 

@@ -79,8 +79,6 @@ class EditorFunctions {
 
     // Get intersection node and return the appropriate action
     const intersectName = intersects.getAttr('name');
-    console.log(intersectName, intersects);
-
     if (intersectName === 'FloorGood') {
       return { action: 'addItem', payload: pointerPos };
     } else if (intersectName === 'furnItem') {

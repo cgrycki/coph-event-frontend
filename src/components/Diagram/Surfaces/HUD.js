@@ -49,8 +49,7 @@ class HUD extends React.Component {
   }
 
   render() {
-    const { counts, chairs_per_table } = this.props;
-    console.log(counts);
+    const { counts } = this.props;
 
     return (
       <div className="ms-Grid-row Diagram--HUD">

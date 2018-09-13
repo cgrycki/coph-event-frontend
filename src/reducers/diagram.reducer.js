@@ -40,8 +40,8 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
 
     case diagramActions.DIAGRAM_UPDATE_ITEM:
       // Desconstruct arguments and reconstruct new obj.
-      var {id, furn, x, y} = action;
-      let updated_item = {id, furn, x, y};
+      var {id, furn, x, y, rot} = action;
+      let updated_item = {id, furn, x, y, rot};
 
       // Remove old item and add updated
       let updated_items = [...filterItem(state.items, id), updated_item];
