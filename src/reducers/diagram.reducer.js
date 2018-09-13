@@ -22,21 +22,17 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
       // Inferfurniture type from state, get current ID count, + create new item.
       var furn     = state.layout.furn_type;
       var id       = furn + state.ids[furn];
-      let new_item = {id, furn, x, y};
+      let new_item = {id, furn, x, y, rot: 0};
 
       // Increment furn type ID and add new item to diagram's list
       let furn_id_inc = state.ids[furn] + 1;
       let furn_ids    = {...state.ids, [furn]: furn_id_inc};
       let new_items   = [...state.items, new_item];
 
-      // Increment counter for furniture type
-      let new_counts = {...state.counts, [furn]: state.counts[furn] + 1};
-
       return {
         ...state,
         ids   : furn_ids,
         items : new_items,
-        counts: new_counts,
         layout: {
           ...state.layout, selected_item: id
         }
@@ -52,11 +48,9 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
       return {...state, items: updated_items};
 
     case diagramActions.DIAGRAM_REMOVE_ITEM:
-      var { id, furn } = action;
+      var { id }          = action;
+      console.log(id);
       const removed_items = [...filterItem(state.items, id)];
-
-      // Decrement furniture counts
-      const decremented_counts = {...state.counts, [furn]: state.counts[furn] - 1 };
 
       // Clear selected (only selected items can be removed)
       const null_selected = { ...state.layout, selected_item: null };
@@ -64,7 +58,6 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
       return {
         ...state,
         items : removed_items,
-        counts: decremented_counts,
         layout: null_selected
       };
 
@@ -79,6 +72,9 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
     case diagramActions.DIAGRAM_UPDATE_LAYOUT:
       let new_layout = {...state.layout, ...action.payload};
       return {...state, layout: new_layout};
+
+    case diagramActions.DIAGRAM_UPDATE_COUNTS:
+      return {...state, counts: { ...state.counts, ...action.payload }};
 
     /** External actions ---------------------------------------------------------*/
     case diagramActions.DIAGRAM_POPULATE_ITEMS:

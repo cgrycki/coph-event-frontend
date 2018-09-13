@@ -2,7 +2,10 @@ import React            from 'react';
 import { connect }      from 'react-redux';
 import { ChoiceGroup }  from 'office-ui-fabric-react/lib/ChoiceGroup';
 import { Toggle }       from 'office-ui-fabric-react/lib/Toggle';
-import { updateEditor } from '../../../actions/diagram.actions';
+import {
+  updateEditor,
+  updateChairsAndCounts
+}                       from '../../../actions/diagram.actions';
 
 class Toolbar extends React.Component {
   /** Parses clicked option and updates store with new furniture type */
@@ -14,9 +17,9 @@ class Toolbar extends React.Component {
 
 
   chairCallback = event => {
-    const { updateEditor } = this.props;
+    const { updateChairsAndCounts } = this.props;
     const chairs_per_table = (event === true) ? 8 : 6;
-    updateEditor({ chairs_per_table });
+    updateChairsAndCounts(chairs_per_table);
   }
 
   render() {
@@ -57,7 +60,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateEditor: payload => dispatch(updateEditor(payload))
+  updateEditor: payload => dispatch(updateEditor(payload)),
+  updateChairsAndCounts: chairs => dispatch(updateChairsAndCounts(chairs))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Toolbar);

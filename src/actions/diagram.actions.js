@@ -10,20 +10,10 @@ import Counter            from '../utils/Counter';
  * @param {float} x Item's horizontal position within layout
  * @param {float} y Item's vertical position within layout.
  */
-export const addEditorItem = ({ x, y }) => ({
+const addEditorItem = ({ x, y }) => ({
   type     : diagramActions.DIAGRAM_ADD_ITEM,
   x,
   y
-});
-
-
-/**
- * Select an item in our layout, nullifying other selections.
- * @param {string} id ID representing the furniture item to select.
- */
-export const selectEditorItem = id => ({
-  type   : diagramActions.DIAGRAM_SELECT_ITEM,
-  id
 });
 
 
@@ -47,10 +37,9 @@ export const updateEditorItem = (furn, id, x, y) => ({
  * Removes an item from our editor.
  * @param {string} id ID of item we're removing
  */
-export const removeEditorItem = ({ id, furn }) => ({
+const removeEditorItem = id => ({
   type: diagramActions.DIAGRAM_REMOVE_ITEM,
-  id,
-  furn
+  id
 });
 
 
@@ -65,13 +54,79 @@ export const updateEditor = fields => ({
 
 
 /**
+ * Select an item in our layout, nullifying other selections.
+ * @param {string} id ID representing the furniture item to select.
+ */
+export const selectEditorItem = id => ({
+  type   : diagramActions.DIAGRAM_SELECT_ITEM,
+  id
+});
+
+
+/**
  * Returns an action creator for updating the diagram count object.
  * @param {object} counts 
  */
-export const updateEditorCounts = counts => ({
-  type: diagramActions.DIAGRAM_UPDATE_COUNTS,
+const updateEditorCounts = counts => ({
+  type   : diagramActions.DIAGRAM_UPDATE_COUNTS,
   payload: counts
 });
+
+
+export const addItemAndUpdateDiagram = ({x, y}) => {
+  return (dispatch, getState) => {
+    // Add the furniture item
+    dispatch(addEditorItem({x, y}));
+
+    // Get the current state and extract variables needed to compute counts
+    const currentState = getState();
+    const { items, layout: { chairs_per_table }} = currentState.diagram;
+
+    // Count em up
+    const rawCounts = Counter.getFurnItemCount(items);
+    const counts    = Counter.getFurnRackCounts(rawCounts, chairs_per_table);
+
+    // Update editor
+    dispatch(updateEditorCounts(counts));
+  }
+}
+
+export const removeItemAndUpdateDiagram = (id) => {
+  return (dispatch, getState) => {
+    // Remove item
+    dispatch(removeEditorItem(id));
+
+    // Get the current state and extract variables needed to compute counts
+    const currentState = getState();
+    const { items, layout: { chairs_per_table }} = currentState.diagram;
+
+    // Count em up
+    const rawCounts = Counter.getFurnItemCount(items);
+    const counts    = Counter.getFurnRackCounts(rawCounts, chairs_per_table);
+
+    // Update editor
+    dispatch(updateEditorCounts(counts));
+  }
+}
+
+export const updateChairsAndCounts = (chairs_per_table) => {
+  return (dispatch, getState) => {
+    // Update the chairs attribute
+    dispatch(updateEditor({ chairs_per_table }));
+
+    // Get the change afterward
+    const currentState = getState();
+    const { items } = currentState.diagram;
+
+    // Count em up
+    const rawCounts = Counter.getFurnItemCount(items);
+    const counts    = Counter.getFurnRackCounts(rawCounts, chairs_per_table);
+
+    // Update editor counts
+    dispatch(updateEditorCounts(counts));
+  }
+}
+
 
 
 /**
@@ -91,7 +146,7 @@ export const populateEditor = (savedItems, chairs_per_table) => {
   const itemsWithAssignedIDs = Counter.assignFurnitureIDs(savedItems);
 
   // Copy the counts so we can start the editor without saving confliting IDs
-  const ids = Object.assign({}, rawCounts);
+  const ids = Object.assign({}, rawFurnCounts);
 
   return {
     type   : diagramActions.DIAGRAM_POPULATE_ITEMS,

@@ -128,7 +128,7 @@ export function submitForm(info, items) {
     dispatch(submitFormLoading());
 
     let package_id;
-    rp(options)
+    return rp(options)
       .then(res => {
         // Remove dynamo keys
         delete res.event.createdAt;

@@ -50,14 +50,14 @@ class HUD extends React.Component {
 
   render() {
     const { counts, chairs_per_table } = this.props;
-    const computed = computeFurnitureCounts(counts, chairs_per_table);
+    console.log(counts);
 
     return (
       <div className="ms-Grid-row Diagram--HUD">
         <div className="ms-Grid-col ms-sm6">
           <DetailsList
             columns={this.createListColumns()}
-            items={this.createListItems(computed)}
+            items={this.createListItems(counts)}
             checkboxVisibility={CheckboxVisibility.hidden}
             compact
           />
