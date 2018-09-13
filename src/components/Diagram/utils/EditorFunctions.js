@@ -79,11 +79,14 @@ class EditorFunctions {
 
     // Get intersection node and return the appropriate action
     const intersectName = intersects.getAttr('name');
-    console.log(intersectName, intersects);
+    //console.log(intersectName, intersects);
+
     if (intersectName === 'FloorGood') {
       return { action: 'addItem', payload: pointerPos };
     } else if (intersectName === 'furnItem') {
-      return { action: 'selectItem', payload: intersects.getParent().id()};
+      const furnWrapper = intersects.getParent();
+      const furnItem = furnWrapper.getParent().id();
+      return { action: 'selectItem', payload: furnItem };
     }
     else if (intersectName === 'closeButton') {
       const { name: furn, id } = intersects.getParent().getAttrs();

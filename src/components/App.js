@@ -63,10 +63,9 @@ const App = ({ store, persistor, history }) => (
 
                 <Footer/>
               </Page>
-            </div>
-          </div>
+              </div>
+              </div>
 
-          
         </Fabric>
       </ConnectedRouter>
     </PersistGate>
