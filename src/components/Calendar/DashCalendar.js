@@ -33,6 +33,7 @@ export default class DashCalendar extends React.Component {
       <div className="Dashboard--Calendar">
         <BigCalendar
           components={{ toolbar: Toolbar }}
+          formats={formats}
           min={minTime}
           max={maxTime}
 

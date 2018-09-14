@@ -4,7 +4,6 @@ import {
   DetailsList,
   CheckboxVisibility
 } from 'office-ui-fabric-react/lib/DetailsList';
-import { computeFurnitureCounts } from '../utils/computeFurnitureCounts';
 
 
 class HUD extends React.Component {
@@ -50,15 +49,14 @@ class HUD extends React.Component {
   }
 
   render() {
-    const { counts, chairs_per_table } = this.props;
-    const computed = computeFurnitureCounts(counts, chairs_per_table);
+    const { counts } = this.props;
 
     return (
       <div className="ms-Grid-row Diagram--HUD">
         <div className="ms-Grid-col ms-sm6">
           <DetailsList
             columns={this.createListColumns()}
-            items={this.createListItems(computed)}
+            items={this.createListItems(counts)}
             checkboxVisibility={CheckboxVisibility.hidden}
             compact
           />

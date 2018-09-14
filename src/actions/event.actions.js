@@ -2,8 +2,6 @@
  * Action creators for our events
  */
 import * as rp          from 'request-promise';
-import {push}           from 'connected-react-router/lib/actions';
-import {parseDynamo}    from '../utils/date.utils';
 import {eventActions}   from '../constants/actionTypes';
 const URI               = process.env.REACT_APP_REDIRECT_URI;
 
@@ -43,7 +41,7 @@ export const deleteEventSuccess = (response) => ({
 })
 
 /** Sets our store attribute controlling fetch behavior on Event Page load. */
-export const setEventFetch = (shouldFetch) => ({
+export const setFetchEvents = (shouldFetch) => ({
   type: eventActions.SET_FETCH_EVENT,
   payload: shouldFetch
 });
@@ -67,7 +65,7 @@ export function getEvent(package_id) {
     };
 
     // Make the call, and resolve the promise
-    rp(uri, options)
+    return rp(uri, options)
       .then(data => {
         delete data.event.createdAt;
         delete data.event.updatedAt;
@@ -99,7 +97,7 @@ export function getEvents() {
     };
 
     // Resolve the promise
-    rp(uri, options)
+    return rp(uri, options)
       // Clear dynamo keys we don't need
       .then(data => { data.forEach(e => {
           delete e.event.updatedAt;
@@ -184,7 +182,7 @@ export function deleteDynamoEvent(package_id) {
 }
 
 /** Populate event from our events list. */
-export const populateEventInfo = (event, permissions, items) => ({
+export const populateEventInfo = (event, permissions, layout) => ({
   type: eventActions.POPULATE_EVENT_INFO,
-  payload: { event, permissions, items }
+  payload: { event, permissions, layout }
 });

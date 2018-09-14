@@ -12,31 +12,27 @@ const initialDiagramStore = { ...initialStore.diagram };
 
 
 export const diagramReducer = (state=initialDiagramStore, action) => {
-  let {type} = action;
+  const { type } = action;
   switch(type) {
 
-    /** DIAGRAM ITEMS -------------------------------------------------------*/
+    /** Diagram Items ----------------------------------------------------------*/
     case diagramActions.DIAGRAM_ADD_ITEM:
       var {x, y} = action;
 
       // Inferfurniture type from state, get current ID count, + create new item.
       var furn     = state.layout.furn_type;
       var id       = furn + state.ids[furn];
-      let new_item = {id, furn, x, y};
+      let new_item = { id, furn, x, y, rot: 0 };
 
       // Increment furn type ID and add new item to diagram's list
       let furn_id_inc = state.ids[furn] + 1;
       let furn_ids    = {...state.ids, [furn]: furn_id_inc};
       let new_items   = [...state.items, new_item];
 
-      // Increment counter for furniture type
-      let new_counts = {...state.counts, [furn]: state.counts[furn] + 1};
-
       return {
         ...state,
         ids   : furn_ids,
         items : new_items,
-        counts: new_counts,
         layout: {
           ...state.layout, selected_item: id
         }
@@ -44,19 +40,16 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
 
     case diagramActions.DIAGRAM_UPDATE_ITEM:
       // Desconstruct arguments and reconstruct new obj.
-      var {id, furn, x, y} = action;
-      let updated_item = {id, furn, x, y};
+      var {id, furn, x, y, rot} = action;
+      let updated_item = {id, furn, x, y, rot};
 
       // Remove old item and add updated
       let updated_items = [...filterItem(state.items, id), updated_item];
       return {...state, items: updated_items};
 
     case diagramActions.DIAGRAM_REMOVE_ITEM:
-      var { id, furn } = action;
+      var { id }          = action;
       const removed_items = [...filterItem(state.items, id)];
-
-      // Decrement furniture counts
-      const decremented_counts = {...state.counts, [furn]: state.counts[furn] - 1 };
 
       // Clear selected (only selected items can be removed)
       const null_selected = { ...state.layout, selected_item: null };
@@ -64,11 +57,10 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
       return {
         ...state,
         items : removed_items,
-        counts: decremented_counts,
         layout: null_selected
       };
 
-    /** Diagram Settings ---------------------------------------------------------*/
+    /** Diagram Settings -------------------------------------------------------*/
     case diagramActions.DIAGRAM_SELECT_ITEM:
       var {id} = action;
       let current_selected = state.layout.selected_item;
@@ -76,11 +68,29 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
       let new_selected = (id !== current_selected) ? id : null;
       return {...state, layout: {...state.layout, selected_item: new_selected}};
 
-    case diagramActions.DIAGRAM_UPDATE_EDITOR:
+    case diagramActions.DIAGRAM_UPDATE_LAYOUT:
       let new_layout = {...state.layout, ...action.payload};
       return {...state, layout: new_layout};
 
-    /** External actions ---------------------------------------------------------*/
+    case diagramActions.DIAGRAM_UPDATE_COUNTS:
+      return {...state, counts: { ...state.counts, ...action.payload }};
+
+    /** RESTful Actions --------------------------------------------------------*/
+    case diagramActions.DIAGRAM_LAYOUTS_LOADING:
+      return { ...state, layouts_loading: true };
+    case diagramActions.DIAGRAM_LAYOUTS_SUCCESS:
+      return {
+        ...state,
+        layouts_loading: false,
+        layouts_error: null,
+        pub_layouts: action.payload
+      };
+    case diagramActions.DIAGRAM_LAYOUTS_ERROR:
+      return { ...state, layouts_loading: false, layouts_error: action.payload };
+    case diagramActions.DIAGRAM_LAYOUTS_RESET:
+      return { ...state, layouts_loading: false, layouts_error: null };
+      
+    /** External Actions -------------------------------------------------------*/
     case diagramActions.DIAGRAM_POPULATE_ITEMS:
       let { items, counts, ids } = action.payload;
       const populated_counts = { ...initialDiagramStore.counts, ...counts };

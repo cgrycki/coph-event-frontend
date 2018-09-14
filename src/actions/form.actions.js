@@ -1,16 +1,11 @@
 /**
  * Action creators for our fields
  */
-import {push}               from 'connected-react-router/lib/actions';
-import {formActions}        from '../constants/actionTypes';
-import {populateEditor}     from './diagram.actions';
-import * as rp              from 'request-promise';
-import BusinessRequirements from '../utils/BusinessRequirements';
-import {populateEventAndPush} from './nav.actions';
-import { 
-  getTimeAfterStart,
-  parseDynamo
-} from '../utils/date.utils';
+import * as rp                  from 'request-promise';
+import BusinessRequirements     from '../utils/BusinessRequirements';
+import { formActions }          from '../constants/actionTypes';
+import { populateEventAndPush } from './nav.actions';
+import { getTimeAfterStart }    from '../utils/date.utils';
 
 const businessReqs = new BusinessRequirements();
 const URI = process.env.REACT_APP_REDIRECT_URI;
@@ -70,7 +65,7 @@ export const updateForm = (field, value) => {
 /**
  * Notifies store that we've initiated a POST request. Blocks other POSTs
  */
-export const submitFormLoading = () => ({
+const submitFormLoading = () => ({
   type: formActions.SUBMIT_FORM_LOADING
 })
 
@@ -79,7 +74,7 @@ export const submitFormLoading = () => ({
  * Notifies store our POST has been successful, and returns a message.
  * @param {*} response HTTP response from our server
  */
-export const submitFormSuccess = (response) => ({
+const submitFormSuccess = (response) => ({
   type   : formActions.SUBMIT_FORM_SUCCESS,
   payload: response
 })
@@ -89,7 +84,7 @@ export const submitFormSuccess = (response) => ({
  * Notifies our application that we've had an error when POSTing their form info.
  * @param {*} payload HTTP response with error from our server.
  */
-export const submitFormFailure = (payload) => ({
+const submitFormFailure = (payload) => ({
   type: formActions.SUBMIT_FORM_ERROR,
   payload
 })
@@ -105,11 +100,17 @@ export const submitFormReset = () => ({
  * Wraps our submission actions so that we can execute from our components.
  * @param {object} info Contains our form field information
  * @param {object} furniture Contains our form furniture/editor information
+ * @param {number} chairs_per_table Number of chairs per table
  * @returns {Promise}
  */
-export function submitForm(info, items) {
+export function submitForm(info, items, chairs_per_table) {
   // Create our payload
-  const body = { form: info, layout: { items }};
+  const body = {
+    form: info,
+    layout: {
+      items,
+      chairs_per_table
+    }};
 
   // Assign REST method + URI depending on form submission status
   const method = (info.package_id) ? 'PATCH' : 'POST';
@@ -128,7 +129,7 @@ export function submitForm(info, items) {
     dispatch(submitFormLoading());
 
     let package_id;
-    rp(options)
+    return rp(options)
       .then(res => {
         // Remove dynamo keys
         delete res.event.createdAt;
@@ -154,7 +155,12 @@ export function submitForm(info, items) {
  * @returns {Object} Action for redux
  */
 export const populateFieldInfo = (info) => ({
-  type   : formActions.POPULATE_FIELDS,
+  type   : formActions.POPULATE_FORM_FIELDS,
   payload: info
 });
 
+
+/** Resets form information to the default state. */
+export const clearFieldInfo = () => ({
+  type: formActions.CLEAR_FORM_FIELDS
+})

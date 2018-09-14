@@ -75,19 +75,29 @@ export const formReducer = (state=initialFormStore, action) => {
       };
 
     /** Users can edit events after they've been created and before they've been approved. */
-    case formActions.POPULATE_FIELDS:
+    case formActions.POPULATE_FORM_FIELDS:
       const hydrated_info = { 
-        ...state.fields, 
+        ...initialFormStore.fields, 
         ...action.payload,
         setup_mfk: { 
-          ...state.fields.setup_mfk,
+          ...initialFormStore.fields.setup_mfk,
           ...action.payload.setup_mfk
         }
       };
       
       return {...state, fields: hydrated_info};
 
-    default:
+    /** Sets the form fields to their initial state. */
+    case formActions.CLEAR_FORM_FIELDS:
+      const cleared_info = {
+        ...initialFormStore.fields,
+        user_email: state.fields.user_email,
+        setup_mfk: { ...initialFormStore.fields.setup_mfk }
+      };
+
+      return { ...state, fields: cleared_info };
+    
+      default:
       return state;
   }
 }

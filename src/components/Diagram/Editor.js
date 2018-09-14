@@ -3,17 +3,21 @@ import React      from 'react';
 import PropTypes  from 'prop-types';
 import { connect }  from 'react-redux';
 import {
+  addItemAndUpdateDiagram,
+  removeItemAndUpdateDiagram,
   updateEditor,
-  addEditorItem,
+  updateEditorItem,
   selectEditorItem,
-  removeEditorItem
 }                 from '../../actions';
 import GUI        from './GUI';
-// import ZoomSlider from './Surfaces/ZoomSlider';
 import Toolbar from './Surfaces/Toolbar';
-//import NewToolbar from './Surfaces/NewToolbar';
 import HUD from './Surfaces/HUD';
 import './assets/Diagram.css';
+//import NewToolbar from './Surfaces/NewToolbar';
+// import ZoomSlider from './Surfaces/ZoomSlider';
+
+
+
 
 const FLOOR_WIDTH = 1920;
 const FLOOR_HEIGHT = 1500;
@@ -98,9 +102,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   updateEditor    : (field, value) => dispatch(updateEditor(field, value)),
-  addEditorItem   : (x, y) => dispatch(addEditorItem(x, y)),
+  addEditorItem   : (x, y) => dispatch(addItemAndUpdateDiagram(x, y)),
   selectEditorItem: id => dispatch(selectEditorItem(id)),
-  removeEditorItem: id => dispatch(removeEditorItem(id))
+  updateEditorItem: ({id, furn, x, y, rot}) => dispatch(updateEditorItem({id, furn, x, y, rot})),
+  removeEditorItem: id => dispatch(removeItemAndUpdateDiagram(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Editor);

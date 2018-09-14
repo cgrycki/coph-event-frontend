@@ -4,7 +4,7 @@ import { connect }    from 'react-redux';
 import { push }       from 'connected-react-router';
 import EventNav       from './EventNav';
 import Details        from '../common/Details';
-import {Viewer}       from '../Diagram';
+import { Viewer }     from '../Diagram';
 import WorkflowWidget from './WorkflowWidget';
 import Popup          from '../common/Popup';
 import './EventPage.css';
@@ -14,8 +14,12 @@ import './EventPage.css';
 import { 
   getEvent,
   deleteEvent 
-}                               from '../../actions/event.actions';
-import { populateFormAndPush }  from '../../actions/nav.actions';
+} from '../../actions/event.actions';
+import {
+  populateFormAndPush,
+  populateDiagramAndPush,
+  applyDiagramLayoutAndPush
+}  from '../../actions/nav.actions';
 
 
 /* React Component ----------------------------------------------------------*/
@@ -26,21 +30,20 @@ import { populateFormAndPush }  from '../../actions/nav.actions';
  */
 class EventPage extends React.Component {
   state = {
-    pivot        : "Form", // One of "Form", "Layout", "Workflow"
+    pivot        : "Form", // One of {"Form", "Layout", "Workflow"}
     popupHidden  : true,
-    popupType    : 'edit',
+    popupType    : 'edit', // One of {"edit", "editLayout", "applyLayout", "delete"}
     popupYesClick: () => console.log('clicked!')
   };
-
 
   /** Retrieves information from server about event */
   componentDidMount()   {
     const { 
       match: { params: { package_id }},
-      should_fetch, getEventFromServer
+      should_fetch, event_loading, getEventFromServer
     } = this.props;
     
-    if (should_fetch) getEventFromServer(package_id);
+    if (should_fetch && !event_loading) getEventFromServer(package_id);
   }
 
   /** Updates our web page title when event loads. */
@@ -69,14 +72,19 @@ class EventPage extends React.Component {
   /** Sets our popup's state and callback */
   renderPopup = popupType => {
     // Gather dispatch functions from react-redux's connect
-    const { event, items, editEvent, deleteEventFromServer, navigate } = this.props;
+    const {
+      event, layout,
+      populateFormAndPush, populateDiagramAndPush, deleteEventFromServer, applyDiagramLayoutAndPush, navigate
+    } = this.props;
 
     // Create a mapping of 'state' => function
     const clickCallback = {
-      edit    : () => editEvent(event, items),
-      delete  : () => deleteEventFromServer(event.package_id),
-      deleting: () => console.log("Patience... I've sent the delete request to the server"),
-      error   : () => navigate("/dashboard")
+      edit       : () => populateFormAndPush(event, layout),
+      editLayout : () => populateDiagramAndPush(event, layout),
+      applyLayout: () => applyDiagramLayoutAndPush(layout),
+      delete     : () => deleteEventFromServer(event.package_id),
+      deleting   : () => console.log("Patience... I've sent the delete request to the server"),
+      error      : () => navigate("/dashboard")
     };
 
     this.setState({
@@ -86,20 +94,23 @@ class EventPage extends React.Component {
     });
   }
 
-  /** Sets our component display */
-  pivotClick = (pivotKey) => {
+  /** Sets our component display by toggling which pivot item is selected. */
+  pivotClick = pivotKey => {
     this.setState({ pivot: pivotKey.key.substring(2) });
   }
 
-
   render() {
-    let { 
+    const { 
       history,  match: { params: { package_id }},
-      permissions: { signatureId },                        
-      permissions, event, items, event_loading
+      permissions: { signatureId }, permissions,
+      layout: { items },
+      event, event_loading
     } = this.props;
 
-    let {pivot} = this.state;
+    const { pivot } = this.state;
+
+    // Change the edit callback depending if we're on the Form or Layout
+    const editCallback = (pivot === 'Layout') ? 'editLayout' : 'edit';
 
     return (
       <div className="EventPage">
@@ -109,7 +120,8 @@ class EventPage extends React.Component {
           onToggle={this.pivotClick}
           showLayout={items.length !== 0}
           permissions={permissions}
-          onEdit={() => this.renderPopup('edit')}
+          onEdit={() => this.renderPopup(editCallback)}
+          onApply={() => this.renderPopup('applyLayout')}
           onRemove={() => this.renderPopup('delete')}
           package_id={package_id}
         />
@@ -118,7 +130,7 @@ class EventPage extends React.Component {
           {(pivot === "Form") && 
             <Details event={event} loading={event_loading} />}
 
-          {(pivot === "Layout") && <Viewer items={this.props.items} />}
+          {(pivot === "Layout") && <Viewer items={items} />}
 
           {(pivot === "Workflow") &&
             <WorkflowWidget package_id={package_id} signature_id={signatureId}/>}
@@ -145,10 +157,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getEventFromServer   : package_id => dispatch(getEvent(package_id)),
-  deleteEventFromServer: package_id => dispatch(deleteEvent(package_id)),
-  editEvent            : (info, items) => dispatch(populateFormAndPush(info, items)),
-  navigate             : path => dispatch(push(path))
+  getEventFromServer       : (package_id)    => dispatch(getEvent(package_id)),
+  deleteEventFromServer    : (package_id)    => dispatch(deleteEvent(package_id)),
+  populateFormAndPush      : (info, layout)  => dispatch(populateFormAndPush(info, layout)),
+  populateDiagramAndPush   : (info, layout)  => dispatch(populateDiagramAndPush(info, layout)),
+  applyDiagramLayoutAndPush: layout          => dispatch(applyDiagramLayoutAndPush(layout)),
+  navigate                 : (path)          => dispatch(push(path))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventPage);

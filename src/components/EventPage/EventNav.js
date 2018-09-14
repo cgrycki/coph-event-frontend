@@ -45,8 +45,9 @@ export default class EventNav extends React.Component {
 
   render() {
     let {
-      onEdit, onRemove, permissions,  // For action buttons
-      selectedPivot, onToggle         // For pivot
+      onEdit, onRemove, permissions, // For action buttons
+      selectedPivot, onToggle,       // For pivot
+      onApply, showLayout            // For layout
     } = this.props;
 
     // Parse the permissions to set button active or not
@@ -73,6 +74,8 @@ export default class EventNav extends React.Component {
             </span>
 
             <span style={{ float: 'right'}}>
+              {(showLayout && selectedPivot === 'Layout') &&
+                makeButton('PivotChart', 'Apply Layout', onApply, false)}
               {makeButton('Edit', "Edit Event", onEdit, editDisabled)}
               {makeButton('removeEvent', "Cancel Event", onRemove, cancelDisabled)}
             </span>

@@ -2,6 +2,7 @@
  * diagram Actions
  */
 import { diagramActions } from '../constants/actionTypes';
+import Counter            from '../utils/Counter';
 
 
 /**
@@ -9,10 +10,47 @@ import { diagramActions } from '../constants/actionTypes';
  * @param {float} x Item's horizontal position within layout
  * @param {float} y Item's vertical position within layout.
  */
-export const addEditorItem = ({ x, y }) => ({
-  type     : diagramActions.DIAGRAM_ADD_ITEM,
+const addEditorItem = ({ x, y }) => ({
+  type: diagramActions.DIAGRAM_ADD_ITEM,
   x,
   y
+});
+
+
+/**
+ * Updates an furniture item in our editor's layout.
+ * @param {string} furn Designates the updated furniture type
+ * @param {string} id Current ID from event
+ * @param {float} x Item's horizontal position within layout
+ * @param {float} y Item's vertical position within layout.
+ */
+export const updateEditorItem = ({ furn, id, x, y, rot=0 }) => ({
+  type: diagramActions.DIAGRAM_UPDATE_ITEM,
+  furn,
+  id,
+  x,
+  y,
+  rot
+});
+
+
+/**
+ * Removes an item from our editor.
+ * @param {string} id ID of item we're removing
+ */
+const removeEditorItem = id => ({
+  type: diagramActions.DIAGRAM_REMOVE_ITEM,
+  id
+});
+
+
+/**
+ * Updates our editor; zooming, panning, furniture type, or chairs_per_table
+ * @param {object} fields Object containing the new settings for our layout.
+ */
+export const updateEditor = fields => ({
+  type   : diagramActions.DIAGRAM_UPDATE_LAYOUT,
+  payload: fields
 });
 
 
@@ -27,130 +65,116 @@ export const selectEditorItem = id => ({
 
 
 /**
- * Updates an furniture item in our editor's layout.
- * @param {string} furn Designates the updated furniture type
- * @param {string} id Current ID from event
- * @param {float} x Item's horizontal position within layout
- * @param {float} y Item's vertical position within layout.
+ * Returns an action creator for updating the diagram count object.
+ * @param {object} counts 
  */
-export const updateEditorItem = (furn, id, x, y) => ({
-  type     : diagramActions.DIAGRAM_UPDATE_ITEM,
-  furn,
-  id,
-  x,
-  y
+const updateEditorCounts = counts => ({
+  type   : diagramActions.DIAGRAM_UPDATE_COUNTS,
+  payload: counts
 });
+
+
+export const addItemAndUpdateDiagram = ({ x, y }) => {
+  return (dispatch, getState) => {
+    // Add the furniture item
+    dispatch(addEditorItem({ x, y }));
+
+    // Get the current state and extract variables needed to compute counts
+    const currentState = getState();
+    const { items, layout: { chairs_per_table }} = currentState.diagram;
+
+    // Count em up
+    const rawCounts = Counter.getFurnItemCount(items);
+    const counts    = Counter.getFurnRackCounts(rawCounts, chairs_per_table);
+
+    // Update editor
+    dispatch(updateEditorCounts(counts));
+  }
+}
+
+export const removeItemAndUpdateDiagram = (id) => {
+  return (dispatch, getState) => {
+    // Remove item
+    dispatch(removeEditorItem(id));
+
+    // Get the current state and extract variables needed to compute counts
+    const currentState = getState();
+    const { items, layout: { chairs_per_table }} = currentState.diagram;
+
+    // Count em up
+    const rawCounts = Counter.getFurnItemCount(items);
+    const counts    = Counter.getFurnRackCounts(rawCounts, chairs_per_table);
+
+    // Update editor
+    dispatch(updateEditorCounts(counts));
+  }
+}
+
+export const updateChairsAndCounts = (chairs_per_table) => {
+  return (dispatch, getState) => {
+    // Update the chairs attribute
+    dispatch(updateEditor({ chairs_per_table }));
+
+    // Get the change afterward
+    const currentState = getState();
+    const { items } = currentState.diagram;
+
+    // Count em up
+    const rawCounts = Counter.getFurnItemCount(items);
+    const counts    = Counter.getFurnRackCounts(rawCounts, chairs_per_table);
+
+    // Update editor counts
+    dispatch(updateEditorCounts(counts));
+  }
+}
+
 
 
 /**
- * Removes an item from our editor.
- * @param {string} id ID of item we're removing
+ * Takes an array of furniture items (which may or may not be dirty;
+ * i.e. not strictly increasing IDs) and reassigns IDs. Additionally, it counts
+ * the number of furniture items and computes the information for furn. counts and
+ * the IT office.
+ * @param {object[]} items Array of furniture items from a saved event.
+ * @param {number} chairs_per_table
  */
-export const removeEditorItem = ({ id, furn }) => ({
-  type: diagramActions.DIAGRAM_REMOVE_ITEM,
-  id,
-  furn
-});
+export const populateEditor = ({ items, chairs_per_table=6 }) => {
+  // Get raw counts from our furn items
+  const rawFurnCounts  = Counter.getFurnItemCount(items);
+  const furnRackCounts = Counter.getFurnRackCounts(rawFurnCounts, chairs_per_table);
 
+  // Reassign IDs
+  const itemsWithAssignedIDs = Counter.assignFurnitureIDs(items);
 
-/**
- * Updates our editor; zooming, panning, furniture type, or chairs_per_table
- * @param {*} key Property key attribute
- * @param {*} value Value to change
- */
-export const updateEditor = fields => ({
-  type   : diagramActions.DIAGRAM_UPDATE_EDITOR,
-  payload: fields
-});
-
-
-/** Counts the number of objects with attribute 'furn' and returns an object */
-function countFurniture(items) {
-  let counts = {};
-  items.forEach(item => {
-    if (!(item.furn in counts)) counts[item.furn] = 1;
-    else counts[item.furn] += 1;
-  });
-  return counts;
-}
-
-/** Assigns furnitureIDs so we can not have ID collisions after loading from DB. */
-function assignFurnitureIDs(items, counts) {
-  // Create a copy because we'll be 'destroying' counter obj while decrementing
-  let copyCounts = Object.assign({}, counts);
-
-  const reassignedIDs = items.map(item => {
-    // Decrement counter
-    copyCounts[item.furn] -= 1;
-    const newID = item.furn + copyCounts[item.furn];
-    item.id = newID;
-    return item;
-  });
-
-  return reassignedIDs;
-}
-
-function countAndAssignFurnitureItems(items) {
-  const counts        = countFurniture(items);
-  const reassignedIDs = assignFurnitureIDs(items, counts);
-
-  return { items: reassignedIDs, counts };
-}
-
-export const populateEditor = (savedItems) => {
-  const { items, counts } = countAndAssignFurnitureItems(savedItems);
-  const ids               = Object.assign({}, counts);
+  // Copy the counts so we can start the editor without saving confliting IDs
+  const ids = Object.assign({}, rawFurnCounts);
 
   return {
     type   : diagramActions.DIAGRAM_POPULATE_ITEMS,
-    payload: { items, counts, ids }
+    payload: {
+      items : itemsWithAssignedIDs,
+      counts: furnRackCounts,
+      ids
+    }
   };
 };
 
-/** ~~Mathemagic~~ */
-export function computeFurnitureCounts(counts, chairs_per_table) {
-  // Returns the min. amount of racks needed to accomodate n items.
-  const getRackCnt  = (itemCnt, rackCapac) => {
-    const quotient  = Math.floor(itemCnt / rackCapac);
-    const remainder = itemCnt % rackCapac;
-    
-    // If we have any remainders, add a rack to the count
-    const rackCnt   = (remainder > 0) ? quotient + 1 : quotient;
-    return rackCnt;
-  }
 
-  // Number of chairs: # free chairs + table chairs; racks hold 48 chairs
-  const chair       = counts.chair + (chairs_per_table * counts.circle);
-  const chair_racks = getRackCnt(chair, 48);
 
-  // Circle tables: racks hold 6
-  const circle = counts.circle;
-  const circle_racks = getRackCnt(circle, 6);
+const fetchDiagramsLoading = () => ({
+  type: diagramActions.DIAGRAM_LAYOUTS_LOADING
+})
 
-  // Rectangular tables: racks hold 6
-  const rect = counts.rect;
-  const rect_racks = getRackCnt(rect, 6);
+const fetchDiagramsSuccess = response => ({
+  type   : diagramActions.DIAGRAM_LAYOUTS_SUCCESS,
+  payload: response
+})
 
-  // Cocktail-height tables: 
-  const cocktail = counts.rect;
-  const cocktail_racks = getRackCnt(cocktail, 10);
+const fetchDiagramsError = error => ({
+  type   : diagramActions.DIAGRAM_LAYOUTS_ERROR,
+  payload: error
+})
 
-  // Display boards have no racks
-  const display = counts.display;
-
-  // Same with trash cans
-  const trash = counts.trash;
-
-  return {
-    chair,
-    chair_racks,
-    circle,
-    circle_racks,
-    rect,
-    rect_racks,
-    cocktail,
-    cocktail_racks,
-    display,
-    trash
-  };
-}
+const fetchDiagramsReset = () => ({
+  type: diagramActions.DIAGRAM_LAYOUTS_RESET
+})

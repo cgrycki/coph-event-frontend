@@ -20,11 +20,14 @@ export default class FurnitureLayer extends React.Component {
   }
 
   render() {
-    let { items, draggable, selected_item } = this.props;
+    let { items, draggable, selected_item, updateEditorItem } = this.props;
 
     return (
       <Layer>
-        <TransformerComponent selected_item={selected_item} />
+        <TransformerComponent
+          selected_item={selected_item}
+          updateEditorItem={updateEditorItem}
+        />
         {items.map(d => (
           <Furniture key={d.id} {...d} draggable={draggable} />
         ))}

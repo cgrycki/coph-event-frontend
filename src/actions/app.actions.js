@@ -39,7 +39,7 @@ const fetchLoginFailure = (error) => ({
  * information with the backend.
  */
 export function fetchLogin() {
-  return (dispatch) => {
+  return dispatch => {
     // Notify store we're attempting to login
     dispatch(fetchLoginLoading());
 
@@ -51,7 +51,7 @@ export function fetchLogin() {
       json           : true
     };
 
-    rp(uri, options)
+    return rp(uri, options)
       .then(data => dispatch(fetchLoginSuccess(data)))
       .catch(err => dispatch(fetchLoginFailure(err)));
   }

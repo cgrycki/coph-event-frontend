@@ -55,8 +55,8 @@ class StepFour extends React.Component {
   }
 
   submitForm() {
-    let { dispatch, info, items } = this.props;
-    dispatch(submitForm(info, items));
+    let { dispatch, info, items, chairs_per_table } = this.props;
+    dispatch(submitForm(info, items, chairs_per_table));
   }
 
   /** Hides popup by setting component state. */
@@ -132,11 +132,12 @@ class StepFour extends React.Component {
 
 // Container
 const mapStateToProps = state => ({
-  info        : state.form.fields,
-  items       : state.diagram.items,
-  form_loading: state.form.form_loading,
-  form_success: state.form.form_success,
-  form_error  : state.form.form_error
+  info            : state.form.fields,
+  items           : state.diagram.items,
+  chairs_per_table: state.diagram.layout.chairs_per_table,
+  form_loading    : state.form.form_loading,
+  form_success    : state.form.form_success,
+  form_error      : state.form.form_error
 });
 
 

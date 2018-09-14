@@ -29,13 +29,13 @@ export const eventReducer = (state=initialStore.events, action) => {
 
     /** Successful GET request, populate event page */
     case eventActions.GET_EVENT_SUCCESS:
-      var { event, permissions, items } = action.payload;
+      var { event, permissions, layout } = action.payload;
 
       return { 
         ...state,
         event_loading: false,
         event_error  : null,
-        current      : {event, permissions, items}
+        current      : { event, permissions, layout }
       };
 
     /** Success GET request, populate events list. */
@@ -64,8 +64,8 @@ export const eventReducer = (state=initialStore.events, action) => {
     /** Successful POST request, add event to our events list */
     case formActions.SUBMIT_FORM_SUCCESS:
       // Create event object from successful POST/PATCH response
-      var { event, permissions, items } = action.payload;
-      var created_event = {event, permissions, items};
+      var { event, permissions, layout } = action.payload;
+      var created_event = {event, permissions, layout};
       const oldPID = event.package_id;
 
       // Filter events in case this was a PATCH
@@ -81,8 +81,8 @@ export const eventReducer = (state=initialStore.events, action) => {
 
     /** Populate event page information */
     case eventActions.POPULATE_EVENT_INFO:
-      var { event, permissions, items } = action.payload;
-      return {...state, current: {event, permissions, items}};
+      var { event, permissions, layout } = action.payload;
+      return {...state, current: { event, permissions, layout }};
 
     default:
       return state;
