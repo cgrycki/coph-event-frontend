@@ -12,7 +12,8 @@ import {
   ChairPath,
   table8,
   table6,
-  RectTable
+  RectTable,
+  TrashCan
 } from './CircleFurn';
 import { Easings } from 'konva';
 import { updateEditorItem } from '../../../../actions/diagram.actions';
@@ -176,10 +177,14 @@ class Furniture extends React.Component {
     const circleTable = (chairs_per_table === 6) ? table6 : table8;
 
     switch (furn) {
-      case 'circle': return circleTable(id, selected_item);
-      case 'chair' : return ChairPath(id, selected_item);
-      case 'rect': return RectTable(id, selected_item);
-      default      : return;
+      case 'circle'  : return circleTable(id, selected_item);
+      case 'chair'   : return ChairPath(id, selected_item);
+      case 'rect'    : return RectTable(id, selected_item);
+      case 'cocktail': return null;
+      case 'display' : return null;
+      case 'trash'   : return TrashCan(id, selected_item);
+
+      default: return;
     }
   }
 

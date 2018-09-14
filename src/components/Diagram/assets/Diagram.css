@@ -25,3 +25,12 @@
   height: 100px;
   box-sizing: border-box;
 }
+
+.Diagram--Toolbar {
+  padding: 5px 10px;
+}
+
+.Diagram--FurnitureSelector .ms-ChoiceField {
+  display: inline-block;
+  padding-inline-end: 10px;
+}

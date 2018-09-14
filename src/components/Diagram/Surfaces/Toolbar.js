@@ -38,13 +38,17 @@ class Toolbar extends React.Component {
         </div>
         <div className="ms-Grid-col ms-sm8">
           <ChoiceGroup
+            className="Diagram--FurnitureSelector"
             label="Furniture Type"
             selectedKey={furn_type}
             onChange={this.furnCallback}
             options={[
               {key: 'circle', text: 'Circular Table'},
               {key: 'chair', text: 'Chair'},
-              {key: 'rect', text: 'Rectangular Table'}
+              {key: 'rect', text: 'Rectangular Table'},
+              {key: 'cocktail', text: 'Bar Top Table'},
+              {key: 'display', text: 'Display Board'},
+              {key: 'trash', text: 'Trash Can'}
             ]}
           />
         </div>
