@@ -19,21 +19,20 @@ export default class EventList extends React.Component {
     this.state = {
       event        : undefined,
       permissions  : undefined,
+      layout       : undefined,
       popupType    : 'edit',
       popupHidden  : true,
-      popupYesClick: (item) => this.props.editEvent(item)
+      popupYesClick: (item) => props.editEvent(item)
     };
 
-    this.createColumns = this.createColumns.bind(this);
-    this.hidePopup     = this.hidePopup.bind(this);
     this.renderPopup   = this.renderPopup.bind(this);
   }
 
   /** Checks incoming props and compares against previous props/state to hide popup */
   componentWillReceiveProps(nextProps) {
-    let { loading: currentLoading, error: currentError } = this.props;
-    let { loading: nextLoading,    error: nextError }    = nextProps;
-    let { popupType } = this.state;
+    const { loading: currentLoading, error: currentError } = this.props;
+    const { loading: nextLoading,    error: nextError }    = nextProps;
+    const { popupType } = this.state;
 
     // If we clicked edit we would be pushed to the form
     // So if we initiated DELETE, we would have popupType=delete and currentLoading false
@@ -45,12 +44,15 @@ export default class EventList extends React.Component {
       // Check for errors in result
       if (nextError) this.renderPopup('error');
       // Otherwise we successfully deleted event
-      else this.hidePopup();
-    };
+      else {
+        this.renderPopup('deleted');
+        setTimeout(this.hidePopup(), 1000);
+      };
+    }
   }
 
   /** Creates columns by binding passed action dispatchers. */
-  createColumns() {
+  createColumns = () => {
     // This is gross and verbose. 
     const { onView } = this.props;
     const columns = [
@@ -84,7 +86,7 @@ export default class EventList extends React.Component {
         minWidth: 64,
         maxWidth: 64,
         onRender: item => {
-          const hasFurniture = item.items.length > 0;
+          const hasFurniture = item.layout.items.length > 0;
 
           return ((hasFurniture) ?
             <Icon
@@ -136,6 +138,7 @@ export default class EventList extends React.Component {
             onClick={() => onView(item)}
             text="View event"
             split={true}
+            primary
             menuProps={{
               useTargetAsMinWidth: true,
               gapSpace: 2,
@@ -166,7 +169,7 @@ export default class EventList extends React.Component {
   }
   
   /* Alters component state, and hides the popup after a rerender. */
-  hidePopup() { 
+  hidePopup = () => { 
     this.setState({ popupHidden: true }); 
   }
 
@@ -176,12 +179,12 @@ export default class EventList extends React.Component {
     const { onEdit, onDelete } = this.props;
 
     // Get the currently selected event and parse it's date
-    let { event, items } = this.state;
+    const { event, layout } = this.state;
     event.date = getDateISO(event.date);
 
     // Create a mapping of 'state' => function
     const clickCallback = {
-      edit    : () => onEdit(event, items),
+      edit    : () => onEdit(event, layout),
       delete  : () => onDelete(event.package_id),
       deleting: () => console.log("Patience... I've sent the delete request to the server"),
       error   : () => this.hidePopup()
@@ -195,7 +198,8 @@ export default class EventList extends React.Component {
   }
   
   render() {
-    let should_shimmer = (this.props.loading && this.props.should_fetch);
+    // Only show disabled rows if we're loading events from API
+    const should_shimmer = (this.props.loading && this.props.should_fetch);
 
     return (
       <div className="Dashboard--EventList">
@@ -205,13 +209,23 @@ export default class EventList extends React.Component {
           onActiveItemChanged={(item) => this.setState({ 
             event      : item.event,
             permissions: item.permissions,
-            items      : item.items
+            layout     : item.layout
           })}
           enableShimmer={should_shimmer}
           checkboxVisibility={CheckboxVisibility.hidden}
           shimmerLines={10}
           style={{ display: 'flex', width: '100%' }}
         />
+        
+        <div className='Dashboard--CreateButton'>
+          <DefaultButton
+            iconProps={{ iconName: 'AddEvent', iconColor: '#333'}}
+            primary={true}
+            onClick={() => this.props.onCreate()}
+          >
+            Create Event
+          </DefaultButton>
+        </div>
 
         <Popup
           popupType={this.state.popupType}

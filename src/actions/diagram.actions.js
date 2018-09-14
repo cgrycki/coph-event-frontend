@@ -11,7 +11,7 @@ import Counter            from '../utils/Counter';
  * @param {float} y Item's vertical position within layout.
  */
 const addEditorItem = ({ x, y }) => ({
-  type     : diagramActions.DIAGRAM_ADD_ITEM,
+  type: diagramActions.DIAGRAM_ADD_ITEM,
   x,
   y
 });
@@ -25,7 +25,7 @@ const addEditorItem = ({ x, y }) => ({
  * @param {float} y Item's vertical position within layout.
  */
 export const updateEditorItem = ({ furn, id, x, y, rot=0 }) => ({
-  type     : diagramActions.DIAGRAM_UPDATE_ITEM,
+  type: diagramActions.DIAGRAM_UPDATE_ITEM,
   furn,
   id,
   x,
@@ -74,10 +74,10 @@ const updateEditorCounts = counts => ({
 });
 
 
-export const addItemAndUpdateDiagram = ({x, y}) => {
+export const addItemAndUpdateDiagram = ({ x, y }) => {
   return (dispatch, getState) => {
     // Add the furniture item
-    dispatch(addEditorItem({x, y}));
+    dispatch(addEditorItem({ x, y }));
 
     // Get the current state and extract variables needed to compute counts
     const currentState = getState();
@@ -135,16 +135,16 @@ export const updateChairsAndCounts = (chairs_per_table) => {
  * i.e. not strictly increasing IDs) and reassigns IDs. Additionally, it counts
  * the number of furniture items and computes the information for furn. counts and
  * the IT office.
- * @param {object[]} savedItems Array of furniture items from a saved event.
- * @param {number} chairs_per_table 
+ * @param {object[]} items Array of furniture items from a saved event.
+ * @param {number} chairs_per_table
  */
-export const populateEditor = (savedItems, chairs_per_table) => {
+export const populateEditor = ({ items, chairs_per_table=6 }) => {
   // Get raw counts from our furn items
-  const rawFurnCounts  = Counter.getFurnItemCount(savedItems);
+  const rawFurnCounts  = Counter.getFurnItemCount(items);
   const furnRackCounts = Counter.getFurnRackCounts(rawFurnCounts, chairs_per_table);
 
   // Reassign IDs
-  const itemsWithAssignedIDs = Counter.assignFurnitureIDs(savedItems);
+  const itemsWithAssignedIDs = Counter.assignFurnitureIDs(items);
 
   // Copy the counts so we can start the editor without saving confliting IDs
   const ids = Object.assign({}, rawFurnCounts);
@@ -158,3 +158,23 @@ export const populateEditor = (savedItems, chairs_per_table) => {
     }
   };
 };
+
+
+
+const fetchDiagramsLoading = () => ({
+  type: diagramActions.DIAGRAM_LAYOUTS_LOADING
+})
+
+const fetchDiagramsSuccess = response => ({
+  type   : diagramActions.DIAGRAM_LAYOUTS_SUCCESS,
+  payload: response
+})
+
+const fetchDiagramsError = error => ({
+  type   : diagramActions.DIAGRAM_LAYOUTS_ERROR,
+  payload: error
+})
+
+const fetchDiagramsReset = () => ({
+  type: diagramActions.DIAGRAM_LAYOUTS_RESET
+})

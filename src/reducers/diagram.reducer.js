@@ -12,17 +12,17 @@ const initialDiagramStore = { ...initialStore.diagram };
 
 
 export const diagramReducer = (state=initialDiagramStore, action) => {
-  let {type} = action;
+  const { type } = action;
   switch(type) {
 
-    /** DIAGRAM ITEMS -------------------------------------------------------*/
+    /** Diagram Items ----------------------------------------------------------*/
     case diagramActions.DIAGRAM_ADD_ITEM:
       var {x, y} = action;
 
       // Inferfurniture type from state, get current ID count, + create new item.
       var furn     = state.layout.furn_type;
       var id       = furn + state.ids[furn];
-      let new_item = {id, furn, x, y, rot: 0};
+      let new_item = { id, furn, x, y, rot: 0 };
 
       // Increment furn type ID and add new item to diagram's list
       let furn_id_inc = state.ids[furn] + 1;
@@ -49,7 +49,6 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
 
     case diagramActions.DIAGRAM_REMOVE_ITEM:
       var { id }          = action;
-      console.log(id);
       const removed_items = [...filterItem(state.items, id)];
 
       // Clear selected (only selected items can be removed)
@@ -61,7 +60,7 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
         layout: null_selected
       };
 
-    /** Diagram Settings ---------------------------------------------------------*/
+    /** Diagram Settings -------------------------------------------------------*/
     case diagramActions.DIAGRAM_SELECT_ITEM:
       var {id} = action;
       let current_selected = state.layout.selected_item;
@@ -76,7 +75,22 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
     case diagramActions.DIAGRAM_UPDATE_COUNTS:
       return {...state, counts: { ...state.counts, ...action.payload }};
 
-    /** External actions ---------------------------------------------------------*/
+    /** RESTful Actions --------------------------------------------------------*/
+    case diagramActions.DIAGRAM_LAYOUTS_LOADING:
+      return { ...state, layouts_loading: true };
+    case diagramActions.DIAGRAM_LAYOUTS_SUCCESS:
+      return {
+        ...state,
+        layouts_loading: false,
+        layouts_error: null,
+        pub_layouts: action.payload
+      };
+    case diagramActions.DIAGRAM_LAYOUTS_ERROR:
+      return { ...state, layouts_loading: false, layouts_error: action.payload };
+    case diagramActions.DIAGRAM_LAYOUTS_RESET:
+      return { ...state, layouts_loading: false, layouts_error: null };
+      
+    /** External Actions -------------------------------------------------------*/
     case diagramActions.DIAGRAM_POPULATE_ITEMS:
       let { items, counts, ids } = action.payload;
       const populated_counts = { ...initialDiagramStore.counts, ...counts };

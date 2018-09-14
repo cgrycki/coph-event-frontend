@@ -40,13 +40,11 @@
 
 
 
-
-/* Action button in EventsList for each event */
-.ActionButtonsDash {
-  width: 150px;
-}
-
 .Dashboard--Calendar {
   height: 500px;
 }
 
+.Dashboard--CreateButton {
+  float: right;
+  padding: 12px;
+}

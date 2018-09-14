@@ -113,7 +113,7 @@ class StepOne extends React.Component {
         <FormButtons
           prevPage={this.prevPage}
           nextPage={this.nextPage}
-          prevDisabled={true}
+          prevDisabled={false}
           nextDisabled={this.validate()}
         />
       </FormStep>

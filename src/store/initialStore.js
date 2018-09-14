@@ -113,7 +113,10 @@ const schedules = {
 const events = {
   current: {
     event: {},
-    items: [],
+    layout: {
+      items: [],
+      chairs_per_table: 6
+    },
     permissions: {
       canEdit         : false,
       canInitiatorVoid: false,
@@ -138,7 +141,10 @@ const initialStore = {
     items,
     ids,
     counts,
-    layout
+    layout,
+    pub_layouts    : [],
+    layouts_loading: false,
+    layouts_error  : null
   },
   form: {
     fields,

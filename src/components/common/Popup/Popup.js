@@ -42,10 +42,11 @@ export default class Popup extends React.Component {
     if (popupType === "success")        barType = MessageBarType.success;
     else if (popupType === "submitted") barType = MessageBarType.info;
     else if (popupType === "deleting")  barType = MessageBarType.info;
+    else if (popupType === "deleted")   barType = MessageBar.success;
     else                                barType = MessageBarType.error;
 
     return (
-      <MessageBar messageBarType={barType}>
+      <MessageBar messageBarType={barType} >
         {popupMessageBarMessage}
       </MessageBar>
     );
@@ -85,10 +86,7 @@ export default class Popup extends React.Component {
             onClick={btnClickYes}
             style={{ float: 'left' }}
           />
-          <DefaultButton
-            text={btnTextNo}
-            onClick={btnClickNo}
-          />
+          <DefaultButton text={btnTextNo} onClick={btnClickNo} />
         </DialogFooter>
 
       </Dialog>

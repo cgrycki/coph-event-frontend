@@ -2,7 +2,6 @@
  * Nav[igation] Actions
  * Serves as a wrapper for a series of action dispatchers.
  */
-
 import {push}               from 'connected-react-router/lib/actions';
 import {parseDynamo}        from '../utils/date.utils';
 import {
@@ -13,7 +12,9 @@ import {
 }  from './event.actions';
 import {
   populateFieldInfo,
-  submitFormReset
+  clearFieldInfo,
+  submitFormReset,
+  updateField
 }  from './form.actions';
 import { populateEditor }   from './diagram.actions';
 import {
@@ -25,30 +26,49 @@ import {
  * Populates an event and then dispatches navigation to the event page for viewing.
  * @param {Object} item Event and permissions object from our store's events [].
  * @param [item.evt] {Object} - Event information submitted by user.
- * @param [item.permissions] {Object} - Event permissions from Workflow. 
+ * @param [item.permissions] {Object} - Event permissions from Workflow.
+ * @param [item.layout] {Object} - Layout information object containing items and C.P.T.
  */
-export const populateEventAndPush = ({event, permissions, items=[]}) => (dispatch) => {
-  const formattedInfo = parseDynamo(event);                       // Format Dynamo object
-  dispatch(populateEventInfo(formattedInfo, permissions, items)); // Populate Event Page info
-  dispatch(fetchEventReset());                                    // Reset event page loading+error+success
-  dispatch(setFetchEvents(false));                                 // Disable retrieving event because we've loaded it
-  dispatch(push(`/event/${event.package_id}`));                   // Route to the event so user can view
+export const populateEventAndPush = ({ event, permissions, layout }) => dispatch => {
+  const formattedInfo = parseDynamo(event);                         // Format Dynamo object
+  dispatch(populateEventInfo(formattedInfo, permissions, layout));  // Populate Event Page info
+  dispatch(fetchEventReset());                                      // Reset event page loading+error+success
+  dispatch(setFetchEvents(false));                                  // Disable retrieving event because we've loaded it
+  dispatch(push(`/event/${event.package_id}`));                     // Route to the event so user can view
+}
+
+
+/**
+ * Clears form fields, resets REST, and navigates to form page.
+ */
+export const clearFormAndPush = () => dispatch => {
+  dispatch(clearFieldInfo());   // Set the form to default
+  dispatch(submitFormReset());  // Reset the REST status of form
+  dispatch(push('/form/user')); // Navigate to the form.
+}
+
+
+/**
+ * Populates the diagram with items before clearing/resetting form for another
+ * event.
+ * @param {object} layout Layout object from an event
+ */
+export const applyDiagramLayoutAndPush = layout => dispatch => {
+  // Populate the editor first, then clear
+  dispatch(populateEditor(layout));
+  dispatch(clearFormAndPush());
+  dispatch(updateField('room_number', 'XC100'));
 }
 
 
 /**
  * Populates field information for an event and then dispatches a routing action.
  */
-export const populateFormAndPush = (info, items=[]) => (dispatch) => {
+export const populateFormAndPush = (info, layout) => dispatch => {
   // Field Information
   const formattedInfo = parseDynamo(info);    // Format Dynamo object
   dispatch(populateFieldInfo(formattedInfo)); // Populate form infomation
-
-  // Layout information
-  // @todo diagram actions
-  dispatch(populateEditor(items));            // Populate diagram items
-
-  // Form REST
+  dispatch(populateEditor(layout));            // Populate diagram items and CPT
   dispatch(submitFormReset());                // Reset the form submission loading+error+success
   dispatch(push("/form/user"));               // Route to form so user can edit
 }
@@ -60,19 +80,19 @@ export const populateFormAndPush = (info, items=[]) => (dispatch) => {
  * @param {object} info Event field information object.
  * @param {object[]} items Event furniture item array. 
  */
-export const populateDiagramAndPush = (info, items) => (dispatch) => {
+export const populateDiagramAndPush = (info, layout) => dispatch => {
   // Populate the form
   const formattedInfo = parseDynamo(info);
   dispatch(populateFieldInfo(formattedInfo));
 
-  // @todo diagram actions
-  dispatch(populateEditor(items));
+  dispatch(populateEditor(layout));
 
   dispatch(submitFormReset());
   // @todo diagram reset
 
   dispatch(push("/form/layout"));
 }
+
 
 /**
  * Dispatches actions upon page start. This takes advantage of our
