@@ -6,7 +6,8 @@ import Furniture            from './Furniture';
 import TransformerComponent from './TransformerComponent';
 import {
   Toolbar,
-  HUD
+  HUD,
+  DownloadButton
 } from './Surfaces';
 
 import {
@@ -19,6 +20,7 @@ import {
 }                          from '../../actions';
 import { EditorFunctions } from './utils';
 import CursorFunctions from './utils/CursorFunctions';
+import './Diagram.css';
 
 
 
@@ -64,6 +66,11 @@ class Diagram2 extends Component {
     CursorFunctions.handleEvents(this.konvaCanvas, event);
   }
 
+  getStageURI = () => {
+    if (!this.konvaCanvas) return '';
+    const stage = this.konvaCanvas.getStage();
+    return stage.toDataURL();
+  }
 
   render() {
     const { x, y, width, height, scaleX, scaleY, draggable, items, selected_item } = this.props;
@@ -115,6 +122,9 @@ class Diagram2 extends Component {
             <HUD counts={this.props.counts} height={height} />
           </Layer>
         </Stage>
+
+        {this.konvaCanvas && <DownloadButton getStageURI={this.getStageURI.bind(this)} />}
+
       </div>
     );
   }
