@@ -12,7 +12,10 @@ import { fetchLogin }                             from '../actions/app.actions';
 import { appSetup } from '../actions/nav.actions';
 
 // Logging middleware
-const loggerMiddleware = createLogger({ collapsed: true });
+const loggerMiddleware = createLogger({
+  collapsed: true,
+  predicate: (getState, action) => action.type !== 'DIAGRAM_UPDATE_LAYOUT',
+});
 
 
 /**

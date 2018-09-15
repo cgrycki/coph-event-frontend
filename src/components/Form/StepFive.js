@@ -5,7 +5,7 @@ import React          from 'react';
 import FormTitle      from './shared/FormTitle';
 import FormStep       from './shared/FormStep';
 import FormButtons    from './shared/FormButtons';
-import Editor         from '../Diagram';
+import Editor         from '../Diagram2';
 
 
 
@@ -18,7 +18,6 @@ export default class StepFive extends React.Component {
   render() {
     return(
       <FormStep>
-        <FormTitle page={'placeholder'} progress={0.5} />
         <div className="ms-Grid-row">
 
           <Editor/>
