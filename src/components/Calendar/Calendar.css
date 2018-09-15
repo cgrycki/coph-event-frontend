@@ -12,6 +12,10 @@
   margin-top: 1rem;
 }
 
+.Calendar--Callout {
+  padding: 10px;
+}
+
 
 /* Event scheduling */
 .CalendarEvent--overlap {
@@ -87,6 +91,12 @@
 .rbc-event .rbc-event-content {
   font-weight: bolder;
   font-size: 12px;
+}
+
+/* Selected Event Styling */
+.rbc-event.rbc-selected > .rbc-event-content,
+.rbc-event.rbc-selected > .rbc-event-label {
+  color: #ffffff;
 }
 
 

@@ -12,6 +12,8 @@ import Panel                              from './Panel';
 import Toolbar                            from './Toolbar';
 import formats                            from './formats';
 import BigCalendar                        from 'react-big-calendar/lib/Calendar';
+
+import { Callout } from 'office-ui-fabric-react/lib/Callout';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import './Calendar.css';
 
@@ -28,7 +30,14 @@ class Calendar extends React.Component {
       view        : "month",
       checkedRooms: new Set(),
       start_date  : new Date(),
-      end_date    : new Date()
+      end_date    : new Date(),
+      calloutHide : true,
+      selEvent: {
+        event_name: '',
+        room_number: '',
+        start_time: '',
+        end_time: ''
+      }
     };
 
     
@@ -38,10 +47,7 @@ class Calendar extends React.Component {
 
   /** Sets range of dates to expand to the date - last of the month */
   componentWillMount() {
-    const today = new Date();
-    const lastDayOfMonth = moment().endOf('month').toDate();
-
-    this.setState({ start_date: today, end_date: lastDayOfMonth });
+    this.onNavigate(new Date(), 'month');
   }
 
   /** Fetches rooms on mount if we don't have them loaded. */
@@ -72,7 +78,7 @@ class Calendar extends React.Component {
     };
   }
 
-  /** Updates component date ranges. */
+  /** Updates panel date ranges. */
   onDateChange(date, field) {
     // Conditional update: if start take miniumum of current start and new evt
     // If end take maximum of new evt and end_date
@@ -102,6 +108,31 @@ class Calendar extends React.Component {
     this.setState({ checkedRooms: newRooms });
   }
 
+  /** Hides calendar event popup */
+  onDismissCallot = () => {
+    this.setState({ calloutHide: true });
+  }
+
+  /** Sets selected event in component state */
+  onSelectEvent = event => {
+    this.setState({ calloutHide: false, selEvent: event });
+  }
+
+  /** Syncs calendar view and component state */
+  onView = view => {
+    this.setState({ view });
+  }
+
+  /** Sets our start/end dates to the maximum range of current view */
+  onNavigate = (date, view=this.state.view) => {
+    const firstDayOfRange = moment(date).startOf(view).toDate();
+    const lastDayOfRange = moment(date).endOf(view).toDate();
+    this.setState({
+      start_date: firstDayOfRange,
+      end_date: lastDayOfRange
+    });
+  }
+
   render() {
     return (
       <div className="ms-Grid-row Calendar">
@@ -116,25 +147,50 @@ class Calendar extends React.Component {
             onCheck={this.onCheck}
           />
 
-            <div className="ms-Grid-col ms-lg8 ms-xl8 ms-xxl8">
-              <BigCalendar
-                defaultDate={new Date()}
-                defaultView="month"
-                style={{ height: '600px' }}
-                min={minTime}
-                max={maxTime}
-                
-                formats={formats}
-                components={{ toolbar: Toolbar }}
+          <div className="ms-Grid-col ms-lg8 ms-xl8 ms-xxl8">
+            <BigCalendar
+              defaultDate={new Date()}
+              defaultView="month"
+              style={{ height: '600px' }}
+              min={minTime}
+              max={maxTime}
+              
+              formats={formats}
+              components={{ toolbar: Toolbar }}
 
-                events={this.props.schedules}
-                titleAccessor="event_name"
-                startAccessor='start_time'
-                endAccessor='end_time'
-                selectable='ignoreEvents'
-              />
+              onSelectEvent={this.onSelectEvent}
+              onNavigate={this.onNavigate}
+              onView={this.onView}
+
+              events={this.props.schedules}
+              titleAccessor="event_name"
+              startAccessor='start_time'
+              endAccessor='end_time'
+              selectable='ignoreEvents'
+            />
+          </div>
+
+          <Callout
+            hidden={this.state.calloutHide}
+            onDismiss={this.onDismissCallot}
+            calloutMaxWidth={400}
+            target=".rbc-event.rbc-selected"
+          >
+            <div className='Calendar--Callout'>
+              <p>
+                <span className='ms-fontWeight-semibold'>Event:{' '}</span>
+                {this.state.selEvent.event_name}
+              </p>
+              <p>
+                <span className='ms-fontWeight-semibold'>Room:{' '}</span>
+                {this.state.selEvent.room_number}
+              </p>
+              <p>
+                <span className='ms-fontWeight-semibold'>Times:{' '}</span>
+                {`${getDateISO(this.state.selEvent.start_time)} - ${getDateISO(this.state.selEvent.end_time)}`}
+              </p>
             </div>
-        
+          </Callout>
 
       </div>
     </div>
