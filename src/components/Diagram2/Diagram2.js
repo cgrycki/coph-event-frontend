@@ -19,7 +19,7 @@ import {
   updateChairsAndCounts
 }                          from '../../actions';
 import { EditorFunctions } from './utils';
-import CursorFunctions from './utils/CursorFunctions';
+// import CursorFunctions from './utils/CursorFunctions';
 import './Diagram.css';
 
 
@@ -59,11 +59,6 @@ class Diagram2 extends Component {
     const updatedEditorConfig = EditorFunctions.handleDragEnd(event);
     if (updatedEditorConfig) updateEditorLayout(updatedEditorConfig);
   
-  }
-
-  onEvents = event => {
-    if (!this.konvaCanvas) return;
-    CursorFunctions.handleEvents(this.konvaCanvas, event);
   }
 
   getStageURI = () => {
