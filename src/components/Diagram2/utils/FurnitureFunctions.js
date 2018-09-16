@@ -41,7 +41,7 @@ export default class FurnitureFunctions {
   static getNodeOutOfBounds(node) {
     const stage = node.getStage();
     const pos   = node.position();
-    const intersectsWith = stage.getIntersection(pos, '.FloorGood');
+    const intersectsWith = stage.getIntersection(pos, '.FLOOR_GOOD');
     const outOfBounds = intersectsWith === null;
 
     return outOfBounds;
