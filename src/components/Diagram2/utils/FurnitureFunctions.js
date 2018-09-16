@@ -1,4 +1,5 @@
 import { Easings } from 'konva';
+import CollisionFunctions from './CollisionFunctions';
 
 
 export default class FurnitureFunctions {
@@ -18,20 +19,44 @@ export default class FurnitureFunctions {
   }
 
   static getNodeCollision(node) {
+
+    //console.log(node.position(), node.getAbsolutePosition())
+    //CollisionFunctions.getNodeAttrs(node);
+    if (node.getName() === 'circle') {
+      console.log(CollisionFunctions.getCircleTableSAT(node));
+    }
+
+
+
     let collisionFlag = false;
 
     const stage     = node.getStage();
     const itemLayer = stage.findOne('.itemLayer');
     const pos       = node.position();
 
+    // Dragged furniture type
+    const draggedType = node.getName();
+
+    // Check if we're colliding with any node 
     if (itemLayer.getIntersection(pos) !== null) collisionFlag = true;
     else {
-      itemLayer.children.each(group => {
-        if (group === node) return true;
+      itemLayer.children.each((group) => {
+        if (group === node) {
+          console.log('dragged node evaluated itself');
+          return true;
+        }
+        // Don't evaulate collisions for items that are far away
         const otherPos = group.position();
         const d = this.pointDistance(pos, otherPos);
 
-        if (d < 40) collisionFlag = true;
+        // Other item
+        const otherType = group.getName();
+        if ((draggedType === 'circle') && (otherType === 'circle')) {
+          console.log(CollisionFunctions.getFurnitureCollision(node, group));
+        }
+
+
+        //if (d < 40) collisionFlag = true;
       });
     }
 
