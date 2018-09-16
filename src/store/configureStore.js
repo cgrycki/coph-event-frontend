@@ -14,7 +14,7 @@ import { appSetup } from '../actions/nav.actions';
 // Logging middleware
 const loggerMiddleware = createLogger({
   collapsed: true,
-  predicate: (getState, action) => action.type !== 'DIAGRAM_UPDATE_LAYOUT',
+  predicate: (getState, action) => (action.type !== 'DIAGRAM_UPDATE_LAYOUT') && (action.type !== 'DIAGRAM_UPDATE_ITEM')
 });
 
 
