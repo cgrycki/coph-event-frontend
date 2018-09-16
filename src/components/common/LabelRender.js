@@ -5,13 +5,13 @@ import { Callout }          from 'office-ui-fabric-react/lib/Callout';
 
 
 export default class LabelRender extends Component {
-  state     = { isOpen: false };
+  state     = { isHidden: true };
   iconRef   = React.createRef();
-  onClick   = () => this.setState({ isOpen: !this.state.isOpen });
-  onDismiss = () => this.setState({ isOpen: false });
+  onClick   = () => this.setState({ isHidden: !this.state.isHidden });
+  onDismiss = () => this.setState({ isHidden: true });
   
   render() {
-    const { isOpen } = this.state;
+    const { isHidden } = this.state;
     const { label, info, required }  = this.props;
 
     return (
@@ -25,9 +25,10 @@ export default class LabelRender extends Component {
             onClick={this.onClick}
           />
         </span>
-        {isOpen && <Callout
+        <Callout
           target={this.iconRef}
           onDismiss={this.onDismiss}
+          hidden={isHidden}
           role={'alertdialog'}
           gapSpace={0}
           calloutMaxWidth={450}
@@ -36,7 +37,7 @@ export default class LabelRender extends Component {
             <div><p className="ms-fontWeight-semibold">Information</p></div>
             <div style={{ whiteSpace: 'pre-line' }}>{info}</div>
           </div>            
-        </Callout>}
+        </Callout>
       </div>
     );
   }
