@@ -4,6 +4,7 @@ import { Group, Circle, Text }  from 'react-konva';
 import { updateEditorItem }     from '../../../actions/diagram.actions';
 import { FurnitureFunctions }   from '../utils';
 import {
+  CloseButton,
   Table6Chairs,
   Table8Chairs,
   RectTable,
@@ -51,7 +52,7 @@ class Furniture extends Component {
     }
   }
 
-  renderDeleteButton  = () => {}
+  renderDeleteButton  = furnType => CloseButton(furnType);
 
   renderFurnitureItem = () => {
     const { item: { id, furn }, chairs_per_table, selected_item } = this.props;
@@ -69,9 +70,11 @@ class Furniture extends Component {
   }
 
   render() {
+    const { selected_item }       = this.props;
     const { id, furn, x, y, rot } = this.props.item;
     const collision = (this.konvaNode) ? this.konvaNode.getAttr('collision'):false;
-    const dragging  = (this.konvaNode) ? this.konvaNode.getAttr('dragging') :false;
+    const selected  = selected_item === id;
+    //const dragging  = (this.konvaNode) ? this.konvaNode.getAttr('dragging') :false;
 
     return (
       <Group
@@ -89,6 +92,7 @@ class Furniture extends Component {
         onDragEnd={this.onDragEnd.bind(this)}       
       >
         <Group name="furnItemWrapper">{this.renderFurnitureItem()}</Group>
+        {selected && this.renderDeleteButton(furn)}
         <Circle
           name="boundsHint"
           radius={15}
