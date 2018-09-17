@@ -29,6 +29,7 @@
     "redux-thunk": "^2.3.0",
     "request": "^2.34",
     "request-promise": "^4.2.2",
+    "sat": "^0.7.1",
     "validator": "^9.4.1"
   },
   "scripts": {
@@ -45,7 +46,6 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.11.1",
-    "jest": "^23.5.0",
-    "sat": "^0.7.1"
+    "jest": "^23.5.0"
   }
 }
