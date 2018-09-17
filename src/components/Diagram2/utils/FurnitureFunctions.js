@@ -1,6 +1,6 @@
 import { Easings } from 'konva';
 import CollisionFunctions from './CollisionFunctions';
-import { scalePosition } from './EditorFunctions';
+
 
 export default class FurnitureFunctions {
   /**
@@ -79,6 +79,8 @@ export default class FurnitureFunctions {
   static handleDragMove(node, dragEvt) {
     const colliding   = this.getNodeCollision(node);
     const outOfBounds = this.getNodeOutOfBounds(node);
+
+    // Evaulates to true if either or both of the conditions are met.
     node.setAttr('collision', (colliding || outOfBounds));
 
     // Change cursor if there's a collision

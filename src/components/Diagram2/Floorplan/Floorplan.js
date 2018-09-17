@@ -258,7 +258,6 @@ export default class Floorplan extends React.Component {
               dash={dash}
               fillOpacity={opacity}
               listening={name === 'FLOOR_GOOD'}
-
             />
           );
         })} 
