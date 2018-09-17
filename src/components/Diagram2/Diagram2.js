@@ -34,8 +34,8 @@ class Diagram2 extends Component {
   }
 
   onContentClick = event => {
-    const { addEditorItem, selectEditorItem, removeEditorItem } = this.props;
-    const { action, payload } = EditorFunctions.handleClickEvent(this.konvaCanvas, event);
+    const { addEditorItem, selectEditorItem, removeEditorItem, furn_type } = this.props;
+    const { action, payload } = EditorFunctions.handleClickEvent(this.konvaCanvas, event, furn_type);
 
     // Dispatch the correct action
     if (action === 'selectItem')      selectEditorItem(payload);
@@ -72,6 +72,8 @@ class Diagram2 extends Component {
 
     const regularItems = items.filter(item => item.id !== selected_item);
     const selectedItem = items.filter(item => item.id === selected_item);
+
+    //console.log(regularItems);
 
     return (
       <div>

@@ -1,4 +1,5 @@
 import { Easings } from 'konva';
+import CollisionFunctions from './CollisionFunctions';
 
 
 export default class FurnitureFunctions {
@@ -24,32 +25,41 @@ export default class FurnitureFunctions {
     const itemLayer = stage.findOne('.itemLayer');
     const pos       = node.position();
 
+    // Check if we're colliding with any node 
     if (itemLayer.getIntersection(pos) !== null) collisionFlag = true;
     else {
-      itemLayer.children.each(group => {
-        if (group === node) return true;
-        const otherPos = group.position();
-        const d = this.pointDistance(pos, otherPos);
+      itemLayer.children.each((other) => {
+        if (other === node) {
+          console.log('dragged node evaluated itself');
+        } else {
+          // Don't evaulate collisions for items that are far away
+          const d = this.pointDistance(pos, other.position());
 
-        if (d < 40) collisionFlag = true;
+          // If we're close enough to another furniture item, evaulate the shape
+          // collision. If it's true then set the flag
+          if (d < 40) {
+            if (CollisionFunctions.getFurnitureCollision(node, other)) collisionFlag = true;
+          };
+        }
       });
     }
 
     return collisionFlag;
   }
 
+  /** Checks if the stage's pointer position (drag event position) is not 
+   * intersecting with the good furniture area.
+   */
   static getNodeOutOfBounds(node) {
-    const stage = node.getStage();
-    const pos   = node.position();
-    const intersectsWith = stage.getIntersection(pos, '.FLOOR_GOOD');
-    const outOfBounds = intersectsWith === null;
-
+    const stage          = node.getStage();
+    const posStage       = stage.getPointerPosition();
+    const intersectsWith = stage.getIntersection(posStage, '.FLOOR_GOOD');
+    const outOfBounds    = intersectsWith === null;
     return outOfBounds;
   }
 
+  /** Sets the initial drag position and 'shadow' on the dragged KonvaJS node.*/
   static handleDragStart(node, dragEvt) {
-    // move to top?
-    
     // Set collision to false to stop interference from prior drags
     node.setAttr('collision', true);
     node.setAttr('dragging', true);
@@ -63,15 +73,14 @@ export default class FurnitureFunctions {
     const furnItem = node.findOne('.furnItem');
     furnItem.shadowBlur(4);
     furnItem.shadowColor('rgba(0, 0, 0, 0.3)');
-    //furnItem.offsetX(2);
-    //furnItem.offsetY(1);
-
   }
 
+  /** Updates node's collision attribute by checking collisions + out of bounds */
   static handleDragMove(node, dragEvt) {
-    // Update the node's collision attribute by checking collisions + bounds
     const colliding   = this.getNodeCollision(node);
     const outOfBounds = this.getNodeOutOfBounds(node);
+
+    // Evaulates to true if either or both of the conditions are met.
     node.setAttr('collision', (colliding || outOfBounds));
 
     // Change cursor if there's a collision
