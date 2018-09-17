@@ -1,9 +1,10 @@
 import React, { Component }     from 'react';
 import { connect }              from 'react-redux';
-import { Group, Circle, Text }  from 'react-konva';
+import { Group, Circle }        from 'react-konva';
 import { updateEditorItem }     from '../../../actions/diagram.actions';
 import { FurnitureFunctions }   from '../utils';
 import {
+  CloseButton,
   Table6Chairs,
   Table8Chairs,
   RectTable,
@@ -51,7 +52,33 @@ class Furniture extends Component {
     }
   }
 
-  renderDeleteButton  = () => {}
+  onTransformStart = event => {
+    if (!this.konvaNode) return;
+    else FurnitureFunctions.handleTransformStart(this.konvaNode, event);
+  }
+
+  onTransformEvent = event => {
+    if (!this.konvaNode) return;
+    else {
+      const { updateEditorItem } = this.props;
+      const transformedNode = FurnitureFunctions.handleTransformRotate(this.konvaNode, event);
+      return updateEditorItem(transformedNode);
+    }
+  }
+
+  async onTransformEnd(event) {
+    if (!this.konvaNode) return;
+    else {
+      const { updateEditorItem } = this.props;
+      const itemAttrs = await FurnitureFunctions.handleTransformEnd(this.konvaNode, event);
+      return updateEditorItem(itemAttrs);
+    }
+  }
+
+
+
+
+  renderDeleteButton  = furnType => CloseButton(furnType);
 
   renderFurnitureItem = () => {
     const { item: { id, furn }, chairs_per_table, selected_item } = this.props;
@@ -69,9 +96,10 @@ class Furniture extends Component {
   }
 
   render() {
+    const { selected_item }       = this.props;
     const { id, furn, x, y, rot } = this.props.item;
     const collision = (this.konvaNode) ? this.konvaNode.getAttr('collision'):false;
-    const dragging  = (this.konvaNode) ? this.konvaNode.getAttr('dragging') :false;
+    const selected  = selected_item === id;
 
     return (
       <Group
@@ -86,9 +114,14 @@ class Furniture extends Component {
         draggable={this.getDragStatus()}
         onDragStart={this.onDragStart}
         onDragMove={this.onDragMove}
-        onDragEnd={this.onDragEnd.bind(this)}       
+        onDragEnd={this.onDragEnd.bind(this)}
+        
+        onTransformStart={this.onTransformStart}
+        onTransform={this.onTransformEvent}
+        onTransformEnd={this.onTransformEnd.bind(this)}
       >
         <Group name="furnItemWrapper">{this.renderFurnitureItem()}</Group>
+        {selected && this.renderDeleteButton(furn)}
         <Circle
           name="boundsHint"
           radius={15}
