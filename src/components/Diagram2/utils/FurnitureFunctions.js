@@ -18,6 +18,10 @@ export default class FurnitureFunctions {
     );
   }
 
+  /**
+   * Checks for a shape overlap with all furniture items within 40px of current
+   * node. Returns true if any overlap is found, false otherwise.
+   */
   static getNodeCollision(node) {
     let collisionFlag = false;
 
@@ -47,7 +51,8 @@ export default class FurnitureFunctions {
     return collisionFlag;
   }
 
-  /** Checks if the stage's pointer position (drag event position) is not 
+  /** 
+   * Checks if the stage's pointer position (drag event position) is not 
    * intersecting with the good furniture area.
    */
   static getNodeOutOfBounds(node) {
@@ -93,6 +98,7 @@ export default class FurnitureFunctions {
     return { id, furn, x, y, rot };
   }
 
+  /** Checks node collision and returns non-colliding coordinates. */
   static handleDragEnd(node, dragEvt) {
     const {
       collision, id, name: furn, rotation: rot,
@@ -140,5 +146,66 @@ export default class FurnitureFunctions {
         });
       });
     } else return new Promise((resolve, reject) => resolve(dragEndAttributes));
+  }
+
+  /** Sets initial rotation degrees and 'shadow' on the transformed KonvaJS node. */
+  static handleTransformStart(node, transformEvt) {
+    // Set node collision to false to stop interference from prior transformations
+    node.setAttr('collision', false);
+
+    // Grab the last known good degrees
+    const rotation = node.rotation();
+    node.setAttr('rotateStart', rotation);
+
+    // Set shadow for transformed object
+    const furnItem = node.findOne('.furnItem');
+    furnItem.shadowBlur(4);
+    furnItem.shadowColor('rgba(0, 0, 0, 0.3)');
+  }
+
+  /** Update node's collision attribute by checking collisions on rotation. */
+  static handleTransformRotate(node, transformEvt) {
+    const collision = this.getNodeCollision(node);
+    node.setAttr('collision', collision);
+
+    // Update the store's node information
+    const { x, y, rotation: rot, id, name: furn } = node.getAttrs();
+    return { id, furn, x, y, rot };
+  }
+
+  /** Checks node collisions and returns non-colliding rotation degrees. */
+  static handleTransformEnd(node, transformEvt) {
+    // Get current attributes of Konva node
+    const {
+      id, name: furn, x, y,
+      rotateStart, rotation: rotateEnd, collision
+    } = node.getAttrs();
+
+    // Set the rotation based on the colliding status
+    const transformEndAttrs = {
+      id, furn, x, y,
+      rot: (collision) ? rotateStart : rotateEnd
+    };
+
+    // Unset shadow
+    // Reset node's appearance/attributes
+    const furnItem = node.findOne('.furnItem');
+    furnItem.shadowBlur(0);
+    node.getLayer().batchDraw();
+
+    if (collision) {
+      return new Promise((resolve, reject) => {
+        node.setAttr('collision', false);
+
+        node.to({
+          x: x,
+          y: y,
+          duration: 0.3,
+          easing: Easings.StrongEaseIn,
+          rotation: rotateStart,
+          onFinish: () => resolve(transformEndAttrs)
+        });
+      });
+    } else return new Promise((resolve, reject) => resolve(transformEndAttrs));
   }
 }

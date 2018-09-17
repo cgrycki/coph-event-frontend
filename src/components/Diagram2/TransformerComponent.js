@@ -33,19 +33,6 @@ export default class TransformerComponent extends Component {
     this.transformer.getLayer().batchDraw();
   }
 
-  onTransformEnd = () => {
-    if (!this.transformer) return;
-
-    // Gather attributes
-    const rot                      = this.transformer.rotation();
-    const attachedNode             = this.transformer.getNode();
-    const { name: furn, id, x, y } = attachedNode.getAttrs();
-
-    // Dispatch update
-    const { updateEditorItem } = this.props;
-    updateEditorItem({ id, furn, x, y, rot});
-  }
-
   render() {
     return (
       <Transformer
@@ -53,7 +40,6 @@ export default class TransformerComponent extends Component {
         resizeEnabled={false}
         borderEnabled={false}
         rotateAnchorOffset={15}
-        onTransformEnd={this.onTransformEnd}
       />
     );
   }
