@@ -2,8 +2,7 @@
  * Editor Functions
  * @module
  */
-import { polygonContains }  from 'd3-polygon/src/contains';
-import { scaleLinear }      from 'd3-scale/src/linear';
+import CollisionFunctions from './CollisionFunctions';
 
 
 class EditorFunctions {
@@ -58,7 +57,7 @@ class EditorFunctions {
   }
 
   /** Handles canvas clicks, called for *every* click. */
-  static handleClickEvent(canvasRef, clickEvt) {
+  static handleClickEvent(canvasRef, clickEvt, currentFurnType) {
     const nullAction = { action: 'selectItem', payload: null };
 
     // Some interaction housekeeping: prevent bubble + ignore right click
@@ -81,7 +80,11 @@ class EditorFunctions {
     // Get intersection node and return the appropriate action
     const intersectName = intersects.getAttr('name');
     if (intersectName === 'FLOOR_GOOD') {
-      return { action: 'addItem', payload: pointerPos };
+      if (!CollisionFunctions.getPositionCollision(pointerPos, canvas, currentFurnType)) {
+        return { action: 'addItem', payload: pointerPos };
+      } else {
+        return nullAction;
+      }
     } else if (intersectName === 'furnItem') {
       const furnWrapper = intersects.getParent();
       const furnItem = furnWrapper.getParent().id();

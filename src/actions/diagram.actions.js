@@ -76,6 +76,9 @@ const updateEditorCounts = counts => ({
 
 export const addItemAndUpdateDiagram = ({ x, y }) => {
   return (dispatch, getState) => {
+    // Clear the selection
+    dispatch(selectEditorItem(null));
+
     // Add the furniture item
     dispatch(addEditorItem({ x, y }));
 

@@ -19,44 +19,28 @@ export default class FurnitureFunctions {
   }
 
   static getNodeCollision(node) {
-
-    //console.log(node.position(), node.getAbsolutePosition())
-    //CollisionFunctions.getNodeAttrs(node);
-    if (node.getName() === 'circle') {
-      console.log(CollisionFunctions.getCircleTableSAT(node));
-    }
-
-
-
     let collisionFlag = false;
 
     const stage     = node.getStage();
     const itemLayer = stage.findOne('.itemLayer');
     const pos       = node.position();
 
-    // Dragged furniture type
-    const draggedType = node.getName();
-
     // Check if we're colliding with any node 
     if (itemLayer.getIntersection(pos) !== null) collisionFlag = true;
     else {
-      itemLayer.children.each((group) => {
-        if (group === node) {
+      itemLayer.children.each((other) => {
+        if (other === node) {
           console.log('dragged node evaluated itself');
-          return true;
+        } else {
+          // Don't evaulate collisions for items that are far away
+          const d = this.pointDistance(pos, other.position());
+
+          // If we're close enough to another furniture item, evaulate the shape
+          // collision. If it's true then set the flag
+          if (d < 40) {
+            if (CollisionFunctions.getFurnitureCollision(node, other)) collisionFlag = true;
+          };
         }
-        // Don't evaulate collisions for items that are far away
-        const otherPos = group.position();
-        const d = this.pointDistance(pos, otherPos);
-
-        // Other item
-        const otherType = group.getName();
-        if ((draggedType === 'circle') && (otherType === 'circle')) {
-          console.log(CollisionFunctions.getFurnitureCollision(node, group));
-        }
-
-
-        //if (d < 40) collisionFlag = true;
       });
     }
 
@@ -72,9 +56,8 @@ export default class FurnitureFunctions {
     return outOfBounds;
   }
 
+  /** Sets the initial drag position and 'shadow' on the dragged KonvaJS node.*/
   static handleDragStart(node, dragEvt) {
-    // move to top?
-    
     // Set collision to false to stop interference from prior drags
     node.setAttr('collision', true);
     node.setAttr('dragging', true);
@@ -88,15 +71,17 @@ export default class FurnitureFunctions {
     const furnItem = node.findOne('.furnItem');
     furnItem.shadowBlur(4);
     furnItem.shadowColor('rgba(0, 0, 0, 0.3)');
-    //furnItem.offsetX(2);
-    //furnItem.offsetY(1);
-
   }
 
+  /** Updates node's collision attribute by checking collisions + out of bounds */
   static handleDragMove(node, dragEvt) {
-    // Update the node's collision attribute by checking collisions + bounds
+    // 
     const colliding   = this.getNodeCollision(node);
     const outOfBounds = this.getNodeOutOfBounds(node);
+    if (colliding || outOfBounds) {
+      if (colliding) console.log('collision');
+      if (outOfBounds) console.log('out of bounds');
+    }
     node.setAttr('collision', (colliding || outOfBounds));
 
     // Change cursor if there's a collision
