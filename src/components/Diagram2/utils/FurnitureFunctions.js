@@ -1,6 +1,6 @@
 import { Easings } from 'konva';
 import CollisionFunctions from './CollisionFunctions';
-
+import { scalePosition } from './EditorFunctions';
 
 export default class FurnitureFunctions {
   /**
@@ -47,12 +47,14 @@ export default class FurnitureFunctions {
     return collisionFlag;
   }
 
+  /** Checks if the stage's pointer position (drag event position) is not 
+   * intersecting with the good furniture area.
+   */
   static getNodeOutOfBounds(node) {
-    const stage = node.getStage();
-    const pos   = node.position();
-    const intersectsWith = stage.getIntersection(pos, '.FLOOR_GOOD');
-    const outOfBounds = intersectsWith === null;
-
+    const stage          = node.getStage();
+    const posStage       = stage.getPointerPosition();
+    const intersectsWith = stage.getIntersection(posStage, '.FLOOR_GOOD');
+    const outOfBounds    = intersectsWith === null;
     return outOfBounds;
   }
 
@@ -75,13 +77,8 @@ export default class FurnitureFunctions {
 
   /** Updates node's collision attribute by checking collisions + out of bounds */
   static handleDragMove(node, dragEvt) {
-    // 
     const colliding   = this.getNodeCollision(node);
     const outOfBounds = this.getNodeOutOfBounds(node);
-    if (colliding || outOfBounds) {
-      if (colliding) console.log('collision');
-      if (outOfBounds) console.log('out of bounds');
-    }
     node.setAttr('collision', (colliding || outOfBounds));
 
     // Change cursor if there's a collision
