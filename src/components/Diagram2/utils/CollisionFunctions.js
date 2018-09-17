@@ -20,9 +20,6 @@ export default class CollisionFunctions {
 
   /** Translates a Konva node into a SAT shape with rotation, position, and dimensions. */
   static getRectangularFurnitureSAT(node) {
-    const groupAttrs = node.getAttrs();
-    const itemAttrs  = node.findOne('.furnItem').getAttrs();
-
     // FROM SATJS LIB
     // Create a box at (10,10) with width 20 and height 40.
     // var b = new SAT.Box(new SAT.Vector(10,10), 20, 40);
@@ -52,8 +49,8 @@ export default class CollisionFunctions {
     // @todo
     // Offsets are half of their furniture's dimensions to account for centering
     // the item on the user's mouse click
-    const dispayOffsetX = displayBoardWidth / 2;
-    const displayOffsetY = displayBoardHeight / 2;
+    const dispayOffsetX    = displayBoardWidth / 2;
+    const displayOffsetY   = displayBoardHeight / 2;
     const rectTableOffsetX = rectTableWidth / 2;
     const rectTableOffsetY = rectTableHeight / 2;
 
@@ -67,39 +64,114 @@ export default class CollisionFunctions {
     return satPoly;
   }
 
-  static getCircleFurnitureSAT(node) {
+  static getCirclularFurnitureSAT(node) {
     const { x, y } = node.getPosition();
 
-    // Circular items are already centered for us by KonvaJS
-    return null;
+    // Konva radius = 4
+    const cocktailRadius = 8;
+    // Illustrator path dimensions => 15px * 15px
+    const trashRadius = 7.5;
+
+    // Rotation doesn't really matter
+    // Circular items are already centered for us by KonvaJS, so offset doesn't
+    const satRadius = (node.getName() === 'cocktail') ? cocktailRadius : trashRadius;
+    const satCircle = new sat.Circle(new sat.Vector(x, y), satRadius);
+    return satCircle;
   }
 
   static getCircleTableSAT(node) {
     const { x, y } = node.getPosition();
-    const radius   = 13.75;
+    const radius   = 14;
     const buffer   = 0;
 
     const satCircle= new sat.Circle(new sat.Vector(x, y), radius + buffer);
     return satCircle;
   }
 
+  static getChairSAT(node) {
+    const { x, y } = node.getPosition();
+
+    // From Adobe Illustrator: chair path is 8px * 6.96px
+    const chairWidth  = 8;
+    const chairHeight = 7;
+    const satRect     = new sat.Box(new sat.Vector(x, y), chairWidth, chairHeight);
+
+    // Polygonal transformations
+    const rotation  = node.getRotation();
+    const offsetX   = -(chairWidth / 2);
+    const offsetY   = -(chairHeight / 2);
+    const satOffset = new sat.Vector(offsetX, offsetY);
+
+    // SATjs
+    const satPoly = satRect.toPolygon();
+    satPoly.setOffset(satOffset);
+    satPoly.setAngle(rotation);
+
+    return satPoly;
+  }
+
   static getFurnitureShape(konvaNode) {
     const furnType = konvaNode.getName();
 
     switch (furnType) {
-      case 'circle': return this.getCircleTableSAT(konvaNode);
-      case 'rect': return this.getRectangularFurnitureSAT(konvaNode);
-      default: return null;
+      case 'circle'  : return this.getCircleTableSAT(konvaNode);
+      case 'cocktail': return this.getCirclularFurnitureSAT(konvaNode);
+      case 'trash'   : return this.getCirclularFurnitureSAT(konvaNode);
+      case 'rect'    : return this.getRectangularFurnitureSAT(konvaNode);
+      case 'display' : return this.getRectangularFurnitureSAT(konvaNode);
+      case 'chair'   : return this.getChairSAT(konvaNode);
+           default   : return null;
     }
   }
 
+  static getShapeType(furnType) {
+    const furnToShape = {
+      circle  : 'circle',
+      cocktail: 'circle',
+      trash   : 'circle',
+
+      rect   : 'poly',
+      display: 'poly',
+      chair  : 'poly'
+    };
+
+    return furnToShape[furnType];
+  }
+
   static getFurnitureCollision(dragged, other) {
+    // SATjs shapes
     const draggedShape     = this.getFurnitureShape(dragged);
     const otherShape       = this.getFurnitureShape(other);
 
-    const collisionDetails = new sat.Response();
-    const polygonCollision = sat.testCircleCircle(draggedShape, otherShape, collisionDetails);
+    // The type of furniture dictates what type of shape, and consequently the
+    // method used to compare the shapes for a collision.
+    const draggedShapeType = this.getShapeType(dragged.getName());
+    const otherShapeType   = this.getShapeType(other.getName());
+    
 
-    return polygonCollision;
+    const collisionDetails = new sat.Response();
+    let   collision;
+
+    if ((draggedShapeType === 'circle') && (otherShapeType === 'circle')) {
+      collision = sat.testCircleCircle(draggedShape, otherShape, collisionDetails);
+    }
+    else if ((draggedShapeType === 'circle') && (otherShapeType === 'poly')) {
+      collision = sat.testPolygonCircle(otherShape, draggedShape, collisionDetails);
+    }
+    else if ((draggedShapeType === 'poly') && (otherShapeType === 'circle')) {
+      collision = sat.testPolygonCircle(draggedShape, otherShape, collisionDetails);
+    }
+    else if ((draggedShapeType === 'poly') && (otherShapeType === 'poly')) {
+      collision = sat.testPolygonPolygon(draggedShape, otherShape, collisionDetails);
+    }
+    else {
+      console.log('conditional ran out of options, a konva node probably didnt get converted to a shape correctly');
+      console.log('Konva nodes', dragged, other);
+      console.log('SAT shape types', draggedShapeType, otherShapeType);
+      collision = true;
+    };
+
+    if (collision) console.log(collisionDetails);
+    return collision;
   }
 } 
