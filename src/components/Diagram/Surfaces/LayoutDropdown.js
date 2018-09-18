@@ -6,9 +6,11 @@ export default class LayoutDropdown extends Component {
   createDropdownOptions = () => {
     const { layouts } = this.props;
     const dropdownOptions = layouts.map(layout => ({
-      key: layout.id,
-      text: layout.id,
-      itemType: DropdownMenuItemType.Normal
+      key             : layout.id,
+      text            : layout.id,
+      itemType        : DropdownMenuItemType.Normal,
+      items           : layout.items,
+      chairs_per_table: layout.chairs_per_table
     }));
 
     return dropdownOptions;

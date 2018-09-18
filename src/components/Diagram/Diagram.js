@@ -18,7 +18,8 @@ import {
   updateEditor,
   updateChairsAndCounts,
   resizeAndRescale,
-  fetchLayouts
+  fetchLayouts,
+  populateEditor
 }                          from '../../actions';
 import { EditorFunctions } from './utils';
 // import CursorFunctions from './utils/CursorFunctions';
@@ -121,6 +122,7 @@ class Diagram extends Component {
             updateChairsAndCounts={this.props.updateChairsAndCounts}
             updateEditorLayout={this.props.updateEditorLayout}
             pub_layouts={this.props.pub_layouts}
+            populateEditor={this.props.populateEditor}
           />}
         <div id="Diagram--Container" className="Diagram--flex">
           <Stage
@@ -187,7 +189,8 @@ const mapDispatchToProps = dispatch => ({
   updateEditorLayout   : (field, value)          => dispatch(updateEditor(field, value)),
   updateChairsAndCounts: chairs_per_table        => dispatch(updateChairsAndCounts(chairs_per_table)),
   resizeAndRescale     : (dimensions, items)     => dispatch(resizeAndRescale(dimensions, items)),
-  fetchLayouts         : ()                      => dispatch(fetchLayouts())
+  fetchLayouts         : ()                      => dispatch(fetchLayouts()),
+  populateEditor       : (items, chairs_per_table) => dispatch(populateEditor({ items, chairs_per_table }))
 })
 
 

@@ -39,7 +39,9 @@ export default class Toolbar extends React.Component {
   }
 
   layoutCallback = event => {
-    console.log(event);
+    const { populateEditor } = this.props;
+    const { items, chairs_per_table } = event;
+    populateEditor(items, chairs_per_table);
   }
 
   render() {
