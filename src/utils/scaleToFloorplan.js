@@ -10,10 +10,15 @@ const scaleToFloorplan = (items, dimensions) => {
   const floorYScale = scaleLinear().domain([0, FP_BASE_HEIGHT]).range([0, dimensions.height]);
   
   const trueSizedItems = items.map(item => {
+    // Coords
     let trueX = floorXScale.invert(item.x);
     let trueY = floorYScale.invert(item.y);
+    
+    // Rotation
+    let rot = item.rot;
+    let trueRot = (rot >= 0) ? rot : 360 + rot;
 
-    return {...item, x: trueX, y: trueY};
+    return {...item, x: trueX, y: trueY, rot: trueRot};
   });
 
   return trueSizedItems;
