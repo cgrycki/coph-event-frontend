@@ -127,7 +127,7 @@ class Diagram2 extends Component {
             </Layer>
 
             <Layer name='dragLayer'>
-              {selectedItem.map(item => <Furniture item={item} key={item.id} />)}
+              {selectedItem.map(item => <Furniture item={item} key={item.id} draggable={draggable} />)}
               <TransformerComponent
                 selected_item={this.props.selected_item}
                 updateEditorItem={this.props.updateEditorItem}

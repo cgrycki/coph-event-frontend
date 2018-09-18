@@ -8,7 +8,6 @@ import FormStep       from './shared/FormStep';
 import FormButtons    from './shared/FormButtons';
 import Details        from '../common/Details';
 import DetailsNav     from '../common/Details/DetailsNav';
-import { Viewer }     from '../Diagram';
 import Diagram2       from '../Diagram2';
 import Popup          from '../common/Popup';
 

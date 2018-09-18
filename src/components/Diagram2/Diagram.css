@@ -17,6 +17,15 @@
   flex-grow: 1;
 }
 
+.Diagram--Toolbar {
+  padding: 5px 10px;
+}
+
+.Diagram--FurnitureSelector .ms-ChoiceField {
+  display: inline-block;
+  padding-inline-end: 10px;
+}
+
 .Diagram--Download {
   float: right;
   margin: 10px;

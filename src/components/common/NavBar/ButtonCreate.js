@@ -7,7 +7,7 @@
  * @returns {Object} CommandBarButton props.
  */
 const ButtonCreate = (props) => {
-  let { logged_in, location, history } = props;
+  const { logged_in, location, clearFormAndPush } = props;
   
   // Determine if we should disable this button
   let disabled = (logged_in && !location.pathname.startsWith("/form")) ? 
@@ -18,7 +18,7 @@ const ButtonCreate = (props) => {
     name     : 'Create Event',
     disabled : disabled,
     iconProps: { iconName: 'AddEvent' },
-    onClick  : () => history.push("/form/user")
+    onClick  : () => clearFormAndPush()
   };
 };
 

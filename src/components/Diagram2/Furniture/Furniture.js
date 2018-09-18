@@ -26,7 +26,7 @@ class Furniture extends Component {
 
   getDragStatus = () => {
     const { item: { id }, selected_item, draggable } = this.props;
-    return ((id === selected_item) && draggable);
+    return ((id === selected_item) && (draggable === true));
   }
 
   onDragStart = event => {
@@ -97,6 +97,7 @@ class Furniture extends Component {
     const { id, furn, x, y, rot } = this.props.item;
     const collision = (this.konvaNode) ? this.konvaNode.getAttr('collision'):false;
     const selected  = selected_item === id;
+    console.log(id, this.getDragStatus());
 
     return (
       <Group

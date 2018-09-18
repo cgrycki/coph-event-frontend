@@ -4,7 +4,6 @@ import { connect }    from 'react-redux';
 import { push }       from 'connected-react-router';
 import EventNav       from './EventNav';
 import Details        from '../common/Details';
-import { Viewer }     from '../Diagram';
 import Counter        from '../../utils/Counter';
 import Diagram2       from '../Diagram2';
 import WorkflowWidget from './WorkflowWidget';
