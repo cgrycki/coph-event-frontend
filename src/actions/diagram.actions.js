@@ -4,6 +4,7 @@
 import { diagramActions } from '../constants/actionTypes';
 import Counter            from '../utils/Counter';
 import * as rp            from 'request-promise';
+import scaleToDimensions  from '../utils/scaleToDimensions';
 const URI                 = process.env.REACT_APP_REDIRECT_URI;
 
 
@@ -156,26 +157,34 @@ export const updateChairsAndCounts = (chairs_per_table) => {
  * @param {object[]} items Array of furniture items from a saved event.
  * @param {number} chairs_per_table
  */
-export const populateEditor = ({ items, chairs_per_table=6 }) => {
-  // Get raw counts from our furn items
-  const rawFurnCounts  = Counter.getFurnItemCount(items);
-  const furnRackCounts = Counter.getFurnRackCounts(rawFurnCounts, chairs_per_table);
+export function populateEditor({ items=[], chairs_per_table=6}) {
+  return (dispatch, getState) => {
+    // Get the current dimensions and scale items to this layout
+    const { width, height } = getState().diagram.layout;
+    const scaledItems = scaleToDimensions(items, { width, height });
 
-  // Reassign IDs
-  const itemsWithAssignedIDs = Counter.assignFurnitureIDs(items);
+    // Get the raw counts for furniture items
+    const rawFurnCounts  = Counter.getFurnItemCount(scaledItems);
+    const furnRackCounts = Counter.getFurnRackCounts(rawFurnCounts, chairs_per_table);
 
-  // Copy the counts so we can start the editor without saving confliting IDs
-  const ids = Object.assign({}, rawFurnCounts);
+    // Reassign the IDs
+    const itemsWithAssignedIDs = Counter.assignFurnitureIDs(scaledItems);
 
-  return {
-    type   : diagramActions.DIAGRAM_POPULATE_ITEMS,
-    payload: {
-      items : itemsWithAssignedIDs,
-      counts: furnRackCounts,
-      ids
-    }
-  };
-};
+    // Copy the counts so we can start the editor without saving confliting IDs
+    const ids = Object.assign({}, rawFurnCounts);
+
+    dispatch({
+      type: diagramActions.DIAGRAM_POPULATE_ITEMS,
+      payload: {
+        items: itemsWithAssignedIDs,
+        counts: furnRackCounts,
+        ids
+      }
+    });
+  }
+}
+
+
 
 
 /** Clears the editor's items, resets counts, and resets IDs. */

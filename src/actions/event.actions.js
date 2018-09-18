@@ -3,7 +3,6 @@
  */
 import * as rp            from 'request-promise';
 import {eventActions}     from '../constants/actionTypes';
-import scaleToDimensions  from '../utils/scaleToDimensions';
 const URI                 = process.env.REACT_APP_REDIRECT_URI;
 
 
@@ -75,10 +74,6 @@ export function getEvent(package_id) {
         delete data.event.updatedAt;
         return data;
       })
-      .then(data => {
-        data.layout.items = scaleToDimensions(data.layout.items, {width, height});
-        return data;
-      })
       .then(data => dispatch(fetchEventSuccess(data)))
       .catch(err => dispatch(fetchEventFailure(err)));
   }
@@ -112,12 +107,6 @@ export function getEvents() {
       .then(data => { data.forEach(e => {
           delete e.event.updatedAt;
           delete e.event.createdAt;
-        });
-        return data;
-      })
-      .then(data => {
-        data.forEach(e => {
-          e.layout.items = scaleToDimensions(e.layout.items, {width, height});
         });
         return data;
       })

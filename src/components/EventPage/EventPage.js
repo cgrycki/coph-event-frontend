@@ -1,13 +1,14 @@
 /* Dependencies -------------------------------------------------------------*/
-import React          from 'react';
-import { connect }    from 'react-redux';
-import { push }       from 'connected-react-router';
-import EventNav       from './EventNav';
-import Details        from '../common/Details';
-import Counter        from '../../utils/Counter';
-import Diagram        from '../Diagram';
-import WorkflowWidget from './WorkflowWidget';
-import Popup          from '../common/Popup';
+import React              from 'react';
+import { connect }        from 'react-redux';
+import { push }           from 'connected-react-router';
+import EventNav           from './EventNav';
+import Details            from '../common/Details';
+import Counter            from '../../utils/Counter';
+import Diagram            from '../Diagram';
+import WorkflowWidget     from './WorkflowWidget';
+import Popup              from '../common/Popup';
+import scaleToDimensions  from '../../utils/scaleToDimensions';
 import './EventPage.css';
 
 
@@ -100,14 +101,17 @@ class EventPage extends React.Component {
     this.setState({ pivot: pivotKey.key.substring(2) });
   }
 
-  countEventItems = () => {
+  countAndScaleEventItems = () => {
     const { items, chairs_per_table } = this.props.layout;
 
     // Count em up
     const rawCounts = Counter.getFurnItemCount(items);
     const counts    = Counter.getFurnRackCounts(rawCounts, chairs_per_table);
 
-    return counts;
+    // Rescale items
+    const scaledItems = scaleToDimensions(items, this.props.dimensions);
+
+    return { items: scaledItems, counts };
   }
 
   render() {
@@ -142,7 +146,7 @@ class EventPage extends React.Component {
             <Details event={event} loading={event_loading} />}
 
           {(pivot === "Layout") && 
-            <Diagram draggable={false} items={items} counts={this.countEventItems()} />}
+            <Diagram draggable={false} {...this.countAndScaleEventItems()} />}
 
           {(pivot === "Workflow") &&
             <WorkflowWidget package_id={package_id} signature_id={signatureId}/>}
@@ -165,7 +169,8 @@ const mapStateToProps = state => ({
   ...state.events.current,
   should_fetch : state.events.should_fetch,
   event_loading: state.events.event_loading,
-  event_error  : state.events.event_error
+  event_error  : state.events.event_error,
+  dimensions   : {width: state.diagram.layout.width, height: state.diagram.layout.height}
 });
 
 const mapDispatchToProps = dispatch => ({
