@@ -27,11 +27,11 @@ import './Diagram.css';
 
 
 
-class Diagram2 extends Component {
+class Diagram extends Component {
   async componentDidMount() {
     const { fetchLayouts } = this.props;
     await fetchLayouts();
-    this.onResize();
+    // this.onResize();
   }
 
   konvaCanvas = React.createRef();
@@ -87,7 +87,22 @@ class Diagram2 extends Component {
   getStageURI = () => {
     if (!this.konvaCanvas) return '';
     const stage = this.konvaCanvas.getStage();
-    return stage.toDataURL();
+    const { scaleX, scaleY, x, y } = this.props;
+
+    // Maximize canvas for readibility
+    stage.position({ x: 0, y: 0 });
+    stage.scale({ x: 1, y: 1});
+    stage.batchDraw();
+
+    // Save the layout as a PNG
+    const dataURI = stage.toDataURL();
+
+    // Revert settings
+    stage.scale({ x: scaleX, y: scaleY });
+    stage.position({ x, y });
+    stage.batchDraw();
+
+    return dataURI;
   }
 
   render() {
@@ -99,9 +114,11 @@ class Diagram2 extends Component {
     return (
       <div className="Diagram--flex">
         <Toolbar
+          furn_type={this.props.furn_type}
           chairs_per_table={this.props.chairs_per_table}
           updateChairsAndCounts={this.props.updateChairsAndCounts}
           updateEditorLayout={this.props.updateEditorLayout}
+          pub_layouts={this.props.pub_layouts}
         />
         <div id="Diagram--Container" className="Diagram--flex">
           <Stage
@@ -154,7 +171,10 @@ const mapStateToProps = (state, ownProps) => ({
   draggable: ownProps.draggable,
   items    : ownProps.items || state.diagram.items,
   counts   : ownProps.counts || state.diagram.counts,
-  ...state.diagram.layout
+  ...state.diagram.layout,
+  pub_layouts    : state.diagram.pub_layouts,
+  layouts_loading: state.diagram.layouts_loading,
+  layouts_error  : state.diagram.layouts_error
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -169,4 +189,4 @@ const mapDispatchToProps = dispatch => ({
 })
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Diagram2);
+export default connect(mapStateToProps, mapDispatchToProps)(Diagram);
