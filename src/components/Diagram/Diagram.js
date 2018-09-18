@@ -113,13 +113,14 @@ class Diagram extends Component {
 
     return (
       <div className="Diagram--flex">
-        <Toolbar
-          furn_type={this.props.furn_type}
-          chairs_per_table={this.props.chairs_per_table}
-          updateChairsAndCounts={this.props.updateChairsAndCounts}
-          updateEditorLayout={this.props.updateEditorLayout}
-          pub_layouts={this.props.pub_layouts}
-        />
+        {draggable &&
+          <Toolbar
+            furn_type={this.props.furn_type}
+            chairs_per_table={this.props.chairs_per_table}
+            updateChairsAndCounts={this.props.updateChairsAndCounts}
+            updateEditorLayout={this.props.updateEditorLayout}
+            pub_layouts={this.props.pub_layouts}
+          />}
         <div id="Diagram--Container" className="Diagram--flex">
           <Stage
             ref={(ref) => { this.konvaCanvas = ref; }}

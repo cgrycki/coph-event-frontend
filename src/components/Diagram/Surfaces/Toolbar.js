@@ -1,7 +1,7 @@
 import React            from 'react';
-import { connect }      from 'react-redux';
 import { ChoiceGroup }  from 'office-ui-fabric-react/lib/ChoiceGroup';
 import { Toggle }       from 'office-ui-fabric-react/lib/Toggle';
+import LayoutDropdown   from './LayoutDropdown';
 
 
 export default class Toolbar extends React.Component {
@@ -12,19 +12,22 @@ export default class Toolbar extends React.Component {
     updateEditorLayout({ furn_type });
   }
 
-
   chairCallback = event => {
     const { updateChairsAndCounts } = this.props;
     const chairs_per_table = (event === true) ? 8 : 6;
     updateChairsAndCounts(chairs_per_table);
   }
 
+  layoutCallback = event => {
+    console.log(event.id);
+  }
+
   render() {
-    const { chairs_per_table, furn_type } = this.props;
+    const { chairs_per_table, furn_type, pub_layouts } = this.props;
 
     return (
       <div className="ms-Grid-row Diagram--Toolbar">
-        <div className="ms-Grid-col ms-sm4">
+        <div className="ms-Grid-col ms-sm2">
           <Toggle
             label="Chairs Per Table"
             offText="6"
@@ -33,7 +36,13 @@ export default class Toolbar extends React.Component {
             onChanged={this.chairCallback}
           />
         </div>
-        <div className="ms-Grid-col ms-sm8">
+        <div className="ms-Grid-col ms-sm3">
+          <LayoutDropdown
+            layouts={pub_layouts}
+            layoutCallback={this.layoutCallback}
+          />
+        </div>
+        <div className="ms-Grid-col ms-sm7">
           <ChoiceGroup
             className="Diagram--FurnitureSelector"
             label="Furniture Type"
