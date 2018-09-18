@@ -12,7 +12,8 @@ import { Viewer }     from '../Diagram';
 import Popup          from '../common/Popup';
 
 // Actions
-import { submitForm } from '../../actions/form.actions';
+import { submitForm }   from '../../actions/form.actions';
+import scaleToFloorplan from '../../utils/scaleToFloorplan';
 
 
 // Component
@@ -21,7 +22,7 @@ class StepFour extends React.Component {
     super(props);
 
     this.state = {
-      pivot: "Form",
+      pivot        : "Form",
       popupHidden  : true,
       popupType    : 'submit',
       popupYesClick: this.submitForm
@@ -55,8 +56,12 @@ class StepFour extends React.Component {
   }
 
   submitForm() {
-    let { dispatch, info, items, chairs_per_table } = this.props;
-    dispatch(submitForm(info, items, chairs_per_table));
+    let { dispatch, info, items, chairs_per_table, width, height } = this.props;
+    
+    // Scale items before saving them, so every layout is standardized.
+    const scaledItems = scaleToFloorplan(items, {width, height});
+    
+    dispatch(submitForm(info, scaledItems, chairs_per_table));
   }
 
   /** Hides popup by setting component state. */
@@ -135,6 +140,8 @@ const mapStateToProps = state => ({
   info            : state.form.fields,
   items           : state.diagram.items,
   chairs_per_table: state.diagram.layout.chairs_per_table,
+  width           : state.diagram.layout.width,
+  height          : state.diagram.layout.height,
   form_loading    : state.form.form_loading,
   form_success    : state.form.form_success,
   form_error      : state.form.form_error
