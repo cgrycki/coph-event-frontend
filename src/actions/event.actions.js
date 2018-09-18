@@ -1,9 +1,10 @@
 /**
  * Action creators for our events
  */
-import * as rp          from 'request-promise';
-import {eventActions}   from '../constants/actionTypes';
-const URI               = process.env.REACT_APP_REDIRECT_URI;
+import * as rp            from 'request-promise';
+import {eventActions}     from '../constants/actionTypes';
+import scaleToDimensions  from '../utils/scaleToDimensions';
+const URI                 = process.env.REACT_APP_REDIRECT_URI;
 
 
 /** Reuasable action create for intiating REST calls involving events. */
@@ -52,7 +53,7 @@ export const setFetchEvents = (shouldFetch) => ({
  * @param {number} package_id HashKey of event to GET from API. 
  */
 export function getEvent(package_id) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     // Notify application we're making a request
     dispatch(fetchEventLoading());
 
@@ -64,11 +65,18 @@ export function getEvent(package_id) {
       withCredentials: true
     };
 
+    // Get dimensions for scaling furniture items
+    const { width, height } = getState().diagram.layout;
+
     // Make the call, and resolve the promise
     return rp(uri, options)
       .then(data => {
         delete data.event.createdAt;
         delete data.event.updatedAt;
+        return data;
+      })
+      .then(data => {
+        data.layout.items = scaleToDimensions(data.layout.items, {width, height});
         return data;
       })
       .then(data => dispatch(fetchEventSuccess(data)))
@@ -84,17 +92,19 @@ export function getEvent(package_id) {
  * @param {*} end End number of range
  */
 export function getEvents() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     // Notify application we're making a request
     dispatch(fetchEventLoading());
 
     // URI + options for API call
     let uri = `${URI}/events/my`;
-  let options = {
+    let options = {
       method         : 'GET',
       json           : true,
       withCredentials: true
     };
+
+    const { width, height } = getState().diagram.layout;
 
     // Resolve the promise
     return rp(uri, options)
@@ -102,6 +112,12 @@ export function getEvents() {
       .then(data => { data.forEach(e => {
           delete e.event.updatedAt;
           delete e.event.createdAt;
+        });
+        return data;
+      })
+      .then(data => {
+        data.forEach(e => {
+          e.layout.items = scaleToDimensions(e.layout.items, {width, height});
         });
         return data;
       })
