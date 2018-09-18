@@ -16,16 +16,35 @@ import {
   updateEditorItem,
   selectEditorItem,
   updateEditor,
-  updateChairsAndCounts
+  updateChairsAndCounts,
+  resizeAndRescale
 }                          from '../../actions';
 import { EditorFunctions } from './utils';
 // import CursorFunctions from './utils/CursorFunctions';
+import ScaleFunctions from './utils/ScaleFunctions';
 import './Diagram.css';
 
 
 
 class Diagram2 extends Component {
+  componentDidMount() {
+    this.onResize();
+  }
+
   konvaCanvas = React.createRef();
+
+  onResize = () => {
+    const { resizeAndRescale, items, width, height } = this.props;
+
+    // Maximize canvas width W.R.T. aspect ratio
+    const updatedDimensions = ScaleFunctions.resizeStageToContainer(this.konvaCanvas);
+    
+    // Rescale items according to new dimensions
+    const updatedItems = ScaleFunctions.resizeItemCoordsToDimensions(items, {width, height}, updatedDimensions);
+    
+    // Notify our store of the updates
+    return resizeAndRescale(updatedDimensions, updatedItems);
+  }
 
   onContentWheel = event => {
     const { updateEditorLayout } = this.props;
@@ -73,55 +92,54 @@ class Diagram2 extends Component {
     const regularItems = items.filter(item => item.id !== selected_item);
     const selectedItem = items.filter(item => item.id === selected_item);
 
-    //console.log(regularItems);
-
     return (
-      <div>
+      <div className="Diagram--flex">
         <Toolbar
           chairs_per_table={this.props.chairs_per_table}
           updateChairsAndCounts={this.props.updateChairsAndCounts}
           updateEditorLayout={this.props.updateEditorLayout}
         />
-        <Stage
-          ref={(ref) => { this.konvaCanvas = ref; }}
-          width={width}
-          height={height}
-          x={x}
-          y={y}
-          scaleX={scaleX}
-          scaleY={scaleY}
-          
-          draggable
-          //onMouseDown={this.onEvents}
-          //onMouseUp={this.onEvents}
-          onDragStart={this.onDragStart}
-          onDragEnd={this.onDragEnd}
+        <div id="Diagram--Container" className="Diagram--flex">
+          <Stage
+            ref={(ref) => { this.konvaCanvas = ref; }}
+            width={width}
+            height={height}
+            x={x}
+            y={y}
+            scaleX={scaleX}
+            scaleY={scaleY}
+            
+            draggable
+            //onMouseDown={this.onEvents}
+            //onMouseUp={this.onEvents}
+            onDragStart={this.onDragStart}
+            onDragEnd={this.onDragEnd}
 
-          onContentWheel={this.onContentWheel}
-          onContentClick={this.onContentClick}
-          onContentContextMenu={this.onContentClick}
-        >
-          <Floorplan width={width} height={height} />
+            onContentWheel={this.onContentWheel}
+            onContentClick={this.onContentClick}
+            onContentContextMenu={this.onContentClick}
+          >
+            <Floorplan width={width} height={height} />
 
-          <Layer name='itemLayer'>
-            {regularItems.map(item => <Furniture item={item} key={item.id} />)}
-          </Layer>
+            <Layer name='itemLayer'>
+              {regularItems.map(item => <Furniture item={item} key={item.id} />)}
+            </Layer>
 
-          <Layer name='dragLayer'>
-            {selectedItem.map(item => <Furniture item={item} key={item.id} />)}
-            <TransformerComponent
-              selected_item={this.props.selected_item}
-              updateEditorItem={this.props.updateEditorItem}
-            />
-          </Layer>
+            <Layer name='dragLayer'>
+              {selectedItem.map(item => <Furniture item={item} key={item.id} />)}
+              <TransformerComponent
+                selected_item={this.props.selected_item}
+                updateEditorItem={this.props.updateEditorItem}
+              />
+            </Layer>
 
-          <Layer name='hudLayer'>
-            <HUD counts={this.props.counts} height={height} />
-          </Layer>
-        </Stage>
+            <Layer name='hudLayer'>
+              <HUD counts={this.props.counts} height={height} />
+            </Layer>
+          </Stage>
+        </div>
 
         {this.konvaCanvas && <DownloadButton getStageURI={this.getStageURI.bind(this)} />}
-
       </div>
     );
   }
@@ -140,7 +158,8 @@ const mapDispatchToProps = dispatch => ({
   addEditorItem        : (x, y)                  => dispatch(addItemAndUpdateDiagram(x, y)),
   updateEditorItem     : ({id, furn, x, y, rot}) => dispatch(updateEditorItem({id, furn, x, y, rot})),
   updateEditorLayout   : (field, value)          => dispatch(updateEditor(field, value)),
-  updateChairsAndCounts: chairs_per_table        => dispatch(updateChairsAndCounts(chairs_per_table))
+  updateChairsAndCounts: chairs_per_table        => dispatch(updateChairsAndCounts(chairs_per_table)),
+  resizeAndRescale     : (dimensions, items)     => dispatch(resizeAndRescale(dimensions, items))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Diagram2);
