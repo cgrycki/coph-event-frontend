@@ -32,7 +32,7 @@ export default class StepThree extends React.Component {
       <FormStep>
         <FormTitle page={"Layout"} progress={0.75} />
 
-        <Diagram2 />
+        <Diagram2 draggable={true} />
 
         <FormButtons
           prevPage={this.prevPage}

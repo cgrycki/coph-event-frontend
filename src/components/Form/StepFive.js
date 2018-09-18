@@ -13,6 +13,6 @@ export default class StepFive extends React.Component {
   }
 
   render() {
-    return(<Editor/>);
+    return(<Editor draggable={true} />);
   }
 }

@@ -5,6 +5,8 @@ import { push }       from 'connected-react-router';
 import EventNav       from './EventNav';
 import Details        from '../common/Details';
 import { Viewer }     from '../Diagram';
+import Counter        from '../../utils/Counter';
+import Diagram2       from '../Diagram2';
 import WorkflowWidget from './WorkflowWidget';
 import Popup          from '../common/Popup';
 import './EventPage.css';
@@ -99,6 +101,16 @@ class EventPage extends React.Component {
     this.setState({ pivot: pivotKey.key.substring(2) });
   }
 
+  countEventItems = () => {
+    const { items, chairs_per_table } = this.props.layout;
+
+    // Count em up
+    const rawCounts = Counter.getFurnItemCount(items);
+    const counts    = Counter.getFurnRackCounts(rawCounts, chairs_per_table);
+
+    return counts;
+  }
+
   render() {
     const { 
       history,  match: { params: { package_id }},
@@ -130,7 +142,8 @@ class EventPage extends React.Component {
           {(pivot === "Form") && 
             <Details event={event} loading={event_loading} />}
 
-          {(pivot === "Layout") && <Viewer items={items} />}
+          {(pivot === "Layout") && 
+            <Diagram2 draggable={false} items={items} counts={this.countEventItems()} />}
 
           {(pivot === "Workflow") &&
             <WorkflowWidget package_id={package_id} signature_id={signatureId}/>}

@@ -53,6 +53,7 @@ class Diagram2 extends Component {
   }
 
   onContentClick = event => {
+    if (!this.konvaCanvas || !this.props.draggable) return;
     const { addEditorItem, selectEditorItem, removeEditorItem, furn_type } = this.props;
     const { action, payload } = EditorFunctions.handleClickEvent(this.konvaCanvas, event, furn_type);
 
@@ -122,7 +123,7 @@ class Diagram2 extends Component {
             <Floorplan width={width} height={height} />
 
             <Layer name='itemLayer'>
-              {regularItems.map(item => <Furniture item={item} key={item.id} />)}
+              {regularItems.map(item => <Furniture item={item} key={item.id} draggable={draggable} />)}
             </Layer>
 
             <Layer name='dragLayer'>
@@ -146,9 +147,10 @@ class Diagram2 extends Component {
 }
 
 
-const mapStateToProps = state => ({
-  items: state.diagram.items,
-  counts: state.diagram.counts,
+const mapStateToProps = (state, ownProps) => ({
+  draggable: ownProps.draggable,
+  items    : ownProps.items || state.diagram.items,
+  counts   : ownProps.counts || state.diagram.counts,
   ...state.diagram.layout
 })
 
@@ -161,5 +163,6 @@ const mapDispatchToProps = dispatch => ({
   updateChairsAndCounts: chairs_per_table        => dispatch(updateChairsAndCounts(chairs_per_table)),
   resizeAndRescale     : (dimensions, items)     => dispatch(resizeAndRescale(dimensions, items))
 })
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Diagram2);

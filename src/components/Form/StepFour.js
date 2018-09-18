@@ -9,6 +9,7 @@ import FormButtons    from './shared/FormButtons';
 import Details        from '../common/Details';
 import DetailsNav     from '../common/Details/DetailsNav';
 import { Viewer }     from '../Diagram';
+import Diagram2       from '../Diagram2';
 import Popup          from '../common/Popup';
 
 // Actions
@@ -61,6 +62,7 @@ class StepFour extends React.Component {
     // Scale items before saving them, so every layout is standardized.
     const scaledItems = scaleToFloorplan(items, {width, height});
     
+    // Submit the form!
     dispatch(submitForm(info, scaledItems, chairs_per_table));
   }
 
@@ -112,7 +114,7 @@ class StepFour extends React.Component {
           
           <div className="ms-Grid-col">
             {(selectedPivot === 'Form') && <Details event={this.props.info} />}
-            {(selectedPivot === 'Layout') && <Viewer items={items}/>}
+            {(selectedPivot === 'Layout') && <Diagram2 draggable={false} />}
           </div>
         </div>
 

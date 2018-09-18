@@ -62,6 +62,7 @@ const rescaleItemCoords = items => ({
 
 /** Higher Order Action, dispatching dimension update and replacing items. */
 export const resizeAndRescale = (dimensions, items) => dispatch => {
+  dispatch(selectEditorItem(null));
   dispatch(updateEditor(dimensions));
   dispatch(rescaleItemCoords(items));
 }

@@ -26,7 +26,7 @@ class Furniture extends Component {
 
   getDragStatus = () => {
     const { item: { id }, selected_item, draggable } = this.props;
-    return (id === selected_item);
+    return ((id === selected_item) && draggable);
   }
 
   onDragStart = event => {
@@ -74,9 +74,6 @@ class Furniture extends Component {
       return updateEditorItem(itemAttrs);
     }
   }
-
-
-
 
   renderDeleteButton  = furnType => CloseButton(furnType);
 
@@ -137,6 +134,7 @@ class Furniture extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   item            : ownProps.item,
+  draggable       : ownProps.draggable,
   chairs_per_table: state.diagram.layout.chairs_per_table,
   selected_item   : state.diagram.layout.selected_item
 })
