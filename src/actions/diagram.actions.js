@@ -176,6 +176,11 @@ export const populateEditor = ({ items, chairs_per_table=6 }) => {
 };
 
 
+export const clearEditor = () => ({
+  type: diagramActions.DIAGRAM_CLEAR_ITEMS
+});
+
+
 
 const fetchDiagramsLoading = () => ({
   type: diagramActions.DIAGRAM_LAYOUTS_LOADING

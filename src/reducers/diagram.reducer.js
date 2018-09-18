@@ -97,7 +97,13 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
       let { items, counts, ids } = action.payload;
       const populated_counts = { ...initialDiagramStore.counts, ...counts };
       return { ...state, items, counts: populated_counts, ids };
-      
+    case diagramActions.DIAGRAM_CLEAR_ITEMS:
+      return {
+        ...state,
+        counts: {...initialDiagramStore.counts},
+        ids   : {...initialDiagramStore.ids},
+        items : []
+      };
     default:
       return state;
   }
