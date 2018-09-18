@@ -4,6 +4,9 @@ import { connect }    from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { CommandBar } from 'office-ui-fabric-react/lib/CommandBar';
 
+// Actions
+import { clearFormAndPush } from '../../../actions/nav.actions';
+
 // Navigation Bar buttons
 import Logo             from './Logo';
 import ButtonCal        from './ButtonCal';
@@ -42,4 +45,8 @@ const mapStateToProps = state => ({
   is_admin : state.app.is_admin
 });
 
-export default withRouter(connect(mapStateToProps)(NavBar));
+const mapDispatchToProps = dispatch => ({
+  clearFormAndPush: () => dispatch(clearFormAndPush())
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar));

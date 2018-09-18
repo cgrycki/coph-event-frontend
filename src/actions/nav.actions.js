@@ -16,7 +16,10 @@ import {
   submitFormReset,
   updateField
 }  from './form.actions';
-import { populateEditor }   from './diagram.actions';
+import {
+  populateEditor,
+  clearEditor
+}   from './diagram.actions';
 import {
   fetchLogin
 } from './app.actions';
@@ -43,6 +46,7 @@ export const populateEventAndPush = ({ event, permissions, layout }) => dispatch
  */
 export const clearFormAndPush = () => dispatch => {
   dispatch(clearFieldInfo());   // Set the form to default
+  dispatch(clearEditor());      // Clear items from editor
   dispatch(submitFormReset());  // Reset the REST status of form
   dispatch(push('/form/user')); // Navigate to the form.
 }
@@ -54,9 +58,8 @@ export const clearFormAndPush = () => dispatch => {
  * @param {object} layout Layout object from an event
  */
 export const applyDiagramLayoutAndPush = layout => dispatch => {
-  // Populate the editor first, then clear
-  dispatch(populateEditor(layout));
   dispatch(clearFormAndPush());
+  dispatch(populateEditor(layout));
   dispatch(updateField('room_number', 'XC100'));
 }
 
@@ -84,12 +87,8 @@ export const populateDiagramAndPush = (info, layout) => dispatch => {
   // Populate the form
   const formattedInfo = parseDynamo(info);
   dispatch(populateFieldInfo(formattedInfo));
-
   dispatch(populateEditor(layout));
-
   dispatch(submitFormReset());
-  // @todo diagram reset
-
   dispatch(push("/form/layout"));
 }
 
