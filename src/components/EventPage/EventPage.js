@@ -5,7 +5,7 @@ import { push }       from 'connected-react-router';
 import EventNav       from './EventNav';
 import Details        from '../common/Details';
 import Counter        from '../../utils/Counter';
-import Diagram2       from '../Diagram2';
+import Diagram        from '../Diagram';
 import WorkflowWidget from './WorkflowWidget';
 import Popup          from '../common/Popup';
 import './EventPage.css';
@@ -142,7 +142,7 @@ class EventPage extends React.Component {
             <Details event={event} loading={event_loading} />}
 
           {(pivot === "Layout") && 
-            <Diagram2 draggable={false} items={items} counts={this.countEventItems()} />}
+            <Diagram draggable={false} items={items} counts={this.countEventItems()} />}
 
           {(pivot === "Workflow") &&
             <WorkflowWidget package_id={package_id} signature_id={signatureId}/>}

@@ -97,7 +97,6 @@ class Furniture extends Component {
     const { id, furn, x, y, rot } = this.props.item;
     const collision = (this.konvaNode) ? this.konvaNode.getAttr('collision'):false;
     const selected  = selected_item === id;
-    console.log(id, this.getDragStatus());
 
     return (
       <Group

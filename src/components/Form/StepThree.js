@@ -7,7 +7,7 @@ import FormStep       from './shared/FormStep';
 import FormButtons    from './shared/FormButtons';
 
 // Editor
-import Diagram2       from '../Diagram2';
+import Diagram        from '../Diagram';
 
 
 
@@ -32,7 +32,7 @@ export default class StepThree extends React.Component {
       <FormStep>
         <FormTitle page={"Layout"} progress={0.75} />
 
-        <Diagram2 draggable={true} />
+        <Diagram draggable={true} />
 
         <FormButtons
           prevPage={this.prevPage}

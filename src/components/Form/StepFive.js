@@ -2,7 +2,7 @@
 import React          from 'react';
 
 // Components
-import Editor         from '../Diagram2';
+import Diagram        from '../Diagram';
 
 
 
@@ -13,6 +13,6 @@ export default class StepFive extends React.Component {
   }
 
   render() {
-    return(<Editor draggable={true} />);
+    return(<Diagram draggable={true} />);
   }
 }

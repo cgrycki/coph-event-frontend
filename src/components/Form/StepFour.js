@@ -8,7 +8,7 @@ import FormStep       from './shared/FormStep';
 import FormButtons    from './shared/FormButtons';
 import Details        from '../common/Details';
 import DetailsNav     from '../common/Details/DetailsNav';
-import Diagram2       from '../Diagram2';
+import Diagram        from '../Diagram';
 import Popup          from '../common/Popup';
 
 // Actions
@@ -113,7 +113,7 @@ class StepFour extends React.Component {
           
           <div className="ms-Grid-col">
             {(selectedPivot === 'Form') && <Details event={this.props.info} />}
-            {(selectedPivot === 'Layout') && <Diagram2 draggable={false} />}
+            {(selectedPivot === 'Layout') && <Diagram draggable={false} />}
           </div>
         </div>
 
