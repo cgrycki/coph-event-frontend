@@ -93,7 +93,7 @@ export default class FoodDrink extends React.PureComponent {
         <div className="ms-Grid-col ms-sm8 ms-md8 ms-lg4 ms-xl4 ms-xxl4">
           <Toggle
             defaultChecked={false}
-            label={"Will you provide food or drinks?"}
+            label={"Will you provide food and/or alcohol?"}
             onText="Yes"
             offText="No"
             onChanged={(evt) => onChange('food_drink_required', evt)}
