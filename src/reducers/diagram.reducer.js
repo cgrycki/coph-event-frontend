@@ -59,6 +59,8 @@ export const diagramReducer = (state=initialDiagramStore, action) => {
         items : removed_items,
         layout: null_selected
       };
+    case diagramActions.DIAGRAM_RESCALE_ITEMS:
+      return { ...state, items: action.items };
 
     /** Diagram Settings -------------------------------------------------------*/
     case diagramActions.DIAGRAM_SELECT_ITEM:

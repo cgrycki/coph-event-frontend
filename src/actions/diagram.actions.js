@@ -54,6 +54,19 @@ export const updateEditor = fields => ({
 });
 
 
+const rescaleItemCoords = items => ({
+  type: diagramActions.DIAGRAM_RESCALE_ITEMS,
+  items
+});
+
+
+export const resizeAndRescale = (dimensions, items) => dispatch => {
+  dispatch(updateEditor(dimensions));
+  dispatch(rescaleItemCoords(items));
+}
+
+
+
 /**
  * Select an item in our layout, nullifying other selections.
  * @param {string} id ID representing the furniture item to select.
@@ -130,7 +143,6 @@ export const updateChairsAndCounts = (chairs_per_table) => {
     dispatch(updateEditorCounts(counts));
   }
 }
-
 
 
 /**
