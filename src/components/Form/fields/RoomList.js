@@ -54,11 +54,13 @@ export default class RoomsList extends React.PureComponent {
       "boxSizing"   : "border-box"
     };
 
+    const displayName = (room.roomNumber === 'XC100') ? room.roomName : room.roomNumber;
+
     return (
       <div key={`${room.roomNumber}`} style={option_style}>
         <div>
           <span style={floor_style}><strong>{room.floor}</strong></span>
-          {room.roomNumber}{' '}<i>seats: {room.maxOccupancy}</i>
+          {displayName}{' '}<i>seats: {room.maxOccupancy}</i>
         </div>
         <div>
           <i>{room.rmType}</i>
@@ -78,6 +80,8 @@ export default class RoomsList extends React.PureComponent {
         d.text = `${d.roomName}`;
         return d;
       });
+
+    console.log(rooms);
 
     return (
       (rooms_loading && rooms.length === 0) ? 
