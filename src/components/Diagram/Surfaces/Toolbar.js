@@ -2,9 +2,29 @@ import React            from 'react';
 import { ChoiceGroup }  from 'office-ui-fabric-react/lib/ChoiceGroup';
 import { Toggle }       from 'office-ui-fabric-react/lib/Toggle';
 import LayoutDropdown   from './LayoutDropdown';
+import inventory        from '../../../constants/inventory';
 
 
 export default class Toolbar extends React.Component {
+  /** Creates radio buttons, disabling if inventory is cached. */
+  createFurnitureChoices = () => {
+    const { counts } = this.props;
+
+    const furnChoices = [
+      {key: 'circle', text: 'Circular Table'},
+      {key: 'chair', text: 'Chair'},
+      {key: 'rect', text: 'Rectangular Table'},
+      {key: 'cocktail', text: 'Bar Top Table'},
+      {key: 'display', text: 'Display Board'},
+      {key: 'trash', text: 'Trash Can'}
+    ];
+
+    return furnChoices.map(furn => {
+      furn.disabled = counts[furn.key] >= inventory[furn.key];
+      return furn;
+    });
+  }
+
   /** Parses clicked option and updates store with new furniture type */
   furnCallback = (event, option) => {
     const furn_type = option.key;
@@ -19,7 +39,7 @@ export default class Toolbar extends React.Component {
   }
 
   layoutCallback = event => {
-    console.log(event.id);
+    console.log(event);
   }
 
   render() {
@@ -48,14 +68,7 @@ export default class Toolbar extends React.Component {
             label="Furniture Type"
             selectedKey={furn_type}
             onChange={this.furnCallback}
-            options={[
-              {key: 'circle', text: 'Circular Table'},
-              {key: 'chair', text: 'Chair'},
-              {key: 'rect', text: 'Rectangular Table'},
-              {key: 'cocktail', text: 'Bar Top Table'},
-              {key: 'display', text: 'Display Board'},
-              {key: 'trash', text: 'Trash Can'}
-            ]}
+            options={this.createFurnitureChoices()}
           />
         </div>
       </div>

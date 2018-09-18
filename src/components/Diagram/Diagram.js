@@ -117,6 +117,7 @@ class Diagram extends Component {
           <Toolbar
             furn_type={this.props.furn_type}
             chairs_per_table={this.props.chairs_per_table}
+            counts={this.props.counts}
             updateChairsAndCounts={this.props.updateChairsAndCounts}
             updateEditorLayout={this.props.updateEditorLayout}
             pub_layouts={this.props.pub_layouts}
