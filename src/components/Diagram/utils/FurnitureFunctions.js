@@ -169,7 +169,8 @@ export default class FurnitureFunctions {
     node.setAttr('collision', collision);
 
     // Update the store's node information
-    const { x, y, rotation: rot, id, name: furn } = node.getAttrs();
+    const { x, y, rotation, id, name: furn } = node.getAttrs();
+    const rot = Math.round(rotation);
     return { id, furn, x, y, rot };
   }
 

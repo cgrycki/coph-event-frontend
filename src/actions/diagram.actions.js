@@ -3,6 +3,8 @@
  */
 import { diagramActions } from '../constants/actionTypes';
 import Counter            from '../utils/Counter';
+import * as rp            from 'request-promise';
+const URI                 = process.env.REACT_APP_REDIRECT_URI;
 
 
 /**
@@ -176,26 +178,49 @@ export const populateEditor = ({ items, chairs_per_table=6 }) => {
 };
 
 
+/** Clears the editor's items, resets counts, and resets IDs. */
 export const clearEditor = () => ({
   type: diagramActions.DIAGRAM_CLEAR_ITEMS
 });
 
 
 
+/* REST ---------------------------------------------------------------------*/
+
 const fetchDiagramsLoading = () => ({
   type: diagramActions.DIAGRAM_LAYOUTS_LOADING
-})
+});
 
 const fetchDiagramsSuccess = response => ({
   type   : diagramActions.DIAGRAM_LAYOUTS_SUCCESS,
   payload: response
-})
+});
 
 const fetchDiagramsError = error => ({
   type   : diagramActions.DIAGRAM_LAYOUTS_ERROR,
   payload: error
-})
+});
 
 const fetchDiagramsReset = () => ({
   type: diagramActions.DIAGRAM_LAYOUTS_RESET
-})
+});
+
+
+export function fetchLayouts() {
+  return (dispatch) => {
+    // Notify store we're initiating a REST call
+    dispatch(fetchDiagramsLoading());
+
+    // Set up options for REST call
+    const options = {
+      uri            : `${URI}/layouts/filter/public`,
+      method         : 'GET',
+      withCredentials: true,
+      json           : true
+    };
+
+    return rp(options)
+      .then(data => dispatch(fetchDiagramsSuccess(data.layouts)))
+      .catch(err => dispatch(fetchDiagramsError(err)));
+  }
+}

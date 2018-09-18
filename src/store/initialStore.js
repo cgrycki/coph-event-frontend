@@ -41,46 +41,50 @@ const fields = {
 const errors = {}
 
 
-// Count: Get a count of furniture items
-const counts = {
-  chair           : 0,
-  chair_racks     : 0,
-  circle          : 0,
-  circle_racks    : 0,
-  rect            : 0,
-  rect_racks      : 0,
-  cocktail        : 0,
-  cocktail_racks  : 0,
-  display         : 0,
-  trash           : 0
+
+const diagram = {
+  items: [],
+  // IDs: ID Counters to increment when user creates furniture
+  ids: {
+    chair   : 0,
+    rack    : 0,
+    display : 0,
+    circle  : 0,
+    rect    : 0,
+    cocktail: 0,
+    trash   : 0
+  },
+  // Counts: keep track of furniture items for IT
+  counts: {
+    chair         : 0,
+    chair_racks   : 0,
+    circle        : 0,
+    circle_racks  : 0,
+    rect          : 0,
+    rect_racks    : 0,
+    cocktail      : 0,
+    cocktail_racks: 0,
+    display       : 0,
+    trash         : 0
+  },
+  // Layout: Stores editor UI configuration data
+  layout: {
+    chairs_per_table: 6,
+    furn_type       : 'circle',
+    selected_item   : null,
+    width           : 960,
+    height          : 750,
+    x               : 0,
+    y               : 0,
+    scaleX          : 1,
+    scaleY          : 1
+  },
+  // Default layouts from our 'Layouts' DynamoDB table
+  pub_layouts    : [],
+  layouts_loading: false,
+  layouts_error  : null
 };
 
-// Hold our current furniture items
-const items = [];
-
-// IDs: ID Counters to increment when user creates furniture
-const ids = {
-  chair   : 0,
-  rack    : 0,
-  display : 0,
-  circle  : 0,
-  rect    : 0,
-  cocktail: 0,
-  trash   : 0
-};
-
-// Layout: Stores editor UI configuration data
-const layout = {
-  chairs_per_table: 6,
-  furn_type       : 'circle',
-  selected_item   : null,
-  width           : 960,
-  height          : 750,
-  x               : 0,
-  y               : 0,
-  scaleX          : 1,
-  scaleY          : 1
-};
 
 
 // Application: Stores application data about our user's session
@@ -137,15 +141,7 @@ const events = {
 // Initial Store: Stores our application
 const initialStore = {
   app,
-  diagram: {
-    items,
-    ids,
-    counts,
-    layout,
-    pub_layouts    : [],
-    layouts_loading: false,
-    layouts_error  : null
-  },
+  diagram,
   form: {
     fields,
     errors,

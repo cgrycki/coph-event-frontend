@@ -17,7 +17,8 @@ import {
   selectEditorItem,
   updateEditor,
   updateChairsAndCounts,
-  resizeAndRescale
+  resizeAndRescale,
+  fetchLayouts
 }                          from '../../actions';
 import { EditorFunctions } from './utils';
 // import CursorFunctions from './utils/CursorFunctions';
@@ -27,7 +28,9 @@ import './Diagram.css';
 
 
 class Diagram2 extends Component {
-  componentDidMount() {
+  async componentDidMount() {
+    const { fetchLayouts } = this.props;
+    await fetchLayouts();
     this.onResize();
   }
 
@@ -161,7 +164,8 @@ const mapDispatchToProps = dispatch => ({
   updateEditorItem     : ({id, furn, x, y, rot}) => dispatch(updateEditorItem({id, furn, x, y, rot})),
   updateEditorLayout   : (field, value)          => dispatch(updateEditor(field, value)),
   updateChairsAndCounts: chairs_per_table        => dispatch(updateChairsAndCounts(chairs_per_table)),
-  resizeAndRescale     : (dimensions, items)     => dispatch(resizeAndRescale(dimensions, items))
+  resizeAndRescale     : (dimensions, items)     => dispatch(resizeAndRescale(dimensions, items)),
+  fetchLayouts         : ()                      => dispatch(fetchLayouts())
 })
 
 

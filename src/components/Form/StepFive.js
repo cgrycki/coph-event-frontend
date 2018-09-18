@@ -3,16 +3,17 @@ import React          from 'react';
 
 // Components
 import Diagram        from '../Diagram';
+import LayoutSerialize from './LayoutSerialize';
 
 
 
 export default class StepFive extends React.Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
-
   render() {
-    return(<Diagram draggable={true} />);
+    return(
+      <React.Fragment>
+        <Diagram draggable={true} />
+        <LayoutSerialize />
+      </React.Fragment>
+    );
   }
 }

@@ -43,7 +43,7 @@ export function fetchRooms() {
     let uri     = `${URI}/maui/rooms`;
     let options = { method: 'GET', withCredentials: true };
 
-    rp(uri, options)
+    return rp(uri, options)
       .then(res => JSON.parse(res))
       .then(data => dispatch(fetchRoomsSuccess(data)))
       .catch(err => dispatch(fetchRoomsFailure(err)));
