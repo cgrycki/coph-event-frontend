@@ -26,7 +26,38 @@
   padding-inline-end: 10px;
 }
 
+.konvajs-content {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .Diagram--Download {
   float: right;
   margin: 10px;
+}
+
+.Diagram--HelpModal {
+  padding: 1rem 1.5rem;
+  width: 75vw !important;
+  max-width: 100vw !important;
+}
+
+.Diagram--HelpModal--Content > div {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.Diagram--HelpModal--Content > div > p {
+  line-height: 1.25;
+}
+
+.Diagram--HelpModal--Content > div > img {
+  width: 100%;
+  margin: 10px auto;
+}
+
+.Diagram--HelpModal--Content code {
+  background-color: #F5F7F9;
+  border-radius: 3px;
+  padding: 0 2px;
 }

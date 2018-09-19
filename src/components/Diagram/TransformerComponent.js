@@ -40,6 +40,8 @@ export default class TransformerComponent extends Component {
         resizeEnabled={false}
         borderEnabled={false}
         rotateAnchorOffset={15}
+        anchorSize={15}
+        rotationSnaps={[30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330]}
       />
     );
   }

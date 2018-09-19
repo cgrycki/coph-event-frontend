@@ -7,7 +7,8 @@ import TransformerComponent from './TransformerComponent';
 import {
   Toolbar,
   HUD,
-  DownloadButton
+  DownloadButton,
+  HelpButton
 } from './Surfaces';
 
 import {
@@ -17,8 +18,8 @@ import {
   selectEditorItem,
   updateEditor,
   updateChairsAndCounts,
-  resizeAndRescale,
-  fetchLayouts
+  fetchLayouts,
+  populateEditor
 }                          from '../../actions';
 import { EditorFunctions } from './utils';
 // import CursorFunctions from './utils/CursorFunctions';
@@ -27,26 +28,23 @@ import './Diagram.css';
 
 
 
-class Diagram2 extends Component {
+class Diagram extends Component {
   async componentDidMount() {
-    const { fetchLayouts } = this.props;
-    await fetchLayouts();
+    const { pub_layouts, layouts_loading, fetchLayouts } = this.props;
+    if (pub_layouts.length === 0 && !layouts_loading) await fetchLayouts();
     this.onResize();
   }
 
   konvaCanvas = React.createRef();
 
   onResize = () => {
-    const { resizeAndRescale, items, width, height } = this.props;
+    const { updateEditorLayout } = this.props;
 
     // Maximize canvas width W.R.T. aspect ratio
     const updatedDimensions = ScaleFunctions.resizeStageToContainer(this.konvaCanvas);
     
-    // Rescale items according to new dimensions
-    const updatedItems = ScaleFunctions.resizeItemCoordsToDimensions(items, {width, height}, updatedDimensions);
-    
     // Notify our store of the updates
-    return resizeAndRescale(updatedDimensions, updatedItems);
+    return updateEditorLayout(updatedDimensions);
   }
 
   onContentWheel = event => {
@@ -87,7 +85,22 @@ class Diagram2 extends Component {
   getStageURI = () => {
     if (!this.konvaCanvas) return '';
     const stage = this.konvaCanvas.getStage();
-    return stage.toDataURL();
+    const { scaleX, scaleY, x, y } = this.props;
+
+    // Maximize canvas for readibility
+    stage.position({ x: 0, y: 0 });
+    stage.scale({ x: 1, y: 1});
+    stage.batchDraw();
+
+    // Save the layout as a PNG
+    const dataURI = stage.toDataURL();
+
+    // Revert settings
+    stage.scale({ x: scaleX, y: scaleY });
+    stage.position({ x, y });
+    stage.batchDraw();
+
+    return dataURI;
   }
 
   render() {
@@ -98,11 +111,16 @@ class Diagram2 extends Component {
 
     return (
       <div className="Diagram--flex">
-        <Toolbar
-          chairs_per_table={this.props.chairs_per_table}
-          updateChairsAndCounts={this.props.updateChairsAndCounts}
-          updateEditorLayout={this.props.updateEditorLayout}
-        />
+        {draggable &&
+          <Toolbar
+            furn_type={this.props.furn_type}
+            chairs_per_table={this.props.chairs_per_table}
+            counts={this.props.counts}
+            updateChairsAndCounts={this.props.updateChairsAndCounts}
+            updateEditorLayout={this.props.updateEditorLayout}
+            pub_layouts={this.props.pub_layouts}
+            populateEditor={this.props.populateEditor}
+          />}
         <div id="Diagram--Container" className="Diagram--flex">
           <Stage
             ref={(ref) => { this.konvaCanvas = ref; }}
@@ -138,12 +156,21 @@ class Diagram2 extends Component {
             </Layer>
 
             <Layer name='hudLayer'>
-              <HUD counts={this.props.counts} height={height} />
+              <HUD
+                counts={this.props.counts}
+                x={x}
+                y={y}
+                scaleX={scaleX}
+                scaleY={scaleY}
+                height={height} />
             </Layer>
           </Stage>
         </div>
-
-        {this.konvaCanvas && <DownloadButton getStageURI={this.getStageURI.bind(this)} />}
+        
+        <div>
+          {this.konvaCanvas && <DownloadButton getStageURI={this.getStageURI.bind(this)} />}
+          <HelpButton />
+        </div>
       </div>
     );
   }
@@ -154,7 +181,10 @@ const mapStateToProps = (state, ownProps) => ({
   draggable: ownProps.draggable,
   items    : ownProps.items || state.diagram.items,
   counts   : ownProps.counts || state.diagram.counts,
-  ...state.diagram.layout
+  ...state.diagram.layout,
+  pub_layouts    : state.diagram.pub_layouts,
+  layouts_loading: state.diagram.layouts_loading,
+  layouts_error  : state.diagram.layouts_error
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -164,9 +194,9 @@ const mapDispatchToProps = dispatch => ({
   updateEditorItem     : ({id, furn, x, y, rot}) => dispatch(updateEditorItem({id, furn, x, y, rot})),
   updateEditorLayout   : (field, value)          => dispatch(updateEditor(field, value)),
   updateChairsAndCounts: chairs_per_table        => dispatch(updateChairsAndCounts(chairs_per_table)),
-  resizeAndRescale     : (dimensions, items)     => dispatch(resizeAndRescale(dimensions, items)),
-  fetchLayouts         : ()                      => dispatch(fetchLayouts())
+  fetchLayouts         : ()                      => dispatch(fetchLayouts()),
+  populateEditor       : (items, chairs_per_table) => dispatch(populateEditor({ items, chairs_per_table }))
 })
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Diagram2);
+export default connect(mapStateToProps, mapDispatchToProps)(Diagram);

@@ -48,7 +48,7 @@ const colors = {
   none        : '#',
   white       : '#ffffff',
   light_grey  : '#f4f4f4',
-  dark_grey   : '#a6a6a6',
+  dark_grey   : '#737373',
   darkest_grey: '#333333',
   black       : '#000000'
 }
