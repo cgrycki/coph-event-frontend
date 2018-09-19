@@ -55,8 +55,8 @@ export default class CollisionFunctions {
 
     // Konva radius = 4
     const cocktailRadius = 4;
-    // Illustrator path dimensions => 15px * 15px
-    const trashRadius = 7.5;
+    // Illustrator path dimensions => 10px * 10px
+    const trashRadius = 5;
 
     // Rotation doesn't really matter
     // Circular items are already centered for us by KonvaJS, so offset doesn't
@@ -188,7 +188,7 @@ export default class CollisionFunctions {
     const radius = {
       circle: 13.75,
       cocktail: 4,
-      trash: 15,
+      trash: 5,
       rect: 0,
       display: 0,
       chair: 0
