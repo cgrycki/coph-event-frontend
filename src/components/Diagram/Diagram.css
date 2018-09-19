@@ -26,7 +26,17 @@
   padding-inline-end: 10px;
 }
 
+.konvajs-content {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .Diagram--Download {
   float: right;
   margin: 10px;
+}
+
+.Diagram--HelpModal {
+  padding: 10px 15px;
+  width: 50vw;
 }

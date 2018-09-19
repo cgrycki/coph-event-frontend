@@ -7,7 +7,8 @@ import TransformerComponent from './TransformerComponent';
 import {
   Toolbar,
   HUD,
-  DownloadButton
+  DownloadButton,
+  HelpButton
 } from './Surfaces';
 
 import {
@@ -17,7 +18,6 @@ import {
   selectEditorItem,
   updateEditor,
   updateChairsAndCounts,
-  resizeAndRescale,
   fetchLayouts,
   populateEditor
 }                          from '../../actions';
@@ -30,24 +30,21 @@ import './Diagram.css';
 
 class Diagram extends Component {
   async componentDidMount() {
-    const { fetchLayouts } = this.props;
-    await fetchLayouts();
-    // this.onResize();
+    const { pub_layouts, layouts_loading, fetchLayouts } = this.props;
+    if (pub_layouts.length === 0 && !layouts_loading) await fetchLayouts();
+    this.onResize();
   }
 
   konvaCanvas = React.createRef();
 
   onResize = () => {
-    const { resizeAndRescale, items, width, height } = this.props;
+    const { updateEditorLayout } = this.props;
 
     // Maximize canvas width W.R.T. aspect ratio
     const updatedDimensions = ScaleFunctions.resizeStageToContainer(this.konvaCanvas);
     
-    // Rescale items according to new dimensions
-    const updatedItems = ScaleFunctions.resizeItemCoordsToDimensions(items, {width, height}, updatedDimensions);
-    
     // Notify our store of the updates
-    return resizeAndRescale(updatedDimensions, updatedItems);
+    return updateEditorLayout(updatedDimensions);
   }
 
   onContentWheel = event => {
@@ -159,12 +156,21 @@ class Diagram extends Component {
             </Layer>
 
             <Layer name='hudLayer'>
-              <HUD counts={this.props.counts} height={height} />
+              <HUD
+                counts={this.props.counts}
+                x={x}
+                y={y}
+                scaleX={scaleX}
+                scaleY={scaleY}
+                height={height} />
             </Layer>
           </Stage>
         </div>
-
-        {this.konvaCanvas && <DownloadButton getStageURI={this.getStageURI.bind(this)} />}
+        
+        <div>
+          {this.konvaCanvas && <DownloadButton getStageURI={this.getStageURI.bind(this)} />}
+          <HelpButton />
+        </div>
       </div>
     );
   }
@@ -188,7 +194,6 @@ const mapDispatchToProps = dispatch => ({
   updateEditorItem     : ({id, furn, x, y, rot}) => dispatch(updateEditorItem({id, furn, x, y, rot})),
   updateEditorLayout   : (field, value)          => dispatch(updateEditor(field, value)),
   updateChairsAndCounts: chairs_per_table        => dispatch(updateChairsAndCounts(chairs_per_table)),
-  resizeAndRescale     : (dimensions, items)     => dispatch(resizeAndRescale(dimensions, items)),
   fetchLayouts         : ()                      => dispatch(fetchLayouts()),
   populateEditor       : (items, chairs_per_table) => dispatch(populateEditor({ items, chairs_per_table }))
 })
