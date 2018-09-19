@@ -1,10 +1,10 @@
 const inventory = {
-  circle  : 24,
-  rect    : 24,
-  chair   : 192,
+  circle  : 33,
+  rect    : 12,
+  chair   : 200,
   cocktail: 10,
-  display : 15,
-  trash   : 6
+  display : 14,
+  trash   : 12
 };
 
 export default inventory;
