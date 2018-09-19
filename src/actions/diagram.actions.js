@@ -173,6 +173,10 @@ export function populateEditor({ items=[], chairs_per_table=6}) {
     // Copy the counts so we can start the editor without saving confliting IDs
     const ids = Object.assign({}, rawFurnCounts);
 
+    // Unselect the current item
+    dispatch(selectEditorItem(null));
+
+    // Apply chairs attr
     dispatch(updateEditor({ chairs_per_table }));
     
     return dispatch({
