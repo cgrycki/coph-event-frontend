@@ -32,12 +32,14 @@ export default class Toolbar extends React.Component {
     updateEditorLayout({ furn_type });
   }
 
+  /** Parses toggle click and updates store with new chairs per table attribute. */
   chairCallback = event => {
     const { updateChairsAndCounts } = this.props;
     const chairs_per_table = (event === true) ? 8 : 6;
     updateChairsAndCounts(chairs_per_table);
   }
 
+  /** Parses dropdown event and populates diagram with layout items */
   layoutCallback = event => {
     const { populateEditor } = this.props;
     const { items, chairs_per_table } = event;
