@@ -88,6 +88,20 @@ body {
 }
 
 
+/* Protected Routes auth style */
+.ProtectedRouteWrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.ProtectedRouteSpinner .ms-Spinner-label {
+  font-size: 1.4rem;
+}
+
+
 /* Homepage Styling */
 .Home {
   display: flex;

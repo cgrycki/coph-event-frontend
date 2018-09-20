@@ -16,6 +16,8 @@ import {
 } from 'office-ui-fabric-react/lib/Spinner';
 
 
+
+
 class ProtectedRouteClass extends React.Component {
   /**
    * Ternary operator returning the protected component or passing along another 
@@ -45,8 +47,10 @@ class ProtectedRouteClass extends React.Component {
 
   renderLoading = () => {
     return (
-      <Overlay isDarkThemed={true}   >
-        <Spinner size={SpinnerSize.large} type={SpinnerType.large} />
+      <Overlay isDarkThemed={false}  >
+        <div className="ProtectedRouteWrapper">
+          <Spinner size={SpinnerSize.large} label="Authenticating..." className="ProtectedRouteSpinner" />
+        </div>
       </Overlay>
     );
   }
