@@ -64,12 +64,20 @@ export default class Popup extends React.Component {
         dialogContentProps={{
           type   : DialogType.largeHeader,
           title  : title,
-          subText: subText
+          subText: subText,
+          dialogDefaultMaxWidth: '800px',
+          dialogDefaultMinWidth: '400px'
         }}
         modalProps={{
           isBlocking        : false,
           isDarkOverlay     : true,
           containerClassName: 'FormPopup',
+        }}
+        styles={{
+          root: {
+            dialogDefaultMaxWidth: '800px',
+            dialogDefaultMinWidth: '400px'
+          }
         }}
       >
         <br/>
