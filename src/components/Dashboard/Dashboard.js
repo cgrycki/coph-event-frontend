@@ -32,7 +32,7 @@ class DashboardComponent extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      tab: "MyEvents",
+      tab     : "MyEvents",
       is_admin: props.is_admin
     };
   }

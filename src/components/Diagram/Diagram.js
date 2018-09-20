@@ -168,8 +168,8 @@ class Diagram extends Component {
         </div>
         
         <div>
-          {this.konvaCanvas && <DownloadButton getStageURI={this.getStageURI.bind(this)} />}
           <HelpButton />
+          {this.konvaCanvas && <DownloadButton getStageURI={this.getStageURI.bind(this)} />}
         </div>
       </div>
     );

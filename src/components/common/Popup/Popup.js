@@ -69,7 +69,7 @@ export default class Popup extends React.Component {
         modalProps={{
           isBlocking        : false,
           isDarkOverlay     : true,
-          containerClassName: 'ms-dialogMainOverride',
+          containerClassName: 'FormPopup',
         }}
       >
         <br/>

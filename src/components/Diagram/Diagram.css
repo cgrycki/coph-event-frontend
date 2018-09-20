@@ -31,7 +31,8 @@
   margin-right: auto;
 }
 
-.Diagram--Download {
+.Diagram--Download,
+.Diagram--Help {
   float: right;
   margin: 10px;
 }
