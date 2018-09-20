@@ -5,7 +5,7 @@ import RoomDropdown         from './RoomDropdown';
 import './RoomList.css';
 
 
-export default class RoomListNew extends Component {
+export default class RoomList extends Component {
   state = {
     checkedFeatures: new Set(),
     featuresList   : features

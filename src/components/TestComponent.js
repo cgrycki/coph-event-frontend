@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { fetchRooms, updateForm } from '../actions';
-import RoomList from './Form/fields/RoomListNew/RoomListNew';
+import RoomList from './Form/fields/RoomList';
 
 
 class TestComponent extends Component {

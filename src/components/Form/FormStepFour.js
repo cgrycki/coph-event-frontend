@@ -11,7 +11,7 @@ import {
   FormTitle,
   FormButtons
 }                     from './shared';
-import RoomList       from './fields/RoomListNew/RoomListNew';
+import RoomList       from './fields/RoomList';
 import DateTime       from './fields/DateTime';
 import FormCalendar   from '../Calendar/FormCalendar';
 
