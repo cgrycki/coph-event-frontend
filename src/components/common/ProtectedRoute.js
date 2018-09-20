@@ -11,8 +11,7 @@ import Home                 from '../Home';
 import { Overlay }          from 'office-ui-fabric-react/lib/Overlay';
 import {
   Spinner,
-  SpinnerSize,
-  SpinnerType
+  SpinnerSize
 } from 'office-ui-fabric-react/lib/Spinner';
 
 
@@ -24,8 +23,12 @@ class ProtectedRouteClass extends React.Component {
    * render method. This the authentication (login) status of the user from store.
    * @param [props.logged_in] {boolean} Login status from our app reducer.
   */
-  getAuth = () => (this.props.path.startsWith('/form')) ?
-    this.renderRedirect() : (this.props.logged_in) ? this.renderRoute(): this.checkRest();
+  getAuth = () => {
+    const { logged_in, path } = this.props;
+    if (logged_in) return this.renderRoute();
+    else return (path.startsWith('/form')) ?
+      this.renderRedirect() : this.checkRest();
+  }
 
   /**
    * Ternary method returning an overlay and spinner or a redirect, depending
