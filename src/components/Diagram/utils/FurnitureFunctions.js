@@ -89,9 +89,9 @@ export default class FurnitureFunctions {
     node.setAttr('collision', (colliding || outOfBounds));
 
     // Change cursor if there's a collision
-    //const container = node.getStage().container();
-    //if (collisionFlag) container.style.cursor = 'no-drop';
-    //else container.style.cursor = 'move';
+    const container = node.getStage().container();
+    if (node.getAttr('collision')) container.style.cursor = 'no-drop';
+    else container.style.cursor = 'grabbing';
 
     // Update the store's node information
     const { x, y, rotation: rot, id, name: furn } = node.getAttrs();
@@ -208,5 +208,17 @@ export default class FurnitureFunctions {
         });
       });
     } else return new Promise((resolve, reject) => resolve(transformEndAttrs));
+  }
+
+  /** Sets cursor properties on Mouse over */
+  static handleMouseOver(node, nodeSelected, mouseEvt) {
+    const container              = node.getStage().container();
+    const target                 = mouseEvt.target.getName();
+
+    let cursor;
+    if (target === 'closeButton') cursor = 'default';
+    else  cursor = (nodeSelected) ? 'grab' : 'pointer';
+
+    container.style.cursor = cursor;
   }
 }

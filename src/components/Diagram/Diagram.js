@@ -9,7 +9,7 @@ import {
   HUD,
   DownloadButton,
   HelpButton
-} from './Surfaces';
+}                           from './Surfaces';
 import {
   addItemAndUpdateDiagram,
   removeItemAndUpdateDiagram,
@@ -19,10 +19,11 @@ import {
   updateChairsAndCounts,
   fetchLayouts,
   populateEditor
-}                          from '../../actions';
-import { EditorFunctions } from './utils';
-// import CursorFunctions from './utils/CursorFunctions';
-import ScaleFunctions from './utils/ScaleFunctions';
+}                           from '../../actions';
+import {
+  EditorFunctions,
+  ScaleFunctions
+}                           from './utils';
 import './Diagram.css';
 
 
@@ -66,17 +67,14 @@ class Diagram extends Component {
 
   onDragStart = event => {
     if (!this.konvaCanvas) return;
-    const container = this.konvaCanvas.getStage().container();
-    container.style.cursor = 'grab';
+    EditorFunctions.handleDragStart(this.konvaCanvas, event);
   }
 
   onDragEnd = event => {
     if (!this.konvaCanvas) return;
-    const container = this.konvaCanvas.getStage().container();
-    container.style.cursor = 'default';
     
     const { updateEditorLayout } = this.props;
-    const updatedEditorConfig = EditorFunctions.handleDragEnd(event);
+    const updatedEditorConfig = EditorFunctions.handleDragEnd(this.konvaCanvas, event);
     if (updatedEditorConfig) updateEditorLayout(updatedEditorConfig);
   
   }
@@ -131,8 +129,6 @@ class Diagram extends Component {
             scaleY={scaleY}
             
             draggable
-            //onMouseDown={this.onEvents}
-            //onMouseUp={this.onEvents}
             onDragStart={this.onDragStart}
             onDragEnd={this.onDragEnd}
 

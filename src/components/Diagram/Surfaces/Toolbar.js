@@ -14,7 +14,7 @@ export default class Toolbar extends React.Component {
       {key: 'circle', text: 'Circular Table'},
       {key: 'chair', text: 'Chair'},
       {key: 'rect', text: 'Rectangular Table'},
-      {key: 'cocktail', text: 'Bar Top Table'},
+      {key: 'cocktail', text: 'High Top Table'},
       {key: 'display', text: 'Display Board'},
       {key: 'trash', text: 'Trash Can'}
     ];

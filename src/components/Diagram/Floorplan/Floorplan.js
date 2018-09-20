@@ -226,6 +226,13 @@ export default class Floorplan extends React.Component {
     return itemOpacities[name];
   }
 
+  setCursor = (event, style) => {
+    const floorGood = event.target;
+    const stage                  = floorGood.getStage();
+    const container              = stage.container();
+          container.style.cursor = style;
+  }
+
   render() {
     const { width, height }  = this.props;
     const { scaleX, scaleY } = FloorplanFunctions.resizeImageDimensionsToCanvas(width, height);
@@ -258,6 +265,8 @@ export default class Floorplan extends React.Component {
               dash={dash}
               fillOpacity={opacity}
               listening={name === 'FLOOR_GOOD'}
+              onMouseOver={mouseEvt => this.setCursor(mouseEvt, 'copy')}
+              onMouseOut={mouseEvt => this.setCursor(mouseEvt, 'default')}
             />
           );
         })} 

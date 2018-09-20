@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
-import scaleToFloorplan from '../../utils/scaleToFloorplan';
+import scaleToFloorplan from '../../../utils/scaleToFloorplan';
 
 
 class LayoutSerialize extends React.Component {

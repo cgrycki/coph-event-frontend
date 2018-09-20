@@ -75,6 +75,11 @@ class Furniture extends Component {
     }
   }
 
+  onMouseOver = event => {
+    if (!this.konvaNode) return;
+    FurnitureFunctions.handleMouseOver(this.konvaNode, this.getDragStatus(), event);
+  }
+
   renderDeleteButton  = furnType => CloseButton(furnType);
 
   renderFurnitureItem = () => {
@@ -116,6 +121,8 @@ class Furniture extends Component {
         onTransformStart={this.onTransformStart}
         onTransform={this.onTransformEvent}
         onTransformEnd={this.onTransformEnd.bind(this)}
+
+        onMouseOver={this.onMouseOver}
       >
         <Group name="furnItemWrapper">{this.renderFurnitureItem()}</Group>
         {selected && this.renderDeleteButton(furn)}
