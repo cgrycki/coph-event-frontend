@@ -35,7 +35,7 @@ class Step extends React.Component {
   onChange = (field, value) => this.props.updateForm(field, value);
 
   render() {
-    const { info, errors } = this.props;
+    const { info, errors, updateForm } = this.props;
 
     return(
       <FormStep>
@@ -43,9 +43,9 @@ class Step extends React.Component {
         
         <div className="ms-Grid-row ms-slideRight40 FormAlignStart">          
           <EventComments
-            value={this.props.info['comments']}
-            error={this.props.errors['comments']}
-            onChange={this.props.updateForm}
+            value={info['comments']}
+            error={errors['comments']}
+            onChange={updateForm}
           />
         </div>
 

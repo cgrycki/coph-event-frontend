@@ -128,16 +128,11 @@ export function submitForm(info, items, chairs_per_table) {
   return (dispatch) => {
     dispatch(submitFormLoading());
 
-    let package_id;
     return rp(options)
       .then(res => {
         // Remove dynamo keys
         delete res.event.createdAt;
         delete res.event.updatedAt;
-
-        // Save package_id to push after submitting for success
-        package_id = res.event.package_id;
-
         return res;
       })
       .then(res => {

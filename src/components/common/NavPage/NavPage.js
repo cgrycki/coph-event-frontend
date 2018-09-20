@@ -140,7 +140,6 @@ export default class NavPage extends React.Component {
       <div className="NavPage">
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12 ms-fadeIn20">
-            {/*style={{ paddingLeft: 'unset' }}>*/}
             {notHome && <Breadcrumb maxDisplayedItems={3} items={this.createCrumbs()} />}
           </div>
         </div>

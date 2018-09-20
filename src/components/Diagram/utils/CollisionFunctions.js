@@ -1,5 +1,4 @@
 import sat from 'sat';
-import { polygonContains } from 'd3-polygon';
 
 export default class CollisionFunctions {
 

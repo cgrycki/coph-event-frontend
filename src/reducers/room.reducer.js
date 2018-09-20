@@ -5,7 +5,7 @@ import {roomActions}  from '../constants/actionTypes';
 import initialStore   from '../store/initialStore';
 
 export const roomReducer = (state=initialStore.rooms, action) => {
-  let error, rooms_error, schedule_error;
+  let error, rooms_error;
   let type = action.type;
 
   switch (type) {

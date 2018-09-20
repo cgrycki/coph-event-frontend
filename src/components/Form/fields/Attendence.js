@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, Label } from 'office-ui-fabric-react';
+import { Label } from 'office-ui-fabric-react/lib/Label';
 
 
 /**

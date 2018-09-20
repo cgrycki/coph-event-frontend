@@ -8,8 +8,7 @@ import {
   sixMonthsFromToday, 
   getDateISO,
   getDateFromISO,
-  datePickerStrings, 
-  isWeekend 
+  datePickerStrings
 }                     from '../../utils/date.utils';
 import LabelRender    from './LabelRender';
 
@@ -45,11 +44,7 @@ export default class DateField extends React.Component {
   }
 
   render() {
-    let { 
-      date, date_error, 
-      coph_email, coph_email_error,
-      onChange
-    } = this.props;
+    const { date, coph_email, coph_email_error, onChange } = this.props;
 
     // Conditionally set the value of the date picker
     const date_value = (date !== "") ? new Date(getDateFromISO(date)) : undefined;

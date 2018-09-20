@@ -4,10 +4,7 @@ import {
   minTime,
   maxTime
 }                                         from './shared';
-import { 
-  getDateISO,
-  getDateTime
-}                                         from '../../utils/date.utils';
+import { getDateTime }                    from '../../utils/date.utils';
 import moment                             from 'moment';
 import Toolbar                            from './Toolbar';
 import BigCalendar                        from 'react-big-calendar';

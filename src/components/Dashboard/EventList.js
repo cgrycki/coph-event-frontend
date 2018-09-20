@@ -30,7 +30,7 @@ export default class EventList extends React.Component {
 
   /** Checks incoming props and compares against previous props/state to hide popup */
   componentWillReceiveProps(nextProps) {
-    const { loading: currentLoading, error: currentError } = this.props;
+    const { loading: currentLoading,                     } = this.props;
     const { loading: nextLoading,    error: nextError }    = nextProps;
     const { popupType } = this.state;
 

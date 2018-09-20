@@ -1,6 +1,5 @@
 import React        from 'react';
 import { ComboBox } from 'office-ui-fabric-react/lib/ComboBox';
-import { Label }    from 'office-ui-fabric-react/lib/Label';
 import options_time from '../../constants/time.constants';
 import LabelRender  from './LabelRender';
 
@@ -27,7 +26,6 @@ export default class TimeField extends React.Component {
       <div style={{'maxWidth': '110px'}}>
         {this.renderLabel(label, info)}
         <ComboBox
-          // label={label}
           options={sliced_times}
           text={(value !== '') ? value : undefined}
           errorMessage={error}

@@ -19,7 +19,7 @@ export const schedulesReducer = (state=initialStore.schedules, action) => {
         let localEnd   = moment.utc(evt.end_time).add(5, 'hours');
 
         // Convert to JS Date object
-        evt.start_time = new Date(localStart),
+        evt.start_time = new Date(localStart);
         evt.end_time = new Date(localEnd);
 
         return evt;

@@ -48,23 +48,23 @@ export default class HelpButton extends React.Component {
               <p className="ms-fontWeight-semibold">What are Layouts?</p>
               <p>A layout is a collection of furniture items. We have several default layouts you can apply, or you can create your own by adding furniture items to the diagram.</p>
               <p>To apply a layout, select a layout from the <code>Default Layouts</code> dropdown in the <code>Toolbar</code>.</p>
-              <img src={ApplyLayoutsGIF} className="ms-borderBase" />
+              <img src={ApplyLayoutsGIF} className="ms-borderBase" alt="Animated example showing selecting layouts from toolbar dropdown." />
             </div>
             <div>
               <p className="ms-fontWeight-semibold">Adding items</p>
               <p>To add a furniture item, first select the type of furniture you'd like in the <code>Toolbar</code> above the diagram. Then, click in the green area on the floorplan. Furniture items can only be placed within the approved <span className="ms-fontColor--Green">furniture area</span></p>
-              <img src={AddItemsGIF} className="ms-borderBase" />
+              <img src={AddItemsGIF} className="ms-borderBase" alt="Animated example showing how to add items by clicking"/>
             </div>
             <div>
               <p className="ms-fontWeight-semibold">Moving and Rotating items</p>
               <p>Items can be moved and rotated. To move or rotate an item, first select a furniture item by clicking on it. To move an item, click and hold the mouse button down while dragging to your desired location.</p>
               <p>To rotate an item, use the rotatation anchor attached to the selected item. By clicking and dragging the anchor you can rotate the furniture item in place.</p>
-              <img src={MoveRotateGIF} className="ms-borderBase" />
+              <img src={MoveRotateGIF} className="ms-borderBase" alt="Animated example showing how to move and rotate items by dragging them."/>
             </div>
             <div>
               <p className="ms-fontWeight-semibold">Removing Items</p>
               <p>To remove an item, first select a furniture item by clicking on it. The item should have a blue outline and a red <code>'X'</code> once it's been selected. Clicking on the red <code>'X'</code> will remove the item from the diagram.</p>
-              <img src={RemoveItemsGIF} className="ms-borderBase" />
+              <img src={RemoveItemsGIF} className="ms-borderBase" alt="Animated example showing how to delete items by clicking on their X while selected."/>
             </div>
             <div>
               <p className="ms-fontWeight-semibold">Heads Up Display</p>

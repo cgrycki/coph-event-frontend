@@ -3,16 +3,8 @@
  * Set of utilities that help in mapping the source floorplan's dimensions to
  * the screen size. Relies on D3 for most of the scaling and mathemagic.
  */
-
-import { polygonContains }  from 'd3-polygon/src/contains';
-import { scaleLinear }      from 'd3-scale/src/linear';
-
-
 const FLOOR_WIDTH = 1920;
 const FLOOR_HEIGHT = 1500;
-
-// Hand traced polygon in Illustrator
-export const goodPoly = [];
 
 
 export default class FloorplanFunctions {

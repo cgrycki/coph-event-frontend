@@ -9,7 +9,7 @@ import {
 
 export const eventReducer = (state=initialStore.events, action) => {
   const type = action.type;
-  var event, package_id, permissions, error;
+  //var event, package_id, permissions;
 
   switch (type) {
     /** Initiated a REST call */
@@ -29,13 +29,12 @@ export const eventReducer = (state=initialStore.events, action) => {
 
     /** Successful GET request, populate event page */
     case eventActions.GET_EVENT_SUCCESS:
-      var { event, permissions, layout } = action.payload;
-
+      // var { event, permissions, layout } = action.payload
       return { 
         ...state,
         event_loading: false,
         event_error  : null,
-        current      : { event, permissions, layout }
+        current      : {...action.payload}
       };
 
     /** Success GET request, populate events list. */
@@ -81,8 +80,8 @@ export const eventReducer = (state=initialStore.events, action) => {
 
     /** Populate event page information */
     case eventActions.POPULATE_EVENT_INFO:
-      var { event, permissions, layout } = action.payload;
-      return {...state, current: { event, permissions, layout }};
+      //var { event, permissions, layout } = action.payload;
+      return {...state, current: { ...action.payload }};
 
     default:
       return state;

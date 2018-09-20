@@ -2,6 +2,7 @@
  * Editor Functions
  * @module
  */
+// es-
 import CollisionFunctions from './CollisionFunctions';
 
 
@@ -99,37 +100,6 @@ class EditorFunctions {
     };
   }
 
-  /** Handles key presses, called for *every* keypress */
-  static handleKeyPressEvent(canvasRef, keyEvt) {
-    console.log(keyEvt, keyEvt.keyCode);
-
-    const DELTA        = 5;
-    const keyCode      = keyEvt.keyCode;
-    const shiftPressed = keyEvt.shiftKey;
-
-    let action; // move, rotate, or unselect
-    let payload;
-
-    // Key codes
-    if (keyCode === 37) {
-      action = 'move';
-      payload = { x: -DELTA };
-    }
-    else if (keyCode === 38) {
-      action = 'move';
-      payload = { y: -DELTA };
-    }
-    else if (keyCode === 39) {
-      action = 'move';
-      payload: { x: DELTA };
-    }
-    // 38, ArrowUp
-    // 37, ArrowLeft
-    // 39. ArrowRight
-    //40, ArrowDown
-    // 27, escape
-  }
-
   /** Stores container cursor before drag, and sets cursor style to grabbing. */
   static handleDragStart(canvasRef, dragEvt) {
     const stage = canvasRef.getStage();
@@ -141,6 +111,7 @@ class EditorFunctions {
     container.style.cursor = 'grabbing';
   }
 
+  /** Restores cursor style prior to drag and updates store with canvas position. */
   static handleDragEnd(canvasRef, dragEvt) {
     if (dragEvt === null) return null;
 

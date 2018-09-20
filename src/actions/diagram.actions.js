@@ -225,10 +225,6 @@ const fetchDiagramsError = error => ({
   payload: error
 });
 
-const fetchDiagramsReset = () => ({
-  type: diagramActions.DIAGRAM_LAYOUTS_RESET
-});
-
 
 export function fetchLayouts() {
   return (dispatch) => {

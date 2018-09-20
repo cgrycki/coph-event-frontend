@@ -64,9 +64,6 @@ export function getEvent(package_id) {
       withCredentials: true
     };
 
-    // Get dimensions for scaling furniture items
-    const { width, height } = getState().diagram.layout;
-
     // Make the call, and resolve the promise
     return rp(uri, options)
       .then(data => {
@@ -98,8 +95,6 @@ export function getEvents() {
       json           : true,
       withCredentials: true
     };
-
-    const { width, height } = getState().diagram.layout;
 
     // Resolve the promise
     return rp(uri, options)
