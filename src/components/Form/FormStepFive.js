@@ -1,6 +1,7 @@
 // Dependecies
 import React          from 'react';
 import { connect }    from 'react-redux';
+import { selectEditorItem } from '../../actions';
 // Form components + fields
 import {
   FormStep,
@@ -19,7 +20,10 @@ class Step extends React.Component {
 
   validate = () => this.props.emptyItems;
   prevPage = () => this.props.history.goBack(-1);
-  nextPage = () => this.props.history.push('/form/misc');
+  nextPage = () => {
+    this.props.history.push('/form/misc');
+    this.props.clearSelection();
+  }
 
   render() {
     return(
@@ -43,4 +47,8 @@ const mapStateToProps = state => ({
   emptyItems: state.diagram.items.length === 0
 })
 
-export default connect(mapStateToProps)(Step);
+const mapDispatchToProps = dispatch => ({
+  clearSelection: () => dispatch(selectEditorItem(null))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Step);
