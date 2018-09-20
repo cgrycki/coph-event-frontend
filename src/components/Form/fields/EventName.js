@@ -6,15 +6,17 @@ export default class EventName extends React.PureComponent {
     let { value, error, onChange } = this.props;
 
     return (
-      <TextField
-        label={"Event Name"}
-        placeholder={"Add a title for the event"}
-        field={"event_name"}
-        value={value}
-        onChange={onChange}
-        error={error}
-        autofocus={true}
-      />
+      <div className="FormFieldRow">
+        <TextField
+          label={"Event Name"}
+          placeholder={"Add a title for the event"}
+          field={"event_name"}
+          value={value}
+          onChange={onChange}
+          error={error}
+          autofocus={true}
+        />
+      </div>
     );
   }
 }

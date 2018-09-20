@@ -6,7 +6,6 @@ import {
   Toggle, 
   BasePicker,
   Icon,
-  Label,
   Link
 }                       from 'office-ui-fabric-react';
 const courseStyle = { margin: '10px' };
@@ -130,7 +129,7 @@ export default class Course extends React.Component {
     const info  = <p><Link href='https://www.public-health.uiowa.edu/classroomauditorium-reservation-policy-for-non-course-use/'>Please read</Link>{info2}</p>;
     
     return (
-      <div className="ms-Grid-row">
+      <div className="ms-Grid-row FormFieldRow">
         <div className="ms-Grid-col ms-sm8 ms-md8 ms-lg4 ms-xl4 ms-xxl4">
           <Toggle
             label="Is this for a University Course?"

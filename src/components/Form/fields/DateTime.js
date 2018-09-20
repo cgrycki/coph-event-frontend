@@ -20,7 +20,7 @@ export default class DateTime extends React.PureComponent {
     };
 
     return (
-      <div style={flex_style}>
+      <div className="FormFieldRow" style={flex_style}>
         <DateField
           date={date}
           coph_email={coph_email}

@@ -70,7 +70,7 @@ export default class RoomsList extends React.PureComponent {
   }
 
   render() {
-    let { rooms, rooms_loading, rooms_error, value, onChange } = this.props;
+    const { rooms, rooms_loading, rooms_error, value, onChange } = this.props;
 
     // Create a copy and transform rooms into consumable options
     const room_options = rooms.slice()
@@ -81,23 +81,23 @@ export default class RoomsList extends React.PureComponent {
         return d;
       });
 
-    console.log(rooms);
-
     return (
-      (rooms_loading && rooms.length === 0) ? 
-        this.renderLoadingSpinner() :
-        <Dropdown
-          placeholder={"Add a room"}
-          label={"Room Number"}
-          selectedKey={value}
-          errorMessage={rooms_error}
-          onChanged={(evt) => onChange('room_number', evt.roomNumber)}
-          options={room_options}
-          onRenderOption={this.renderOption}
-          onRenderCaretDown={this.renderCarat}
-          onRenderPlaceHolder={this.renderPlaceholder}
-          required
-        />
+      <div className="FormFieldRow">
+        {(rooms_loading && rooms.length === 0) ? 
+          this.renderLoadingSpinner() :
+          <Dropdown
+            placeholder={"Add a room"}
+            label={"Room Number"}
+            selectedKey={value}
+            errorMessage={rooms_error}
+            onChanged={(evt) => onChange('room_number', evt.roomNumber)}
+            options={room_options}
+            onRenderOption={this.renderOption}
+            onRenderCaretDown={this.renderCarat}
+            onRenderPlaceHolder={this.renderPlaceholder}
+            required
+          />}
+      </div>
     );
   }
 }

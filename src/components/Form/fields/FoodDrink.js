@@ -89,7 +89,7 @@ export default class FoodDrink extends React.PureComponent {
     }
 
     return (
-      <div className="ms-Grid-row" style={row_styles}>
+      <div className="ms-Grid-row FormFieldRow" style={row_styles}>
         <div className="ms-Grid-col ms-sm8 ms-md8 ms-lg4 ms-xl4 ms-xxl4">
           <Toggle
             defaultChecked={false}
