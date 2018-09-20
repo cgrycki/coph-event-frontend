@@ -51,6 +51,15 @@ export default class Toolbar extends React.Component {
 
     return (
       <div className="ms-Grid-row Diagram--Toolbar">
+        <div className="ms-Grid-col ms-sm7">
+          <ChoiceGroup
+            className="Diagram--FurnitureSelector"
+            label="Furniture Type"
+            selectedKey={furn_type}
+            onChange={this.furnCallback}
+            options={this.createFurnitureChoices()}
+          />
+        </div>
         <div className="ms-Grid-col ms-sm2">
           <Toggle
             label="Chairs Per Table"
@@ -64,15 +73,6 @@ export default class Toolbar extends React.Component {
           <LayoutDropdown
             layouts={pub_layouts}
             layoutCallback={this.layoutCallback}
-          />
-        </div>
-        <div className="ms-Grid-col ms-sm7">
-          <ChoiceGroup
-            className="Diagram--FurnitureSelector"
-            label="Furniture Type"
-            selectedKey={furn_type}
-            onChange={this.furnCallback}
-            options={this.createFurnitureChoices()}
           />
         </div>
       </div>
