@@ -1,0 +1,46 @@
+.RoomList--FeatureFilter {
+  margin-top: 1rem;
+  display: inline-flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+
+.RoomList--Checkbox {
+  display: inline-block;
+  padding: 5px;
+  margin: 2px;
+  border-radius: 3px;
+  background-color: 	#eaeaea;
+}
+
+.RoomList--Checkbox .ms-Checkbox-checkbox {
+  background-color: white;
+}
+
+
+.RoomList--RoomOption {
+  width: 100%;
+  min-height: 24px;
+  padding: 5px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.RoomList--RoomFloor {
+  line-height: 1.4rem;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  background: #666666;
+  color: white;
+  font-weight: 700;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1.4rem;
+  text-align: center;
+  vertical-align: middle; /* not in OG */
+  margin-right: 16px;
+  display: inline-block;
+  box-sizing: border-box;
+}

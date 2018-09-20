@@ -22,7 +22,7 @@ const configForm = {
 const configRooms = {
   key      : 'rooms',
   storage  : storage,
-  whitelist: ['rooms']
+  whitelist: []
 }
 
 
