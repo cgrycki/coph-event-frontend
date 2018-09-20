@@ -53,6 +53,20 @@ const isWeekend = date => {
   return ((day_of_week === 0) || (day_of_week === 6));
 }
 
+const isAfterHours = (start, end) => {
+  // Convert times into MomentJS objects
+  const startMoment = moment(start, 'h:mm A');
+  const endMoment   = moment(end, 'h:mm A');
+  
+  // 17 is 5:00 pm in hours
+  const closingTime = 17 
+  
+  // Check if either is after hours
+  const startsAfterClose = startMoment.hour() >= closingTime;
+  const endsAfterClose   = endMoment.hour()   >= closingTime;
+  return startsAfterClose || endsAfterClose;
+}
+
 
 const validTimes = (start, end) => {
   try {
@@ -140,6 +154,7 @@ const datePickerStrings = {
 module.exports = {
   sixMonthsFromToday,
   isWeekend,
+  isAfterHours,
   validTimes,
   getDateISO,
   getDateFromISO,
