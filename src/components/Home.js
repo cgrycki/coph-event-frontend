@@ -62,7 +62,7 @@ class Home extends React.Component {
   /** Takes user to create event form. */
   nextPage = () => {
     const { history } = this.props;
-    history.push('/form/user');
+    history.push('/form/who');
   }
 
   renderLoad() {
