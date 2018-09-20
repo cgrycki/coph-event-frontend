@@ -1,77 +1,56 @@
 // Dependecies
-import React          from 'react';
-import { connect }    from 'react-redux';
-
-// Form components
-import FormTitle      from './shared/FormTitle';
-import FormStep       from './shared/FormStep';
-import FormButtons    from './shared/FormButtons';
-import Details        from '../common/Details';
-import DetailsNav     from '../common/Details/DetailsNav';
-import Diagram        from '../Diagram';
-import Popup          from '../common/Popup';
-
+import React            from 'react';
+import { connect }      from 'react-redux';
 // Actions
-import { submitForm }   from '../../actions/form.actions';
+import { submitForm }   from '../../actions';
 import scaleToFloorplan from '../../utils/scaleToFloorplan';
+// Form components + fields
+import {
+  FormStep,
+  FormTitle,
+  FormButtons
+}                     from './shared';
+import Details from '../common/Details';
+import DetailsNav from '../common/Details/DetailsNav';
+import Diagram from '../Diagram';
+import Popup  from '../common/Popup';
 
 
-// Component
-class StepFour extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      pivot        : "Form",
-      popupHidden  : true,
-      popupType    : 'submit',
-      popupYesClick: this.submitForm
-    };
-
-    this.submitForm  = this.submitForm.bind(this);
-    this.renderPopup = this.renderPopup.bind(this);
+class Step extends React.Component {
+  state = {
+    pivot        : 'Form',
+    popupHidden  : true,
+    popupType    : 'submit',
+    popupYesClick: this.submitForm
   }
 
-  /** Set web page title on mount. */
+  /** Sets web page title on mount */
   componentDidMount() {
-    document.title = "Create Event: Review";
+    document.title = "Create an Event: Review";
   }
 
   /** Updates our component in response to form submission updates */
   componentWillReceiveProps(nextProps) {
     // Check if there was a successful POST
-    if (nextProps.form_success) this.renderPopup("success");
-
+    if (nextProps.form_success)       this.showPopup("success");
     // Check if we're loading
-    else if (nextProps.form_loading) this.renderPopup("submitted");
-
+    else if (nextProps.form_loading)  this.showPopup("submitted");
     // Check for errors
-    else if (nextProps.form_error) this.renderPopup("error");
+    else if (nextProps.form_error)    this.showPopup("error");
   }
 
-  /** Go back 1 page in our history stack */
-  prevPage = () => {
-    const { history } = this.props;
-    history.goBack(-1);
-  }
+  
+  prevPage = () => this.props.history.goBack(-1);
+  nextPage = () => this.showPopup('submit');
 
-  submitForm() {
-    let { dispatch, info, items, chairs_per_table, width, height } = this.props;
-    
-    // Scale items before saving them, so every layout is standardized.
-    const scaledItems = scaleToFloorplan(items, {width, height});
-    
-    // Submit the form!
-    dispatch(submitForm(info, scaledItems, chairs_per_table));
-  }
+  /** Changes displayed pivot by setting component state */
+  setPivot = pivotKey => this.setState({ pivot: pivotKey.key.substring(2) });
 
   /** Hides popup by setting component state. */
-  hidePopup = () => {
-    this.setState({ popupHidden: true });
-  }
+  hidePopup = () => this.setState({ popupHidden: true });
 
   /** Shows and sets popup's text and confirmation callback. */
-  renderPopup(popupType) {
+  showPopup = popupType => {
     // Really the only unique part of the popup is it's confirmation action
     const onConfirm = {
       submit   : this.submitForm,
@@ -88,7 +67,16 @@ class StepFour extends React.Component {
     });
   }
 
-  setPivot = pivotKey => this.setState({ pivot: pivotKey.key.substring(2) });
+  /** Scales items to floorplan dimensions before initiating a POST to our API */
+  submitForm = () => {
+    const { info, items, dimensions, chairs_per_table, submitForm } = this.props;
+
+    // Scale items to native floorplan resolution
+    const scaledItems = scaleToFloorplan(items, dimensions);
+
+    // Initate a POST
+    submitForm(info, scaledItems, chairs_per_table);
+  }
 
   render() {
     const { form_loading, form_success, info: { package_id }, items } = this.props;
@@ -119,7 +107,7 @@ class StepFour extends React.Component {
 
         <FormButtons
           prevPage={this.prevPage}
-          nextPage={() => this.renderPopup("submit")}
+          nextPage={this.nextPage}
           prevDisabled={false}
           nextDisabled={form_loading || form_success}
           nextText={submitBtnText}
@@ -136,17 +124,21 @@ class StepFour extends React.Component {
   }
 }
 
-// Container
 const mapStateToProps = state => ({
   info            : state.form.fields,
   items           : state.diagram.items,
   chairs_per_table: state.diagram.layout.chairs_per_table,
-  width           : state.diagram.layout.width,
-  height          : state.diagram.layout.height,
-  form_loading    : state.form.form_loading,
-  form_success    : state.form.form_success,
-  form_error      : state.form.form_error
-});
+  dimensions      : {
+    width : state.diagram.layout.width,
+    height: state.diagram.layout.height
+  },
+  form_loading: state.form.form_loading,
+  form_error  : state.form.form_error,
+  form_success: state.form.form_success
+})
 
+const mapDispatchToProps = dispatch => ({
+  submitForm: (info, items, chairs_per_table) => dispatch(submitForm(info, items, chairs_per_table))
+})
 
-export default connect(mapStateToProps)(StepFour);
+export default connect(mapStateToProps, mapDispatchToProps)(Step);

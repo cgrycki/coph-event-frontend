@@ -19,12 +19,12 @@ import Footer         from './common/Footer';
 
 // Form + Steps
 import Form           from './Form/';
-import StepOne        from './Form/StepOne';
-import StepTwo        from './Form/StepTwo';
-import StepThree      from './Form/StepThree';
-import StepFour       from './Form/StepFour';
-import StepFive       from './Form/StepFive';
-import StepSix        from './Form/StepSix';
+import FormWho        from './Form/FormStepTwo';    // email, attendance
+import FormWhat       from './Form/FormStepThree';  // what: course, food, MFK
+import FormWhenWhere  from './Form/FormStepFour';   // date+time+place
+import FormLayout     from './Form/FormStepFive';   // diagram
+import FormMisc       from './Form/FormStepSix';    // comments
+import FormReview     from './Form/FormStepSeven';  // review
 
 
 // Container -- Holds our application data store and sets routes up
@@ -41,7 +41,7 @@ const App = ({ store, persistor, history }) => (
               <Page>
                 <Switch>
                   {/** Testing routes ****************************************/}
-                  <Route path="/testing"          component={StepFive} />
+                  {/*<Route path="/testing"          component={StepFive} /> */}
                   
                   {/** Public Routes, no login required. ********************/}
                   <Route path="/"         exact   component={Home} />
@@ -53,18 +53,20 @@ const App = ({ store, persistor, history }) => (
                   <ProtectedRoute path="/event/:package_id/:signature_id?" 
                                                         Component={EventPage} />
                   <Form>
-                    <ProtectedRoute path="/form/user"   Component={StepOne} />
-                    <ProtectedRoute path="/form/event"  Component={StepTwo} />
-                    <ProtectedRoute path="/form/layout" Component={StepThree} />
-                    <ProtectedRoute path="/form/misc"   Component={StepSix} />
-                    <ProtectedRoute path="/form/review" Component={StepFour} />
+                    <ProtectedRoute path="/form/who"    Component={FormWho} />
+                    <ProtectedRoute path="/form/what"   Component={FormWhat} />
+                    <ProtectedRoute path="/form/when"   Component={FormWhenWhere} />
+                    <ProtectedRoute path="/form/layout" Component={FormLayout} />
+                    <ProtectedRoute path="/form/misc"   Component={FormMisc} />
+                    <ProtectedRoute path="/form/review" Component={FormReview} />
                   </Form>
                 </Switch>
 
                 <Footer/>
               </Page>
-              </div>
-              </div>
+
+            </div>
+          </div>
 
         </Fabric>
       </ConnectedRouter>
