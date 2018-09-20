@@ -34,6 +34,12 @@ const getDateTime = (date, time) => {
   return new Date(formattedDateTime);
 }
 
+const getAstraTime = datetime => {
+  // Sat Oct 20 2018 23:59:59 GMT-0500 (Central Daylight Time)
+  const momentDate = moment(datetime).format('h:mm a');
+  return momentDate;
+}
+
 
 
 const sixMonthsFromToday = () => {
@@ -159,6 +165,7 @@ module.exports = {
   getDateISO,
   getDateFromISO,
   getDateTime,
+  getAstraTime,
   parseDynamo,
   getTimeAfterStart,
   nextWeek,

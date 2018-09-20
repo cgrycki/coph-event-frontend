@@ -7,7 +7,10 @@ import {
   minTime,
   maxTime
 }                                         from './shared';
-import { getDateISO }                     from '../../utils/date.utils';
+import {
+  getDateISO,
+  getAstraTime
+}                     from '../../utils/date.utils';
 import Panel                              from './Panel';
 import Toolbar                            from './Toolbar';
 import formats                            from './formats';
@@ -39,9 +42,7 @@ class Calendar extends React.Component {
         end_time: ''
       }
     };
-
     
-    this.onDateChange = this.onDateChange.bind(this);
     this.onCheck      = this.onCheck.bind(this);
   }
 
@@ -79,19 +80,7 @@ class Calendar extends React.Component {
   }
 
   /** Updates panel date ranges. */
-  onDateChange(date, field) {
-    // Conditional update: if start take miniumum of current start and new evt
-    // If end take maximum of new evt and end_date
-
-    let currentStart = this.state.start_date;
-    let currentEnd   = this.state.end_date;
-    let currentDate  = date;
-
-    // Take the max/mins
-    //if (field === 'start_date') date = Math.min(currentStart.getTime(), currentDate.getTime());
-    //else date = Math.min(currentEnd.getTime(), currentDate.getTime());
-
-    // Set the state
+  onDateChange = (date, field) => {
     this.setState({ [field]: date });
   }
 
@@ -187,7 +176,8 @@ class Calendar extends React.Component {
               </p>
               <p>
                 <span className='ms-fontWeight-semibold'>Times:{' '}</span>
-                {`${getDateISO(this.state.selEvent.start_time)} - ${getDateISO(this.state.selEvent.end_time)}`}
+                
+                {`${getAstraTime(this.state.selEvent.start_time)} - ${getAstraTime(this.state.selEvent.end_time)}`}
               </p>
             </div>
           </Callout>
