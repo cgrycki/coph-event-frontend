@@ -7,7 +7,6 @@ import { Route, Switch }    from 'react-router';
 import { Fabric }           from 'office-ui-fabric-react';
 
 // Site components
-import NavBar         from './common/NavBar/';
 import Page           from './common/Page';
 import ProtectedRoute from './common/ProtectedRoute';
 import Home           from './Home';
@@ -15,7 +14,6 @@ import About          from './About';
 import EventPage      from './EventPage/';
 import Dashboard      from './Dashboard/';
 import Calendar       from './Calendar/';
-import Footer         from './common/Footer';
 
 // Form + Steps
 import Form           from './Form/';
@@ -34,7 +32,6 @@ const App = ({ store, persistor, history }) => (
       <ConnectedRouter history={history}>
         <Fabric dir="ltr" className='fullHeight'>
           
-          <NavBar />
           <Page>
             <Switch>
               {/** Testing routes ****************************************/}
@@ -58,8 +55,6 @@ const App = ({ store, persistor, history }) => (
                 <ProtectedRoute path="/form/review" Component={FormReview} />
               </Form>
             </Switch>
-
-            <Footer/>
           </Page>
 
         </Fabric>
