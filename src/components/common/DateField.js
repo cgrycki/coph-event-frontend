@@ -72,8 +72,7 @@ export default class DateField extends React.Component {
           strings={datePickerStrings}
           onSelectDate={(evt) => this.parseDate(evt)}
         />
-        {isWeekend(date) && 
-          this.renderCophEmail(coph_email, coph_email_error, onChange)}
+        {coph_email_error &&  this.renderCophEmail(coph_email, coph_email_error, onChange)}
       </div>
     );
   }

@@ -26,8 +26,7 @@ class ProtectedRouteClass extends React.Component {
   getAuth = () => {
     const { logged_in, path } = this.props;
     if (logged_in) return this.renderRoute();
-    else return (path.startsWith('/form')) ?
-      this.renderRedirect() : this.checkRest();
+    else return (path.startsWith('/form')) ? this.renderRedirect() : this.checkRest();
   }
 
   /**

@@ -2,7 +2,6 @@
  * Parameter validation
  */
 const {
-  isAscii,
   isBefore,
   isIn,
   isInt,
@@ -51,11 +50,6 @@ const validDate = date => {
 
 const validTime = time => isIn(time, times);
 
-
-const validRoomNumber = () => null;
-
-
-const validCourseReference = () => null;
 
 
 /**

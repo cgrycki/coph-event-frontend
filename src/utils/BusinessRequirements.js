@@ -7,6 +7,7 @@
 import Schedule       from './Schedule';
 import { 
   isWeekend,
+  isAfterHours,
   validTimes
 }                     from './date.utils';
 import {
@@ -165,18 +166,25 @@ export default class BusinessRequirements {
    * Ensures that if the proposed date is on a weekend, that a 
    * valid College of Public Health employee email is also entered.
    */
-  validWeekend(date, coph_email) {
-    let isDateWeekend = isWeekend(date);
-    let validCophEmail = validIowaEmail(coph_email);
+  validCophEmail(date, start, end, coph_email) {
+    // Field level validation
+    const weekendDate    = isWeekend(date);
+    const afterHours     = isAfterHours(start, end);
+    const emptyCophEmail = coph_email === '';
+    const validCophEmail = validIowaEmail(coph_email);
 
-    // Clear error for base case
-    if (isDateWeekend === false) delete this.errors['coph_email'];
-    // If they haven't yet filled out the email field explain why
-    else if (isDateWeekend && coph_email === '') this.errors['coph_email'] = 'You must enter a CoPH ' +
-      'employee email if your event is on a weekend.';
-    // If they HAVE filled it out, ensure it's an iowa address
-    else if (isDateWeekend && !validCophEmail) this.errors['coph_email'] = 
-      'CoPH email must be a valid Iowa email address.';
+    // Short hand errors
+    const errBase = 'You must enter a CoPH employee email ';
+    const errForm = 'You must enter a valid U. Iowa email address.';
+
+    // Base case: date + times are valid (7-5 M-F)
+    if (!weekendDate && !afterHours)  delete this.errors['coph_email'];
+    else if (weekendDate && emptyCophEmail)  this.errors['coph_email'] = errBase + 'if your event is on a weekend.';
+    else if (afterHours  && emptyCophEmail)  this.errors['coph_email'] = errBase + 'if your event is outside business hours.'
+    else if (weekendDate && !validCophEmail) this.errors['coph_email'] = errForm;
+    else if (afterHours  && !validCophEmail) this.errors['coph_email'] = errForm;
+
+
   }
 
   /** Runs all of our validation functions, returning an object holding errors. */
@@ -202,8 +210,8 @@ export default class BusinessRequirements {
     // Make sure there are no overlaps in scheduling
     this.validateSchedule(info.start_time, info.end_time, info.date, info.event_title, schedule);
 
-    // Weekend + CoPH employees
-    this.validWeekend(info.date, info.coph_email);
+    // CoPH employee email if date is weekend or time is after hours
+    this.validCophEmail(info.date, info.start_time, info.end_time, info.coph_email);
 
     return this.errors;
   }
