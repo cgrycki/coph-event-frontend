@@ -35,38 +35,32 @@ const App = ({ store, persistor, history }) => (
         <Fabric dir="ltr" className='fullHeight'>
           
           <NavBar />
-          <div className="ms-Grid fullHeight">
-            <div className="ms-Grid-row fullHeight">
-            
-              <Page>
-                <Switch>
-                  {/** Testing routes ****************************************/}
-                  {/*<Route path="/testing"          component={StepFive} /> */}
-                  
-                  {/** Public Routes, no login required. ********************/}
-                  <Route path="/"         exact   component={Home} />
-                  <Route path="/about"    exact   component={About} />
-                  <Route path="/calendar" exact   component={Calendar} />
+          <Page>
+            <Switch>
+              {/** Testing routes ****************************************/}
+              {/*<Route path="/testing"          component={StepFive} /> */}
+              
+              {/** Public Routes, no login required. ********************/}
+              <Route path="/"         exact   component={Home} />
+              <Route path="/about"    exact   component={About} />
+              <Route path="/calendar" exact   component={Calendar} />
 
-                  {/** Protected Routes, login required. **************************/}
-                  <ProtectedRoute path="/dashboard"     Component={Dashboard} />
-                  <ProtectedRoute path="/event/:package_id/:signature_id?" 
-                                                        Component={EventPage} />
-                  <Form>
-                    <ProtectedRoute path="/form/who"    Component={FormWho} />
-                    <ProtectedRoute path="/form/what"   Component={FormWhat} />
-                    <ProtectedRoute path="/form/when"   Component={FormWhenWhere} />
-                    <ProtectedRoute path="/form/layout" Component={FormLayout} />
-                    <ProtectedRoute path="/form/misc"   Component={FormMisc} />
-                    <ProtectedRoute path="/form/review" Component={FormReview} />
-                  </Form>
-                </Switch>
+              {/** Protected Routes, login required. **************************/}
+              <ProtectedRoute path="/dashboard"     Component={Dashboard} />
+              <ProtectedRoute path="/event/:package_id/:signature_id?" 
+                                                    Component={EventPage} />
+              <Form>
+                <ProtectedRoute path="/form/who"    Component={FormWho} />
+                <ProtectedRoute path="/form/what"   Component={FormWhat} />
+                <ProtectedRoute path="/form/when"   Component={FormWhenWhere} />
+                <ProtectedRoute path="/form/layout" Component={FormLayout} />
+                <ProtectedRoute path="/form/misc"   Component={FormMisc} />
+                <ProtectedRoute path="/form/review" Component={FormReview} />
+              </Form>
+            </Switch>
 
-                <Footer/>
-              </Page>
-
-            </div>
-          </div>
+            <Footer/>
+          </Page>
 
         </Fabric>
       </ConnectedRouter>
