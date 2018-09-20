@@ -10,7 +10,6 @@ import {
   DownloadButton,
   HelpButton
 } from './Surfaces';
-
 import {
   addItemAndUpdateDiagram,
   removeItemAndUpdateDiagram,
@@ -188,14 +187,14 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  selectEditorItem     : id                      => dispatch(selectEditorItem(id)),
-  removeEditorItem     : id                      => dispatch(removeItemAndUpdateDiagram(id)),
-  addEditorItem        : (x, y)                  => dispatch(addItemAndUpdateDiagram(x, y)),
-  updateEditorItem     : ({id, furn, x, y, rot}) => dispatch(updateEditorItem({id, furn, x, y, rot})),
-  updateEditorLayout   : (field, value)          => dispatch(updateEditor(field, value)),
-  updateChairsAndCounts: chairs_per_table        => dispatch(updateChairsAndCounts(chairs_per_table)),
-  fetchLayouts         : ()                      => dispatch(fetchLayouts()),
-  populateEditor       : (items, chairs_per_table) => dispatch(populateEditor({ items, chairs_per_table }))
+  selectEditorItem     : id                         => dispatch(selectEditorItem(id)),
+  removeEditorItem     : id                         => dispatch(removeItemAndUpdateDiagram(id)),
+  addEditorItem        : (x, y)                     => dispatch(addItemAndUpdateDiagram(x, y)),
+  updateEditorItem     : ({id, furn, x, y, rot})    => dispatch(updateEditorItem({id, furn, x, y, rot})),
+  updateEditorLayout   : (field, value)             => dispatch(updateEditor(field, value)),
+  updateChairsAndCounts: chairs_per_table           => dispatch(updateChairsAndCounts(chairs_per_table)),
+  fetchLayouts         : ()                         => dispatch(fetchLayouts()),
+  populateEditor       : (items, chairs_per_table)  => dispatch(populateEditor({ items, chairs_per_table }))
 })
 
 

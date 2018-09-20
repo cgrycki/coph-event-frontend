@@ -2,9 +2,10 @@
 
 /* Div wrapping CommandBar component. Set position to fixed to escape container*/
 .NavBarWrapper {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
+  padding-left: unset;
   width: 100vw;
   border-bottom: 1px solid 	#3c3c3c;
   box-shadow: 0 1px 1px 0 hsla(0, 0%, 0%, 0.2);

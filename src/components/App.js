@@ -24,6 +24,9 @@ import FormLayout     from './Form/FormStepFive';   // diagram
 import FormMisc       from './Form/FormStepSix';    // comments
 import FormReview     from './Form/FormStepSeven';  // review
 
+// Testing
+import TestComponent  from './TestComponent';
+
 
 // Container -- Holds our application data store and sets routes up
 const App = ({ store, persistor, history }) => (
@@ -35,7 +38,7 @@ const App = ({ store, persistor, history }) => (
           <Page>
             <Switch>
               {/** Testing routes ****************************************/}
-              {/*<Route path="/testing"          component={StepFive} /> */}
+              <Route path="/testing"          component={TestComponent} />
               
               {/** Public Routes, no login required. ********************/}
               <Route path="/"         exact   component={Home} />

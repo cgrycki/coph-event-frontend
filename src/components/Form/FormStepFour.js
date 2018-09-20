@@ -11,7 +11,7 @@ import {
   FormTitle,
   FormButtons
 }                     from './shared';
-import RoomList      from './fields/RoomList';
+import RoomList       from './fields/RoomList';
 import DateTime       from './fields/DateTime';
 import FormCalendar   from '../Calendar/FormCalendar';
 
@@ -76,6 +76,7 @@ class Step extends React.Component {
             rooms_loading={rooms_loading}
             rooms_error={rooms_error}
             value={info['room_number']}
+            error={errors['room_number']}
             onChange={this.onChange}
           />
 
