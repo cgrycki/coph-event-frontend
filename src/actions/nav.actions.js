@@ -48,7 +48,7 @@ export const clearFormAndPush = () => dispatch => {
   dispatch(clearFieldInfo());   // Set the form to default
   dispatch(clearEditor());      // Clear items from editor
   dispatch(submitFormReset());  // Reset the REST status of form
-  dispatch(push('/form/user')); // Navigate to the form.
+  dispatch(push('/form/who'));  // Navigate to the form.
 }
 
 
@@ -71,9 +71,9 @@ export const populateFormAndPush = (info, layout) => dispatch => {
   // Field Information
   const formattedInfo = parseDynamo(info);    // Format Dynamo object
   dispatch(populateFieldInfo(formattedInfo)); // Populate form infomation
-  dispatch(populateEditor(layout));            // Populate diagram items and CPT
+  dispatch(populateEditor(layout));           // Populate diagram items and CPT
   dispatch(submitFormReset());                // Reset the form submission loading+error+success
-  dispatch(push("/form/user"));               // Route to form so user can edit
+  dispatch(push("/form/who"));                // Route to form so user can edit
 }
 
 

@@ -7,7 +7,6 @@ import { Route, Switch }    from 'react-router';
 import { Fabric }           from 'office-ui-fabric-react';
 
 // Site components
-import NavBar         from './common/NavBar/';
 import Page           from './common/Page';
 import ProtectedRoute from './common/ProtectedRoute';
 import Home           from './Home';
@@ -15,16 +14,15 @@ import About          from './About';
 import EventPage      from './EventPage/';
 import Dashboard      from './Dashboard/';
 import Calendar       from './Calendar/';
-import Footer         from './common/Footer';
 
 // Form + Steps
 import Form           from './Form/';
-import StepOne        from './Form/StepOne';
-import StepTwo        from './Form/StepTwo';
-import StepThree      from './Form/StepThree';
-import StepFour       from './Form/StepFour';
-import StepFive       from './Form/StepFive';
-import StepSix        from './Form/StepSix';
+import FormWho        from './Form/FormStepTwo';    // email, attendance
+import FormWhat       from './Form/FormStepThree';  // what: course, food, MFK
+import FormWhenWhere  from './Form/FormStepFour';   // date+time+place
+import FormLayout     from './Form/FormStepFive';   // diagram
+import FormMisc       from './Form/FormStepSix';    // comments
+import FormReview     from './Form/FormStepSeven';  // review
 
 
 // Container -- Holds our application data store and sets routes up
@@ -34,37 +32,30 @@ const App = ({ store, persistor, history }) => (
       <ConnectedRouter history={history}>
         <Fabric dir="ltr" className='fullHeight'>
           
-          <NavBar />
-          <div className="ms-Grid fullHeight">
-            <div className="ms-Grid-row fullHeight">
-            
-              <Page>
-                <Switch>
-                  {/** Testing routes ****************************************/}
-                  <Route path="/testing"          component={StepFive} />
-                  
-                  {/** Public Routes, no login required. ********************/}
-                  <Route path="/"         exact   component={Home} />
-                  <Route path="/about"    exact   component={About} />
-                  <Route path="/calendar" exact   component={Calendar} />
+          <Page>
+            <Switch>
+              {/** Testing routes ****************************************/}
+              {/*<Route path="/testing"          component={StepFive} /> */}
+              
+              {/** Public Routes, no login required. ********************/}
+              <Route path="/"         exact   component={Home} />
+              <Route path="/about"    exact   component={About} />
+              <Route path="/calendar" exact   component={Calendar} />
 
-                  {/** Protected Routes, login required. **************************/}
-                  <ProtectedRoute path="/dashboard"     Component={Dashboard} />
-                  <ProtectedRoute path="/event/:package_id/:signature_id?" 
-                                                        Component={EventPage} />
-                  <Form>
-                    <ProtectedRoute path="/form/user"   Component={StepOne} />
-                    <ProtectedRoute path="/form/event"  Component={StepTwo} />
-                    <ProtectedRoute path="/form/layout" Component={StepThree} />
-                    <ProtectedRoute path="/form/misc"   Component={StepSix} />
-                    <ProtectedRoute path="/form/review" Component={StepFour} />
-                  </Form>
-                </Switch>
-
-                <Footer/>
-              </Page>
-              </div>
-              </div>
+              {/** Protected Routes, login required. **************************/}
+              <ProtectedRoute path="/dashboard"     Component={Dashboard} />
+              <ProtectedRoute path="/event/:package_id/:signature_id?" 
+                                                    Component={EventPage} />
+              <Form>
+                <ProtectedRoute path="/form/who"    Component={FormWho} />
+                <ProtectedRoute path="/form/what"   Component={FormWhat} />
+                <ProtectedRoute path="/form/when"   Component={FormWhenWhere} />
+                <ProtectedRoute path="/form/layout" Component={FormLayout} />
+                <ProtectedRoute path="/form/misc"   Component={FormMisc} />
+                <ProtectedRoute path="/form/review" Component={FormReview} />
+              </Form>
+            </Switch>
+          </Page>
 
         </Fabric>
       </ConnectedRouter>

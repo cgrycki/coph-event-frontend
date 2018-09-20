@@ -1,8 +1,8 @@
 /* Styling for Modal Popup */
 
 /* Main Dialog div styling */
-.ms-Dialog-main {
-  max-width: 700px;
+.FormPopup  {
+  max-width: 800px;
   min-width: 400px;
 }
 

@@ -6,15 +6,17 @@ export default class UserEmail extends React.PureComponent {
     let { value, error, onChange } = this.props;
 
     return (
-      <TextField
-        label={"User Email"}
-        placeholder={"Enter your U. Iowa Email"}
-        field={"user_email"}
-        value={value}
-        onChange={onChange}
-        error={error}
-        disabled={true}
-      />
+      <div className="FormFieldRow">
+        <TextField
+          label={"User Email"}
+          placeholder={"Enter your U. Iowa Email"}
+          field={"user_email"}
+          value={value}
+          onChange={onChange}
+          error={error}
+          disabled={true}
+        />
+      </div>
     );
   }
 }

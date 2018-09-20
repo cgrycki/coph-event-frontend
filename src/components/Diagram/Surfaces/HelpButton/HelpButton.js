@@ -1,6 +1,6 @@
-import React          from 'react';
-import { Modal }      from 'office-ui-fabric-react/lib/Modal';
-import { IconButton } from 'office-ui-fabric-react/lib/Button';
+import React            from 'react';
+import { Modal }        from 'office-ui-fabric-react/lib/Modal';
+import { ActionButton } from 'office-ui-fabric-react/lib/Button';
 
 import AddItemsGIF      from './01-add-items.gif';
 import MoveRotateGIF    from './03-move-rotate.gif';
@@ -19,12 +19,14 @@ export default class HelpButton extends React.Component {
   render() {
     return (
       <div>
-        <IconButton
+        <ActionButton
+          className="Diagram--Help"
           iconProps={{
             iconName: 'Help',
             ariaLabel: 'Open Help Dialog'
           }}
           title="Help Dialog"
+          text="Help"
           onClick={this.openModal}
         />
         <Modal

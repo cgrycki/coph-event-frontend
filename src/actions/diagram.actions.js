@@ -5,6 +5,7 @@ import { diagramActions } from '../constants/actionTypes';
 import Counter            from '../utils/Counter';
 import * as rp            from 'request-promise';
 import scaleToDimensions  from '../utils/scaleToDimensions';
+import inventory          from '../constants/inventory';
 const URI                 = process.env.REACT_APP_REDIRECT_URI;
 
 
@@ -93,22 +94,30 @@ const updateEditorCounts = counts => ({
 
 export const addItemAndUpdateDiagram = ({ x, y }) => {
   return (dispatch, getState) => {
-    // Clear the selection
+    // Clear the selection regardless b/c user clicked somewhere
     dispatch(selectEditorItem(null));
+    
+    // Check if we've reached our limit for current furn type
+    const currentState  = getState();
+    const currentCounts = currentState.diagram.counts;
+    const currentFurn   = currentState.diagram.layout.furn_type;
 
-    // Add the furniture item
-    dispatch(addEditorItem({ x, y }));
+    
+    if (currentCounts[currentFurn] < inventory[currentFurn]) {
+      // Add the furniture item
+      dispatch(addEditorItem({ x, y }));
 
-    // Get the current state and extract variables needed to compute counts
-    const currentState = getState();
-    const { items, layout: { chairs_per_table }} = currentState.diagram;
+      // Get the state after adding and extract variables needed to compute counts
+      const nextState = getState();
+      const { items, layout: { chairs_per_table }} = nextState.diagram;
 
-    // Count em up
-    const rawCounts = Counter.getFurnItemCount(items);
-    const counts    = Counter.getFurnRackCounts(rawCounts, chairs_per_table);
+      // Count em up
+      const rawCounts = Counter.getFurnItemCount(items);
+      const counts    = Counter.getFurnRackCounts(rawCounts, chairs_per_table);
 
-    // Update editor
-    dispatch(updateEditorCounts(counts));
+      // Update editor
+      dispatch(updateEditorCounts(counts));
+    }
   }
 }
 

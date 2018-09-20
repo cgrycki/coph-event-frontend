@@ -14,7 +14,7 @@ export default class ContactEmail extends React.Component {
     const info = "Enter another email if you have an event coordinator or are filling out this form on behalf of someone else.\n";
 
     return (
-      <div>
+      <div className="FormFieldRow">
         <LabelRender
           label="Contact Email"
           info={info}

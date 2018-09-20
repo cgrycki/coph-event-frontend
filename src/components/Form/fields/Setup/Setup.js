@@ -27,7 +27,7 @@ export default class Setup extends React.Component {
     const { setup_error } = this.props;
 
     return (
-      <div className="ms-Grid-row">
+      <div className="ms-Grid-row FormFieldRow">
         <div className="ms-Grid-col ms-sm3 ms-md3 ms-lg3 ms-xl3 ms-xxl3">
           <Toggle
             checked={this.props.setup_required}
