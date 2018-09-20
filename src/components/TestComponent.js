@@ -1,27 +1,17 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+//import { connect } from 'react-redux';
 
-import { fetchRooms, updateForm } from '../actions';
-import RoomList from './Form/fields/RoomList';
+import Diagram from './Diagram';
+import LayoutSerialize from './Diagram/Surfaces/LayoutSerialize';
 
 
-class TestComponent extends Component {
-  componentDidMount() {
-    const { rooms, rooms_loading, fetchRooms } = this.props;
-    if ((rooms.length === 0) && !rooms_loading) fetchRooms();
-  }
+export default class TestComponent extends Component {
 
   render() {
-    const { rooms, rooms_loading } = this.props;
     return (
       <div className="FormFieldRow">
-        <RoomList
-          rooms={rooms}
-          rooms_loading={rooms_loading}
-          value={this.props.value}
-          error={this.props.errors['room_number']}
-          onChange={this.props.updateForm}
-        />
+        <Diagram draggable={true}/>
+        <LayoutSerialize />
       </div>
     );
   }
@@ -35,8 +25,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchRooms: () => dispatch(fetchRooms()),
-  updateForm: (field, value) => dispatch(updateForm(field, value))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(TestComponent);
+//export default connect(mapStateToProps, mapDispatchToProps)(TestComponent);
