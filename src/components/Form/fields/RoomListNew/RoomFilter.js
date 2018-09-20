@@ -6,12 +6,14 @@ import features from './features';
 export default class RoomFilter extends Component {
   createCheckbox = feature => {
     const { checkedFeatures, onCheck } = this.props;
+    const checked = checkedFeatures.has(feature);
+    
     return (
       <Checkbox
         key={`filterFeature--${feature}`}
         label={feature}
-        checked={checkedFeatures.has(feature)}
-        onChange={() => onCheck(feature)}
+        checked={checked}
+        onChange={(evt, val) => onCheck(evt, feature)}
         className="RoomList--Checkbox"
       />
     );

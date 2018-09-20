@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchRooms } from '../actions';
+import { fetchRooms, updateForm } from '../actions';
 import RoomList from './Form/fields/RoomListNew/RoomListNew';
 
 
@@ -15,7 +15,13 @@ class TestComponent extends Component {
     const { rooms, rooms_loading } = this.props;
     return (
       <div className="FormFieldRow">
-        <RoomList rooms={rooms} rooms_loading={rooms_loading} />
+        <RoomList
+          rooms={rooms}
+          rooms_loading={rooms_loading}
+          value={this.props.value}
+          error={this.props.errors['room_number']}
+          onChange={this.props.updateForm}
+        />
       </div>
     );
   }
@@ -23,11 +29,14 @@ class TestComponent extends Component {
 
 
 const mapStateToProps = state => ({
+  value: state.form.fields.room_number,
+  errors: state.form.errors,
   ...state.rooms
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchRooms: () => dispatch(fetchRooms())
+  fetchRooms: () => dispatch(fetchRooms()),
+  updateForm: (field, value) => dispatch(updateForm(field, value))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TestComponent);

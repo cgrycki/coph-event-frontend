@@ -3,6 +3,7 @@ import { Dropdown } from 'office-ui-fabric-react/lib/Dropdown';
 
 
 export default class RoomDropdown extends Component {
+  /** Filters the rooms list based on inclusion of it's features in the `checkedFeatures` set passed by props. */
   filterRooms = () => {
     const { checkedFeatures, rooms } = this.props;
 
@@ -24,29 +25,47 @@ export default class RoomDropdown extends Component {
     return roomsWithFeatures;
   }
 
-  createOption = room => {
+  /** Maps our rooms list to a Fabric UI acceptable list by adding `key` and `text` attributes. */
+  createOptions = rooms => {
+    return rooms
+      .slice()
+      .sort((a, b) => +a.floor - +b.floor)
+      .map(rm => {
+        rm.key = rm.roomNumber; rm.text = rm.roomNumber;
+        return rm;
+      });
+  }
+
+  /** Renders a room for the dropdown. */
+  renderOption = room => {
     const displayName = (room.roomNumber === 'XC100') ? room.roomName : room.roomNumber;
-  
     return (
-      <div key={`RoomOption--${room.roomNumber}`} className="RoomList--RoomOption">
-        <div>
-          <span className="RoomList--RoomFloor"><strong>{room.floor}</strong></span>
-          {displayName}{' '}<i>seats: {room.maxOccupancy}</i>
+      <div key={room.key} className="RoomList--RoomFlexOption">
+        <div className="RoomList--RoomFloorWrapper">
+          <div className="RoomList--RoomFloorF">{room.floor}</div>
         </div>
-        <div>
-          <i>{room.rmType}</i>
-        </div>
+        <div className="RoomList--RoomName">{displayName}</div>
+        <div className="RoomList--RoomSeats">seats:{' '}{room.maxOccupancy}</div>
+        <div className="RoomList--RoomType">{room.rmType}</div>
       </div>
     );
   }
 
   render() {
+    const { value, error, onChange } = this.props;
+    const filteredRooms              = this.filterRooms();
+    const dropdownOptions            = this.createOptions(filteredRooms);
+
     return (
       <Dropdown
         label="Room Number"
-        placeholder="Select a Room from the dropdown list"
-        options={this.filterRooms()}
-        onRenderOption={this.createOption}
+        placeHolder="Select a Room from the dropdown list"
+        options={dropdownOptions}
+        onRenderOption={this.renderOption}
+        selectedKey={value}
+        errorMessage={error}
+        onChanged={rm => onChange('room_number', rm.roomNumber)}
+        required
       />
     );
   }

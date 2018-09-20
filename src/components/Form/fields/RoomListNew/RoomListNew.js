@@ -11,21 +11,28 @@ export default class RoomListNew extends Component {
     featuresList   : features
   }
 
-  onCheck = feature => {
+  onCheck = (evt, feature) => {
+    evt.preventDefault();
     let newCheckedFeatures = new Set(this.state.checkedFeatures);
+
+    // Add or remove the feature from our state
     if (newCheckedFeatures.has(feature)) newCheckedFeatures.delete(feature);
     else newCheckedFeatures.add(feature);
+
     this.setState({ checkedFeatures: newCheckedFeatures });
   }
 
   render() {
     const { checkedFeatures } = this.state;
-    const { rooms, rooms_loading } = this.props;
+    const { rooms, rooms_loading, value, error, onChange } = this.props;
 
     return (
       <div className="ms-Grid-row">
         <RoomDropdown
-          rooms={rooms || []}
+          value={value}
+          error={error}
+          onChange={onChange}
+          rooms={rooms}
           rooms_loading={rooms_loading}
           checkedFeatures={checkedFeatures}
         />
