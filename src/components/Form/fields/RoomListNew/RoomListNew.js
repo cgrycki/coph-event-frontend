@@ -27,7 +27,7 @@ export default class RoomListNew extends Component {
     const { rooms, rooms_loading, value, error, onChange } = this.props;
 
     return (
-      <div className="ms-Grid-row">
+      <div className="ms-Grid-row FormFieldRow">
         <RoomDropdown
           value={value}
           error={error}
