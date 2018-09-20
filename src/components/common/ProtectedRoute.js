@@ -24,7 +24,8 @@ class ProtectedRouteClass extends React.Component {
    * render method. This the authentication (login) status of the user from store.
    * @param [props.logged_in] {boolean} Login status from our app reducer.
   */
-  getAuth = () => (this.props.logged_in) ? this.renderRoute(): this.checkRest();
+  getAuth = () => (this.props.path.startsWith('/form')) ?
+    this.renderRedirect() : (this.props.logged_in) ? this.renderRoute(): this.checkRest();
 
   /**
    * Ternary method returning an overlay and spinner or a redirect, depending
@@ -49,7 +50,11 @@ class ProtectedRouteClass extends React.Component {
     return (
       <Overlay isDarkThemed={false}  >
         <div className="ProtectedRouteWrapper">
-          <Spinner size={SpinnerSize.large} label="Authenticating..." className="ProtectedRouteSpinner" />
+          <Spinner
+            size={SpinnerSize.large}
+            label="Authenticating..."
+            className="ProtectedRouteSpinner"
+          />
         </div>
       </Overlay>
     );
