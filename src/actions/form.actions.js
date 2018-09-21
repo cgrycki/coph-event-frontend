@@ -61,6 +61,14 @@ export const updateForm = (field, value) => {
   }
 }
 
+export const updateDateTimes = (date, start, end) => {
+  return (dispatch) => {
+    dispatch(updateField('date', date));
+    dispatch(updateField('end_time', end));
+    dispatch(updateForm('start_time', start));
+  };
+}
+
 
 /**
  * Notifies store that we've initiated a POST request. Blocks other POSTs

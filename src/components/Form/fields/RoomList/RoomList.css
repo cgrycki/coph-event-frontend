@@ -1,5 +1,5 @@
-.RoomList--FeatureLabel {
-  margin: 8px 0;
+.RoomList--FeatureFilterWrapper {
+  margin-top: 8px;
 }
 .RoomList--FeatureFilter {
   display: inline-flex;
@@ -44,7 +44,6 @@
 
 .RoomList--RoomFloorWrapper {
   display: flex;
-
 }
 .RoomList--RoomFloorF {
   width: 32px;

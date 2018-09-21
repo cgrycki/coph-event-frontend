@@ -26,12 +26,12 @@ export default class RoomFilter extends Component {
     const reqd  = false;
 
     return (
-      <React.Fragment>
+      <div className="RoomList--FeatureFilterWrapper">
         <LabelRender label={label} info={info} required={reqd} />
         <div className="RoomList--FeatureFilter">
           {features.map(this.createCheckbox)}
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }
