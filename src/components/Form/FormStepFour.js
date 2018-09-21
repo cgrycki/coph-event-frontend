@@ -1,10 +1,14 @@
 // Dependecies
 import React          from 'react';
 import { connect }    from 'react-redux';
-// Form actions
-import { updateForm }             from '../../actions/form.actions';
-import { fetchRooms }             from '../../actions/room.actions';
-import { fetchCalendarSchedule }  from '../../actions/schedule.actions';
+// Actions
+import {
+  updateForm,
+  updateDateTimes,
+  fetchRooms,
+  fetchCalendarSchedule
+}                     from '../../actions';
+import { getWeekRange } from '../../utils/date.utils';
 // Form components + fields
 import {
   FormStep,
@@ -25,11 +29,12 @@ class Step extends React.Component {
 
   /** Fetches a room schedule if date or room field changed */
   componentDidUpdate(prevProps, prevState) {
-    this.checkSchedule(prevProps);
+    this.checkSchedule(prevProps);    
   }
 
   validate = () => {
-    const { info, errors } = this.props;
+    const { info, errors, schedule_loading } = this.props;
+    if (schedule_loading) return true;
 
     let validFlag = errors['schedule_overlap'];
     const pgFields = ['date', 'start_time', 'end_time', 'room_number'];
@@ -50,18 +55,39 @@ class Step extends React.Component {
     if ((!rooms_loading) && (rooms.length === 0)) return fetchRooms();
   }
 
-  checkSchedule = prevProps => {
-    const { room_number: oldRoom, date: oldDate }     = prevProps.info;
-    const { room_number: newRoom, date: newDate }     = this.props.info;
-    const { schedule_loading, fetchCalendarSchedule } = this.props;
+  checkSchedule = (prevProps) => {
+    // Fetch
+    const { fetchCalendarSchedule } = this.props;
 
-    // Check for changes
-    if ((oldRoom !== newRoom) || (oldDate !== newDate) && !schedule_loading) {
-      // Ensure neither field is black
-      if ((newRoom !== '') && (newDate !== '')) fetchCalendarSchedule(newRoom, newDate);
+    // Room and day from props
+    const { room_number: oldRoom, date: oldDate } = prevProps.info;
+    const { room_number: newRoom, date: newDate } = this.props.info;
+    const { weekStart: newWeekStart, weekEnd: newWeekEnd } = getWeekRange(newDate);
+
+    // Field validations before we make GET request
+    const oldDateValid = oldDate !== '';
+    const newDateValid = newDate !== '';
+    const newRoomValid = newRoom !== '';
+    const dateChanged  = newDate !== oldDate;
+    const roomChanged  = newRoom !== oldRoom;
+
+
+    // The date was changed
+    if (dateChanged) {
+      // Check if we should download new week schedule (date !== week)
+      const { weekStart: oldWeekStart, weekEnd: oldWeekEnd } = getWeekRange(oldDate);
+
+      // If the user selected a date for the first time we need to fetch a schedule => !oldDateValid
+      // Otherwise, the change in the date was via calendar nav and we should fetch
+      if ((!oldDateValid || (oldWeekStart !== newWeekStart)) && (newRoomValid && newDateValid)) {
+          fetchCalendarSchedule(newRoom, newWeekStart, newWeekEnd);
+      }
+    }
+    // If the room changed, we need to fetch the schedule regardless
+    else if (roomChanged && newDateValid) {
+      fetchCalendarSchedule(newRoom, newWeekStart, newWeekEnd);
     };
   }
-
 
   render() {
     const { info, errors, rooms, rooms_loading, rooms_error, schedules } = this.props;
@@ -100,6 +126,7 @@ class Step extends React.Component {
             end_time={info['end_time']}
             schedule_overlap={errors['schedule_overlap']}
             onChange={this.onChange}
+            onSelect={this.props.updateDateTimes}
           />
         </div>
 
@@ -124,7 +151,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchRooms           : ()                   => dispatch(fetchRooms()),
   updateForm           : (field, value)       => dispatch(updateForm(field, value)),
-  fetchCalendarSchedule: (room_number, date)  => dispatch(fetchCalendarSchedule(room_number, date, date))
+  updateDateTimes      : (date, start, end)   => dispatch(updateDateTimes(date, start, end)),
+  fetchCalendarSchedule: (room_number, s, e)  => dispatch(fetchCalendarSchedule(room_number, s, e))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Step);

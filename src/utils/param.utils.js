@@ -3,6 +3,7 @@
  */
 const {
   isBefore,
+  isAfter,
   isIn,
   isInt,
   isISO8601,
@@ -13,6 +14,7 @@ const {
 }                     = require('validator');
 const { 
   sixMonthsFromToday,
+  getYesterday,
   getDateISO
 }                     = require('./date.utils');
 const times           = require('../constants/time.constants').map(d => d.key);
@@ -43,7 +45,8 @@ const validDate = date => {
   /* Must be a ISO formatted date AND must be after today AND not > 6 months */
   return (
     isISO8601(date) &&
-    isBefore(date, getDateISO(sixMonthsFromToday()))
+    isBefore(date, getDateISO(sixMonthsFromToday())) &&
+    isAfter(date, getDateISO(getYesterday()))
   ); 
 }
 

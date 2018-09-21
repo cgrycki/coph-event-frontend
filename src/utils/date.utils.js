@@ -11,7 +11,6 @@ const times = require('../constants/time.constants')
  * @param {string} date_string
  */
 const getDateISO = (date_string) =>  moment(date_string).local().format("YYYY-MM-DD");
-
 const getDateFromISO = (date_string) => moment(date_string).local();
 
 const parseDynamo = (event) => {
@@ -40,12 +39,25 @@ const getAstraTime = datetime => {
   return momentDate;
 }
 
+const getWeekRange = date => {
+  const momentDate = getDateFromISO(date);
+  const weekStart  = momentDate.startOf('week').format('YYYY-MM-DD');
+  const weekEnd    = momentDate.endOf('week').format('YYYY-MM-DD');
+
+  return { weekStart, weekEnd };
+}
+
 
 
 const sixMonthsFromToday = () => {
   const today = new Date();
   const sixMonths = moment(today).add(6, 'months');
   return sixMonths.toDate();
+}
+const getYesterday = () => {
+  const today = new Date();
+  const yesterday = moment(today).local().subtract(1, 'day');
+  return yesterday.toDate();
 }
 
 
@@ -159,6 +171,7 @@ const datePickerStrings = {
 
 module.exports = {
   sixMonthsFromToday,
+  getYesterday,
   isWeekend,
   isAfterHours,
   validTimes,
@@ -166,6 +179,7 @@ module.exports = {
   getDateFromISO,
   getDateTime,
   getAstraTime,
+  getWeekRange,
   parseDynamo,
   getTimeAfterStart,
   nextWeek,
