@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox';
-import { Label } from 'office-ui-fabric-react/lib/Label';
-import features from './features';
+import { Checkbox }         from 'office-ui-fabric-react/lib/Checkbox';
+import LabelRender          from '../../../common/LabelRender';
+import features             from './features';
 
 
 export default class RoomFilter extends Component {
@@ -21,9 +21,13 @@ export default class RoomFilter extends Component {
   }
 
   render() {
+    const label = 'Room Features';
+    const info  = 'Select one or more features to filter rooms with selection.';
+    const reqd  = false;
+
     return (
       <React.Fragment>
-        <Label className="RoomList--FeatureLabel">Room Features</Label>
+        <LabelRender label={label} info={info} required={reqd} />
         <div className="RoomList--FeatureFilter">
           {features.map(this.createCheckbox)}
         </div>
