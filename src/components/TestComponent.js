@@ -9,7 +9,7 @@ export default class TestComponent extends Component {
 
   render() {
     return (
-      <div className="FormFieldRow">
+      <div>
         <Diagram draggable={true}/>
         <LayoutSerialize />
       </div>
