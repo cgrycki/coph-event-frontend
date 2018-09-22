@@ -5,6 +5,7 @@ import { Layer, Path }    from 'react-konva';
 import FloorplanFunctions from '../utils/FloorplanFunctions';
 
 // PATHS TAKEN FROM ILLUSTRATOR
+const EXTERIOR_CLIP   = "M190.4,749.5,154,753.8,136,595.3H41.5V95l767.2-4V77.7L968,31.7h106v62l594,2,.7,489.3,60,.7,97.3,430.7-90.7,419.3s-4.2-.5-11.8-1.5c-69.9-9.1-428.2-55.2-428.2-55.2l-43.3,40-184.7-143.3-846.7,88L167.5,864.5,200.84,861Z" ;
 const EXTERIOR_WALLS  = "M1295.3,1379l-43.3,40-184.7-143.3-846.7,88L167.5,864.5l96-10L252.2,744.1,154,753.8,136,595.3H41.5V95l767.2-4V77.7L968,31.7h106v62l594,2,.7,489.3,60,.7,97.3,430.7-90.7,419.3s-4.2-.5-11.8-1.5C1653.6,1425.1,1295.3,1379,1295.3,1379ZM190.4,749.5l10.6,109M1787.4,1195l-58-12.7-15.8,82.7,56,12.4m-5-532.7-58.1,13.5L1725,839l58-12.9";
 const CLASS_AND_CAFE  = "M1093.83,853.33l1.83,14.83L1232,897.67l17.33-83.33L1086.67,781l2,22.33-9.83,1-3.43-29.73,11.6-1.2,249,52.9,4.4,41.8,3.3-.4.3,2.8,26.5-2.3-.4-3.3,13.9-1.4-2.9-27.6,122.5,26.5,1.3,12.7-28.4,2.9-2.2-19-5.5-1.2-49.9,5.7,17.5,172.1,56.3-5.5-.4-4.4,27.5-2.9,14.7,140.4-414,44.4-36.33-353.43Z";
 const CLASS_N110      = "M1289.5,587.8V525.1h-9.1V95.7H1668l1.3,496.3-379.8-4.2-13.25-.1V582h-24v5.52l-3.75,0";
@@ -23,22 +24,23 @@ const DOORS           = "M188.65,811l1.69-.18.14,1.29-1.69.18Zm1589.15,426,.27-1
 const FLOOR_GOOD      = "M1719.42,598H1652l-.39,18c-3,9.1-8.58,11-18.15,11h-31.61c-8.75,0-16.34-10.61-15.84-30.33h0l-215.54-1.49c0,25.86-10.71,30.82-20.29,31.82H1205.69c-19.09-4-19.69-37-19.69-37v2H961.67s2,28-27,35h-70l1.74,33.25L935.8,653l5,47.4L560,739l9.84,88.27L1012,780.12l75.17-10.73,169.38,35.7,5.48-26.36,5,1c12,3.75,20.25,11,23.75,28.25l-.5,4.5,45.88,9.15h0c8.82-24.55,50.17-13.25,46.63,10.26h0l124,27,2.55,16.17L1677,853.31l-10.41-44.48a51.76,51.76,0,0,1,39.2-62.38l44.22-9.79ZM330.1,731.92l108.32-12.25-6.66-58.39,31.91-2.49,11.42,100L267.2,782.41l-8.7-77.51,67.64-7.68Z";
 
 const pathNames = [
-    "DOORS",
-    "STAIRS",
-    "ELEV_WALL",
-    "ELEV_LIFT",
-    "BASEMENT_BANNER",
-    "DEPT_IT",
-    "DEPT_STUDENT",
-    "DEPT_ADMIN",
-    "ISLAND_PLANT",
-    "CLASS_N120",
-    "CLASS_N110",
-    "CLASS_AND_CAFE",
-    "ISLAND_CAFE",
-    "FLOOR_GOOD",
-    "STAIRS_OUTLINE",
-    "EXTERIOR_WALLS"
+  "EXTERIOR_CLIP",
+  "DOORS",
+  "STAIRS",
+  "ELEV_WALL",
+  "ELEV_LIFT",
+  "BASEMENT_BANNER",
+  "DEPT_IT",
+  "DEPT_STUDENT",
+  "DEPT_ADMIN",
+  "ISLAND_PLANT",
+  "CLASS_N120",
+  "CLASS_N110",
+  "CLASS_AND_CAFE",
+  "ISLAND_CAFE",
+  "FLOOR_GOOD",
+  "STAIRS_OUTLINE",
+  "EXTERIOR_WALLS"
 ];
 
 
@@ -47,8 +49,8 @@ const colors = {
   dark_green  : '#006d2c',
   none        : '#',
   white       : '#ffffff',
-  light_grey  : '#f4f4f4',
-  dark_grey   : '#737373',
+  light_grey  : '#e7e8e9',
+  dark_grey   : '#666666',
   darkest_grey: '#333333',
   black       : '#000000'
 }
@@ -72,6 +74,7 @@ export default class Floorplan extends React.Component {
   /** Returns SVG path data as a string */
   getPath = name => {
     const paths = {
+      EXTERIOR_CLIP,
       EXTERIOR_WALLS,
       STAIRS_OUTLINE,
       FLOOR_GOOD,
@@ -95,6 +98,7 @@ export default class Floorplan extends React.Component {
 
   getFill = name => {
     const itemFills = {
+      EXTERIOR_CLIP   : colors.white,
       EXTERIOR_WALLS  : colors.none,
       STAIRS_OUTLINE  : colors.none,
       FLOOR_GOOD      : colors.light_green,
@@ -117,6 +121,7 @@ export default class Floorplan extends React.Component {
 
   getFillEnabled = name => {
     const fillEnabled = {
+      EXTERIOR_CLIP   : true,
       EXTERIOR_WALLS  : false,
       STAIRS_OUTLINE  : false,
       FLOOR_GOOD      : true,
@@ -139,6 +144,7 @@ export default class Floorplan extends React.Component {
 
   getStroke = name => {
     const itemStrokes = {
+      EXTERIOR_CLIP   : colors.white,
       EXTERIOR_WALLS  : colors.darkest_grey,
       STAIRS_OUTLINE  : colors.dark_grey,
       FLOOR_GOOD      : colors.dark_green,
@@ -161,6 +167,7 @@ export default class Floorplan extends React.Component {
 
   getStrokeWidth = name => {
     const widths = {
+      EXTERIOR_CLIP   : strokes.thin,
       EXTERIOR_WALLS  : strokes.thick,
       STAIRS_OUTLINE  : strokes.thin,
       FLOOR_GOOD      : strokes.thinner,
@@ -183,6 +190,7 @@ export default class Floorplan extends React.Component {
 
   getDash = name => {
     const dashes = {
+      EXTERIOR_CLIP   : [0, 0],
       EXTERIOR_WALLS  : [0, 0],
       STAIRS_OUTLINE  : [5, 2.5],
       FLOOR_GOOD      : [10, 5],
@@ -205,9 +213,10 @@ export default class Floorplan extends React.Component {
 
   getOpacity = name => {
     const itemOpacities = {
+      EXTERIOR_CLIP   :  opacities.high,
       EXTERIOR_WALLS  :  opacities.high,
       STAIRS_OUTLINE  :  opacities.high,
-      FLOOR_GOOD      :  opacities.low,
+      FLOOR_GOOD      :  opacities.medium,
       ISLAND_CAFE     :  opacities.high,
       CLASS_AND_CAFE  :  opacities.medium,
       CLASS_N110      :  opacities.medium,
@@ -263,7 +272,8 @@ export default class Floorplan extends React.Component {
               stroke={stroke}
               strokeWidth={strokeWidth}
               dash={dash}
-              fillOpacity={opacity}
+              //fillOpacity={opacity}
+              opacity={opacity}
               listening={name === 'FLOOR_GOOD'}
               onMouseOver={mouseEvt => this.setCursor(mouseEvt, 'copy')}
               onMouseOut={mouseEvt => this.setCursor(mouseEvt, 'default')}

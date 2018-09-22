@@ -3,12 +3,14 @@ import { connect }          from 'react-redux';
 import { Stage, Layer }     from 'react-konva';
 import Floorplan            from './Floorplan';
 import Furniture            from './Furniture';
+import Labels               from './Floorplan/Labels';
 import TransformerComponent from './TransformerComponent';
 import {
   Toolbar,
   HUD,
   DownloadButton,
-  HelpButton
+  HelpButton,
+  Background
 }                           from './Surfaces';
 import {
   addItemAndUpdateDiagram,
@@ -136,7 +138,9 @@ class Diagram extends Component {
             onContentClick={this.onContentClick}
             onContentContextMenu={this.onContentClick}
           >
-            <Floorplan width={width} height={height} />
+            <Background width={width} height={height} />
+            <Floorplan  width={width} height={height} />
+            <Labels     width={width} height={height} items={items} />
 
             <Layer name='itemLayer'>
               {regularItems.map(item => <Furniture item={item} key={item.id} draggable={draggable} />)}
