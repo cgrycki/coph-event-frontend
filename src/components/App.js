@@ -14,6 +14,7 @@ import About          from './About';
 import EventPage      from './EventPage/';
 import Dashboard      from './Dashboard/';
 import Calendar       from './Calendar/';
+import { Playground } from './Diagram';
 
 // Form + Steps
 import Form           from './Form/';
@@ -41,9 +42,10 @@ const App = ({ store, persistor, history }) => (
               <Route path="/testing"          component={TestComponent} />
               
               {/** Public Routes, no login required. ********************/}
-              <Route path="/"         exact   component={Home} />
-              <Route path="/about"    exact   component={About} />
-              <Route path="/calendar" exact   component={Calendar} />
+              <Route path="/"           exact   component={Home} />
+              <Route path="/about"      exact   component={About} />
+              <Route path="/calendar"   exact   component={Calendar} />
+              <Route path="/floorplan"  exact   component={Playground} />
 
               {/** Protected Routes, login required. **************************/}
               <ProtectedRoute path="/dashboard"     Component={Dashboard} />

@@ -31,9 +31,13 @@ export default class NavPage extends React.Component {
 
 
   getCalendarBreadcrumb = () => {
-    const { history: { location: { pathname }}} = this.props;
     const cal_pg_props = this.createProps('CalCrumb', 'Room Calendar', "/calendar");
     return cal_pg_props;
+  }
+
+  getDiagramBreadcrumb = () => {
+    const diag_pg_props = this.createProps('DiagCrumb', 'First Floor Floorplan', '/floorplan');
+    return diag_pg_props;
   }
 
   /**
@@ -113,6 +117,9 @@ export default class NavPage extends React.Component {
     // Check if we're on the calendar
     if (pathname === "/calendar") crumbs.push(this.getCalendarBreadcrumb());
 
+    // Check if we're on the diagram page
+    if (pathname === '/floorplan') crumbs.push(this.getDiagramBreadcrumb());
+
     // Check if we're on our dashboard
     if (pathname === "/dashboard") crumbs.push(this.getDashboardBreadcrumb());
 
@@ -140,7 +147,7 @@ export default class NavPage extends React.Component {
       <div className="NavPage">
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12 ms-fadeIn20">
-            {notHome && <Breadcrumb maxDisplayedItems={3} items={this.createCrumbs()} />}
+            {notHome && <Breadcrumb  maxDisplayedItems={3} items={this.createCrumbs()} />}
           </div>
         </div>
       </div>
