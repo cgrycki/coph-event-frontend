@@ -26,6 +26,10 @@
   padding-inline-end: 10px;
 }
 
+.Diagram--FurnitureSelector .ms-Label {
+  font-size: 0.8rem;
+}
+
 .konvajs-content {
   margin-left: auto;
   margin-right: auto;
