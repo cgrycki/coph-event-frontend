@@ -8,17 +8,23 @@ export default class HeroCard extends Component {
   render() {
     const { iconName, text, subtext, onClick, primary } = this.props; 
     
+    // Assign a class if this is the 'action' card
+    const cardClass = (primary) ? 'HeroCard HeroCard--ActionCard' : 'HeroCard';
+
     return (
-      <div className="HeroCard">
+      <div className={cardClass}>
         <header>
           <Icon iconName={iconName} />
         </header>
-        <CompoundButton
-          text={text}
-          secondaryText={subtext}
-          primary={primary}
-          onClick={onClick}
-        />
+        <div className="HeroCard--button">
+          <CompoundButton
+            className="test"
+            text={text}
+            secondaryText={subtext}
+            primary={primary}
+            onClick={onClick}
+          />
+        </div>
       </div>
     );
   }

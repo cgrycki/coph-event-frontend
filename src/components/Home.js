@@ -1,30 +1,10 @@
 import React          from 'react';
 import { connect }    from 'react-redux';
-import { fetchLogin } from '../actions/app.actions';
-import { 
-  CompoundButton, 
-  Spinner, 
-  SpinnerSize,
-  MessageBar, 
-  MessageBarType,
-  DocumentCard,
-  DocumentCardPreview
-}                     from 'office-ui-fabric-react';
-import { 
-  error_style, 
-  hero_style, 
-  hero_sm_style 
-}                     from '../constants/styles';
+import HeroCard from './common/HeroCard';
 
 
 // Component
 class Home extends React.Component {
-  constructor(props) {
-    super();
-    this.checkLogin = this.checkLogin.bind(this);
-    this.redirect   = this.redirect.bind(this);
-  }
-
   /** Set document title on Mount */
   componentDidMount() {
     document.title = "CPHB Events";
@@ -34,21 +14,11 @@ class Home extends React.Component {
   componentWillReceiveProps(nextProps) {
     this.redirect(nextProps);
   }
- 
-  checkLogin(props) {
-    /* Make an API call to our server to check if we are authenticated. */
-    let { logged_in, login_loading, login_error, dispatch } = props;
 
-    // If we aren't logged in, and haven't yet recieved a response, dispatch
-    // Also, don't make an API call if we have an error
-    if ((logged_in === false) && (login_loading === false) && (login_error === null)) { 
-      dispatch(fetchLogin());
-    }
-  }
-
-  redirect(props) {
+  /** Redirects to page if auth validated and applicable */
+  redirect = (props) => {
     /* Checks login status and redirects to original page if appropriate. */
-    let { logged_in, location, history } = props;
+    const { logged_in, location, history } = props;
 
     // Grab the redirect pathname if we were directed from a protected route
     let redirect_from = (location.state && location.state.from) ?
@@ -60,64 +30,10 @@ class Home extends React.Component {
   }
 
   /** Takes user to create event form. */
-  nextPage = () => {
-    const { history } = this.props;
-    history.push('/form/who');
-  }
+  nextPage = () => this.props.history.push('/form/who');
 
-  renderLoad() {
-    return (
-      <Spinner
-        size={SpinnerSize.large}
-        label={"Checking login status..."}
-        className={"ms-textAlignCenter"}
-      />
-    );
-  }
-
-  renderError(error) {
-    return (
-      <MessageBar
-        messageBarType={MessageBarType.error}
-        isMultiline={false}
-        dismissButtonAriaLabel="Close"
-      >
-        <p className="ms-textAlignCenter">Warning! There was an error while authenticating your login.</p>
-        <p className="ms-textAlignCenter" style={error_style}>{error}</p>
-      </MessageBar>
-    );
-
-  }
-
-  renderStatus() {
-    let { login_loading, login_error } = this.props;
-
-    const status_style = {
-      "minHeight" : "125px",
-      "alignItems": "center",
-      display: (login_loading || login_error) ? 'flex' : 'hidden'
-    };
-
-    return (
-      <div className="ms-Grid-row">
-        <div 
-          className="ms-Grid-col ms-sm8 ms-smPush2 ms-textAlignCenter ms-slideDownIn200"
-          style={status_style}
-        >
-          <div style={{"margin": "auto"}}>
-            { // If we have an error, on render the error. Otherwise render loading
-              (login_error) ? 
-                login_error && this.renderError(login_error) :
-                login_loading && this.renderLoad()
-            }
-          </div>
-        </div>
-      </div>
-    );
-  }
-
+  /** Renders a greeting depending on the time of day. */
   renderGreeting() {
-    /* Renders a greeting depending on the time of day. */
     let hours = (new Date()).getHours();
 
     // 5am - 12pm: Morning
@@ -130,89 +46,51 @@ class Home extends React.Component {
     else return 'Still up?';
   }
 
-  render() {
+  getActionButtonProps = () => {
     const { logged_in, history } = this.props;
+    
+    const loggedInProps = {
+      iconName: 'AddEvent',
+      text: 'Form',
+      subtext: 'Create an event at the CoPH',
+      onClick: () => history.push('/form/who'),
+      primary: true
+    };
+
+    const notLoggedInProps = {
+      iconName: 'Lock',
+      text: 'Login',
+      subtext: 'using your U. Iowa account',
+      onClick: () => { window.location.href = process.env.REACT_APP_REDIRECT_URI; },
+      primary: true
+    };
+
+    return (logged_in) ? loggedInProps : notLoggedInProps;
+  }
+
+
+  render() {
+    const { history }   = this.props;
+    const clickCalendar = () => history.push('/calendar');
+    const clickLayout   = () => history.push('/floorplan');
 
     return (
-      <div className="Home">
-        <div>
+      <div className="Home fullHeight">
+
+        <div className="Home--flexRow">
           <div className="ms-Grid-row">
             <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12 ms-xl12 ms-xxl12">
-              <h1 
-                className="ms-slideRightIn40"
-                style={hero_style}
-              >{this.renderGreeting()}</h1>
-              <h1 style={hero_sm_style}>Can we help you with an event?</h1>
+              <h1 id="Home--Greeting" className="ms-slideRightIn40">{this.renderGreeting()}</h1>
+              <h1 id="Home--Subtext">Can we help you with an event?</h1>
             </div>
           </div>
         </div>
-
-        <div className="ms-Grid-row">
-          <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg4">
-            <DocumentCard className="HomeCard">
-              <DocumentCardPreview 
-                previewImages={[{
-                  previewIconProps: { iconName: 'UnlockSolid', styles: { root: { fontSize: 72, color: '#333333'}}},
-                  width: '100%',
-                  height: 100
-                }]}
-              />
-              <div className="ms-DocumentCard-details">
-                <CompoundButton
-                  style={{ width: '100%', maxWidth: 'unset' }}
-                  styles={{ label: { textAlign: 'center'}, description: { textAlign: 'center'}}}
-                  primary={true}
-                  secondaryText="with your Iowa account."
-                  disabled={logged_in}
-                  text={"Login"}
-                  title="Login to your University of Iowa account."
-                  href={`${process.env.REACT_APP_REDIRECT_URI}/auth`}
-                />
-              </div>
-            </DocumentCard>
-          </div>
-
-          <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg4">
-            <DocumentCard className="HomeCard">
-              <DocumentCardPreview 
-                previewImages={[{
-                  previewIconProps: { iconName: 'Calendar', styles: { root: { fontSize: 72, color: '#333333'}}},
-                  width: '100%',
-                  height: 100
-                }]}
-              />
-              <div className="ms-DocumentCard-details">
-                <CompoundButton
-                  style={{ width: '100%', maxWidth: 'unset' }}
-                  styles={{ label: { textAlign: 'center'}}}
-                  text={"View Available Rooms"}
-                  title="View Room Calendars."
-                  onClick={() => history.push("/calendar")}
-                />
-              </div>
-            </DocumentCard>
-          </div>
-
-          <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg4">
-            <DocumentCard className="HomeCard">
-              <DocumentCardPreview 
-                previewImages={[{
-                  previewIconProps: { iconName: 'AddEvent', styles: { root: { fontSize: 72, color: '#333333'}}},
-                  width: '100%',
-                  height: 100
-                }]}
-              />
-              <div className="ms-DocumentCard-details">
-                <CompoundButton
-                  style={{ width: '100%', maxWidth: 'unset' }}
-                  styles={{ label: { textAlign: 'center'}}}
-                  primary={true}
-                  text={"Create an Event"}
-                  disabled={!logged_in}
-                  onClick={() => this.nextPage()}
-                />
-              </div>
-            </DocumentCard>
+        
+        <div className="Home--CardsWrapper">
+          <div className="Home--Cards">
+            <HeroCard text={'Calendar'} subtext={'View room schedules'} iconName={'Calendar'} onClick={clickCalendar} />
+            <HeroCard { ...this.getActionButtonProps() } />
+            <HeroCard text={'Floorplan Editor'} subtext={'Plan and visualize your events'} iconName={'Design'} onClick={clickLayout} />
           </div>
         </div>
 
