@@ -178,7 +178,8 @@ export default class NavPage extends React.Component {
     const { history: { location: { pathname }}} = this.props;
 
     const notHome = pathname !== '/';
-    const isForm  = pathname.startsWith('/form') ? ' NavPage--Form' : '';
+    const isForm  = (pathname.startsWith('/form') && !pathname.endsWith('/layout')) ?
+      ' NavPage--Form' : '';
 
     return (
       <div className={`NavPage${isForm}`}>
