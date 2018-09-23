@@ -28,7 +28,7 @@ class Step extends React.Component {
   render() {
     return(
       <FormStep>
-        <FormTitle page={'Layout'} progress={0.75} />
+        <FormTitle progress={0.75} />
         
         <Diagram draggable={true} />
 

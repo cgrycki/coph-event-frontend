@@ -48,7 +48,7 @@ class Step extends React.Component {
 
     return(
       <FormStep>
-        <FormTitle page={'What'} progress={0.3} />
+        <FormTitle progress={0.3} />
         
         <div className="ms-Grid-row ms-slideRight40 FormAlignStart">
           <EventName

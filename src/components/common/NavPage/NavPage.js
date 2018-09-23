@@ -1,6 +1,27 @@
 /* Dependencies -------------------------------------------------------------*/
 import React          from 'react';
 import { Breadcrumb } from 'office-ui-fabric-react/lib/Breadcrumb';
+import './NavPage.css';
+
+
+const styles = {
+  itemLink: {
+    maxWidth: 'unset',
+    paddingLeft: 'unset',
+    paddingRight: '0.71rem',
+    selectors: {
+      ':last-child': {
+        fontWeight: '700',
+        fontSize: '1.5rem',
+        top: '-0.1rem',
+        color: 'hsl(0, 0%, 20%)'
+      }
+    }
+  },
+  chevron: {
+    paddingRight: '0.71rem'
+  }
+}
 
 
 
@@ -24,11 +45,11 @@ export default class NavPage extends React.Component {
       key          : key,
       text         : text,
       isCurrentItem: current,
+    
       onClick      :  () => history.push(path)
     };
     return breadcrumb;
   }
-
 
   getCalendarBreadcrumb = () => {
     const cal_pg_props = this.createProps('CalCrumb', 'Room Calendar', "/calendar");
@@ -98,6 +119,17 @@ export default class NavPage extends React.Component {
     return form_props;
   }
 
+  getStepBreadcrumb = () => {
+    const { history: { location: { pathname }}} = this.props;
+    const splitPath = pathname.split('/');
+    const step = splitPath[splitPath.length - 1];
+
+    const capitalStep = step.charAt(0).toUpperCase() + step.slice(1);
+    
+    const step_props = this.createProps('stepCrumb', capitalStep, true);
+    return step_props;
+  }
+
   /**
    * Higher Order Function creating all of the breadcrumbs given our history
    * and passed props.
@@ -134,20 +166,30 @@ export default class NavPage extends React.Component {
     };
 
     // Check if we're creating an event
-    if (pathname.startsWith("/form")) crumbs.push(this.getFormBreadcrumb());
+    if (pathname.startsWith("/form")) {
+      crumbs.push(this.getFormBreadcrumb());
+      crumbs.push(this.getStepBreadcrumb());
+    }
 
     return crumbs;
   }
 
   render() {
     const { history: { location: { pathname }}} = this.props;
+
     const notHome = pathname !== '/';
+    const isForm  = pathname.startsWith('/form') ? ' NavPage--Form' : '';
 
     return (
-      <div className="NavPage">
+      <div className={`NavPage${isForm}`}>
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12 ms-fadeIn20">
-            {notHome && <Breadcrumb  maxDisplayedItems={3} items={this.createCrumbs()} />}
+            {notHome && 
+              <Breadcrumb
+                styles={styles}
+                maxDisplayedItems={3}
+                items={this.createCrumbs()}
+              />}
           </div>
         </div>
       </div>

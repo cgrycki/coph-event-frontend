@@ -90,7 +90,7 @@ class Step extends React.Component {
 
     return (
       <FormStep>
-        <FormTitle page={"Review & Submit"} progress={1} />
+        <FormTitle progress={1} />
 
         <div className="ms-Grid-row FormAlignStart">
           <DetailsNav

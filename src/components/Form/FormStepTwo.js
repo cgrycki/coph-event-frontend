@@ -39,7 +39,7 @@ class Step extends React.Component {
 
     return(
       <FormStep>
-        <FormTitle page={'Who'} progress={0.15} />
+        <FormTitle progress={0.15} />
         
         <div className="ms-Grid-row ms-slideRight40 FormAlignStart">
           <UserEmail value={info['user_email']} />

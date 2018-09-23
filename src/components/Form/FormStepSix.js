@@ -39,7 +39,7 @@ class Step extends React.Component {
 
     return(
       <FormStep>
-        <FormTitle page={'Miscellaneous'} progress={0.9} />
+        <FormTitle progress={0.9} />
         
         <div className="ms-Grid-row ms-slideRight40 FormAlignStart">          
           <EventComments
