@@ -4,3 +4,4 @@ export * from './event.actions';
 export * from './form.actions';
 export * from './room.actions';
 export * from './schedule.actions';
+export * from './nav.actions';
