@@ -40,6 +40,15 @@
   font-size: 0.8rem;
 }
 
+.Diagram--Toolbar--ChairToggle {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 10px;
+}
+.Diagram--Toolbar--ChairToggle span {
+  margin-right: 5px;
+}
+
 
 /** BUTTONS ******************************************************************/
 .Diagram--Download,
