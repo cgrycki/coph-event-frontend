@@ -106,17 +106,16 @@ cphb-events-frontend/
 ## [Application Structure](#app-structure-anchor)
 
 Our application is split into the following features:
-  * application - Application level information like `logged_in` or `is_admin`
-  * diagram - Floorplan information, containing geometric data (`width`/`height`) or furniture data (`items[]` or default layouts)
-  * events - User's event information. Each event is comprised of `info` (form field) and `layout` (furniture) data.
-  * form - Holds the current event being created by the user. Also contains error information
-  * rooms - MAUI Rooms, retrieved from our backend. Each room has a name, number, and featureList.
+  * *application* - Application level information like `logged_in` or `is_admin`
+  * *diagram* - Floorplan information, containing geometric data (`width`/`height`) or furniture data (`items[]` or default layouts)
+  * *events* - User's event information. Each event is comprised of `info` (form field) and `layout` (furniture) data.
+  * *form* - Holds the current event being created by the user. Also contains error information
+  * *rooms* - MAUI Rooms, retrieved from our backend. Each room has a name, number, and featureList.
   * schedules - ASTRA events
 
-A picture is worth a thousand words, here's a screenshot from `redux-dev-tools`:
+A picture is worth a thousand words, here's a screenshot of our Redux store from `redux-dev-tools`:
 
 <img src='docs/pics/store-all.PNG'>
-
 
 
 
@@ -136,7 +135,15 @@ A picture is worth a thousand words, here's a screenshot from `redux-dev-tools`:
   - [Fabric React Components](https://developer.microsoft.com/en-us/fabric#/components)
   - [Fabric Styles](https://developer.microsoft.com/en-us/fabric#/styles)
 - Routing
-  * [React Router GitHub/Documentation](https://github.com/ReactTraining/react-router)
+  * [React Router GitHub/Documentation](https://github.com/ReactTraining/react-router) -- For routing in single page applications
+  * [`connected-react-router` GitHub/Documentation](https://github.com/supasate/connected-react-router) -- For keeping Redux store and react routes in sync.
 - Canvas (Floorplan)
   * [KonvaJS documentation](https://konvajs.github.io/docs/index.html)
   * [React-Konva documentation](https://konvajs.github.io/docs/react/)
+
+
+## Reference
+
+*Redux Lifecycle*, visual example of actions, reducers, and middlewares:
+
+<img src="docs/pics/redux-example.png" />
