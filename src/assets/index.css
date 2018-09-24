@@ -43,9 +43,9 @@ body {
   margin-right: auto;
 }
 .Footer a {
-  font-weight: 700;
+  font-weight: 400;
   font-size: 15px;
-  color: #3c3c3c;
+  color: #333333;
   text-decoration: unset !important;
   transition: color 0.25s ease;
 }
@@ -54,6 +54,38 @@ body {
 }
 .Footer a:hover {
   color: #fc1;
+}
+
+/* About Page */
+.About {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding-top: 1rem;
+}
+.About p {
+  line-height: 1.5;
+}
+.About--contact > h4 {
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+.About--contact > p {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+.About--iconRow {
+  overflow: visible;
+  margin-top: unset;
+}
+.About--icon {
+  overflow: visible;
+  margin: 0 0.5rem;
+  font-size: 24px;
+}
+.About--heart {
+  color: #de2d26;
 }
 
 
@@ -152,13 +184,7 @@ body {
 
 
 
-/* About Page */
-.About {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  padding-top: 1rem;
-}
+
 
 
 /** RESPONSIVE QUERIES */

@@ -12,7 +12,6 @@
 /* Smoother progress indicator changes */
 .FormProgress {
   transition: width 500ms;
-
 }
 
 /* Ensure each step is a flexbox and also expands */
@@ -53,20 +52,17 @@
   flex: 1;
   justify-content: space-between;
 }
-
 .FormAlignStart {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   justify-content: flex-start;
 }
-
 .FormFieldRow {
   margin: 1.5rem auto 0;
   width: 100%;
   max-width: 800px;
 }
-
 
 /* Pull Form buttons down */
 .FormButtons {
@@ -75,6 +71,15 @@
   display: flex;
   justify-content: space-between;
 }
+
+/* Terms and conditions page */
+.FormTerms p {
+  line-height: 1.5;
+}
+.FormTermAgree {
+  margin-top: 2rem;
+}
+
 
 /* Course Setup -- MS Fabric doesn't have styling for pickers yet */
 .CoursePicker .ms-BasePicker-text {
