@@ -54,20 +54,21 @@ class Playground extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <div className="ms-Grid-col ms-sm12">
 
-        <div className="ms-Grid-row Diagram--Instructions">
+        <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm10 ms-xl9">
             <p>To save your furniture layout, you'll have to {this.getLink()}.</p>
             <p>Place furniture items and visualize your event by clicking in the {indicator} polygon. You can move and rotate furniture by clicking and dragging. For more instructions, click the help button located below. {pointer}</p>
           </div>
         </div>
 
+
         <div className="ms-Grid-row">
           <Diagram draggable={true} />
         </div>
 
-      </React.Fragment>
+      </div>
     );
   }
 }
