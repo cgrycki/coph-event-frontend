@@ -18,9 +18,10 @@ import { Playground } from './Diagram';
 
 // Form + Steps
 import Form           from './Form/';
-import FormWho        from './Form/FormStepTwo';    // email, attendance
+import FormTerms      from './Form/FormStepOne';    // terms + conditions
+import FormWho        from './Form/FormStepTwo';    // email + attendance
 import FormWhat       from './Form/FormStepThree';  // what: course, food, MFK
-import FormWhenWhere  from './Form/FormStepFour';   // date+time+place
+import FormWhenWhere  from './Form/FormStepFour';   // date + time + place
 import FormLayout     from './Form/FormStepFive';   // diagram
 import FormMisc       from './Form/FormStepSix';    // comments
 import FormReview     from './Form/FormStepSeven';  // review
@@ -52,6 +53,7 @@ const App = ({ store, persistor, history }) => (
               <ProtectedRoute path="/event/:package_id/:signature_id?" 
                                                     Component={EventPage} />
               <Form>
+                <ProtectedRoute path="/form/terms"  Component={FormTerms} />
                 <ProtectedRoute path="/form/who"    Component={FormWho} />
                 <ProtectedRoute path="/form/what"   Component={FormWhat} />
                 <ProtectedRoute path="/form/when"   Component={FormWhenWhere} />

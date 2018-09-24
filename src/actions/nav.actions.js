@@ -48,7 +48,7 @@ export const clearFormAndPush = () => dispatch => {
   dispatch(clearFieldInfo());   // Set the form to default
   dispatch(clearEditor());      // Clear items from editor
   dispatch(submitFormReset());  // Reset the REST status of form
-  dispatch(push('/form/who'));  // Navigate to the form.
+  dispatch(push('/form/terms'));  // Navigate to the form.
 }
 
 

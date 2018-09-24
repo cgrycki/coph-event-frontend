@@ -53,7 +53,7 @@ class Home extends React.Component {
       iconName: 'AddEvent',
       text: 'Form',
       subtext: 'Create an event at the CoPH',
-      onClick: () => history.push('/form/who'),
+      onClick: () => history.push('/form/terms'),
       primary: true
     };
 
