@@ -40,6 +40,7 @@ class Diagram extends Component {
   konvaCanvas = React.createRef();
 
   onResize = () => {
+    if (!this.konvaCanvas) return;
     const { updateEditorLayout } = this.props;
 
     // Maximize canvas width W.R.T. aspect ratio

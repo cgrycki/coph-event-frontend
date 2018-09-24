@@ -90,7 +90,7 @@ class Home extends React.Component {
           <div className="Home--Cards">
             <HeroCard text={'Calendar'} subtext={'View room schedules'} iconName={'Calendar'} onClick={clickCalendar} />
             <HeroCard { ...this.getActionButtonProps() } />
-            <HeroCard text={'Floorplan Editor'} subtext={'Plan and visualize your events'} iconName={'Design'} onClick={clickLayout} />
+            <HeroCard text={'Floorplan Viewer'} subtext={'Plan and visualize your events'} iconName={'Design'} onClick={clickLayout} />
           </div>
         </div>
 

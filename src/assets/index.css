@@ -10,7 +10,6 @@ body {
   margin: unset;
 }
 
-
 /* Page Wrapper for our routes */
 .Page {
   min-height: 100vh;
@@ -32,7 +31,6 @@ body {
 .FooterWrapper {
   width: 100%;
   display: inline-flex;
-
 }
 .Footer {
   display: flex;
@@ -65,7 +63,10 @@ body {
 }
 .About p {
   line-height: 1.5;
+  word-break: break-word;
 }
+
+/* Contact Information Section */
 .About--contact > h4 {
   margin-top: 2rem;
   margin-bottom: 0.5rem;
@@ -75,19 +76,24 @@ body {
   margin-bottom: 0.5rem;
   line-height: 1;
 }
+
+/* About Icons */
 .About--iconRow {
   overflow: visible;
   margin-top: unset;
 }
 .About--icon {
   overflow: visible;
-  margin: 0 0.5rem;
-  font-size: 24px;
+  margin: 0 0.2rem;
+  font-size: 20px;
+  vertical-align: middle;
 }
 .About--heart {
   color: #de2d26;
 }
-
+.About--coffee {
+  color:#6f4e37;
+}
 
 /* Protected Routes auth style */
 .ProtectedRouteWrapper {
@@ -157,20 +163,20 @@ body {
   border-radius: 5px 0 0 5px;
   background-color: rgb(244, 244, 244);
   font-size: 42px;
+  transition: all .3s ease-in;
+}
+.HeroCard:hover header i {
+  transform: scale(1.2);
 }
 .HeroCard--button {
   display: flex;
   flex-grow: 1;
   background-color: #f4f4f4;
-  border-radius: 0 0 5px 0;
-}
-
-.HeroCard--ActionCard  .HeroCard--button {
-  background-color: rgb(0, 120, 212);
+  border-radius: 0 5px 5px 0;
 }
 .HeroCard button {
   width: 100%;
-  margin: auto;
+  max-width: unset;
 }
 .HeroCard button .ms-Button-label {
   font-weight: 600;
@@ -178,6 +184,14 @@ body {
 }
 .HeroCard button .ms-Button-description {
   font-size: 0.9rem;
+}
+.HeroCard--ActionCard  .HeroCard--button {
+  background-color: rgb(0, 120, 212);
+}
+.HeroCard--Design header {
+  background-image:
+     repeating-linear-gradient(0deg, rgba(0, 120, 212, .25), rgba(0, 120, 212, .25) 1px, transparent 1px, transparent 10px),
+     repeating-linear-gradient(90deg, rgba(0, 120, 212, .25), rgba(255, 120, 212, .25) 1px, transparent 1px, transparent 10px);
 }
 
 
@@ -263,6 +277,9 @@ body {
   .HeroCard--button {
     flex-grow: 0;
     height: 70%;
+    border-radius: 0 0 5px 5px;
+  }
+  .HeroCard button {
     border-radius: 0 0 5px 5px;
   }
   .HeroCard header {
