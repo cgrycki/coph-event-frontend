@@ -1,0 +1,114 @@
+/*** Calendar styling ***/
+
+/* Panel checkboxes */
+.Calendar--CheckRow {
+  margin: 5px 0;
+}
+
+.Calendar {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-top: 1rem;
+}
+
+.Calendar--Callout {
+  padding: 10px;
+}
+
+
+/* Event scheduling */
+.CalendarEvent--overlap {
+  background-color: #e34a33 !important;
+}
+.CalendarEvent--nooverlap {
+  background-color: #2ca25f !important;
+}
+.rbc-event.CalendarEvent--nooverlap,
+.rbc-event.CalendarEvent--overlap {
+  border: 1px solid #333333 !important;
+}
+
+
+
+/* Unbold headers */
+.rbc-header {
+  font-weight: normal;
+  text-align: left;
+  border-left: unset !important;
+  border-bottom: unset !important;
+  padding: 4px 0 4px 4px;
+}
+
+/* Match week and month day headings to command bar background */
+.rbc-month-header, .rbc-time-header-cell {
+  background-color: rgb(244, 244, 244) !important;
+}
+
+/* Remove top border from month view 
+.rbc-month-view {
+  border-top: unset;
+}*/
+
+/* Remove empty header cell above scrollbar in day view */
+.rbc-time-header .rbc-overflowing {
+  margin-right: unset;
+}
+/* Remove border in day view */
+.rbc-time-view {
+  border: unset;
+}
+/* Remove header border in day view */
+.rbc-time-content {
+  border-top: 1px solid #dddddd;
+}
+
+
+/* Change todays color */
+.rbc-today {
+  background-color: #E4E4E4;
+}
+/* Highlight day when moused */
+.rbc-day-bg:hover {
+  background-color: #f8f8f8;
+}
+
+
+/* Left align date cell text */
+.rbc-date-cell {
+  text-align: left;
+  margin-left: 3px;
+  color: #767676 !important;
+  font-size: 14px;
+}
+
+/* Event styling */
+.rbc-event {
+  background-color: rgb(193, 233, 254);
+  border-radius: 0px;
+  color: rgb(51, 51, 51);
+}
+.rbc-event .rbc-event-content {
+  font-weight: bolder;
+  font-size: 12px;
+}
+
+/* Selected Event Styling */
+.rbc-event.rbc-selected > .rbc-event-content,
+.rbc-event.rbc-selected > .rbc-event-label {
+  color: #ffffff;
+}
+
+
+/* Unshade out of range time cells in month => deemphasize date numbers */
+.rbc-off-range {
+  color: #a6a6a6!important;
+}
+.rbc-off-range-bg {
+  background: unset !important;
+}
+
+/* Demphasize time slots */
+.rbc-time-slot {
+  border-top: 1px dashed #f8f8f8;
+}

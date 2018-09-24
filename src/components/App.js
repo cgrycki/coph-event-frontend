@@ -1,57 +1,73 @@
 // Dependencies
-import React        from 'react';
-import { Provider } from 'react-redux'
-import { Fabric }   from 'office-ui-fabric-react';
-import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
+import React                from 'react';
+import { Provider }         from 'react-redux'
+import { PersistGate }      from 'redux-persist/lib/integration/react';
+import { ConnectedRouter }  from 'connected-react-router';
+import { Route, Switch }    from 'react-router';
+import { Fabric }           from 'office-ui-fabric-react';
 
 // Site components
-import Navbar         from './common/NavBar';
 import Page           from './common/Page';
 import ProtectedRoute from './common/ProtectedRoute';
 import Home           from './Home';
-import EventPage      from './EventPage/EventPage';
-import Dashboard      from './Dashboard/Dashboard';
+import About          from './About';
+import EventPage      from './EventPage/';
+import Dashboard      from './Dashboard/';
+import Calendar       from './Calendar/';
+import { Playground } from './Diagram';
 
 // Form + Steps
 import Form           from './Form/';
-import StepOne        from './Form/StepOne';
-import StepTwo        from './Form/StepTwo';
-import StepThree      from './Form/StepThree';
-import StepFour       from './Form/StepFour';
+import FormTerms      from './Form/FormStepOne';    // terms + conditions
+import FormWho        from './Form/FormStepTwo';    // email + attendance
+import FormWhat       from './Form/FormStepThree';  // what: course, food, MFK
+import FormWhenWhere  from './Form/FormStepFour';   // date + time + place
+import FormLayout     from './Form/FormStepFive';   // diagram
+import FormMisc       from './Form/FormStepSix';    // comments
+import FormReview     from './Form/FormStepSeven';  // review
+
+// Testing
+import TestComponent  from './TestComponent';
 
 
-// Container
-// Holds our application data store and sets routes up
-const App = ({ store }) => (
+// Container -- Holds our application data store and sets routes up
+const App = ({ store, persistor, history }) => (
   <Provider store={store}>
-    <Fabric>
-      <Router>
-
-        <div className="ms-Grid App">
-          <div className="ms-Grid-row">
-            <Page>
+    <PersistGate loading={null} persistor={persistor}>
+      <ConnectedRouter history={history}>
+        <Fabric dir="ltr" className='fullHeight'>
+          
+          <Page>
+            <Switch>
+              {/** Testing routes ****************************************/}
+              <Route path="/testing"          component={TestComponent} />
               
-              <Navbar />
-              <Switch>
-                <Route path="/" exact                     component={Home} />
-                <ProtectedRoute path="/dashboard"         Component={Dashboard} />
-                <ProtectedRoute 
-                  path="/event/:package_id/:signature_id?" 
-                                                          Component={EventPage} />
-                <Form>
-                  <ProtectedRoute path="/form/user"   Component={StepOne} />
-                  <ProtectedRoute path="/form/event"  Component={StepTwo} />
-                  <ProtectedRoute path="/form/layout" Component={StepThree} />
-                  <ProtectedRoute path="/form/review" Component={StepFour} />
-                </Form>
-              </Switch>
+              {/** Public Routes, no login required. ********************/}
+              <Route path="/"           exact   component={Home} />
+              <Route path="/about"      exact   component={About} />
+              <Route path="/calendar"   exact   component={Calendar} />
+              <Route path="/floorplan"  exact   component={Playground} />
 
-            </Page>
-          </div>
-        </div>
+              {/** Protected Routes, login required. **************************/}
+              <ProtectedRoute path="/dashboard"     Component={Dashboard} />
+              <ProtectedRoute path="/event/:package_id/:signature_id?" 
+                                                    Component={EventPage} />
+              <Form>
+                <ProtectedRoute path="/form/terms"  Component={FormTerms} />
+                <ProtectedRoute path="/form/who"    Component={FormWho} />
+                <ProtectedRoute path="/form/what"   Component={FormWhat} />
+                <ProtectedRoute path="/form/when"   Component={FormWhenWhere} />
+                <ProtectedRoute path="/form/layout" Component={FormLayout} />
+                <ProtectedRoute path="/form/misc"   Component={FormMisc} />
+                <ProtectedRoute path="/form/review" Component={FormReview} />
+              </Form>
+            </Switch>
+          </Page>
 
-      </Router>
-    </Fabric>
+        </Fabric>
+      </ConnectedRouter>
+    </PersistGate>
   </Provider>
 );
+
 export default App;

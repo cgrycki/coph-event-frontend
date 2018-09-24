@@ -1,58 +1,334 @@
 /* Application Styling */
-
+html,
+body,
+.fullHeight {
+  height: 100%;
+}
+/* Web Page */
 body {
   background-color: rgb(248, 250, 252);
-}
-/* For development */
-* {
-  outline: 1px solid rgba(255, 0, 0, 0.0);
+  margin: unset;
 }
 
 
-/* Navigation bar @ top of screen */
-.NavBarWrapper {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 100vw;
-  margin-right: -8px;
-}
-.NavBar {
-  width: 100vw;
-  height: 35px;
-  /*background-color:rgb(244, 244, 244);*/
-  background-color: black;
-  margin: 0px -8px 10px 0px;
-}
-.NavBar a {
-  color: #eeeeee;
-  font-size: 1em;
-  font-weight: 400;
-  font-family: sans-serif;
-  padding: 0px 10px;
-  text-decoration: none;
-}
-
-
-/* Form Wizard Page */
+/* Page Wrapper for our routes */
 .Page {
+  min-height: 100vh;
+  padding: 55px 25px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  border-radius: 2px;
   background-color: #ffffff;
-  padding: 5px 25px 20px 25px !important;
-  border-radius: 3px;
-  display: block;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.12), 0 2px 3px rgba(0,0,0,0.24);
-  transition: 750ms;
-  -webkit-transition: 750ms;
-  -moz-transition: 750ms;
-  position: fixed;
+  box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2);
+  transition: 250ms;
+  -webkit-transition: 250ms;
+  -moz-transition: 250ms;
 }
 
 
-/* Form field: Setup required? */
-.FormSetup {
-  max-width: 25px;
+/* Footer */
+.FooterWrapper {
+  width: 100%;
+  display: inline-flex;
+
 }
-.FormSetupInput {
-  margin-left: 10px;
-  max-width: 80px;
+.Footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  margin-bottom: 25px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.Footer a {
+  font-weight: 400;
+  font-size: 15px;
+  color: #333333;
+  text-decoration: unset !important;
+  transition: color 0.25s ease;
+}
+.Footer a:visited {
+  color: #666666;
+}
+.Footer a:hover {
+  color: #fc1;
+}
+
+/* About Page */
+.About {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding-top: 1rem;
+}
+.About p {
+  line-height: 1.5;
+}
+.About--contact > h4 {
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+.About--contact > p {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+.About--iconRow {
+  overflow: visible;
+  margin-top: unset;
+}
+.About--icon {
+  overflow: visible;
+  margin: 0 0.5rem;
+  font-size: 24px;
+}
+.About--heart {
+  color: #de2d26;
+}
+
+
+/* Protected Routes auth style */
+.ProtectedRouteWrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.ProtectedRouteSpinner .ms-Spinner-label {
+  font-size: 1.4rem;
+  font-weight: 400;
+}
+
+
+/* Homepage Styling */
+.Home {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  justify-content: space-evenly;
+}
+
+#Home--Greeting {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 0.9;
+  margin-bottom: 0.5rem;
+}
+#Home--Subtext {
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 0.9;
+}
+
+.Home--CardsWrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.Home--Cards {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: stretch;
+}
+.HeroCard {
+  display: flex;
+  flex-direction: row;
+  flex: 0 1 100%;
+  order: 1;
+  border-radius: 5px;
+  border-top: 5px solid rgb(0, 120, 212);
+  box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2);
+}
+.HeroCard--ActionCard {
+  order: 0;
+}
+.HeroCard header {
+  display: flex;
+  width: 40%;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px 0 0 5px;
+  background-color: rgb(244, 244, 244);
+  font-size: 42px;
+}
+.HeroCard--button {
+  display: flex;
+  flex-grow: 1;
+  background-color: #f4f4f4;
+  border-radius: 0 0 5px 0;
+}
+
+.HeroCard--ActionCard  .HeroCard--button {
+  background-color: rgb(0, 120, 212);
+}
+.HeroCard button {
+  width: 100%;
+  margin: auto;
+}
+.HeroCard button .ms-Button-label {
+  font-weight: 600;
+  font-size: 1rem;
+}
+.HeroCard button .ms-Button-description {
+  font-size: 0.9rem;
+}
+
+
+
+
+
+
+
+
+/** RESPONSIVE QUERIES */
+@media only screen and (min-width: 300px) {
+  .HeroCard {
+    height: 100px;
+    margin: 1rem 0;
+  }
+}
+@media only screen and (min-width: 479px) {
+  .Page {
+    padding: 60px 25px 0;
+  }
+  #Home--Greeting {
+    font-size: 3rem;
+    line-height: 0.9;
+    margin-bottom: 1rem;
+  }
+  #Home--Subtext {
+    font-size: 2rem;
+    line-height: 0.9;
+  }
+  .HeroCard {
+    margin: 1.2rem 0;
+    height: 125px;
+  }
+  .HeroCard header {
+    font-size: 48px;
+  }
+}
+@media only screen and (min-width: 639px) {
+  .Page {
+    padding: 60px 35px 0;
+  }
+  #Home--Greeting {
+    font-size: 3.5rem;
+    line-height: 0.9;
+    margin-bottom: 1rem;
+  }
+  #Home--Subtext {
+    font-size: 2.5rem;
+    line-height: 0.9;
+  }
+  .HeroCard {
+    width: 100%;
+    height: 150px;
+    margin: 1.2rem 0;
+  }
+  .HeroCard header {
+    font-size: 60px;
+  }
+}
+@media only screen and (min-width: 1023px) {
+  .Page {
+    padding: 60px 60px 0;
+  }
+  #Home--Greeting {
+    font-size: 4rem;
+    line-height: 1;
+    margin-bottom: 1.05rem;
+  }
+  #Home--Subtext {
+    font-size: 3rem;
+    line-height: 0.9;
+  }
+  .HeroCard {
+    flex-direction: column;
+    flex: 0 1 30%;
+    height: 275px;
+    margin: 1.5rem 0;
+    order: unset;
+  }
+  .HeroCard--ActionCard {
+    order: unset;
+  }
+  .HeroCard--button {
+    flex-grow: 0;
+    height: 70%;
+    border-radius: 0 0 5px 5px;
+  }
+  .HeroCard header {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    font-size: 72px;
+  }
+}
+@media only screen and (min-width: 1365px) {
+  .Page {
+    padding: 60px 80px 0;
+  }
+  #Home--Greeting {
+    font-size: 4.5rem;
+    line-height: 0.9;
+    margin-bottom: 1.4rem;
+  }
+  #Home--Subtext {
+    font-size: 3.25rem;
+    line-height: 0.9;
+  }
+  .HeroCard {
+    width: 25%;
+    height: 350px;
+    margin: 2rem 0;
+  }
+  .HeroCard header {
+    font-size: 90px;
+  }
+
+  .HeroCard--button {
+    height: 60%;
+  }
+  .HeroCard button .ms-Button-label {
+    font-size: 1.2rem;
+  }
+  .HeroCard button .ms-Button-description {
+    font-size: 1rem;
+  }
+}
+@media only screen and (min-width: 1920px) {
+  .Page {
+    padding: 60px 100px 0;
+  }
+  #Home--Greeting {
+    font-size: 5rem;
+    line-height: 0.9;
+    margin-bottom: 1rem;
+  }
+  #Home--Subtext {
+    font-size: 3.5rem;
+    line-height: 0.9;
+  }
+  .HeroCard {
+    width: 20%;
+    height: 500px;
+    margin: 3rem 0;
+  }
+
+  .HeroCard header {
+    font-size: 120px;
+    font-weight: 400;
+  }
+
+  .HeroCard--button {
+    height: 50%;
+  }
 }

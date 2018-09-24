@@ -1,0 +1,95 @@
+/* Form Styling */
+
+/* Ensure form expands to Page dimensions */
+.Form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+/* Smoother progress indicator changes */
+.FormProgress {
+  transition: width 500ms;
+}
+
+/* Ensure each step is a flexbox and also expands */
+.FormStep {
+  height: 100%;
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+/* Expand Form Fields vertically */
+.FormFields {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  justify-content: space-between;
+}
+.FormAlignStart {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: flex-start;
+}
+.FormFieldRow {
+  margin: 1.5rem auto 0;
+  width: 100%;
+  max-width: 800px;
+}
+
+/* Pull Form buttons down */
+.FormButtons {
+  max-width: 800px;
+  margin: 1.5rem auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Terms and conditions page */
+.FormTerms p {
+  line-height: 1.5;
+}
+.FormTermAgree {
+  margin-top: 2rem;
+}
+
+
+/* Course Setup -- MS Fabric doesn't have styling for pickers yet */
+.CoursePicker .ms-BasePicker-text {
+  border: unset !important;
+}
+.CoursePicker .ms-BasePicker-input {
+  background: rgb(255, 255, 255) !important;
+  border: 1px solid rgb(166, 166, 166) !important;
+}
+.CoursePicker .ms-BasePicker-input:disabled {
+  background: rgb(244, 244, 244) !important;
+  border: 1px solid rgb(244, 244, 244) !important;
+}

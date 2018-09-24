@@ -1,18 +1,9 @@
 import React from 'react';
 
-export default class FormStep extends React.PureComponent {
+export default class FormStep extends React.Component {
   render() {
-    const form_styles = {
-      width         : "100%",
-      height        : "100%",
-      display       : "flex",
-      flexDirection : "column",
-      flexGrow      : "1",
-      justifyContent: "space-between"
-    };
-
     return (
-      <div style={form_styles}>
+      <div className="ms-Grid-col ms-sm12 FormStep">
         {this.props.children}
       </div>
     );

@@ -1,0 +1,13 @@
+.NavPage .ms-Grid-col {
+  padding-left: 16px;
+}
+
+.NavPage--Form {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.NavPage--Form .ms-Grid-col {
+  padding-left: unset;
+}

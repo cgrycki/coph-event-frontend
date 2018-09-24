@@ -1,51 +1,33 @@
 /**
  * Room reducer
  */
-import { roomActions } from '../constants/actionTypes';
-import initialStore from '../store/initialStore';
+import {roomActions}  from '../constants/actionTypes';
+import initialStore   from '../store/initialStore';
 
 export const roomReducer = (state=initialStore.rooms, action) => {
-  let error, rooms_error, schedule_error;
+  let error, rooms_error;
   let type = action.type;
 
   switch (type) {
-    case (roomActions.FETCH_ROOMS_LOADING):
+    /** Rooms ------------------------------------------------------------------*/
+    case roomActions.FETCH_ROOMS_LOADING:
       return { ...state, rooms_loading: true };
 
-    case (roomActions.FETCH_ROOMS_SUCCESS):
+    case roomActions.FETCH_ROOMS_SUCCESS:
       return { 
         ...state, 
-        rooms: action.payload, 
-        rooms_loading: false, 
-        rooms_error: null 
+        rooms        : action.payload,
+        rooms_loading: false,
+        rooms_error  : null
       };
 
-    case (roomActions.FETCH_ROOMS_FAILURE):
+    case roomActions.FETCH_ROOMS_FAILURE:
       error = action.payload;
       rooms_error = error.message;
-      return { 
-        ...state,
-        rooms_loading: false, 
-        rooms_error 
-      };
+      return {...state, rooms_loading: false, rooms_error};
     
-    case (roomActions.FETCH_SCHEDULE_LOADING):
-      return { ...state, schedule_loading: true };
-
-    case (roomActions.FETCH_SCHEDULE_SUCCESS):
-      return { 
-        ...state, 
-        room_schedule: action.payload.events, 
-        schedule_loading: false, 
-        schedule_error: null
-      };
-
-    case (roomActions.FETCH_SCHEDULE_FAILURE):
-      error = action.payload;
-      schedule_error = error.message;
-      return { ...state, schedule_loading: false, schedule_error };
-
-    case (roomActions.FETCH_ROOMS_RESET):
+    /** Reset MAUI REST --------------------------------------------------------*/
+    case roomActions.FETCH_ROOMS_RESET:
       return { ...initialStore.rooms };
 
     default:

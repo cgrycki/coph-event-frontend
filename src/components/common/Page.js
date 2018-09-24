@@ -1,34 +1,29 @@
 // Dependencies
-import React from 'react';
+import React          from 'react';
 import { withRouter } from 'react-router-dom';
+import NavPage        from './NavPage/';
+import NavBar         from './NavBar';
+import Footer         from './Footer';
 
-class Page extends React.PureComponent {
+
+class Page extends React.Component {
   render() {
-    let { location } = this.props;
-
-    // Create a boolean flag for conditionally setting styles
-    const isLayout = location.pathname === "/form/layout";
-
-    // Inline page styling
-    // Original styling: "ms-sm12 ms-lg10 ms-xxl8 ms-lgPush1 ms-xxlPush2";
-    const page_width  = (isLayout) ? "98%"                : "76%";
-    const page_height = (isLayout) ? "calc(100% - 55px)"  : "76%";
-    const page_margin = (isLayout) ? "40px calc(2% / 2) 15px"   : "6% 12%";
-    const page_style  = {
-      width           : page_width,
-      minHeight       : page_height,
-      margin          : page_margin,
-      display         : "flex",
-      "justifyContent": "center",
-      "alignSelf"     : "center",
-      "alignItems"    : "center"
-    };
+    const { history } = this.props;
 
     return (
-      <div 
-        className={"Page ms-borderBase ms-Grid-col ms-fadeIn10"}
-        style={page_style}>
-        {this.props.children}
+      <div className="Page">
+        <NavBar />
+        <div className="ms-Grid fullHeight">
+          <div className="ms-Grid-row fullHeight">
+            <div className="ms-Grid-col ms-sm12 ms-lg10 ms-lgPush1 ms-xxl8 ms-xxlPush2 ms-fadeIn10 fullHeight" >
+              <div className="ms-Grid-row fullHeight">
+                <NavPage history={history} />
+                {this.props.children}
+              </div>
+            </div>
+          </div>
+        </div>
+        <Footer/>
       </div>
     );
   }

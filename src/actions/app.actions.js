@@ -3,7 +3,6 @@
  */
 import { appActions } from '../constants/actionTypes';
 import * as rp from 'request-promise';
-
 const URI = process.env.REACT_APP_REDIRECT_URI;
 
  
@@ -20,7 +19,7 @@ const fetchLoginLoading = () => ({
  * @param {*} response 
  */
 const fetchLoginSuccess = (response) => ({
-  type: appActions.LOGIN_SUCESS,
+  type   : appActions.LOGIN_SUCCESS,
   payload: response
 })
 
@@ -30,7 +29,7 @@ const fetchLoginSuccess = (response) => ({
  * @param {*} error 
  */
 const fetchLoginFailure = (error) => ({
-  type: appActions.LOGIN_FAILURE,
+  type   : appActions.LOGIN_FAILURE,
   payload: error
 })
 
@@ -40,7 +39,7 @@ const fetchLoginFailure = (error) => ({
  * information with the backend.
  */
 export function fetchLogin() {
-  return (dispatch) => {
+  return dispatch => {
     // Notify store we're attempting to login
     dispatch(fetchLoginLoading());
 
@@ -48,78 +47,12 @@ export function fetchLogin() {
     let uri = `${URI}/auth/validate`;
     let options = {
       withCredentials: true,
-      method: 'GET',
-      headers: {
-        'Content-Type': 'text/plain',
-        'Accept': 'application/json'
-      }
+      method         : 'GET',
+      json           : true
     };
 
-    rp(uri, options)
-      .then(res => JSON.parse(res))
+    return rp(uri, options)
       .then(data => dispatch(fetchLoginSuccess(data)))
       .catch(err => dispatch(fetchLoginFailure(err)));
-  }
-}
-
-
-/**
- * Updates our application's progress
- * @param {int} step Interger updating which wizard step to render
- */
-export const updatePath = (path) => ({
-  type: appActions.UPDATE_PATH,
-  path
-})
-
-
-/**
- * Notifies application we're initiating a user information API call
- */
-const fetchUserLoading = () => ({
-  type: appActions.USER_LOADING
-})
-
-
-/**
- * Notifies application of error during user information API call
- * @param {object} error Error returned from API
- */
-const fetchUserError = (error) => ({
-  type   : appActions.USER_ERROR,
-  payload: error
-})
-
-
-/**
- * Updates store with user information from our API call
- * @param {object} response Payload with user's email and admin boolean
- */
-const fetchUserSuccess = (response) => ({
-  type   : appActions.USER_SUCCESS,
-  payload: response
-})
-
-
-/**
- * Wraps our dispatches together to retrieve user information from our server
- */
-export function getUser() {
-  return (dispatch) => {
-    // Notify start
-    dispatch(fetchUserLoading());
-
-    // URI + options for API call
-    let uri = `${URI}/users/`;
-    let options = {
-      method: 'GET',
-      withCredentials: true
-    };
-
-    // Resolve promise
-    rp(uri, options)
-      .then(res => res.json())
-      .then(data => dispatch(fetchUserSuccess(data)))
-      .catch(err => dispatch(fetchUserError(err)));
   }
 }

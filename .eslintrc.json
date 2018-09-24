@@ -1,0 +1,23 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "import"
+  ],
+  "env": {
+    "node": true,
+    "es6": true,
+    "browser": true
+  },
+  "rules": {
+    "react/jsx-filename-extension": "off",
+    "linebreak-style": "off",
+    "comma-dangle": "off",
+    "key-spacing": "off",
+    "no-multi-spaces": "off",
+    "camelcase": "off",
+    "import/prefer-default-export": "off"
+  }
+}

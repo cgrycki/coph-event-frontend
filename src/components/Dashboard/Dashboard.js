@@ -1,12 +1,30 @@
 import React        from 'react';
 import { connect }  from 'react-redux';
+import {
+  Pivot,
+  PivotItem,
+  PivotLinkFormat,
+  PivotLinkSize
+}                   from 'office-ui-fabric-react/lib/Pivot';
 import EventList    from './EventList';
+import AdminTools   from './AdminTools';
+import DashCalendar from '../Calendar/DashCalendar';
 import './Dashboard.css';
 
-import DeleteForm   from './DeleteForm';
 
 // Actions
-import { getEvents } from '../../actions/event.actions';
+import { 
+  getEvents,
+  deleteEvent,
+  deleteWorkflowEvent,
+  deleteDynamoEvent
+}                              from '../../actions/event.actions';
+import { 
+  clearFormAndPush,
+  populateFormAndPush,
+  populateDiagramAndPush,
+  populateEventAndPush
+}                              from '../../actions/nav.actions';
 
 
 // Component
@@ -14,51 +32,68 @@ class DashboardComponent extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      events: props.events
+      tab     : "MyEvents",
+      is_admin: props.is_admin
     };
   }
 
+  /** Fetches event list on load and alters web page title */
   componentDidMount() {
-    /* Fetches event list on load. */
-    let { dispatch } = this.props;
-    dispatch(getEvents());
-  }
+    document.title = "My Dashboard";
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ 
-      events       : nextProps.events,
-      event_loading: nextProps.event_loading,
-      event_error  : nextProps.event_error
-    });
+    // Load events if flag is set and we're not loading
+    const { should_fetch, event_loading, getEventsFromServer } = this.props;
+    if (should_fetch && !event_loading) getEventsFromServer();
   }
-
-  //renderLoad() {}
-  //renderError() {}
 
   render() {
-    let { 
-      events, event_loading, event_error,
-      history
-    } = this.props;
-
     return (
       <div className="ms-Grid-col ms-sm12 Dashboard">
-        <h2>My Events</h2>
-        
-        <div>
-          <hr/>
-          <br/>
+
+        <div className="ms-Grid-row fullHeight">
+          <Pivot 
+            linkSize={PivotLinkSize.Large}
+            linkFormat={PivotLinkFormat.links}
+            className="fullHeight">
+
+            <PivotItem
+              key="MyEvents"
+              linkText="My Events"
+              itemIcon="BulletedList"
+              itemCount={this.props.events.length}>
+              <EventList
+                events={this.props.events}
+                loading={this.props.event_loading}
+                should_fetch={this.props.should_fetch}
+                error={this.props.event_error}
+                onView={this.props.populateEventAndPush}
+                onEdit={this.props.populateFormAndPush}
+                onDelete={this.props.deleteEventFromServer}
+                onCreate={this.props.clearFormAndPush}
+              />
+            </PivotItem>
+
+            <PivotItem
+              key="MySchedule"
+              linkText="My Schedule"
+              itemIcon="CalendarAgenda">
+              <DashCalendar events={this.props.events} />
+            </PivotItem>
+
+            {this.state.is_admin && 
+              <PivotItem
+                key="AdminTools"
+                linkText="Administrator Tools"
+                itemIcon="Settings">
+                <AdminTools
+                  workflowCallback={(package_id) => this.props.deleteWorkflowEvent(package_id)}
+                  dynamoCallback={(package_id) => this.props.deleteDynamoEvent(package_id)}
+                  loading={this.props.event_loading}
+                  error={this.props.event_error}
+                />
+              </PivotItem>}
+          </Pivot>
         </div>
-
-        <EventList 
-          events={events}
-          history={history}
-        />
-
-        <DeleteForm
-          dispatch={this.props.dispatch}
-        />
-      
       </div>
     );
   }
@@ -70,8 +105,20 @@ const mapStateToProps = state => ({
   events       : state.events.events,
   event_loading: state.events.event_loading,
   event_error  : state.events.event_error,
-  loggedIn     : state.app.loggedIn,
-  isAdmin      : state.app.isAdmin
+  should_fetch : state.events.should_fetch,
+  logged_in    : state.app.logged_in,
+  is_admin     : state.app.is_admin
 });
 
-export default connect(mapStateToProps)(DashboardComponent);
+const mapDispatchToProps = dispatch => ({
+  clearFormAndPush      : ()                               => dispatch(clearFormAndPush()),
+  populateFormAndPush   : (fields, layout)                 => dispatch(populateFormAndPush(fields, layout)),
+  populateDiagramAndPush: (fields, layout)                 => dispatch(populateDiagramAndPush(fields, layout)),
+  populateEventAndPush  : ({ event, permissions, layout }) => dispatch(populateEventAndPush({event, permissions, layout})),
+  getEventsFromServer   : ()                               => dispatch(getEvents()),
+  deleteEventFromServer : (package_id)                     => dispatch(deleteEvent(package_id)),
+  deleteWorkflowEvent   : (package_id)                     => dispatch(deleteWorkflowEvent(package_id)),
+  deleteDynamoEvent     : (package_id)                     => dispatch(deleteDynamoEvent(package_id))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardComponent);

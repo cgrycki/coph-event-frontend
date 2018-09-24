@@ -13,9 +13,9 @@ class Schedule {
   formatEventMAUI(evt) {
     /* Formats an object returned by the MAUI room schedule API */ 
     const formatted_evt = {
-      start_time : moment(evt.startTime.trim(), "hh:mmA"),
-      end_time   : moment(evt.endTime.trim(), "hh:mmA"),
-      event_title: evt.title,
+      start_time : moment(evt.start_time),
+      end_time   : moment(evt.end_time),
+      event_title: evt.event_name,
       date       : evt.date,
       new_event  : false
     };
@@ -25,9 +25,13 @@ class Schedule {
 
   formatEventReact(evt) {
     /* Formats an object taken from our store */
+    const react_fmt_time = `YYYY-MM-DD ${fmt_time}`;
+    const start_time     = moment(`${evt.date} ${evt.start_time}`, react_fmt_time);
+    const end_time       = moment(`${evt.date} ${evt.end_time}`, react_fmt_time);
+
     const formatted_evt = {
-      start_time : moment(evt.start_time, fmt_time),
-      end_time   : moment(evt.end_time, fmt_time),
+      start_time : start_time,
+      end_time   : end_time,
       event_title: evt.event_title,
       date       : evt.date,
       new_event  : true
@@ -37,16 +41,19 @@ class Schedule {
 
   getOverlap() {
     /* Finds if there is an overlap in our events' start/end times */
+    let current, nextEvent, case1, case2, case3;
 
     // First, combine all of the potential events in one array
-    let all_events = [this.new_event, ...this.room_schedule];
-
-    // Base case: if there's only one event then we're good to go
-    const n = all_events.length;
-    if (n === 1) return false;
+    let copySchedule = [...this.room_schedule];
+    copySchedule.push(this.new_event);
 
     // Sort by the event starting time in increasing *start* order
-    all_events.sort((a, b) => a.start_time - b.start_time);
+    copySchedule.sort((a, b) => a.start_time - b.start_time);
+
+
+    // Base case: if there's only one event then we're good to go
+    const n = copySchedule.length;
+    if (n === 1) return false;
 
     /*Iterate through the events from 0:n-1, checking for overlaps
       events have a range defined by start and end times.
@@ -55,10 +62,22 @@ class Schedule {
         - the start/end of an event is contained within the other
     */
     for (var i = 0; i < n-1; i++) {
-      let current = all_events[i], 
-          next    = all_events[i+1];
+      current   = copySchedule[i];
+      nextEvent = copySchedule[i+1];
+
       
-      if (current.end_time.isSameOrAfter(next.start_time)) return true;
+      // Some events have shared rooms, and will flag the overlap as true
+      // even when the events are not in the same room at the same time.
+      let { start_time: currSt, end_time: currEnd } = current;
+      let { start_time: nextSt, end_time: nextEnd } = nextEvent;
+       
+      case1 = currEnd.isSameOrAfter(nextSt);
+      case2 = currSt.isBefore(nextSt) && currEnd.isAfter(nextEnd);
+      // Ensure overlap AND one of the overlapping events is new.
+      case3 = (current.new_event === true) || (nextEvent.new_event === true);
+
+      
+      if ((case1 || case2) && case3) return true;
     };
 
     // No overlaps detected!

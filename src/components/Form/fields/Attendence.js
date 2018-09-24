@@ -1,13 +1,13 @@
 import React from 'react';
-import { TextField, Label } from 'office-ui-fabric-react';
+import { Label } from 'office-ui-fabric-react/lib/Label';
 
 
 /**
  * Renders the Expected Attendance field and row.
  */
-export default class Attendance extends React.PureComponent {
+export default class Attendance extends React.Component {
   render() {
-    let { value, error, onChange } = this.props;
+    const { value, error, onChange } = this.props;
 
     // Styles the row 
     const attendance_styles = {
@@ -17,7 +17,7 @@ export default class Attendance extends React.PureComponent {
     };
 
     return (
-      <div className="ms-Grid-row" style={{marginLeft: "0px"}}>
+      <div className="ms-Grid-row FormFieldRow">
         <Label required>Expected Attendance</Label>
         <input
           className="ms-normalize"

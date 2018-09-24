@@ -1,74 +1,185 @@
-// Dependencies
-import React          from 'react';
-import { connect }    from 'react-redux';
-
-import EventNav       from './EventNav';
-import EventDetails   from './EventDetails';
-import WorkflowWidget from './WorkflowWidget';
+/* Dependencies -------------------------------------------------------------*/
+import React              from 'react';
+import { connect }        from 'react-redux';
+import { push }           from 'connected-react-router';
+import EventNav           from './EventNav';
+import Details            from '../common/Details';
+import Counter            from '../../utils/Counter';
+import Diagram            from '../Diagram';
+import WorkflowWidget     from './WorkflowWidget';
+import Popup              from '../common/Popup';
+import scaleToDimensions  from '../../utils/scaleToDimensions';
 import './EventPage.css';
 
-// Actions
-import { getEvent }   from '../../actions/event.actions';
+
+/* Actions ------------------------------------------------------------------*/
+import { 
+  getEvent,
+  deleteEvent 
+} from '../../actions/event.actions';
+import {
+  populateFormAndPush,
+  populateDiagramAndPush,
+  applyDiagramLayoutAndPush
+}  from '../../actions/nav.actions';
 
 
-// Component
-class EventPageComponent extends React.Component {
-  constructor() {
-    super();
-  }
+/* React Component ----------------------------------------------------------*/
+/**
+ * Renders a page to see event details and to take actions related to event.
+ * Component will fetch event data from server if the event infomation isn't 
+ * loaded already and `package_id` does not match it's last passed `package_id`.
+ */
+class EventPage extends React.Component {
+  state = {
+    pivot        : "Form", // One of {"Form", "Layout", "Workflow"}
+    popupHidden  : true,
+    popupType    : 'edit', // One of {"edit", "editLayout", "applyLayout", "delete"}
+    popupYesClick: () => console.log('clicked!')
+  };
 
-  componentDidMount() {
-    /* Fetches our event information on mount. */
+  /** Retrieves information from server about event */
+  componentDidMount()   {
     const { 
       match: { params: { package_id }},
-      dispatch
+      should_fetch, event_loading, getEventFromServer
     } = this.props;
     
-    // Execute our call to get single event data
-    dispatch(getEvent(package_id));
+    if (should_fetch && !event_loading) getEventFromServer(package_id);
+  }
+
+  /** Updates our web page title when event loads. */
+  componentWillUpdate(nextProps, prevProps) {
+    const { event: { event_name }, event_loading, event_error } = nextProps;
+    const { popupType } = this.state;
+
+    // Change page title
+    if (event_name) document.title = `Event: ${event_name}`;
+
+    // Check for updates in event status to trigger popup changes
+    // If we've set the popup to delete but there's a 
+    if (event_loading && popupType === "delete") this.renderPopup("deleting");
+    else if (popupType === "deleting" && !event_loading) {
+      // Check for errors, if none than the event was successfully deleted
+      if (!event_error) this.props.navigate("/dashboard");
+      else this.renderPopup("error");
+    };
+  }
+
+  /** Alters component state, and hides the popup after a rerender. */
+  hidePopup = () => { 
+    this.setState({ popupHidden: true }); 
+  }
+
+  /** Sets our popup's state and callback */
+  renderPopup = popupType => {
+    // Gather dispatch functions from react-redux's connect
+    const {
+      event, layout,
+      populateFormAndPush, populateDiagramAndPush, deleteEventFromServer, applyDiagramLayoutAndPush, navigate
+    } = this.props;
+
+    // Create a mapping of 'state' => function
+    const clickCallback = {
+      edit       : () => populateFormAndPush(event, layout),
+      editLayout : () => populateDiagramAndPush(event, layout),
+      applyLayout: () => applyDiagramLayoutAndPush(layout),
+      delete     : () => deleteEventFromServer(event.package_id),
+      deleting   : () => console.log("Patience... I've sent the delete request to the server"),
+      error      : () => navigate("/dashboard")
+    };
+
+    this.setState({
+      popupHidden: false,
+      popupType: popupType,
+      popupYesClick: clickCallback[popupType]
+    });
+  }
+
+  /** Sets our component display by toggling which pivot item is selected. */
+  pivotClick = pivotKey => {
+    this.setState({ pivot: pivotKey.key.substring(2) });
+  }
+
+  countAndScaleEventItems = () => {
+    const { items, chairs_per_table } = this.props.layout;
+
+    // Count em up
+    const rawCounts = Counter.getFurnItemCount(items);
+    const counts    = Counter.getFurnRackCounts(rawCounts, chairs_per_table);
+
+    // Rescale items
+    const scaledItems = scaleToDimensions(items, this.props.dimensions);
+
+    return { items: scaledItems, counts };
   }
 
   render() {
     const { 
-      match: { params: { package_id, signature_id }},
-      history,
-      event
+      history,  match: { params: { package_id }},
+      permissions: { signatureId }, permissions,
+      layout: { items },
+      event, event_loading
     } = this.props;
 
+    const { pivot } = this.state;
+
+    // Change the edit callback depending if we're on the Form or Layout
+    const editCallback = (pivot === 'Layout') ? 'editLayout' : 'edit';
+
     return (
-      <div className="ms-Grid-col ms-sm12 EventPage">
+      <div className="EventPage">
         <EventNav
-          package_id={package_id}
           history={history}
+          selectedPivot={this.state.pivot}
+          onToggle={this.pivotClick}
+          showLayout={items.length !== 0}
+          permissions={permissions}
+          onEdit={() => this.renderPopup(editCallback)}
+          onApply={() => this.renderPopup('applyLayout')}
+          onRemove={() => this.renderPopup('delete')}
+          package_id={package_id}
         />
 
-        <h2>Event Details</h2> 
+        <div className="ms-Grid-col">
+          {(pivot === "Form") && 
+            <Details event={event} loading={event_loading} />}
 
-        <div>
-          <hr/>
-          <br/>
+          {(pivot === "Layout") && 
+            <Diagram draggable={false} {...this.countAndScaleEventItems()} />}
+
+          {(pivot === "Workflow") &&
+            <WorkflowWidget package_id={package_id} signature_id={signatureId}/>}
         </div>
-        
-        <EventDetails event={event} />
 
-        {signature_id &&
-          <WorkflowWidget
-            package_id={package_id}
-            signature_id={signature_id}
-          />
-        }
+        <Popup
+          popupHidden={this.state.popupHidden}
+          popupType={this.state.popupType}
+          btnClickYes={() => this.state.popupYesClick()}
+          btnClickNo={() => this.hidePopup()}
+        />
       </div>
     );
   }
 }
 
 
-// Container
+/** Redux Container ----------------------------------------------------------*/
 const mapStateToProps = state => ({
-  event        : state.events.event,
+  ...state.events.current,
+  should_fetch : state.events.should_fetch,
   event_loading: state.events.event_loading,
-  event_error  : state.events.event_error
+  event_error  : state.events.event_error,
+  dimensions   : {width: state.diagram.layout.width, height: state.diagram.layout.height}
 });
 
+const mapDispatchToProps = dispatch => ({
+  getEventFromServer       : (package_id)    => dispatch(getEvent(package_id)),
+  deleteEventFromServer    : (package_id)    => dispatch(deleteEvent(package_id)),
+  populateFormAndPush      : (info, layout)  => dispatch(populateFormAndPush(info, layout)),
+  populateDiagramAndPush   : (info, layout)  => dispatch(populateDiagramAndPush(info, layout)),
+  applyDiagramLayoutAndPush: layout          => dispatch(applyDiagramLayoutAndPush(layout)),
+  navigate                 : (path)          => dispatch(push(path))
+});
 
-export default connect(mapStateToProps)(EventPageComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(EventPage);

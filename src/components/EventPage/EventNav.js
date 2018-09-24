@@ -1,44 +1,86 @@
-/**
- * Event Navigation bar: breadcrumbs, admin tab
- */
-
+/* Dependencies -------------------------------------------------------------*/
 import React          from 'react';
-import { Breadcrumb } from 'office-ui-fabric-react';
+import { ActionButton } from 'office-ui-fabric-react/lib/Button';
+import {
+  Pivot,
+  PivotItem,
+  PivotLinkFormat,
+  PivotLinkSize
+}                   from 'office-ui-fabric-react/lib/Pivot';
 
-export default class EventNav extends React.PureComponent {
-  renderEventBreadcrumb() {
-    /* Renders a disabled breadcrumb for a given event. */
-    const { package_id } = this.props;
 
-    return { 
-      text: `Event #${package_id}`, 
-      key: "myEvent", 
-      isCurrentItem: true
-    };
+const makeButton = (iconName, text, callback, disabled) => (
+  <ActionButton
+    iconProps={{ iconName: iconName }}
+    text={text}
+    onClick={() => callback()}
+    disabled={disabled}
+  />);
+
+const makePivot = (key, text, icon) => (
+  <PivotItem key={key} linkText={text} iconName={icon} />
+);
+
+
+
+
+/* React Component ----------------------------------------------------------*/
+/**
+ * Displays an Event Page heading, consisting of PageNav breadcrumbs and action
+ * buttons to dispatch events.
+ */
+export default class EventNav extends React.Component {
+
+  getPivotArray = () => {
+    let pivotArray = [makePivot("Form", "Event Details", "TextDocument")];
+    
+    if (this.props.showLayout) 
+      pivotArray.push(makePivot("Layout", "Layout", "PivotChart"));
+
+    pivotArray.push(makePivot("Workflow", "Workflow Widget", "Settings"));
+
+    return pivotArray;
   }
 
-  renderMyEventsBreadcrumb() {
-    /* Renders a redirect breadcrumb to user's dashboard page. */
-    const { history } = this.props;
-
-    return {
-      text: "My Events",
-      key: "myEvents",
-      onClick: () => history.push("/dashboard")
-    };
-  }
 
   render() {
+    let {
+      onEdit, onRemove, permissions, // For action buttons
+      selectedPivot, onToggle,       // For pivot
+      onApply, showLayout            // For layout
+    } = this.props;
+
+    // Parse the permissions to set button active or not
+    const editDisabled = !permissions.canEdit;
+    const cancelDisabled = (!permissions.canInitatorVoid && !permissions.canVoid);
+
+    // Get a list of pivot items
+    const pivotArray = this.getPivotArray();
+
     return (
-      <div className="EventPageNav">
-        <div className="ms-Grid-row">
-          <Breadcrumb
-            items={[
-              this.renderMyEventsBreadcrumb(),
-              this.renderEventBreadcrumb()
-            ]}
-            maxDisplayedItems={2}
-          />
+      <div className="ms-Grid-row EventNav">
+        <div className="ms-Grid-col ms-sm12 ms-lg12 ms-xxl12">
+
+            <span style={{display: 'inline-block'}}>
+              <Pivot
+                linkSize={PivotLinkSize.large}
+                linkFormat={PivotLinkFormat.links}
+                selectedKey={selectedPivot}
+                onLinkClick={onToggle}
+                headersOnly
+              >
+                {pivotArray}
+              </Pivot>
+            </span>
+
+            <span style={{ float: 'right'}}>
+              {(showLayout && selectedPivot === 'Layout') &&
+                makeButton('PivotChart', 'Apply Layout', onApply, false)}
+              {makeButton('Edit', "Edit Event", onEdit, editDisabled)}
+              {makeButton('removeEvent', "Cancel Event", onRemove, cancelDisabled)}
+            </span>
+          
+
         </div>
       </div>
     );
