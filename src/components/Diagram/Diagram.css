@@ -2,6 +2,7 @@
 #Diagram--Container {
   width: 100%;
   height: 100%;
+  background-color: rgb(244, 244, 244);
 }
 
 #Diagram--Container > div {
@@ -28,7 +29,7 @@
 /** TOOLBAR ********************************************************************/
 .Diagram--Toolbar {
   padding: 5px 10px;
-  width: 100%;
+  /*width: 100%;*/
 }
 
 .Diagram--FurnitureSelector .ms-ChoiceField {

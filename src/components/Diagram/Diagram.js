@@ -8,8 +8,6 @@ import TransformerComponent from './TransformerComponent';
 import {
   Toolbar,
   HUD,
-  DownloadButton,
-  HelpButton,
   Background
 }                           from './Surfaces';
 import {
@@ -111,18 +109,19 @@ class Diagram extends Component {
 
     return (
       <div className="Diagram--flex">
-        
+        {draggable &&
+          <Toolbar
+            width={width}
+            furn_type={this.props.furn_type}
+            chairs_per_table={this.props.chairs_per_table}
+            counts={this.props.counts}
+            updateChairsAndCounts={this.props.updateChairsAndCounts}
+            updateEditorLayout={this.props.updateEditorLayout}
+            pub_layouts={this.props.pub_layouts}
+            populateEditor={this.props.populateEditor}
+            getStageURI={this.getStageURI.bind(this)}
+          />}
         <div id="Diagram--Container" className="Diagram--flex">
-          {draggable &&
-            <Toolbar
-              furn_type={this.props.furn_type}
-              chairs_per_table={this.props.chairs_per_table}
-              counts={this.props.counts}
-              updateChairsAndCounts={this.props.updateChairsAndCounts}
-              updateEditorLayout={this.props.updateEditorLayout}
-              pub_layouts={this.props.pub_layouts}
-              populateEditor={this.props.populateEditor}
-            />}
           <Stage
             ref={(ref) => { this.konvaCanvas = ref; }}
             width={width}
@@ -168,10 +167,6 @@ class Diagram extends Component {
           </Stage>
         </div>
         
-        <div>
-          <HelpButton />
-          {this.konvaCanvas && <DownloadButton getStageURI={this.getStageURI.bind(this)} />}
-        </div>
       </div>
     );
   }

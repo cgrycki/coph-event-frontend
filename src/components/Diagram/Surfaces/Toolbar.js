@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Toggle }       from 'office-ui-fabric-react/lib/Toggle';
 import { CommandBar } from 'office-ui-fabric-react/lib/CommandBar';
 import inventory from '../../../constants/inventory';
+import HelpModal from './HelpModal';
 
 
 const furnChoices = [
@@ -14,8 +15,8 @@ const furnChoices = [
 ];
 
 
-export default class NewToolbar extends Component {
-  state = { helpHidden: true };
+export default class Toolbar extends Component {
+  state = { helpOpen: false };
 
   createFurnMenu = () => {
     const { counts, furn_type, updateEditorLayout } = this.props;
@@ -84,12 +85,17 @@ export default class NewToolbar extends Component {
   createDownBtn = () => {
     const downB = {
       key: 'downB', name: 'Download', iconProps: { iconName: 'CloudDownload'},
-      onClick: () => console.log('download initiated!')
+      onClick: this.downloadCallback
     };
     return downB;
   }
   createHelpBtn = () => {
-    const helpBtn = { key: 'helpBtn', name: 'Help', iconProps: { iconName: 'Info' }};
+    const helpBtn = {
+      key: 'helpBtn',
+      name: 'Help',
+      iconProps: { iconName: 'Info' },
+      onClick: this.helpCallback
+    };
     return helpBtn;
   }
 
@@ -98,23 +104,43 @@ export default class NewToolbar extends Component {
     const chairs_per_table = (event === true) ? 8 : 6;
     return updateChairsAndCounts(chairs_per_table);
   }
-  downloadCallback = () => {}
-  helpCallback = () => { this.setState({ helpHidden: !this.state.helpHidden }); }
+  downloadCallback = () => {
+    const { getStageURI } = this.props;
+    // Get stage PNG as Base64
+    const uri = getStageURI();
+
+    // Create download object
+    const link = document.createElement('a');
+    link.download = 'CPHB Event Floorplan';
+    link.href = uri;
+
+    // Attach to body and simulate click
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+  helpCallback = () => { this.setState({ helpOpen: !this.state.helpOpen }); }
 
   render() {
+    const { width } = this.props;
+
     return (
-      <CommandBar
-        overflowButtonProps={{ iconProps: { iconName: 'WaffleOffice365'}}}
-        items={[
-          this.createFurnMenu(),
-          this.createLayoutMenu(),
-          this.createChairToggle()
-        ]}
-        farItems={[
-          this.createDownBtn(),
-          this.createHelpBtn()
-        ]}
-      />
+      <React.Fragment>
+        <CommandBar
+          style={{ width: width }}
+          overflowButtonProps={{ iconProps: { iconName: 'WaffleOffice365'}}}
+          items={[
+            this.createFurnMenu(),
+            this.createLayoutMenu(),
+            this.createChairToggle()
+          ]}
+          farItems={[
+            this.createDownBtn(),
+            this.createHelpBtn()
+          ]}
+        />
+        <HelpModal helpOpen={this.state.helpOpen} onDismiss={this.helpCallback} />
+      </React.Fragment>
     );
   }
 }
