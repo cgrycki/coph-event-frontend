@@ -15,7 +15,7 @@ export default class LabelRender extends Component {
     const { label, info, required }  = this.props;
 
     return (
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: 'inline-flex', alignItems: 'center' }}>
         <span><Label required={required}>{label}</Label></span>
         <span ref={(node) => { this.iconRef = node; }}>
           <IconButton
