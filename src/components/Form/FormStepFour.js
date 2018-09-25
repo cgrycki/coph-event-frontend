@@ -34,7 +34,8 @@ class Step extends React.Component {
 
   validate = () => {
     const { info, errors, schedule_loading } = this.props;
-    if (schedule_loading) return true;
+    // If we have an overlap or theres a on-site error automatically return true
+    if (schedule_loading || errors.hasOwnProperty('coph_email')) return true;
 
     let validFlag = errors['schedule_overlap'];
     const pgFields = ['date', 'start_time', 'end_time', 'room_number'];
