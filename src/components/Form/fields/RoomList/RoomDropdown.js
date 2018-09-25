@@ -10,18 +10,22 @@ export default class RoomDropdown extends Component {
     // Check for empty filter
     if (checkedFeatures.size === 0) return rooms;
 
+    // Help ourselves out. Create an array from feature set to iter through
+    const checkedFeaturesList = Array.from(checkedFeatures);
+    // Util function to ensure a rm has every feature selected
+    const rmHasFeature = (feature, featureSet) => featureSet.has(feature);
+    // Hold valid rooms
     let roomsWithFeatures = [];
-    rooms.forEach(rm => {
-      if (rm.hasOwnProperty('featureList')) {
-        for (let ft of rm.featureList) {
-          if (checkedFeatures.has(ft)) {
-            roomsWithFeatures.push(rm);
-            break;
-          };
-        };
-      };
-    });
 
+    rooms
+      .filter(rm => rm.hasOwnProperty('featureList'))
+      .forEach(rm => {
+        // Create a set for fast lookups, and only push rooms with EVERY feature
+        let rmFeatureSet = new Set(rm.featureList);
+        if (checkedFeaturesList.every(feature => rmHasFeature(feature, rmFeatureSet))) {
+          roomsWithFeatures.push(rm);
+        };
+      });
     return roomsWithFeatures;
   }
 
