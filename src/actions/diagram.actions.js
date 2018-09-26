@@ -245,7 +245,7 @@ export function fetchLayouts() {
   }
 }
 
-export function fetchLayout(id) {
+export function fetchITLayout(id) {
   return (dispatch) => {
     dispatch(fetchDiagramsLoading());
 
@@ -256,5 +256,12 @@ export function fetchLayout(id) {
       json: true
     };
 
+    return rp(options)
+      .then(res => {
+        const faux_pub_layouts = { layouts: res };
+        dispatch(fetchDiagramsSuccess(faux_pub_layouts));
+        dispatch(populateEditor(res[0]));
+      })
+      .catch(err => dispatch(fetchDiagramsError(err)));
   }
 }

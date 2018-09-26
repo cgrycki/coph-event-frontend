@@ -18,6 +18,7 @@ const furnChoices = [
 export default class Toolbar extends Component {
   state = { helpOpen: false };
 
+  /* Toolbar components ******************************************************/
   createFurnMenu = () => {
     const { counts, furn_type, updateEditorLayout } = this.props;
     const furnSubMenu = furnChoices.map(furn => {
@@ -37,6 +38,7 @@ export default class Toolbar extends Component {
 
     return furnM;
   }
+
   createLayoutMenu = () => {
     const { pub_layouts, populateEditor } = this.props;
     const layoutSubmenu = pub_layouts.map(d => {
@@ -58,6 +60,7 @@ export default class Toolbar extends Component {
 
     return layoutM;
   }
+
   createChairToggle = () => {
     const { chairs_per_table } = this.props;
 
@@ -82,6 +85,7 @@ export default class Toolbar extends Component {
     };
     return chairBtn;
   }
+
   createDownBtn = () => {
     const downB = {
       key: 'downB', name: 'Download', iconProps: { iconName: 'CloudDownload'},
@@ -89,6 +93,7 @@ export default class Toolbar extends Component {
     };
     return downB;
   }
+
   createHelpBtn = () => {
     const helpBtn = {
       key: 'helpBtn',
@@ -99,11 +104,13 @@ export default class Toolbar extends Component {
     return helpBtn;
   }
 
+  /* Toolbar Callbacks *******************************************************/
   chairCallback = event => {
     const { updateChairsAndCounts } = this.props;
     const chairs_per_table = (event === true) ? 8 : 6;
     return updateChairsAndCounts(chairs_per_table);
   }
+
   downloadCallback = () => {
     const { getStageURI } = this.props;
     // Get stage PNG as Base64
@@ -119,25 +126,35 @@ export default class Toolbar extends Component {
     link.click();
     document.body.removeChild(link);
   }
+
   helpCallback = () => { this.setState({ helpOpen: !this.state.helpOpen }); }
+
+  /* Toolbar Rendering *******************************************************/
+  getTools = () => {
+    const { draggable } = this.props;
+
+    const items = (draggable) ?
+      [this.createFurnMenu(), this.createLayoutMenu(), this.createChairToggle()] :
+      [];
+
+    const farItems = (draggable) ?
+      [this.createDownBtn(), this.createHelpBtn()] :
+      [this.createDownBtn()];
+
+    return { items, farItems };
+  }
 
   render() {
     const { width } = this.props;
+    const { items, farItems } = this.getTools();
 
     return (
       <React.Fragment>
         <CommandBar
           style={{ width: width }}
           overflowButtonProps={{ iconProps: { iconName: 'WaffleOffice365'}}}
-          items={[
-            this.createFurnMenu(),
-            this.createLayoutMenu(),
-            this.createChairToggle()
-          ]}
-          farItems={[
-            this.createDownBtn(),
-            this.createHelpBtn()
-          ]}
+          items={items}
+          farItems={farItems}
         />
         <HelpModal helpOpen={this.state.helpOpen} onDismiss={this.helpCallback} />
       </React.Fragment>

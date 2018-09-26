@@ -15,6 +15,7 @@ import EventPage      from './EventPage/';
 import Dashboard      from './Dashboard/';
 import Calendar       from './Calendar/';
 import { Playground } from './Diagram';
+import { CPHIT }      from './CPHIT';
 
 // Form + Steps
 import Form           from './Form/';
@@ -39,7 +40,7 @@ const App = ({ store, persistor, history }) => (
           
           <Switch>
             {/** For CPH IT to view layouts without auth ********************/}
-            <Route path="/cphit" exact component={Playground} />
+            <Route path="/cphit/:package_id" exact component={CPHIT} />
             
             {/** Site Application *******************************************/}
             <Page>

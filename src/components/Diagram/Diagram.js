@@ -102,25 +102,28 @@ class Diagram extends Component {
   }
 
   render() {
-    const { x, y, width, height, scaleX, scaleY, draggable, items, selected_item } = this.props;
+    const {
+      x, y, width, height, scaleX, scaleY, items, selected_item,
+      draggable, cphit
+    } = this.props;
 
     const regularItems = items.filter(item => item.id !== selected_item);
     const selectedItem = items.filter(item => item.id === selected_item);
 
     return (
       <div className="Diagram--flex">
-        {draggable &&
-          <Toolbar
-            width={width}
-            furn_type={this.props.furn_type}
-            chairs_per_table={this.props.chairs_per_table}
-            counts={this.props.counts}
-            updateChairsAndCounts={this.props.updateChairsAndCounts}
-            updateEditorLayout={this.props.updateEditorLayout}
-            pub_layouts={this.props.pub_layouts}
-            populateEditor={this.props.populateEditor}
-            getStageURI={this.getStageURI.bind(this)}
-          />}
+        <Toolbar
+          width={width}
+          draggable={draggable}
+          furn_type={this.props.furn_type}
+          chairs_per_table={this.props.chairs_per_table}
+          counts={this.props.counts}
+          updateChairsAndCounts={this.props.updateChairsAndCounts}
+          updateEditorLayout={this.props.updateEditorLayout}
+          pub_layouts={this.props.pub_layouts}
+          populateEditor={this.props.populateEditor}
+          getStageURI={this.getStageURI.bind(this)}
+        />
         <div id="Diagram--Container" className="Diagram--flex">
           <Stage
             ref={(ref) => { this.konvaCanvas = ref; }}
@@ -157,12 +160,15 @@ class Diagram extends Component {
 
             <Layer name='hudLayer'>
               <HUD
+                cphit={cphit}
                 counts={this.props.counts}
                 x={x}
                 y={y}
                 scaleX={scaleX}
                 scaleY={scaleY}
-                height={height} />
+                width={width}
+                height={height}
+              />
             </Layer>
           </Stage>
         </div>
@@ -175,6 +181,7 @@ class Diagram extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   draggable: ownProps.draggable,
+  cphit    : ownProps.cphit,
   items    : ownProps.items || state.diagram.items,
   counts   : ownProps.counts || state.diagram.counts,
   ...state.diagram.layout,
