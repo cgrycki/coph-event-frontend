@@ -102,7 +102,10 @@ class Diagram extends Component {
   }
 
   render() {
-    const { x, y, width, height, scaleX, scaleY, draggable, items, selected_item } = this.props;
+    const {
+      x, y, width, height, scaleX, scaleY, items, selected_item,
+      draggable, cphit
+    } = this.props;
 
     const regularItems = items.filter(item => item.id !== selected_item);
     const selectedItem = items.filter(item => item.id === selected_item);
@@ -157,12 +160,15 @@ class Diagram extends Component {
 
             <Layer name='hudLayer'>
               <HUD
+                cphit={cphit}
                 counts={this.props.counts}
                 x={x}
                 y={y}
                 scaleX={scaleX}
                 scaleY={scaleY}
-                height={height} />
+                width={width}
+                height={height}
+              />
             </Layer>
           </Stage>
         </div>
@@ -175,6 +181,7 @@ class Diagram extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   draggable: ownProps.draggable,
+  cphit    : ownProps.cphit,
   items    : ownProps.items || state.diagram.items,
   counts   : ownProps.counts || state.diagram.counts,
   ...state.diagram.layout,
