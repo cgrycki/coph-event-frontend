@@ -244,3 +244,17 @@ export function fetchLayouts() {
       .catch(err => dispatch(fetchDiagramsError(err)));
   }
 }
+
+export function fetchLayout(id) {
+  return (dispatch) => {
+    dispatch(fetchDiagramsLoading());
+
+    const options = {
+      uri: `${URI}/layouts/${id}`,
+      method: 'GET',
+      withCredentials: true,
+      json: true
+    };
+
+  }
+}
