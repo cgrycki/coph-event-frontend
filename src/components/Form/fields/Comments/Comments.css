@@ -1,11 +1,3 @@
-
-.Comments--input,
-.PromptDiv {
-  max-width: 95%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .PromptDiv:not(:last-of-type) {
   margin-bottom: 2rem;
 }
