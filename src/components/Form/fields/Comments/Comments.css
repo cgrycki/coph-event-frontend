@@ -1,0 +1,33 @@
+
+.Comments--input,
+.PromptDiv {
+  max-width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.PromptDiv:not(:last-of-type) {
+  margin-bottom: 2rem;
+}
+
+.PromptDiv p {
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+
+.Prompt--featureWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  flex-direction: column;
+  max-height: 200px;
+}
+
+.Prompt--feature {
+  display: inline-block;
+  margin: 3px;
+  padding: 3px 5px;
+  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}

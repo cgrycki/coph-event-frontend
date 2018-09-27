@@ -7,7 +7,7 @@ import { fetchITLayout }    from '../../actions';
 class CPHIT extends Component {
   /* Fetches the layout according to URL on mount */
   componentDidMount() {
-    const { match: { params: { package_id }}, fetchITLayout} = this.props;
+    const { match: { params: { package_id }}, fetchITLayout } = this.props;
     return fetchITLayout(package_id);
   }
 
