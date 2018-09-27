@@ -1,5 +1,6 @@
 import React              from 'react';
 import { Layer, Text }    from 'react-konva';
+import { scaleLinear }    from 'd3-scale';
 import FloorplanFunctions from '../utils/FloorplanFunctions';
 
 
@@ -12,13 +13,14 @@ const pathNames = [
 ];
 
 export default class Labels extends React.Component {
+  
   getPosition = label => {
     const positions = {
-      DEPT_ADMIN  : [285, 550],
-      DEPT_STUDENT: [100, 175],
-      DEPT_IT     : [275, 175],
-      CLASS_N120  : [490, 175],
-      CLASS_N110  : [700, 175]
+      DEPT_ADMIN  : [570, 1100],
+      DEPT_STUDENT: [200, 350],
+      DEPT_IT     : [550, 350],
+      CLASS_N120  : [980, 350],
+      CLASS_N110  : [1400, 350]
     };
 
     return positions[label];
@@ -36,21 +38,28 @@ export default class Labels extends React.Component {
   }
 
   render() {
+    // Get variables to scale floorplan points to current diagram dimensions
     const { width, height } = this.props;
+    const rescaleX = scaleLinear().domain([0, 1920]).range([0, width]);
+    const rescaleY = scaleLinear().domain([0, 1500]).range([0, height]);
+
+    // Get scales for font sizes
     const { scaleX, scaleY } = FloorplanFunctions.resizeImageDimensionsToCanvas(width, height);
 
     return (
       <Layer name="labelLayer">
         {pathNames.map(path => {
           const pos = this.getPosition(path);
+          const x   = rescaleX(pos[0])
+          const y   = rescaleY(pos[1])
           const tex = this.getLabel(path);
 
           return (
             <Text
               key={path}
               text={tex}
-              x={pos[0]}
-              y={pos[1]}
+              x={x}
+              y={y}
               scaleX={scaleX}
               scaleY={scaleY}
               align={'center'}
