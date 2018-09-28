@@ -88,7 +88,7 @@ class Home extends React.Component {
         
         <div className="Home--CardsWrapper">
           <div className="Home--Cards">
-            <HeroCard text={'Calendar'} subtext={'View room schedules'} iconName={'Calendar'} onClick={clickCalendar} />
+            <HeroCard text={'Calendar'} subtext={'Check room schedules'} iconName={'Calendar'} onClick={clickCalendar} />
             <HeroCard { ...this.getActionButtonProps() } />
             <HeroCard text={'Floorplan Viewer'} subtext={'Plan and visualize your events'} iconName={'Design'} onClick={clickLayout} />
           </div>
