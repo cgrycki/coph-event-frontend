@@ -11,6 +11,7 @@ export default class EventName extends React.Component {
         <TextField
           label={"Event Name"}
           placeholder={"Add a title for the event"}
+          required={true}
           value={value}
           onChange={evt => onChange('event_name', evt.target.value)}
           errorMessage={error}
