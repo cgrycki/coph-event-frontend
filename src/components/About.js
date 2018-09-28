@@ -18,9 +18,9 @@ const linkIT = (
     Office of Information Technology
   </a>
 );
-const linkFacilities = (<a href="mailto:cph-facilities@uiowa.edu" target="_blank">cph-facilities@uiowa.edu</a>);
+const linkFacilities = (<a href="mailto:cph-facilities@uiowa.edu" target="_blank" rel="noopener noreferrer">cph-facilities@uiowa.edu</a>);
 const linkSurvey = (<a href="https://www.public-health.uiowa.edu/it-customer-satisfaction/" target="_blank" rel="noopener noreferrer">satisfaction survey.</a>);
-const linkITMail = (<a href="mailto:cph-it-support@uiowa.edu" target="_blank">cph-it-support@uiowa.edu</a>);
+const linkITMail = (<a href="mailto:cph-it-support@uiowa.edu" target="_blank" rel="noopener noreferrer">cph-it-support@uiowa.edu</a>);
 
 export default class About extends Component {
   render() {

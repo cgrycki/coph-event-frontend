@@ -116,11 +116,11 @@ class Furniture extends Component {
         // Dragging
         draggable={this.getDragStatus()}
         onDragStart={this.onDragStart}
-        onTouchStart={this.onDragStart}
+        //onTouchStart={this.onDragStart}
         onDragMove={this.onDragMove}
-        onTouchMove={this.onDragMove}
+        //onTouchMove={this.onDragMove}
         onDragEnd={this.onDragEnd.bind(this)}
-        onTouchEnd={this.onDragEnd.bind(this)}
+        //onTouchEnd={this.onDragEnd.bind(this)}
         
         // Rotating
         onTransformStart={this.onTransformStart}

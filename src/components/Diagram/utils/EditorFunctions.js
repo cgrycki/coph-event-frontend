@@ -75,7 +75,6 @@ class EditorFunctions {
 
     // Check if mouse position is intersecting => returns node if true
     const intersects = canvas.getIntersection(rawPointerPos);
-    // console.log(intersects);
     if (intersects === null) return nullAction;
 
     // Get intersection node and return the appropriate action

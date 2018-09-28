@@ -15,7 +15,15 @@ const indicator =
     <rect x={0} y={0} width='100%' height='100%' />
   </svg>
 );
-const pointer = <span style={{fontSize: '1.2rem', lineHeight: '1.2'}}>👉</span>;
+const pointer = (
+  <span
+    style={{
+      fontSize: '1.2rem',
+      lineHeight: '1.2'
+    }}
+    role="img"
+    aria-label="Point to help button in toolbar"
+  >👉</span>);
 
 const style = {
   wordBreak: 'break-word',
