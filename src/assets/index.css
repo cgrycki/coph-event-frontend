@@ -156,6 +156,7 @@ body {
   order: 0;
 }
 .HeroCard header {
+  cursor: pointer;
   display: flex;
   width: 40%;
   justify-content: center;

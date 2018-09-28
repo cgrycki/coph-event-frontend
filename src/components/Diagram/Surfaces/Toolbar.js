@@ -69,13 +69,12 @@ export default class Toolbar extends Component {
       name: 'Chairs Per Table',
       onRender: () => {
         return (
-          <div className="Diagram--Toolbar--ChairToggle">
+          <div key="Diagram-ChairToggle" className="Diagram--Toolbar--ChairToggle">
             <span>Chairs Per Table</span>
             <Toggle
+              ariaLabel="Toggle Number of Chairs"
               offText="6"
-              offAriaLabel="6 Chairs"
               onText="8"
-              onAriaLabel="8 Chairs"
               checked={(chairs_per_table === 8)}
               onChanged={this.chairCallback}
             />

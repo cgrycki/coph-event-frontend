@@ -1,9 +1,7 @@
-import React from 'react';
-import {
-  Checkbox,
-  Label,
-  DatePicker
-} from 'office-ui-fabric-react';
+import React          from 'react';
+import { Checkbox }   from 'office-ui-fabric-react/lib/Checkbox';
+import { Label }      from 'office-ui-fabric-react/lib/Label';
+import { DatePicker } from 'office-ui-fabric-react/lib/DatePicker';
 
 
 export default class Panel extends React.Component {
@@ -14,12 +12,17 @@ export default class Panel extends React.Component {
 
   /** Creates a checkbox for a room. */
   createCheckbox(room) {
+    const { checkedRooms, onCheck } = this.props;
     return (
-      <div className="Calendar--CheckRow" key={room.roomNumber}>
+      <div
+        className="Calendar--CheckRow"
+        key={room.roomNumber}
+        onClick={() => onCheck(room.roomNumber)}
+      >
         <Checkbox
           label={room.roomNumber}
-          checked={this.props.checkedRooms.has(room.roomNumber)}
-          onChange={() => this.props.onCheck(room.roomNumber)}
+          checked={checkedRooms.has(room.roomNumber)}
+          onChange={() => onCheck(room.roomNumber)}
         />
       </div>
     );
@@ -28,7 +31,7 @@ export default class Panel extends React.Component {
   render() {
     
     return (
-      <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg4 ms-xl4">
+      <div className="ms-Grid-col ms-sm12  ms-lg4">
         
         <div className="ms-Grid-row">
           <div className="ms-Grid-col ms-sm12">
@@ -51,8 +54,8 @@ export default class Panel extends React.Component {
         </div>
         
         <div className="ms-Grid-row">
-          <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12 ms-xl12 ms-xxl12">
-            <Label required={true}>Rooms</Label>
+          <Label required={true} style={{marginLeft: '10px'}}>Rooms</Label>
+          <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12 ms-xl12 ms-xxl12 CalendarPanel">  
             {this.props.rooms && this.props.rooms.map(this.createCheckbox)}
           </div>
         </div>

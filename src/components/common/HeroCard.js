@@ -15,7 +15,7 @@ export default class HeroCard extends Component {
 
     return (
       <div className={cardClass}>
-        <header>
+        <header onClick={onClick} >
           <Icon iconName={iconName} />
         </header>
         <div className="HeroCard--button">

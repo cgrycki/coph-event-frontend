@@ -14,7 +14,8 @@ const styles = {
         fontWeight: '700',
         fontSize: '1.5rem',
         top: '-0.1rem',
-        color: 'hsl(0, 0%, 20%)'
+        color: 'hsl(0, 0%, 20%)',
+        maxWidth: 'unset'
       }
     }
   },
