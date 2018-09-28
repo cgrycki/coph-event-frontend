@@ -2,7 +2,8 @@ import React                              from 'react';
 import formats                            from './formats';
 import {
   minTime,
-  maxTime
+  maxTime,
+  scrollTime
 }                                         from './shared';
 import { 
   getDateISO,
@@ -93,13 +94,14 @@ export default class FormCalendar extends React.PureComponent {
       new Date(moment(date).local().format()) : new Date();
 
     return (
-      <div className="FormFieldRow" style={{ width: '100%', marginTop: 'unset' }}>
+      <div className="FormFieldRow FormCalendar" style={{ width: '100%', marginTop: 'unset' }}>
         <BigCalendar
           views={['week', 'work_week']}
           defaultView={"work_week"}
           date={jsDate}
           min={minTime}
           max={maxTime}
+          scrollToTime={scrollTime}
 
           events={this.addProposedEvent()}
           titleAccessor="event_name"
