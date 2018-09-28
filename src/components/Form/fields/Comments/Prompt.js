@@ -20,13 +20,14 @@ export default class Prompt extends Component {
     return (
       <React.Fragment>
         <div className="PromptDiv">
-          <h3>Audio/Visual</h3>
-          <p>Please note in the comments below if you require A/V support; we will coordinate your request with our Academic Technology staff prior to the event. Note, after hours support is limited and any costs associated would be the responsibility of the event sponsor.</p>
+          <h3 title="Audio/Visual & Information Technology">A/V & IT</h3>
+          <p>Please note in the comments below if you require Audio or Visual support; we will coordinate your request with our Academic Technology staff prior to the event. If instead you require Information Technology, comment below and we will coordinate with our IT Support group prior to the event.</p>
+          <p><i>Note, after hours support is limited and any costs associated would be the responsibility of the event sponsor.</i></p>
         </div>
         
         <div className="PromptDiv">
-          <h3>Information Technology</h3>
-          <p>Please note in the comments below if you require additional technology or support; we will coordinate with our IT Support group prior to the event. After hours support is limited and any costs associated would be the responsibility of the event sponsor.</p>
+          <h3>Hours</h3>
+          <p>If you are making a request for space outside of the normal building hours, note the times in which the building or rooms need to be opened and closed so that CPH Facilities can make the necessary adjustments with UI Facilities Management Access Control prior to your event.</p>
         </div>
 
         <div className="PromptDiv">
