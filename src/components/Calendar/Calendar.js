@@ -123,6 +123,10 @@ class Calendar extends React.Component {
   }
 
   render() {
+    const { rooms }        = this.props;
+    const { checkedRooms } = this.state;
+    const room_resources   = rooms.filter(rm => checkedRooms.has(rm.roomNumber));
+
     return (
       <div className="ms-Grid-row Calendar">
         <div className="ms-Grid-col ms-sm12 ms-md12 ms-lg12 ms-xl12 ms-xxl12">
@@ -146,7 +150,8 @@ class Calendar extends React.Component {
               
               formats={formats}
               components={{ toolbar: Toolbar }}
-
+              
+              selectable='ignoreEvents'
               onSelectEvent={this.onSelectEvent}
               onNavigate={this.onNavigate}
               onView={this.onView}
@@ -155,7 +160,11 @@ class Calendar extends React.Component {
               titleAccessor="event_name"
               startAccessor='start_time'
               endAccessor='end_time'
-              selectable='ignoreEvents'
+
+              resourceAccessor='room_number'
+              resourceIdAccessor='roomNumber'
+              resourceTitleAccessor='roomName'
+              resources={room_resources}
             />
           </div>
 
