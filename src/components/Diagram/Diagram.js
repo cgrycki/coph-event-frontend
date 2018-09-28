@@ -30,8 +30,8 @@ import './Diagram.css';
 
 class Diagram extends Component {
   async componentDidMount() {
-    const { pub_layouts, layouts_loading, fetchLayouts } = this.props;
-    if (pub_layouts.length === 0 && !layouts_loading) await fetchLayouts();
+    const { cphit, pub_layouts, layouts_loading, fetchLayouts } = this.props;
+    if (pub_layouts.length === 0 && !layouts_loading && cphit === undefined) await fetchLayouts();
     this.onResize();
   }
 
