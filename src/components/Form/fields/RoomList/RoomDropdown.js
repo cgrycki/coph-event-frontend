@@ -56,7 +56,7 @@ export default class RoomDropdown extends Component {
   }
 
   render() {
-    const { value, error, onChange } = this.props;
+    const { value, error, mfkError, onChange } = this.props;
     const filteredRooms              = this.filterRooms();
     const dropdownOptions            = this.createOptions(filteredRooms);
 
@@ -68,7 +68,7 @@ export default class RoomDropdown extends Component {
         onRenderOption={this.renderOption}
         onRenderTitle={rm => `${rm[0].roomName} - ${rm[0].roomNumber}`}
         selectedKey={value}
-        errorMessage={error}
+        errorMessage={error || mfkError}
         onChanged={rm => onChange('room_number', rm.roomNumber)}
         required
       />

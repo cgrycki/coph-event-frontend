@@ -12,7 +12,8 @@ import {
 import { 
   getDateISO,
   getDateTime,
-  getYesterday
+  getYesterday,
+  isWeekend
 }                                         from '../../utils/date.utils';
 import FormToolbar                        from './FormToolbar';
 import moment                             from 'moment';
@@ -26,7 +27,23 @@ BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
 
 
 export default class FormCalendar extends React.Component {
-  state = { hintMessage: undefined }
+  state = {
+    hintMessage: undefined,
+    view       : 'work_week'
+  }
+
+  /** Checks new date value and adjust calendar view if date is/isn't on a weekend */
+  componentWillUpdate(nextProps) {
+    const { date } = nextProps;
+    const { view } = this.state;
+
+    if (isWeekend(date) && view !== 'week') this.onView('week');
+    else if (!isWeekend(date) && view === 'week') this.onView('work_week');
+  }
+
+  onView = view => {
+    this.setState({ view });
+  }
 
   /** Computes the next/previous date and executes function to dispatch a store update. */
   handleNavigation = evt => {
@@ -112,25 +129,32 @@ export default class FormCalendar extends React.Component {
       <div className="FormFieldRow FormCalendar" style={{ width: '100%', marginTop: 'unset' }}>
         {this.state.hintMessage !== undefined && this.showHint()}
         <BigCalendar
-          views={['week', 'work_week']}
-          defaultView={"work_week"}
-          date={jsDate}
+          // Calendar views
+          views={['work_week', 'week']}
+          view={this.state.view}
+          onView={this.onView}
+
+          // Interactions
+          onNavigate={this.handleNavigation}
+          selectable
+          onSelectSlot={this.handleSlotSelection}
+
+          // Calendar Ranges
           min={minTime}
           max={maxTime}
           scrollToTime={scrollTime}
-
+          
+          // Calendar events
+          date={jsDate}
           events={this.addProposedEvent()}
           titleAccessor="event_name"
           startAccessor="start_time"
           endAccessor="end_time"
           eventPropGetter={this.eventPropGetter}
 
+          // Customizations
           components={{ toolbar: FormToolbar }}
           formats={formats}
-
-          onNavigate={this.handleNavigation}
-          selectable
-          onSelectSlot={this.handleSlotSelection}
         />
       </div>      
     );

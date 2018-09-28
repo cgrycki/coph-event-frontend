@@ -4,15 +4,11 @@ import {PrimaryButton}  from 'office-ui-fabric-react/lib/Button';
 
 
 export default class AdminTools extends React.Component {
-  constructor() {
-    super();
-    
-    this.state = {
-      workflow: '',
-      dynamo:   ''
-    };
-
-    this.updateField = this.updateField.bind(this);
+  state = {
+    workflow: '',
+    dynamo  : '',
+    approve : '',
+    void    : ''
   }
 
   /** Lifecycle method: resets text fields on successful delete. */
@@ -28,7 +24,7 @@ export default class AdminTools extends React.Component {
   }
 
   /** Updates component state upon text field change */
-  updateField(field, value) {
+  updateField = (field, value) => {
     this.setState({ [field]: value });
   }
 

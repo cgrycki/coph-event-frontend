@@ -18,6 +18,7 @@ import {
   validDate,
   validTime,
   validSetupMFK,
+  isMFKRequired,
   validProvider,
   validNumberPeople
 }                     from './param.utils';
@@ -141,6 +142,20 @@ export default class BusinessRequirements {
     else { delete this.errors['setup_required']; }
   }
 
+  /** Validates a MFK account number is satisfiably entered if user has selected
+   * the atrium.
+   */
+  validateAtriumMFK(room_number, setup_mfk) {
+    if (room_number === 'XC100') {
+      const mfk_entered = isMFKRequired(setup_mfk);
+      const mfk_error = this.errors['setup_required'];
+
+      if (mfk_entered === true && mfk_error === undefined) delete this.errors['atrium_mfk'];
+      else this.errors['atrium_mfk'] = 'You must go back and enter a valid MFK account number to use the Atrium';
+    }
+    else delete this.errors['atrium_mfk'];
+  }
+
   /** Validates there are no overlaps in proposed time. */
   validateSchedule(start_time, end_time, date, event_title, room_schedule) {
     // Make sure we have valid times/dates before we execute schedule validation
@@ -206,6 +221,9 @@ export default class BusinessRequirements {
 
     // Make sure Setup MFK is valid
     this.validateMFK(info.setup_required, info.setup_mfk);
+
+    // Make sure MFK is entered if room is Atrium
+    this.validateAtriumMFK(info.room_number, info.setup_mfk);
 
     // Make sure there are no overlaps in scheduling
     this.validateSchedule(info.start_time, info.end_time, info.date, info.event_title, schedule);
