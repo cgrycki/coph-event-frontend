@@ -1,18 +1,18 @@
 /**
  * Event Details Component. Responsible for rendering event information.
  */
-import React  from 'react';
-import { 
-  Label, 
-  Toggle, 
-  TextField 
-}             from 'office-ui-fabric-react';
+import React                    from 'react';
+import { Label }                from 'office-ui-fabric-react/lib/Label';
+import { Toggle }               from 'office-ui-fabric-react/lib/Toggle';
+import { TextField }            from 'office-ui-fabric-react/lib/TextField';
 import { 
   Shimmer, 
   ShimmerElementType as ElemType 
-}             from 'office-ui-fabric-react/lib/Shimmer';
-import MFK from '../../Form/fields/Setup/MFK';
+}                               from 'office-ui-fabric-react/lib/Shimmer';
+import MFK                      from '../../Form/fields/Setup/MFK';
 import './Details.css';
+
+
 
 const labelWrapper = (label) => (
   <Label required={true} disabled>{label}</Label>
@@ -106,6 +106,18 @@ export default class Details extends React.PureComponent {
           </div>
 
           <div className="ms-Grid-row">
+            <div className="ms-Grid-col ms-sm9 ms-md4 ms-lg3">
+              {labelWrapper("Is this for a University Course?")}
+              {toggleWrapper(courseRef, should_shimmer)}
+            </div>
+            
+            <div className="ms-Grid-col ms-sm11 ms-smPush1 ms-md7 ms-lg8 ms-lgPush1 ms-xl6 ms-xlPush3">
+              {courseRef && labelWrapper("Course")}
+              {courseRef && textFieldWrapper(course, should_shimmer)}
+            </div>
+          </div>
+
+          <div className="ms-Grid-row">
             <div className="ms-Grid-col ms-sm9 ms-md4 ms-lg3 ms-xl3">
               {labelWrapper('Serving Food or Drinks?')}
               {toggleWrapper(refreshments, should_shimmer)}
@@ -121,24 +133,12 @@ export default class Details extends React.PureComponent {
 
           <div className="ms-Grid-row">
             <div className="ms-Grid-col ms-sm9 ms-md6 ms-lg4 ms-xxl3">
-              {labelWrapper("Furniture or Setup Required?")}
+              {labelWrapper("Furniture and/or Setup Required?")}
               {toggleWrapper(setupReq, should_shimmer)}
             </div>
 
             <div className="ms-Grid-col ms-sm12 ms-lg8 ms-xxl9">
-              {mfk && <MFK setup_mfk={mfk} disabled={true} />}
-            </div>
-          </div>
-
-          <div className="ms-Grid-row">
-            <div className="ms-Grid-col ms-sm9 ms-md4 ms-lg3">
-              {labelWrapper("Is this for a University Course?")}
-              {toggleWrapper(courseRef, should_shimmer)}
-            </div>
-            
-            <div className="ms-Grid-col ms-sm11 ms-smPush1 ms-md7 ms-lg8 ms-lgPush1 ms-xl6 ms-xlPush3">
-              {courseRef && labelWrapper("Course")}
-              {courseRef && textFieldWrapper(course, should_shimmer)}
+              {setupReq && <MFK setup_mfk={mfk} disabled={true} />}
             </div>
           </div>
             
