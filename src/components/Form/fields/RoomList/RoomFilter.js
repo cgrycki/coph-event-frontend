@@ -34,7 +34,7 @@ export default class RoomFilter extends Component {
     return (
       <span>
         <IconButton
-          iconProps={{ iconName: 'CaretRight8' }}
+          iconProps={{ iconName: 'TriangleSolidRight12' }}
           className={`FilterIcon ${iconClass}`}
           onClick={this.toggleCollapse}
         />
