@@ -9,6 +9,7 @@ import {
   FormButtons
 }                     from './shared';
 import Diagram        from '../Diagram';
+import Description    from '../Diagram/Description';
 
 
 
@@ -29,6 +30,10 @@ class Step extends React.Component {
     return(
       <FormStep>
         <FormTitle progress={0.75} />
+        
+        <div className="ms-Grid-col ms-sm12 ms-md10 ms-xl8">
+          <Description/>
+        </div>
         
         <Diagram draggable={true} />
 

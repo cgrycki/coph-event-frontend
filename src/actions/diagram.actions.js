@@ -200,8 +200,6 @@ export function populateEditor({ items=[], chairs_per_table=6}) {
 }
 
 
-
-
 /** Clears the editor's items, resets counts, and resets IDs. */
 export const clearEditor = () => ({
   type: diagramActions.DIAGRAM_CLEAR_ITEMS
