@@ -31,8 +31,8 @@ export default class Labels extends React.Component {
       DEPT_ADMIN  : 'Administration\nS160',
       DEPT_STUDENT: 'Student Services\nN170',
       DEPT_IT     : 'Information Technology\nOffice\nN140',
-      CLASS_N120  : 'Callaghan Auditorium\nN120',
-      CLASS_N110  : 'Ellig Auditorium\nN110'
+      CLASS_N120  : 'Ellig Auditorium\nN120',
+      CLASS_N110  : 'Callaghan Auditorium\nN110'
     }
     return labels[label];
   }
