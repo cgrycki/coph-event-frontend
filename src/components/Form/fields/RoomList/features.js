@@ -4,6 +4,7 @@ const features = [
   'Disc Player - DVD',
   'Document Camera',
   'Dual Projection - 2 Images',
+  'Furniture',
   'Lecture Capture with Mic',
   'Mic Drawer',
   'Microphone - Fixed on Podium',
