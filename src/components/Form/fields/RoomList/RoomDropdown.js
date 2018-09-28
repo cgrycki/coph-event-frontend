@@ -66,7 +66,7 @@ export default class RoomDropdown extends Component {
         placeHolder="Select a Room from the dropdown list"
         options={dropdownOptions}
         onRenderOption={this.renderOption}
-        onRenderTitle={rm => `${rm[0].roomName} (${rm[0].roomNumber})`}
+        onRenderTitle={rm => `${rm[0].roomName} - ${rm[0].roomNumber}`}
         selectedKey={value}
         errorMessage={error}
         onChanged={rm => onChange('room_number', rm.roomNumber)}

@@ -1,4 +1,8 @@
 import React                              from 'react';
+import {
+  MessageBar,
+  MessageBarType
+}                                         from 'office-ui-fabric-react/lib/MessageBar';
 import formats                            from './formats';
 import {
   minTime,
@@ -20,12 +24,9 @@ import './Calendar.css';
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
 
 
-export default class FormCalendar extends React.PureComponent {
-  constructor() {
-    super();
-    this.eventPropGetter = this.eventPropGetter.bind(this);
-    this.addProposedEvent = this.addProposedEvent.bind(this);
-  }
+
+export default class FormCalendar extends React.Component {
+  state = { hintMessage: undefined }
 
   /** Computes the next/previous date and executes function to dispatch a store update. */
   handleNavigation = evt => {
@@ -40,7 +41,7 @@ export default class FormCalendar extends React.PureComponent {
   }
 
   /** Computes the fill properties of an event */
-  eventPropGetter(evt) {
+  eventPropGetter = evt => {
     let { schedule_overlap } = this.props;
     let className = '';
 
@@ -52,7 +53,7 @@ export default class FormCalendar extends React.PureComponent {
   }
 
   /** Adds the proposed event if we have it's date and times */
-  addProposedEvent() {
+  addProposedEvent = () => {
     let { 
       schedules, date, start_time, end_time, event_name
     } = this.props;
@@ -79,11 +80,25 @@ export default class FormCalendar extends React.PureComponent {
     
     // Parse date and times
     const newDate = getDateISO(slotStart);
-    const start = moment(slotStart).local().format('h:mm A');
-    const end = moment(slotEnd).local().format('h:mm A');
+    const start   = moment(slotStart).local().format('h:mm A');
+    const end     = moment(slotEnd).local().format('h:mm A');
 
     // Only dispatch the datetime changes if the selected slot is today or later
-    return (slotStart > new Date(getYesterday())) ? onSelect(newDate, start, end) : null;
+    if (slotStart < new Date(getYesterday())) {
+      this.setState({ hintMessage: 'Your event must not be in the past' });
+    }
+    else {
+      this.setState({ hintMessage: undefined });
+      onSelect(newDate, start, end);
+    }
+  }
+
+  showHint = () => {
+    return (
+      <MessageBar messageBarType={MessageBarType.blocked}>
+        {this.state.hintMessage}
+      </MessageBar>
+    );
   }
 
   render() {
@@ -95,6 +110,7 @@ export default class FormCalendar extends React.PureComponent {
 
     return (
       <div className="FormFieldRow FormCalendar" style={{ width: '100%', marginTop: 'unset' }}>
+        {this.state.hintMessage !== undefined && this.showHint()}
         <BigCalendar
           views={['week', 'work_week']}
           defaultView={"work_week"}
