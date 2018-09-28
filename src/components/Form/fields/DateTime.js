@@ -37,7 +37,7 @@ export default class DateTime extends React.Component {
         />
 
         <TimeField
-          label={'Start Time'}
+          label={'Start'}
           field={'start_time'}
           value={start_time}
           error={start_time_error}
@@ -45,7 +45,7 @@ export default class DateTime extends React.Component {
         />
 
         <TimeField
-          label={'End Time'}
+          label={'End'}
           field={'end_time'}
           value={end_time}
           error={end_time_error}

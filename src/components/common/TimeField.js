@@ -13,7 +13,7 @@ export default class TimeField extends React.Component {
   }
 
   render() {
-    let { field, label, value, onChange, error } = this.props;
+    const { field, label, value, onChange, error } = this.props;
 
     // Take the ends off of start/end times
     let sliced_times = (field === 'start_time') ?
