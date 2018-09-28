@@ -35,6 +35,7 @@ export default class MFK extends React.Component {
   /** Renders the Text Fields with autotabbing */
   render() {
     const info = 'In the unlikely event that extra maintenance or repairs are required following an event, any costs will be assessed along to the event sponsor.\n';
+    const rowClass = !this.props.disabled ? 'SetupMFKRow--Active' : '';
     return (
       <FocusZone
         direction={FocusZoneDirection.horizontal}
@@ -47,15 +48,14 @@ export default class MFK extends React.Component {
           required={!this.props.disabled}
         />
         <div 
-          className="ms-slideRightIn20 ms-slideLeftOut20" 
+          className={`ms-slideRightIn20 ms-slideLeftOut20 SetupMFKRow ${rowClass}`}
           style={row_style}>
           {setup_mfk_fields.map((field, idx) => {
             return (
               <div key={idx}>
                 <TextField
-                  disabled={this.props.disabled}
                   label={field.label}
-                  required={field.required}
+                  required={field.required && !this.props.disabled}
                   id={`MFK--${field.field}`}
                   className='FormSetupInput'
                   maxLength={field.maxLength}

@@ -54,6 +54,17 @@ const validDate = date => {
 const validTime = time => isIn(time, times);
 
 
+/**
+ * Helper function that returns true if any field in the MFK is filled
+ * @param {object} mfk MFK Object from form fields
+ * @returns {boolean}
+ */
+const isMFKRequired = mfk => {
+  const mfkFields          = Object.values(mfk);
+  const noValidationNeeded = mfkFields.every(field => field === '');
+  return !noValidationNeeded;
+}
+
 
 /**
  * Validates a portion of the MFK Accounting field
@@ -99,6 +110,7 @@ module.exports = {
   validDate,
   validTime,
   validProvider,
+  isMFKRequired,
   validSetupMFK,
   validNumberPeople
 };
