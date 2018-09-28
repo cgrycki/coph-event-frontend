@@ -1,12 +1,16 @@
-import React from 'react';
+import React     from 'react';
+import {
+  isWeekend,
+  isAfterHours
+}                 from '../../../utils/date.utils';
 
 // Fields
-import DateField from '../../common/DateField';
-import TimeField from '../../common/TimeField';
+import DateField  from '../../common/DateField';
+import TimeField  from '../../common/TimeField';
 
-export default class DateTime extends React.PureComponent {
+export default class DateTime extends React.Component {
   render() {
-    let { 
+    const { 
       date, start_time, end_time, coph_email,
       start_time_error, end_time_error, coph_email_error,
       onChange
@@ -19,10 +23,14 @@ export default class DateTime extends React.PureComponent {
       'minHeight'     : '120px'
     };
 
+    // If either condition is true, show the COPH employee email input below date
+    const displayCophEmail = isWeekend(date) || isAfterHours(start_time, end_time);
+
     return (
       <div className="FormFieldRow" style={flex_style}>
         <DateField
           date={date}
+          displayCOPH={displayCophEmail}
           coph_email={coph_email}
           coph_email_error={coph_email_error}
           onChange={onChange}
