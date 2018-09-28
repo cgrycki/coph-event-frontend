@@ -77,19 +77,10 @@ export default class FoodDrink extends React.PureComponent {
   }
 
   render() {
-    let { food_drink_required, food_drink_error, onChange } = this.props;
-
-    // Styles the row 
-    const row_styles = {
-      "boxSizing"     : "border-box",
-      "display"       : "flex",
-      "justifyContent": "flex-start",
-      "flexDirection" : "row",
-      "minHeight"     : "125px"
-    }
+    const { food_drink_required, food_drink_error, onChange } = this.props;
 
     return (
-      <div className="ms-Grid-row FormFieldRow" style={row_styles}>
+      <div className="ms-Grid-row FormFieldRow">
         <div className="ms-Grid-col ms-sm8 ms-md8 ms-lg4 ms-xl4 ms-xxl4">
           <Toggle
             defaultChecked={false}

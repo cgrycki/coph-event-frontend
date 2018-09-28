@@ -1,8 +1,6 @@
 import React          from 'react';
-import { 
-  DatePicker,
-  DayOfWeek 
-}                     from 'office-ui-fabric-react';
+import { DatePicker } from 'office-ui-fabric-react/lib/DatePicker';
+import { DayOfWeek }  from 'office-ui-fabric-react';
 import { TextField }  from 'office-ui-fabric-react/lib/TextField';
 import { 
   sixMonthsFromToday, 
@@ -34,10 +32,9 @@ export default class DateField extends React.Component {
         <TextField
           onRenderLabel={() => this.renderLabel(label, info, true)}
           placeholder={"Enter on-premises CoPH employee's email"}
-          field={"coph_email"}
           value={value}
           errorMessage={error}
-          onChange={onChange}
+          onChange={evt => onChange('coph_email', evt.target.value)}
         />
       </div>
     );
