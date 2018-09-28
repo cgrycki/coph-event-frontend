@@ -1,13 +1,13 @@
-// Dependecies
-import React          from 'react';
-import { connect }    from 'react-redux';
+// Dependecies  
+import React            from 'react';
+import { connect }      from 'react-redux';
 // Actions
 import {
   updateForm,
   updateDateTimes,
   fetchRooms,
   fetchCalendarSchedule
-}                     from '../../actions';
+}                       from '../../actions';
 import { getWeekRange } from '../../utils/date.utils';
 // Form components + fields
 import {
@@ -35,7 +35,9 @@ class Step extends React.Component {
   validate = () => {
     const { info, errors, schedule_loading } = this.props;
     // If we have an overlap or theres a on-site error automatically return true
-    if (schedule_loading || errors.hasOwnProperty('coph_email')) return true;
+    if (schedule_loading ||
+        errors.hasOwnProperty('coph_email') ||
+        errors.hasOwnProperty('atrium_mfk')) return true;
 
     let validFlag = errors['schedule_overlap'];
     const pgFields = ['date', 'start_time', 'end_time', 'room_number'];
@@ -104,6 +106,7 @@ class Step extends React.Component {
             rooms_error={rooms_error}
             value={info['room_number']}
             error={errors['room_number']}
+            mfkError={errors['atrium_mfk']}
             onChange={this.onChange}
           />
 
