@@ -14,7 +14,7 @@ export default class HUD extends React.Component {
       chair   : 'Chairs',
       circle  : 'Circular Tables',
       rect    : 'Rectangular Tables',
-      cocktail: 'Bar Top Tables',
+      cocktail: 'High Top Tables',
       display : 'Display Boards',
       trash   : 'Trash Cans'
     };
@@ -22,7 +22,7 @@ export default class HUD extends React.Component {
     const chairText    = `${labels.chair}             ${counts.chair}\t/\t${inventory.chair}\n`;
     const circleText   = `${labels.circle}    ${counts.circle}\t/\t${inventory.circle}\n`;
     const rectText     = `${labels.rect} ${counts.rect}\t/\t${inventory.rect}\n`;
-    const cocktailText = `${labels.cocktail}     ${counts.cocktail}\t/\t${inventory.cocktail}\n`;
+    const cocktailText = `${labels.cocktail}    ${counts.cocktail}\t/\t${inventory.cocktail}\n`;
     const displayText  = `${labels.display}     ${counts.display}\t/\t${inventory.display}\n`;
     const trashText    = `${labels.trash}         ${counts.trash}\t/\t${inventory.trash}\n`;
     const hudText = chairText + circleText + rectText + cocktailText + displayText + trashText;
@@ -57,7 +57,7 @@ export default class HUD extends React.Component {
         scaleX={1}
         scaleY={1}>
         <Rect
-          width={(0.33 * width) / scaleX}
+          width={0.33 * (width / scaleX)}
           height={0.15 * height}
           cornerRadius={3}
           shadowBlur={3}
@@ -84,7 +84,7 @@ export default class HUD extends React.Component {
           fontSize={14 / scaleX}
           fontFamily="monospace"
           lineHeight={1.25}
-          offsetX={(-x/scaleX) + (0.25 * -width)}
+          offsetX={(0.25 * -(width/scaleX))}
           opacity={opacity}
         />
       </Group>
