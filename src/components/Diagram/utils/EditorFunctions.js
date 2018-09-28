@@ -115,17 +115,19 @@ class EditorFunctions {
   static handleDragEnd(canvasRef, dragEvt) {
     if (dragEvt === null) return null;
 
-    const stage = canvasRef.getStage();
-    const container = stage.container();
-    const cursorBeforeDrag = stage.getAttr('cursor');
-    container.style.cursor = cursorBeforeDrag;
+    const stage                  = canvasRef.getStage();
+    const container              = stage.container();
+    const cursorBeforeDrag       = stage.getAttr('cursor');
+          container.style.cursor = cursorBeforeDrag;
 
+    if (dragEvt.type === 'contentTouchend' && !dragEvt.evt.dragEndNode) return null;
+    const nodeType = (dragEvt.type !== 'contentTouchend') ? dragEvt.target.nodeType : dragEvt.evt.dragEndNode.nodeType;
+    const node     = (dragEvt.type !== 'contentTouchend') ? dragEvt.target : dragEvt.evt.dragEndNode;
 
-    const { nodeType } = dragEvt.target;
     if (nodeType === 'Stage') {
       return {
-        x: dragEvt.target.getAttr('x'),
-        y: dragEvt.target.getAttr('y')
+        x: node.getAttr('x'),
+        y: node.getAttr('y')
       };
     } else return null;
   }

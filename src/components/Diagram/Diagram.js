@@ -134,13 +134,20 @@ class Diagram extends Component {
             scaleX={scaleX}
             scaleY={scaleY}
             
+            // Dragging
             draggable
             onDragStart={this.onDragStart}
+            onContentTouchStart={this.onDragStart}
             onDragEnd={this.onDragEnd}
-
+            onContentTouchEnd={this.onDragEnd}
+            
+            // Zooming
             onContentWheel={this.onContentWheel}
             onContentClick={this.onContentClick}
+
+            // Clicking
             onContentContextMenu={this.onContentClick}
+            onContentTap={this.onContentClick}
           >
             <Background width={width} height={height} />
             <Floorplan  width={width} height={height} />
