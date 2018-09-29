@@ -57,11 +57,6 @@ class ScaleUtils {
       let floorplanY = oldY.invert(y);
       let scaledY    = newY(floorplanY);
 
-      //console.log('--------------------------------------------------------------------');
-      //console.log('x:\tOG ', x, 'floorplan', floorplanX, 'scaled to new', scaledX);
-      //console.log('y:\tOG ', y, 'floorplan', floorplanY, 'scaled to new', scaledY);
-      //console.log('--------------------------------------------------------------------');
-
       return {...item, x: scaledX, y: scaledY};
     });
 

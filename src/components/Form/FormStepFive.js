@@ -20,7 +20,7 @@ class Step extends React.Component {
   }
 
   validate = () => this.props.emptyItems;
-  prevPage = () => this.props.history.goBack(-1);
+  prevPage = () => this.props.history.push('/form/when');
   nextPage = () => {
     this.props.history.push('/form/misc');
     this.props.clearSelection();

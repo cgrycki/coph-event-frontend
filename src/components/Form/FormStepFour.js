@@ -44,7 +44,7 @@ class Step extends React.Component {
     pgFields.forEach(field => { if (errors.hasOwnProperty(field) || info[field] === '') validFlag = true; });
     return validFlag;
   }
-  prevPage = () => this.props.history.goBack(-1);
+  prevPage = () => this.props.history.push('/form/what');
   nextPage = () => {
     const { history, info: { room_number }} = this.props;
     if (room_number === 'XC100') history.push('/form/layout');
