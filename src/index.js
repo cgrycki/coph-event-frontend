@@ -24,7 +24,7 @@ initializeIcons();
 // Create the store
 const history = createBrowserHistory();
 const {
-  store: configuredStore, 
+  store         : configuredStore,
   persistedStore: persistor
 } = configureStore(initialStore, history);
 

@@ -8,8 +8,7 @@ import { connectRouter, routerMiddleware }        from 'connected-react-router';
 import thunkMiddleware                            from 'redux-thunk/dist/redux-thunk';
 import { createLogger }                           from 'redux-logger/dist/redux-logger';
 import { getDateISO }                             from '../utils/date.utils.js';
-import { fetchLogin }                             from '../actions/app.actions';
-import { appSetup } from '../actions/nav.actions';
+import { appSetup }                               from '../actions/nav.actions';
 
 // Logging middleware
 const loggerMiddleware = createLogger({
@@ -25,19 +24,19 @@ const loggerMiddleware = createLogger({
  * @returns {Object} store - Our store with browser history, async, and logging middleware.
  */
 export function configureStore(preloadedState, browserHistory) {
-  // Check if we have DevTools installed
+  // Compose: check if we have DevTools installed
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+  // Middlewares: only add logger if we're in production
+  const middlewares = [routerMiddleware(browserHistory), thunkMiddleware];
+  if (process.env.NODE_ENV !== 'production') middlewares.push(loggerMiddleware);
 
   // Create the store
   const store = createStore(
     connectRouter(browserHistory)(persistedReducer),
     preloadedState,
     composeEnhancers(
-      applyMiddleware(
-        routerMiddleware(browserHistory),
-        thunkMiddleware,
-        loggerMiddleware
-      )
+      applyMiddleware(...middlewares)
     )
   );
 
@@ -49,8 +48,7 @@ export function configureStore(preloadedState, browserHistory) {
   // Dispatch the current date to the store in case the hydration is stale
   //store.dispatch({ type: 'UPDATE_FIELD', field: 'date', value: getDateISO(new Date())});
 
-  return {store, persistedStore};
+  return { store, persistedStore };
 }
-
 
 export default configureStore;

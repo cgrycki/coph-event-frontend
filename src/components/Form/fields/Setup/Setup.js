@@ -40,7 +40,8 @@ export default class Setup extends React.Component {
           <MFK
             setup_mfk={this.props.setup_mfk} 
             onChange={this.props.onChange}
-            disabled={!this.props.setup_required}
+            setup_required={this.props.setup_required}
+            disabled={false}
           />
         </div>
       </div>
