@@ -1,3 +1,6 @@
+// Testing if a cloudfront cache issue is resolved. The following line is temporary.
+const myValue='test';
+
 // Libraries
 import React                    from 'react';
 import ReactDOM                 from 'react-dom';
