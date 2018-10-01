@@ -130,6 +130,7 @@ A picture is worth a thousand words, here's a screenshot of our Redux store from
   * **[React-Redux Architecture](https://medium.com/mofed/react-redux-architecture-overview-7b3e52004b6e)** (start here)
   * [React Docs](https://reactjs.org/docs/getting-started.html)
   * [Redux Docs](https://redux.js.org/)
+  * [React Patterns](https://reactpatterns.com/)
 - Fabric (Microsoft Office Interface)
   - [Fabric Github](https://github.com/OfficeDev/office-ui-fabric-react)
   - [Fabric React Components](https://developer.microsoft.com/en-us/fabric#/components)
@@ -140,7 +141,9 @@ A picture is worth a thousand words, here's a screenshot of our Redux store from
 - Canvas (Floorplan)
   * [KonvaJS documentation](https://konvajs.github.io/docs/index.html)
   * [React-Konva documentation](https://konvajs.github.io/docs/react/)
-
+- Calendar
+  * [React-Big-Calendar Github](https://github.com/intljusticemission/react-big-calendar)
+ 
 
 ## Reference
 
