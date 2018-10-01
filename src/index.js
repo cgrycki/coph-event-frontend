@@ -1,7 +1,6 @@
 // Libraries
 import React                    from 'react';
 import ReactDOM                 from 'react-dom';
-import registerServiceWorker    from './registerServiceWorker';
 import { createBrowserHistory } from 'history';
 import { initializeIcons }      from 'office-ui-fabric-react/lib/Icons';
 import { unregister }           from './registerServiceWorker';
@@ -34,6 +33,4 @@ ReactDOM.render(
   <App store={configuredStore} persistor={persistor} history={history} />,
   document.getElementById('root')
 );
-
-//registerServiceWorker();
 unregister();
