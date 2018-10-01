@@ -4,6 +4,7 @@ import ReactDOM                 from 'react-dom';
 import registerServiceWorker    from './registerServiceWorker';
 import { createBrowserHistory } from 'history';
 import { initializeIcons }      from 'office-ui-fabric-react/lib/Icons';
+import { unregister }           from './registerServiceWorker';
 
 // Styles
 import '../node_modules/office-ui-fabric-core/dist/css/fabric.min.css';
@@ -33,7 +34,6 @@ ReactDOM.render(
   <App store={configuredStore} persistor={persistor} history={history} />,
   document.getElementById('root')
 );
-registerServiceWorker();
 
-// Testing if a cloudfront cache issue is resolved. The following line is temporary.
-const myValue='test';
+//registerServiceWorker();
+unregister();
