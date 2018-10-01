@@ -30,7 +30,7 @@ class Step extends React.Component {
 
     return validFlag;
   }
-  prevPage = () => this.props.history.goBack(-1);
+  prevPage = () => this.props.history.push('/form/terms');
   nextPage = () => this.props.history.push('/form/what');
   onChange = (field, value) => this.props.updateForm(field, value);
 

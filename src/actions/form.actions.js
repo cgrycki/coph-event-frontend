@@ -6,6 +6,8 @@ import BusinessRequirements     from '../utils/BusinessRequirements';
 import { formActions }          from '../constants/actionTypes';
 import { populateEventAndPush } from './nav.actions';
 import { getTimeAfterStart }    from '../utils/date.utils';
+import { isMFKRequired }        from '../utils/param.utils';
+
 
 const businessReqs = new BusinessRequirements();
 const URI = process.env.REACT_APP_REDIRECT_URI;
@@ -45,9 +47,18 @@ export const updateForm = (field, value) => {
     // validate the new schedule doesn't conflict with prior input.
     if (field !== undefined) dispatch(updateField(field, value));
 
+
     // Set end_time 'automagically' if not already entered
     if (field === "start_time" && getState().form.fields.end_time === "")
       dispatch(updateField("end_time", getTimeAfterStart(value)));
+
+    
+    // Setup MFK -- Enforce completeness if partially filled out
+    if (field === 'setup_mfk') {
+      const setup_required = isMFKRequired(value);
+      dispatch(updateField('setup_required', setup_required));
+    }
+    
 
     // Get the store after update
     const current_state = getState();

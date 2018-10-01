@@ -55,6 +55,16 @@ export default class EventList extends React.Component {
   createColumns = () => {
     // This is gross and verbose. 
     const { onView } = this.props;
+    const nameMap = {
+      true : 'EventAccepted',
+      false: 'EventTentative',
+      void : 'EventDeclined'
+    };
+    const colorMap = {
+      true : '#107c10',
+      false: '#a6a6a6',
+      void : '#e81123'
+    }
     const columns = [
       {
         key: 'approved',
@@ -64,12 +74,12 @@ export default class EventList extends React.Component {
         minWidth: 64,
         maxWidth: 64,
         onRender: (item) => {
+          const approved = item.event.approved;
+          const iconName  = nameMap[approved];
+          const iconColor = colorMap[approved];
 
-          const approved = item.event.approved
-          const iconName = approved === 'true' ? 'EventAccepted' : 'EventDeclined';
-          const iconColor = approved === 'true' ? '#107c10' : '#e81123';
           return (<Icon
-            title={approved.toString()}
+            title={`Event Approved: ${approved.toString()}`}
             iconName={iconName}
             style={{ 
               color      : iconColor,

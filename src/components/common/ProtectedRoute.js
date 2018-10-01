@@ -34,8 +34,8 @@ class ProtectedRouteClass extends React.Component {
    * on the /auth/validate REST call we initiate on store initiation.
   */
   checkRest = () => {
-    const { login_loading, logged_in } = this.props;
-    return (login_loading || !logged_in) ? this.renderLoading() : this.resolveAuth();
+    const { login_loading } = this.props;
+    return (login_loading) ? this.renderLoading() : this.resolveAuth();
   }
 
   resolveAuth = () => {

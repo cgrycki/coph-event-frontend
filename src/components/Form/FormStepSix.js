@@ -11,7 +11,7 @@ import {
   FormTitle,
   FormButtons
 }                     from './shared';
-import EventComments  from './fields/EventComments';
+import Comments       from './fields/Comments';
 
 
 
@@ -30,22 +30,35 @@ class Step extends React.Component {
 
     return validFlag;
   }
-  prevPage = () => this.props.history.goBack(-1);
+  prevPage = () => {
+    const { info, history } = this.props;
+    if (info['room_number'] === 'XC100') history.push('/form/layout');
+    else history.push('/form/when');
+  }
   nextPage = () => this.props.history.push('/form/review');
   onChange = (field, value) => this.props.updateForm(field, value);
 
+  getSelectedRoom = (room_number) => {
+    const { rooms } = this.props;
+    if (room_number === '') return undefined;
+    else return rooms.filter(rm => rm.roomNumber === room_number)[0];
+  }
+
   render() {
     const { info, errors, updateForm } = this.props;
+    const { info: { room_number }}     = this.props;
+    const selectedRoom                 = this.getSelectedRoom(room_number);
 
     return(
       <FormStep>
         <FormTitle progress={0.9} />
         
         <div className="ms-Grid-row ms-slideRight40 FormAlignStart">          
-          <EventComments
+          <Comments
             value={info['comments']}
             error={errors['comments']}
             onChange={updateForm}
+            room={selectedRoom}
           />
         </div>
 
@@ -62,7 +75,8 @@ class Step extends React.Component {
 
 const mapStateToProps = state => ({
   info  : state.form.fields,
-  errors: state.form.errors
+  errors: state.form.errors,
+  rooms : state.rooms.rooms
 })
 
 const mapDispatchToProps = dispatch => ({

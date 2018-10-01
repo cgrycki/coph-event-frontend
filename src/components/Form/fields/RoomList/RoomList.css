@@ -1,6 +1,17 @@
 .RoomList--FeatureFilterWrapper {
   margin-top: 8px;
 }
+.RoomList--FeatureFilterWrapper button {
+  margin-left: unset;
+}
+.RoomList--FeatureFilterWrapper .FilterIcon,
+.RoomList--FeatureFilterWrapper .FilterIcon i {
+  transition: all 0.3s ease;
+}
+.RoomList--FeatureFilterWrapper .FilterIcon--Open {
+  transform: rotate(90deg) !important;
+}
+
 .RoomList--FeatureFilter {
   display: inline-flex;
   flex-flow: row wrap;

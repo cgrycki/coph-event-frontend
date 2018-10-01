@@ -24,13 +24,14 @@ export default class RoomList extends Component {
 
   render() {
     const { checkedFeatures } = this.state;
-    const { rooms, rooms_loading, value, error, onChange } = this.props;
+    const { rooms, rooms_loading, value, error, mfkError, onChange } = this.props;
 
     return (
       <div className="ms-Grid-row FormFieldRow">
         <RoomDropdown
           value={value}
           error={error}
+          mfkError={mfkError}
           onChange={onChange}
           rooms={rooms}
           rooms_loading={rooms_loading}

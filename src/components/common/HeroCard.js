@@ -9,11 +9,13 @@ export default class HeroCard extends Component {
     const { iconName, text, subtext, onClick, primary } = this.props; 
     
     // Assign a class if this is the 'action' card
-    const cardClass = (primary) ? 'HeroCard HeroCard--ActionCard' : 'HeroCard';
+    const cardClass = (primary) ?
+      'HeroCard HeroCard--ActionCard' :
+      `HeroCard HeroCard--${iconName}`;
 
     return (
       <div className={cardClass}>
-        <header>
+        <header onClick={onClick} >
           <Icon iconName={iconName} />
         </header>
         <div className="HeroCard--button">

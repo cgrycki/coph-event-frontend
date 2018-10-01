@@ -1,9 +1,9 @@
 // Libraries
 import React                    from 'react';
 import ReactDOM                 from 'react-dom';
-import registerServiceWorker    from './registerServiceWorker';
 import { createBrowserHistory } from 'history';
 import { initializeIcons }      from 'office-ui-fabric-react/lib/Icons';
+import { unregister }           from './registerServiceWorker';
 
 // Styles
 import '../node_modules/office-ui-fabric-core/dist/css/fabric.min.css';
@@ -24,7 +24,7 @@ initializeIcons();
 // Create the store
 const history = createBrowserHistory();
 const {
-  store: configuredStore, 
+  store         : configuredStore,
   persistedStore: persistor
 } = configureStore(initialStore, history);
 
@@ -33,4 +33,4 @@ ReactDOM.render(
   <App store={configuredStore} persistor={persistor} history={history} />,
   document.getElementById('root')
 );
-registerServiceWorker();
+unregister();

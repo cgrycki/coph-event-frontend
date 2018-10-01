@@ -40,7 +40,7 @@ class Step extends React.Component {
   }
 
   
-  prevPage = () => this.props.history.goBack(-1);
+  prevPage = () => this.props.history.push('/form/misc');
   nextPage = () => this.showPopup('submit');
 
   /** Changes displayed pivot by setting component state */

@@ -8,8 +8,6 @@ import TransformerComponent from './TransformerComponent';
 import {
   Toolbar,
   HUD,
-  DownloadButton,
-  HelpButton,
   Background
 }                           from './Surfaces';
 import {
@@ -32,14 +30,15 @@ import './Diagram.css';
 
 class Diagram extends Component {
   async componentDidMount() {
-    const { pub_layouts, layouts_loading, fetchLayouts } = this.props;
-    if (pub_layouts.length === 0 && !layouts_loading) await fetchLayouts();
+    const { cphit, pub_layouts, layouts_loading, fetchLayouts } = this.props;
+    if (pub_layouts.length === 0 && !layouts_loading && cphit === undefined) await fetchLayouts();
     this.onResize();
   }
 
   konvaCanvas = React.createRef();
 
   onResize = () => {
+    if (!this.konvaCanvas) return;
     const { updateEditorLayout } = this.props;
 
     // Maximize canvas width W.R.T. aspect ratio
@@ -103,23 +102,28 @@ class Diagram extends Component {
   }
 
   render() {
-    const { x, y, width, height, scaleX, scaleY, draggable, items, selected_item } = this.props;
+    const {
+      x, y, width, height, scaleX, scaleY, items, selected_item,
+      draggable, cphit
+    } = this.props;
 
     const regularItems = items.filter(item => item.id !== selected_item);
     const selectedItem = items.filter(item => item.id === selected_item);
 
     return (
       <div className="Diagram--flex">
-        {draggable &&
-          <Toolbar
-            furn_type={this.props.furn_type}
-            chairs_per_table={this.props.chairs_per_table}
-            counts={this.props.counts}
-            updateChairsAndCounts={this.props.updateChairsAndCounts}
-            updateEditorLayout={this.props.updateEditorLayout}
-            pub_layouts={this.props.pub_layouts}
-            populateEditor={this.props.populateEditor}
-          />}
+        <Toolbar
+          width={width}
+          draggable={draggable}
+          furn_type={this.props.furn_type}
+          chairs_per_table={this.props.chairs_per_table}
+          counts={this.props.counts}
+          updateChairsAndCounts={this.props.updateChairsAndCounts}
+          updateEditorLayout={this.props.updateEditorLayout}
+          pub_layouts={this.props.pub_layouts}
+          populateEditor={this.props.populateEditor}
+          getStageURI={this.getStageURI.bind(this)}
+        />
         <div id="Diagram--Container" className="Diagram--flex">
           <Stage
             ref={(ref) => { this.konvaCanvas = ref; }}
@@ -130,13 +134,20 @@ class Diagram extends Component {
             scaleX={scaleX}
             scaleY={scaleY}
             
+            // Dragging
             draggable
             onDragStart={this.onDragStart}
+            //onContentTouchStart={this.onDragStart}
             onDragEnd={this.onDragEnd}
-
+            //onContentTouchEnd={this.onDragEnd}
+            
+            // Zooming
             onContentWheel={this.onContentWheel}
             onContentClick={this.onContentClick}
+
+            // Clicking
             onContentContextMenu={this.onContentClick}
+            //onContentTap={this.onContentClick}
           >
             <Background width={width} height={height} />
             <Floorplan  width={width} height={height} />
@@ -156,20 +167,19 @@ class Diagram extends Component {
 
             <Layer name='hudLayer'>
               <HUD
+                cphit={cphit}
                 counts={this.props.counts}
                 x={x}
                 y={y}
                 scaleX={scaleX}
                 scaleY={scaleY}
-                height={height} />
+                width={width}
+                height={height}
+              />
             </Layer>
           </Stage>
         </div>
         
-        <div>
-          <HelpButton />
-          {this.konvaCanvas && <DownloadButton getStageURI={this.getStageURI.bind(this)} />}
-        </div>
       </div>
     );
   }
@@ -178,6 +188,7 @@ class Diagram extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   draggable: ownProps.draggable,
+  cphit    : ownProps.cphit,
   items    : ownProps.items || state.diagram.items,
   counts   : ownProps.counts || state.diagram.counts,
   ...state.diagram.layout,

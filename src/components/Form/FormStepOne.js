@@ -13,7 +13,7 @@ export default class FormStepOne extends Component {
     agreedToTerms: false
   }
 
-  prevPage = () => this.props.history.goBack(-1);
+  prevPage = () => this.props.history.push('/dashboard');
   nextPage = () => this.props.history.push('/form/who');
   validate = () => this.state.agreedToTerms === true;
   toggle   = val => this.setState({ agreedToTerms: val });

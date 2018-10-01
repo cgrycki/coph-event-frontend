@@ -15,6 +15,7 @@ import EventPage      from './EventPage/';
 import Dashboard      from './Dashboard/';
 import Calendar       from './Calendar/';
 import { Playground } from './Diagram';
+import { CPHIT }      from './CPHIT';
 
 // Form + Steps
 import Form           from './Form/';
@@ -37,32 +38,39 @@ const App = ({ store, persistor, history }) => (
       <ConnectedRouter history={history}>
         <Fabric dir="ltr" className='fullHeight'>
           
-          <Page>
-            <Switch>
-              {/** Testing routes ****************************************/}
-              <Route path="/testing"          component={TestComponent} />
-              
-              {/** Public Routes, no login required. ********************/}
-              <Route path="/"           exact   component={Home} />
-              <Route path="/about"      exact   component={About} />
-              <Route path="/calendar"   exact   component={Calendar} />
-              <Route path="/floorplan"  exact   component={Playground} />
+          <Switch>
+            {/** For CPH IT to view layouts without auth ********************/}
+            <Route path="/cphit/:package_id" exact component={CPHIT} />
+            
+            {/** Site Application *******************************************/}
+            <Page>
+              <Switch>
+                {/** Testing routes *****************************************/}
+                <Route path="/testing"          component={TestComponent} />
+                
+                
+                {/** Public Routes, no login required. **********************/}
+                <Route path="/"           exact   component={Home} />
+                <Route path="/about"      exact   component={About} />
+                <Route path="/calendar"   exact   component={Calendar} />
+                <Route path="/floorplan"  exact   component={Playground} />
 
-              {/** Protected Routes, login required. **************************/}
-              <ProtectedRoute path="/dashboard"     Component={Dashboard} />
-              <ProtectedRoute path="/event/:package_id/:signature_id?" 
-                                                    Component={EventPage} />
-              <Form>
-                <ProtectedRoute path="/form/terms"  Component={FormTerms} />
-                <ProtectedRoute path="/form/who"    Component={FormWho} />
-                <ProtectedRoute path="/form/what"   Component={FormWhat} />
-                <ProtectedRoute path="/form/when"   Component={FormWhenWhere} />
-                <ProtectedRoute path="/form/layout" Component={FormLayout} />
-                <ProtectedRoute path="/form/misc"   Component={FormMisc} />
-                <ProtectedRoute path="/form/review" Component={FormReview} />
-              </Form>
-            </Switch>
-          </Page>
+                {/** Protected Routes, login required. **********************/}
+                <ProtectedRoute path="/dashboard"     Component={Dashboard} />
+                <ProtectedRoute path="/event/:package_id/:signature_id?" 
+                                                      Component={EventPage} />
+                <Form>
+                  <ProtectedRoute path="/form/terms"  Component={FormTerms} />
+                  <ProtectedRoute path="/form/who"    Component={FormWho} />
+                  <ProtectedRoute path="/form/what"   Component={FormWhat} />
+                  <ProtectedRoute path="/form/when"   Component={FormWhenWhere} />
+                  <ProtectedRoute path="/form/layout" Component={FormLayout} />
+                  <ProtectedRoute path="/form/misc"   Component={FormMisc} />
+                  <ProtectedRoute path="/form/review" Component={FormReview} />
+                </Form>
+              </Switch>
+            </Page>
+          </Switch>
 
         </Fabric>
       </ConnectedRouter>

@@ -200,8 +200,6 @@ export function populateEditor({ items=[], chairs_per_table=6}) {
 }
 
 
-
-
 /** Clears the editor's items, resets counts, and resets IDs. */
 export const clearEditor = () => ({
   type: diagramActions.DIAGRAM_CLEAR_ITEMS
@@ -241,6 +239,27 @@ export function fetchLayouts() {
 
     return rp(options)
       .then(data => dispatch(fetchDiagramsSuccess(data.layouts)))
+      .catch(err => dispatch(fetchDiagramsError(err)));
+  }
+}
+
+export function fetchITLayout(id) {
+  return (dispatch) => {
+    dispatch(fetchDiagramsLoading());
+
+    const options = {
+      uri: `${URI}/layouts/${id}`,
+      method: 'GET',
+      withCredentials: true,
+      json: true
+    };
+
+    return rp(options)
+      .then(res => {
+        const faux_pub_layouts = { layouts: res };
+        dispatch(fetchDiagramsSuccess(faux_pub_layouts));
+        dispatch(populateEditor(res[0]));
+      })
       .catch(err => dispatch(fetchDiagramsError(err)));
   }
 }

@@ -73,11 +73,15 @@
 }
 
 /* Terms and conditions page */
+.FormTerms {
+  margin-top: 1rem;
+}
 .FormTerms p {
   line-height: 1.5;
 }
 .FormTermAgree {
-  margin-top: 2rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 
@@ -92,4 +96,9 @@
 .CoursePicker .ms-BasePicker-input:disabled {
   background: rgb(244, 244, 244) !important;
   border: 1px solid rgb(244, 244, 244) !important;
+}
+
+/* Setup MFK Account Numbers */
+.SetupMFKRow--Active {
+  flex-wrap: wrap;
 }

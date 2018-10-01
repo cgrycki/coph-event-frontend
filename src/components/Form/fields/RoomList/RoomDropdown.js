@@ -10,18 +10,22 @@ export default class RoomDropdown extends Component {
     // Check for empty filter
     if (checkedFeatures.size === 0) return rooms;
 
+    // Help ourselves out. Create an array from feature set to iter through
+    const checkedFeaturesList = Array.from(checkedFeatures);
+    // Util function to ensure a rm has every feature selected
+    const rmHasFeature = (feature, featureSet) => featureSet.has(feature);
+    // Hold valid rooms
     let roomsWithFeatures = [];
-    rooms.forEach(rm => {
-      if (rm.hasOwnProperty('featureList')) {
-        for (let ft of rm.featureList) {
-          if (checkedFeatures.has(ft)) {
-            roomsWithFeatures.push(rm);
-            break;
-          };
-        };
-      };
-    });
 
+    rooms
+      .filter(rm => rm.hasOwnProperty('featureList'))
+      .forEach(rm => {
+        // Create a set for fast lookups, and only push rooms with EVERY feature
+        let rmFeatureSet = new Set(rm.featureList);
+        if (checkedFeaturesList.every(feature => rmHasFeature(feature, rmFeatureSet))) {
+          roomsWithFeatures.push(rm);
+        };
+      });
     return roomsWithFeatures;
   }
 
@@ -52,7 +56,7 @@ export default class RoomDropdown extends Component {
   }
 
   render() {
-    const { value, error, onChange } = this.props;
+    const { value, error, mfkError, onChange } = this.props;
     const filteredRooms              = this.filterRooms();
     const dropdownOptions            = this.createOptions(filteredRooms);
 
@@ -62,8 +66,9 @@ export default class RoomDropdown extends Component {
         placeHolder="Select a Room from the dropdown list"
         options={dropdownOptions}
         onRenderOption={this.renderOption}
+        onRenderTitle={rm => `${rm[0].roomName} - ${rm[0].roomNumber}`}
         selectedKey={value}
-        errorMessage={error}
+        errorMessage={error || mfkError}
         onChanged={rm => onChange('room_number', rm.roomNumber)}
         required
       />

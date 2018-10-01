@@ -1,8 +1,6 @@
 import React          from 'react';
-import { 
-  DatePicker,
-  DayOfWeek 
-}                     from 'office-ui-fabric-react';
+import { DatePicker } from 'office-ui-fabric-react/lib/DatePicker';
+import { DayOfWeek }  from 'office-ui-fabric-react';
 import { TextField }  from 'office-ui-fabric-react/lib/TextField';
 import { 
   sixMonthsFromToday, 
@@ -34,17 +32,16 @@ export default class DateField extends React.Component {
         <TextField
           onRenderLabel={() => this.renderLabel(label, info, true)}
           placeholder={"Enter on-premises CoPH employee's email"}
-          field={"coph_email"}
           value={value}
           errorMessage={error}
-          onChange={onChange}
+          onChange={evt => onChange('coph_email', evt.target.value)}
         />
       </div>
     );
   }
 
   render() {
-    const { date, coph_email, coph_email_error, onChange } = this.props;
+    const { date, displayCOPH, coph_email, coph_email_error, onChange } = this.props;
 
     // Conditionally set the value of the date picker
     const date_value = (date !== "") ? new Date(getDateFromISO(date)) : undefined;
@@ -57,7 +54,6 @@ export default class DateField extends React.Component {
       <div style={{'display': 'inline-block', 'width': '50%'}}>
         {this.renderLabel(label, info, true)}
         <DatePicker
-          // label={'Event Date'}
           placeholder={'Add a date for the event'} 
           value={date_value}
           firstDayOfWeek={DayOfWeek.Monday}
@@ -67,7 +63,7 @@ export default class DateField extends React.Component {
           strings={datePickerStrings}
           onSelectDate={(evt) => this.parseDate(evt)}
         />
-        {coph_email_error &&  this.renderCophEmail(coph_email, coph_email_error, onChange)}
+        {displayCOPH && this.renderCophEmail(coph_email, coph_email_error, onChange)}
       </div>
     );
   }

@@ -2,6 +2,7 @@
 #Diagram--Container {
   width: 100%;
   height: 100%;
+  background-color: rgb(244, 244, 244);
 }
 
 #Diagram--Container > div {
@@ -14,6 +15,7 @@
 
 .Diagram--flex {
   width: 100%;
+  /*height: 100%;*/
   display: inline-flex;
   flex-direction: column;
   flex-grow: 1;
@@ -28,7 +30,7 @@
 /** TOOLBAR ********************************************************************/
 .Diagram--Toolbar {
   padding: 5px 10px;
-  width: 100%;
+  /*width: 100%;*/
 }
 
 .Diagram--FurnitureSelector .ms-ChoiceField {
@@ -38,6 +40,15 @@
 
 .Diagram--FurnitureSelector .ms-Label {
   font-size: 0.8rem;
+}
+
+.Diagram--Toolbar--ChairToggle {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 10px;
+}
+.Diagram--Toolbar--ChairToggle span {
+  margin-right: 5px;
 }
 
 

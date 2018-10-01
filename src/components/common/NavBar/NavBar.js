@@ -18,7 +18,7 @@ import ButtonDashboard  from './ButtonDashboard';
 import './NavBar.css';
 
 // Component
-class NavBar extends React.PureComponent { 
+class NavBar extends React.Component {
   render() {
     let far_items = [
       ButtonCreate(this.props),
