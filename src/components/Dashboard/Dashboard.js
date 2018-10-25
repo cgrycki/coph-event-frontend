@@ -7,7 +7,7 @@ import {
   PivotLinkSize
 }                   from 'office-ui-fabric-react/lib/Pivot';
 import EventList    from './EventList';
-import AdminTools   from './AdminTools';
+
 import DashCalendar from '../Calendar/DashCalendar';
 import './Dashboard.css';
 
@@ -80,18 +80,7 @@ class DashboardComponent extends React.Component {
               <DashCalendar events={this.props.events} />
             </PivotItem>
 
-            {this.state.is_admin && 
-              <PivotItem
-                key="AdminTools"
-                linkText="Administrator Tools"
-                itemIcon="Settings">
-                <AdminTools
-                  workflowCallback={(package_id) => this.props.deleteWorkflowEvent(package_id)}
-                  dynamoCallback={(package_id) => this.props.deleteDynamoEvent(package_id)}
-                  loading={this.props.event_loading}
-                  error={this.props.event_error}
-                />
-              </PivotItem>}
+
           </Pivot>
         </div>
       </div>
