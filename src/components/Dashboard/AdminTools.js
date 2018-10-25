@@ -28,7 +28,4 @@ export default class AdminTools extends React.Component {
     this.setState({ [field]: value });
   }
 
-  render() {
-    
-  }
 }
