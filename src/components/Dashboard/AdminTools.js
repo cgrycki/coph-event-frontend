@@ -36,14 +36,14 @@ export default class AdminTools extends React.Component {
             <TextField
               label="Delete from Workflow"
               placeholder="Workflow Package ID: 123456"
-              //iconProps={{ iconName: "Delete" }}
-              //onChange={(e) => this.updateField('workflow', e.target.value)}
-              //value={this.state.workflow}
+              iconProps={{ iconName: "Delete" }}
+              onChange={(e) => this.updateField('workflow', e.target.value)}
+              value={this.state.workflow}
             />
             <PrimaryButton
               iconName="Delete"
-              //disabled={this.props.loading}
-              //onClick={() => this.props.workflowCallback(this.state.workflow)}
+              disabled={this.props.loading}
+              onClick={() => this.props.workflowCallback(this.state.workflow)}
             >Submit
             </PrimaryButton>
           </div>
@@ -56,14 +56,14 @@ export default class AdminTools extends React.Component {
             <TextField
               label="Delete from DynamoDB"
               placeholder="DynamoDB Package ID: 123456"
-              //iconProps={{ iconName: "Delete" }}
-              //onChange={(e) => this.updateField('dynamo', e.target.value)}
-              //value={this.state.dynamo}
+              iconProps={{ iconName: "Delete" }}
+              onChange={(e) => this.updateField('dynamo', e.target.value)}
+              value={this.state.dynamo}
             />
             <PrimaryButton
               iconName="Delete"
-              //disabled={this.props.loading}
-              //onClick={() => this.props.dynamoCallback(this.state.dynamo)}
+              disabled={this.props.loading}
+              onClick={() => this.props.dynamoCallback(this.state.dynamo)}
             >Submit
             </PrimaryButton>
           </div>
