@@ -4,12 +4,5 @@ import {PrimaryButton}  from 'office-ui-fabric-react/lib/Button';
 
 
 export default class AdminTools extends React.Component {
-  state = {
-    workflow: '',
-    dynamo  : '',
-    approve : '',
-    void    : ''
-  }
-
 
 }
