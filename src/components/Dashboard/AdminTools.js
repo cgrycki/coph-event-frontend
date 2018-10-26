@@ -12,9 +12,4 @@ export default class AdminTools extends React.Component {
   }
 
 
-  /** Updates component state upon text field change */
-  updateField = (field, value) => {
-    this.setState({ [field]: value });
-  }
-
 }
