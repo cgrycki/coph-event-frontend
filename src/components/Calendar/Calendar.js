@@ -100,7 +100,7 @@ class Calendar extends React.Component {
     // Add or remove the room accordingly
     if (newRooms.has(roomNumber)) newRooms.delete(roomNumber);
     else {
-      let newRooms = new Set();
+      newRooms = new Set();
       newRooms.add(roomNumber);
     };
     // Set the component state
