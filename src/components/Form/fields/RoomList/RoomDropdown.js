@@ -69,7 +69,7 @@ export default class RoomDropdown extends Component {
         onRenderTitle={rm => `${rm[0].roomName} - ${rm[0].roomNumber}`}
         selectedKey={value}
         errorMessage={error || mfkError}
-        onChanged={rm => onChange('room_number', rm.roomNumber)}
+        onChange={rm => onChange('room_number', rm.roomNumber)}
         required
       />
     );
