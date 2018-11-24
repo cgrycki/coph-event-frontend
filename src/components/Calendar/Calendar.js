@@ -86,13 +86,23 @@ class Calendar extends React.Component {
 
   /** Adds or removes a room to or from component state. */
   onCheck(roomNumber) {
+    /** 
+      Added requirement: Allow only a single room to be checked at a time.
+      This has been accomplished by replacing newRooms with an empty set
+      in the else block below.
+      This is kind of an ugly solution. Ideally this would be achieved by 
+      replacing checkboxes with a ChoiceGroup component.
+    */
+
     // Create a copy of our state
     let newRooms = new Set(this.state.checkedRooms);
-
+  
     // Add or remove the room accordingly
     if (newRooms.has(roomNumber)) newRooms.delete(roomNumber);
-    else newRooms.add(roomNumber);
-    
+    else {
+      let newRooms = new Set();
+      newRooms.add(roomNumber);
+    };
     // Set the component state
     this.setState({ checkedRooms: newRooms });
   }
