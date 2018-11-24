@@ -12,8 +12,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import './Calendar.css';
 
 // Setup localizer
-BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
-
+const localizer = BigCalendar.momentLocalizer(moment)
 
 export default class DashCalendar extends React.Component {
   /** Formats a user's events by converting string formatted times into JS date.*/
@@ -34,6 +33,7 @@ export default class DashCalendar extends React.Component {
           min={minTime}
           max={maxTime}
 
+          localizer={localizer}
           events={this.props.events.map(this.formatEvent)}
           titleAccessor="event_name"
           startAccessor="start_time"

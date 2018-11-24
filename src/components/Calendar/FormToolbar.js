@@ -10,7 +10,7 @@ export default class FormToolbar extends React.Component {
   }
 
   view = view => {
-    this.props.onViewChange(view);
+    this.props.onView(view);
   }
   
   render() {

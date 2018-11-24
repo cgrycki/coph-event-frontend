@@ -22,8 +22,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import './Calendar.css';
 
 // Setup localizer
-BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
-
+const localizer = BigCalendar.momentLocalizer(moment)
 
 
 export default class FormCalendar extends React.Component {
@@ -155,6 +154,7 @@ export default class FormCalendar extends React.Component {
           // Customizations
           components={{ toolbar: FormToolbar }}
           formats={formats}
+          localizer={localizer}
         />
       </div>      
     );

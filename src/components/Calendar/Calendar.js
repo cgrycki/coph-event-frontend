@@ -22,8 +22,7 @@ import './Calendar.css';
 
 
 // Setup localizer
-BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
-
+const localizer = BigCalendar.momentLocalizer(moment)
 
 
 class Calendar extends React.Component {
@@ -31,6 +30,7 @@ class Calendar extends React.Component {
     super();
     this.state = {
       view        : "month",
+      date        : new Date(),
       checkedRooms: new Set(),
       start_date  : new Date(),
       end_date    : new Date(),
@@ -110,6 +110,7 @@ class Calendar extends React.Component {
   /** Syncs calendar view and component state */
   onView = view => {
     this.setState({ view });
+    this.onNavigate(this.state.date,view);
   }
 
   /** Sets our start/end dates to the maximum range of current view */
@@ -118,7 +119,8 @@ class Calendar extends React.Component {
     const lastDayOfRange = moment(date).endOf(view).toDate();
     this.setState({
       start_date: firstDayOfRange,
-      end_date: lastDayOfRange
+      end_date: lastDayOfRange,
+      date: date
     });
   }
 
@@ -144,6 +146,7 @@ class Calendar extends React.Component {
               min={minTime}
               max={maxTime}
               
+              localizer={localizer}
               formats={formats}
               components={{ toolbar: Toolbar }}
               
