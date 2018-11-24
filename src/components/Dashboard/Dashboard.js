@@ -86,6 +86,13 @@ class DashboardComponent extends React.Component {
           />
         </PivotItem>;
     }
+    else {
+      const admin_tools=
+        <PivotItem
+          key="Hidden"
+          hidden="true"
+        />
+    }
     return (
       <div className="ms-Grid-col ms-sm12 Dashboard">
 
