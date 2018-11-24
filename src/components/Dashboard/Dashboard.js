@@ -54,12 +54,7 @@ class DashboardComponent extends React.Component {
           key="AdminTools"
           linkText="Administrator Tools"
           itemIcon="Settings">
-          <AdminTools
-            workflowCallback={(package_id) => this.props.deleteWorkflowEvent(package_id)}
-            dynamoCallback={(package_id) => this.props.deleteDynamoEvent(package_id)}
-            loading={this.props.event_loading}
-            error={this.props.event_error}
-          />
+          
         </PivotItem>;
     }
     return (
