@@ -6,7 +6,7 @@
     "connected-react-router": "^4.4.1",
     "d3-scale": "^2.1.0",
     "konva": "^2.3.0",
-    "loose-envify": "^1.1.0",
+    "loose-envify": "^1.4.0",
     "moment": "^2.22.2",
     "office-ui-fabric-core": "^9.6.0",
     "office-ui-fabric-react": "^6.50.1",

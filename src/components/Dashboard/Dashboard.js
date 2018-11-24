@@ -80,7 +80,7 @@ class DashboardComponent extends React.Component {
               <DashCalendar events={this.props.events} />
             </PivotItem>
 
-            {false && 
+            {this.state.is_admin && false &&
               <PivotItem
                 key="AdminTools"
                 linkText="Administrator Tools"

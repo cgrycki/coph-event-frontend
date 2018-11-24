@@ -16,7 +16,6 @@ import initialStore   from './store/initialStore';
 import configureStore from './store/configureStore';
 import App            from './components/App';
 
-
 // Initialize icons for Microsoft Fabric UI.
 initializeIcons();
 
