@@ -47,52 +47,6 @@ class DashboardComponent extends React.Component {
   }
 
   render() {
-    let admin_tools;
-    const my_events=
-      <PivotItem
-      key="MyEvents"
-      linkText="My Events"
-      itemIcon="BulletedList"
-      itemCount={this.props.events.length}>
-        <EventList
-          events={this.props.events}
-          loading={this.props.event_loading}
-          should_fetch={this.props.should_fetch}
-          error={this.props.event_error}
-          onView={this.props.populateEventAndPush}
-          onEdit={this.props.populateFormAndPush}
-          onDelete={this.props.deleteEventFromServer}
-          onCreate={this.props.clearFormAndPush}
-        />
-      </PivotItem>;
-    const my_schedule=
-      <PivotItem
-        key="MySchedule"
-        linkText="My Schedule"
-        itemIcon="CalendarAgenda">
-        <DashCalendar events={this.props.events} />
-      </PivotItem>;
-    if (this.state.is_admin) {
-      const admin_tools=
-        <PivotItem
-          key="AdminTools"
-          linkText="Administrator Tools"
-          itemIcon="Settings">
-          <AdminTools
-            workflowCallback={(package_id) => this.props.deleteWorkflowEvent(package_id)}
-            dynamoCallback={(package_id) => this.props.deleteDynamoEvent(package_id)}
-            loading={this.props.event_loading}
-            error={this.props.event_error}
-          />
-        </PivotItem>;
-    }
-    else {
-      const admin_tools=
-        <PivotItem
-          key="Hidden"
-          hidden="true"
-        />
-    }
     return (
       <div className="ms-Grid-col ms-sm12 Dashboard">
 
@@ -101,13 +55,44 @@ class DashboardComponent extends React.Component {
             linkSize={PivotLinkSize.Large}
             linkFormat={PivotLinkFormat.links}
             className="fullHeight">
-            
-            {my_events}
-            
-            {my_schedule}
-            
-            {admin_tools}
-            
+
+            <PivotItem
+              key="MyEvents"
+              linkText="My Events"
+              itemIcon="BulletedList"
+              itemCount={this.props.events.length}>
+              <EventList
+                events={this.props.events}
+                loading={this.props.event_loading}
+                should_fetch={this.props.should_fetch}
+                error={this.props.event_error}
+                onView={this.props.populateEventAndPush}
+                onEdit={this.props.populateFormAndPush}
+                onDelete={this.props.deleteEventFromServer}
+                onCreate={this.props.clearFormAndPush}
+              />
+            </PivotItem>
+
+            <PivotItem
+              key="MySchedule"
+              linkText="My Schedule"
+              itemIcon="CalendarAgenda">
+              <DashCalendar events={this.props.events} />
+            </PivotItem>
+          
+            <PivotItem
+              key="AdminTools"
+              linkText="Administrator Tools"
+              itemIcon="Settings"
+              hidden={!this.state.is_admin}
+              >
+              <AdminTools
+                workflowCallback={(package_id) => this.props.deleteWorkflowEvent(package_id)}
+                dynamoCallback={(package_id) => this.props.deleteDynamoEvent(package_id)}
+                loading={this.props.event_loading}
+                error={this.props.event_error}
+              />
+            </PivotItem>
           </Pivot>
         </div>
       </div>
