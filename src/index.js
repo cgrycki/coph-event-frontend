@@ -4,6 +4,7 @@ import ReactDOM                 from 'react-dom';
 import { createBrowserHistory } from 'history';
 import { initializeIcons }      from 'office-ui-fabric-react/lib/Icons';
 import { unregister }           from './registerServiceWorker';
+import 'react-app-polyfill/ie11';  // For IE 11 support
 
 // Styles
 import '../node_modules/office-ui-fabric-core/dist/css/fabric.min.css';
