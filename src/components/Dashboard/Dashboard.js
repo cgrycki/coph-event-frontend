@@ -62,9 +62,6 @@ class DashboardComponent extends React.Component {
           />
         </PivotItem>;
     }
-    else {
-      AdminToolsTab = null;
-    }
     return (
       <div className="ms-Grid-col ms-sm12 Dashboard">
 
