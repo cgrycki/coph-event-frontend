@@ -37,7 +37,7 @@ export default class AdminTools extends React.Component {
               label="Delete from Workflow"
               placeholder="Workflow Package ID: 123456"
               iconProps={{ iconName: "Delete" }}
-              onChange={(e) => this.updateField('workflow', e.target.value)}
+              onChange={(event) => this.updateField('workflow', event.target.value)}
               value={this.state.workflow}
             />
             <PrimaryButton
@@ -57,7 +57,7 @@ export default class AdminTools extends React.Component {
               label="Delete from DynamoDB"
               placeholder="DynamoDB Package ID: 123456"
               iconProps={{ iconName: "Delete" }}
-              onChange={(e) => this.updateField('dynamo', e.target.value)}
+              onChange={(event) => this.updateField('dynamo', event.target.value)}
               value={this.state.dynamo}
             />
             <PrimaryButton
