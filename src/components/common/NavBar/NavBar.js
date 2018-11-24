@@ -32,7 +32,14 @@ class NavBar extends React.Component {
           className="NavBar ms-font-l"
           items={[Logo, ButtonCal(this.props)]}
           farItems={far_items}
-          styles={{ root: {height: '50px'}}}
+          styles={
+            { root: {
+                height: '50px',
+                backgroundColor: '#000000'
+              }
+            }
+          }
+          
         />
       </div>
     );

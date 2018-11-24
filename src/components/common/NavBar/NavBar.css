@@ -11,11 +11,6 @@
   box-shadow: 0 1px 1px 0 hsla(0, 0%, 0%, 0.2);
 }
 
-/* Override CommandBar background color */
-.NavBar {
-  background-color: #000000 !important;
-}
-
 /* prevent mouse over shading on U. Iowa Logo */
 .NavLogo {
   pointer-events: none;
