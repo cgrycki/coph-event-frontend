@@ -47,6 +47,7 @@ class DashboardComponent extends React.Component {
   }
 
   render() {
+    let admin_tools;
     const my_events=
       <PivotItem
       key="MyEvents"
