@@ -62,6 +62,15 @@ class DashboardComponent extends React.Component {
           />
         </PivotItem>;
     }
+    else {
+      AdminToolsTab =
+        <PivotItem
+          key="NotAdminTools"
+          linkText="Not Administrator Tools"
+          itemIcon="Settings">
+        <div>This is a pivot item that doesn't do anything.</div>
+        </PivotItem>;
+    }
     return (
       <div className="ms-Grid-col ms-sm12 Dashboard">
 
@@ -94,6 +103,7 @@ class DashboardComponent extends React.Component {
               itemIcon="CalendarAgenda">
               <DashCalendar events={this.props.events} />
             </PivotItem>
+            {AdminToolsTab}
           </Pivot>
         </div>
       </div>
