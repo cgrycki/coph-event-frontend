@@ -169,7 +169,7 @@ const datePickerStrings = {
 };
 
 
-module.exports = {
+export {
   sixMonthsFromToday,
   getYesterday,
   isWeekend,
@@ -185,4 +185,4 @@ module.exports = {
   nextWeek,
   dateDelta,
   datePickerStrings
-}
+};

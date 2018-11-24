@@ -85,4 +85,4 @@ class Schedule {
   }
 }
 
-module.exports = Schedule;
+export default Schedule;
