@@ -22,8 +22,7 @@ import './Calendar.css';
 
 
 // Setup localizer
-BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
-
+const localizer = BigCalendar.momentLocalizer(moment)
 
 
 class Calendar extends React.Component {
@@ -144,6 +143,7 @@ class Calendar extends React.Component {
               min={minTime}
               max={maxTime}
               
+              localizer={localizer}
               formats={formats}
               components={{ toolbar: Toolbar }}
               
