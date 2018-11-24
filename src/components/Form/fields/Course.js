@@ -136,7 +136,7 @@ export default class Course extends React.Component {
             defaultChecked={false}
             onText="Yes"
             offText="No"
-            onChange={() => onChange('references_course', !references_course)}
+            onChanged={() => onChange('references_course', !references_course)}
           />
           {/* Add in an error message */}
           <span style={error_style}>{error}</span>

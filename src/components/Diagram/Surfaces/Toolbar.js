@@ -76,7 +76,7 @@ export default class Toolbar extends Component {
               offText="6"
               onText="8"
               checked={(chairs_per_table === 8)}
-              onChange={this.chairCallback}
+              onChanged={this.chairCallback}
               styles={{
                 root: { marginBottom: 'unset' },
                 text: { lineHeight: 'initial' }

@@ -24,7 +24,7 @@ export default class LayoutDropdown extends Component {
         label="Default Layouts"
         ariaLabel="Layouts"
         options={this.createDropdownOptions()}
-        onChange={this.props.layoutCallback}
+        onChanged={this.props.layoutCallback}
       />
     );
   }

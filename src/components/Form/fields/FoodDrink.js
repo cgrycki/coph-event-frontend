@@ -87,7 +87,7 @@ export default class FoodDrink extends React.PureComponent {
             label={"Will you provide food and/or alcohol?"}
             onText="Yes"
             offText="No"
-            onChange={(evt) => onChange('food_drink_required', evt)}
+            onChanged={(evt) => onChange('food_drink_required', evt)}
           />
           {food_drink_required && 
             <span style={{marginTop: "20px", color: 'rgb(168, 0, 0)'}}>

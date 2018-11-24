@@ -32,7 +32,7 @@ export default class TimeField extends React.Component {
           required={true}
           autoComplete="on"
           useComboBoxAsMenuWidth={true}
-          onChange={(evt) => onChange(field, evt.key)}
+          onChanged={(evt) => onChange(field, evt.key)}
         />
       </div>
     );
