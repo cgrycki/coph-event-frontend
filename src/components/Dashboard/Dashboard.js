@@ -47,6 +47,7 @@ class DashboardComponent extends React.Component {
   }
 
   render() {
+    console.log(this.state.is_admin);
     return (
       <div className="ms-Grid-col ms-sm12 Dashboard">
 
