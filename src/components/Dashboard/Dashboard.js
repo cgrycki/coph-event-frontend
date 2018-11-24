@@ -47,30 +47,6 @@ class DashboardComponent extends React.Component {
   }
 
   render() {
-    let AdminToolsTab;
-    if (this.state.is_admin) {
-      AdminToolsTab = 
-        <PivotItem
-          key="AdminTools"
-          linkText="Administrator Tools"
-          itemIcon="Settings">
-          <AdminTools
-            workflowCallback={(package_id) => this.props.deleteWorkflowEvent(package_id)}
-            dynamoCallback={(package_id) => this.props.deleteDynamoEvent(package_id)}
-            loading={this.props.event_loading}
-            error={this.props.event_error}
-          />
-        </PivotItem>;
-    }
-    else {
-      AdminToolsTab =
-        <PivotItem
-          key="NotAdminTools"
-          linkText="Not Administrator Tools"
-          itemIcon="Settings">
-        <div>This is a pivot item that doesn't do anything.</div>
-        </PivotItem>;
-    }
     return (
       <div className="ms-Grid-col ms-sm12 Dashboard">
 
@@ -103,7 +79,19 @@ class DashboardComponent extends React.Component {
               itemIcon="CalendarAgenda">
               <DashCalendar events={this.props.events} />
             </PivotItem>
-            {AdminToolsTab}
+
+            {this.state.is_admin && 
+              <PivotItem
+                key="AdminTools"
+                linkText="Administrator Tools"
+                itemIcon="Settings">
+                <AdminTools
+                  workflowCallback={(package_id) => this.props.deleteWorkflowEvent(package_id)}
+                  dynamoCallback={(package_id) => this.props.deleteDynamoEvent(package_id)}
+                  loading={this.props.event_loading}
+                  error={this.props.event_error}
+                />
+              </PivotItem>}
           </Pivot>
         </div>
       </div>
