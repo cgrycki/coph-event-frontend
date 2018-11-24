@@ -1,12 +1,12 @@
 /**
  * Application Store configuration
  */
-import { createStore, applyMiddleware, compose }  from 'redux/dist/redux';
+import { createStore, applyMiddleware, compose }  from 'redux';
 import { persistStore }                           from 'redux-persist';
 import persistedReducer                           from './persistConfig';
 import { connectRouter, routerMiddleware }        from 'connected-react-router';
-import thunkMiddleware                            from 'redux-thunk/dist/redux-thunk';
-import { createLogger }                           from 'redux-logger/dist/redux-logger';
+import thunkMiddleware                            from 'redux-thunk';
+import { createLogger }                           from 'redux-logger';
 import { getDateISO }                             from '../utils/date.utils.js';
 import { appSetup }                               from '../actions/nav.actions';
 
